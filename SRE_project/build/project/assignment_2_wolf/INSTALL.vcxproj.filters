@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\d21c7db0be8849afa96f6a55579485c1\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F4F90C88-6807-31C0-A614-72C105BF1076}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

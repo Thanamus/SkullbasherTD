@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\project\assignment_2_wolf\FirstPersonController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\project\assignment_2_wolf\Wolf3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\project\assignment_2_wolf\WorldMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\project\assignment_2_wolf\FirstPersonController.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\project\assignment_2_wolf\Wolf3D.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\project\assignment_2_wolf\WorldMap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\project\assignment_2_wolf\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{99E478DE-E22B-361D-9AB6-6928893FAF2A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{6019D620-B165-39A0-A002-F06C1001D70A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

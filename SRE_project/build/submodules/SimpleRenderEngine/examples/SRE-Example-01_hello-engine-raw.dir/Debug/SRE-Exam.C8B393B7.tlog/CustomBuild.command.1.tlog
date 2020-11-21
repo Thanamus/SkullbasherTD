@@ -1,0 +1,10 @@
+^C:\USERS\KB\DOCUMENTS\2020-22_MSC_GAMES\GAPRO\SRE_A2_WOLF\SUBMODULES\SIMPLERENDERENGINE\EXAMPLES\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf -BC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build --check-stamp-file C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build/submodules/SimpleRenderEngine/examples/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

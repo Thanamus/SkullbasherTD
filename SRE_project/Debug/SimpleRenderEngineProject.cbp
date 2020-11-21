@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="SimpleRenderEngineProject"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;CMake Files\submodules\;CMake Files\submodules\SimpleRenderEngine\;CMake Files\submodules\SimpleRenderEngine\submodules\;CMake Files\submodules\SimpleRenderEngine\src\;CMake Files\cmake\;CMake Files\project\;CMake Files\project\assignment_1_asteroids\;CMake Files\project\assignment_2_wolf\;CMake Files\project\assignment_3_bird\;CMake Files\project\assignment_4_platformer\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 install/local"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 install"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 list_install_components"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SRE">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug/submodules/SimpleRenderEngine/src/SRE.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug/submodules/SimpleRenderEngine/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\submodules\SimpleRenderEngine\src\Makefile VERBOSE=1 SRE"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\submodules\SimpleRenderEngine\src\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\submodules\SimpleRenderEngine\src\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\submodules\SimpleRenderEngine\src\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SRE/fast">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug/submodules/SimpleRenderEngine/src/SRE.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/Debug/submodules/SimpleRenderEngine/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\submodules\SimpleRenderEngine\src\Makefile VERBOSE=1 SRE/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\submodules\SimpleRenderEngine\src\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\submodules\SimpleRenderEngine\src\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\submodules\SimpleRenderEngine\src\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="assignment_1_asteroids">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Debug/assignment_1_asteroids.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_1_asteroids\Makefile VERBOSE=1 assignment_1_asteroids"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_1_asteroids\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_1_asteroids\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_1_asteroids\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="assignment_1_asteroids/fast">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Debug/assignment_1_asteroids.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_1_asteroids\Makefile VERBOSE=1 assignment_1_asteroids/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_1_asteroids\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_1_asteroids\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_1_asteroids\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="assignment_2_wolf">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/Debug/assignment_2_wolf.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_2_wolf\Makefile VERBOSE=1 assignment_2_wolf"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_2_wolf\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_2_wolf\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_2_wolf\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="assignment_2_wolf/fast">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/Debug/assignment_2_wolf.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_2_wolf\Makefile VERBOSE=1 assignment_2_wolf/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_2_wolf\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_2_wolf\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_2_wolf\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="assignment_3_bird">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/Debug/assignment_3_bird.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_3_bird\Makefile VERBOSE=1 assignment_3_bird"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_3_bird\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_3_bird\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_3_bird\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="assignment_3_bird/fast">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/Debug/assignment_3_bird.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_3_bird\Makefile VERBOSE=1 assignment_3_bird/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_3_bird\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_3_bird\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_3_bird\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="assignment_4_platformer">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Debug/assignment_4_platformer.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_4_platformer\Makefile VERBOSE=1 assignment_4_platformer"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_4_platformer\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_4_platformer\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_4_platformer\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="assignment_4_platformer/fast">
+				<Option output="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Debug/assignment_4_platformer.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2-2.0.9/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/glew-2.1.0/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_image-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/SDL2_mixer-2.0.4/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Box2D/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/Win/Lua/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/thirdparty/All/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/glm"/>
+					<Add directory="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/picojson"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_4_platformer\Makefile VERBOSE=1 assignment_4_platformer/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_4_platformer\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_4_platformer\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments\Debug\project\assignment_4_platformer\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Asteroid.cpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Asteroid.hpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/AsteroidFactory.cpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/AsteroidFactory.hpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/AsteroidsGame.cpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/AsteroidsGame.hpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Collidable.cpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Collidable.hpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/GameObject.cpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/GameObject.hpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Laser.cpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/Laser.hpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/SpaceShip.cpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/SpaceShip.hpp">
+			<Option target="assignment_1_asteroids"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/FirstPersonController.cpp">
+			<Option target="assignment_2_wolf"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/FirstPersonController.hpp">
+			<Option target="assignment_2_wolf"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/Wolf3D.cpp">
+			<Option target="assignment_2_wolf"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/Wolf3D.hpp">
+			<Option target="assignment_2_wolf"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/WorldMap.cpp">
+			<Option target="assignment_2_wolf"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/WorldMap.hpp">
+			<Option target="assignment_2_wolf"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/BackgroundComponent.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/BackgroundComponent.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/BirdController.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/BirdController.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/BirdGame.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/BirdGame.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/Box2DDebugDraw.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/Box2DDebugDraw.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/Component.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/Component.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/GameObject.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/GameObject.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/PhysicsComponent.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/PhysicsComponent.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/SideScrollingCamera.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/SideScrollingCamera.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/SpriteAnimationComponent.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/SpriteAnimationComponent.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/SpriteComponent.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/SpriteComponent.hpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/main.cpp">
+			<Option target="assignment_3_bird"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/BirdMovementComponent.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/BirdMovementComponent.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Box2DDebugDraw.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Box2DDebugDraw.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/CharacterController.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/CharacterController.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Component.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Component.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/GameObject.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/GameObject.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Level.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/Level.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/MovingPlatformComponent.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/MovingPlatformComponent.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/PhysicsComponent.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/PhysicsComponent.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/PlatformComponent.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/PlatformComponent.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/PlatformerGame.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/PlatformerGame.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/ScriptComponent.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/ScriptComponent.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/SideScrollingCamera.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/SideScrollingCamera.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/SpriteComponent.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/SpriteComponent.hpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/main.cpp">
+			<Option target="assignment_4_platformer"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/BlendType.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Camera.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Color.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Framebuffer.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Inspector.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Light.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/LightType.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Log.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Material.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Mesh.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/MeshTopology.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/ModelImporter.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/RenderPass.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/RenderStats.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Renderer.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Resource.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/SDLRenderer.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Shader.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Skybox.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Sprite.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/SpriteAtlas.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/SpriteBatch.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/Texture.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/VR.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/WorldLights.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/imgui_sre.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/impl/CPPShim.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/impl/Export.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/impl/GL.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/include/sre/impl/UniformSet.hpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Camera.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Color.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Framebuffer.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Inspector.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Light.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Log.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Material.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Mesh.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/ModelImporter.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/RenderPass.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Renderer.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Resource.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/SDLRenderer.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Shader.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Skybox.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Sprite.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/SpriteAtlas.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/SpriteBatch.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/Texture.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/VR.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/WorldLights.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/imgui_sre.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/impl/GL.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/sre/impl/UniformSet.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit/TextEditor.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit/TextEditor.h">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui/imgui.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui/imgui.h">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui/imgui_draw.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/imgui/imgui_widgets.cpp">
+			<Option target="SRE"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\submodules\SimpleRenderEngine\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/submodules/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\submodules\SimpleRenderEngine\submodules\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/submodules/SimpleRenderEngine/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\submodules\SimpleRenderEngine\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/cmake/FindGLEW.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/cmake/FindSDL2.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/cmake/FindSDL2_IMAGE.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\project\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_1_asteroids/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\project\assignment_1_asteroids\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_2_wolf/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\project\assignment_2_wolf\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_3_bird/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\project\assignment_3_bird\"/>
+		</Unit>
+		<Unit filename="C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments/project/assignment_4_platformer/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\project\assignment_4_platformer\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

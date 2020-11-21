@@ -1,0 +1,28 @@
+"C:\Program Files\JetBrains\CLion 2020.2.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - NMake Makefiles" C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_assignments
+<FindSDL2.cmake>
+</FindSDL2.cmake>
+CMake Warning (dev) at C:/Program Files/JetBrains/CLion 2020.2.4/bin/cmake/win/share/cmake-3.17/Modules/FindPackageHandleStandardArgs.cmake:272 (message):
+  The package name passed to `find_package_handle_standard_args` (GLEW) does
+  not match the name of the calling package (glew).  This can lead to
+  problems in calling code that expects `find_package` result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  cmake/FindGLEW.cmake:144 (find_package_handle_standard_args)
+  submodules/SimpleRenderEngine/CMakeLists.txt:38 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+<FindSDL2_image.cmake>
+CMake Warning (dev) at C:/Program Files/JetBrains/CLion 2020.2.4/bin/cmake/win/share/cmake-3.17/Modules/FindPackageHandleStandardArgs.cmake:272 (message):
+  The package name passed to `find_package_handle_standard_args` (SDL2_image)
+  does not match the name of the calling package (SDL2_IMAGE).  This can lead
+  to problems in calling code that expects `find_package` result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  cmake/FindSDL2_IMAGE.cmake:93 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
+  submodules/SimpleRenderEngine/CMakeLists.txt:44 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+</FindSDL2_image.cmake>
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_assignments

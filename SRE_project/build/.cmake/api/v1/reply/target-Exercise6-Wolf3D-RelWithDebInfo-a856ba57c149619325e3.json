@@ -1,0 +1,333 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "project/assignment_2_wolf/RelWithDebInfo/Exercise6-Wolf3D.exe"
+		},
+		{
+			"path" : "project/assignment_2_wolf/RelWithDebInfo/Exercise6-Wolf3D.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"include_directories",
+			"INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"project/assignment_2_wolf/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 18,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 40,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 57,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 62,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 78,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 97,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 143,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 177,
+				"parent" : 3
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG"
+				},
+				{
+					"fragment" : "-std:c++14"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/thirdparty/Win/SDL2-2.0.9/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/thirdparty/Win/glew-2.1.0/include"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/thirdparty/Win/SDL2_image-2.0.4/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/thirdparty/Win/SDL2_mixer-2.0.4/include"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/thirdparty/Win/Box2D/include"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/thirdparty/Win/Lua/include"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/thirdparty/All/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/submodules/SimpleRenderEngine/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/submodules/SimpleRenderEngine/submodules/ImGuiColorTextEdit"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/submodules/SimpleRenderEngine/submodules/imgui"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/submodules/SimpleRenderEngine/submodules/glm"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/submodules/SimpleRenderEngine/submodules/picojson"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				2,
+				4
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "SRE::@6f858f49817b2f3dd29a"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "Exercise6-Wolf3D::@61a4d6495e5d3c7fa897",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:X86 /debug /INCREMENTAL /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "opengl32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "glu32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\glew-2.1.0\\lib\\Release\\Win32\\glew32s.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\SDL2-2.0.9\\lib\\x86\\SDL2.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\SDL2_image-2.0.4\\lib\\x86\\SDL2_image.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\SDL2_mixer-2.0.4\\lib\\x86\\SDL2_mixer.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\Lua\\lib\\lua5.3.0-static.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\submodules\\SimpleRenderEngine\\src\\RelWithDebInfo\\SRE.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\Box2D\\lib\\Box2D.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "opengl32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "glu32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\glew-2.1.0\\lib\\Release\\Win32\\glew32s.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\SDL2-2.0.9\\lib\\x86\\SDL2.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\..\\..\\thirdparty\\Win\\SDL2_image-2.0.4\\lib\\x86\\SDL2_image.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Exercise6-Wolf3D",
+	"nameOnDisk" : "Exercise6-Wolf3D.exe",
+	"paths" : 
+	{
+		"build" : "project/assignment_2_wolf",
+		"source" : "project/assignment_2_wolf"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				2,
+				4
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1,
+				3,
+				5
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "project/assignment_2_wolf/FirstPersonController.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "project/assignment_2_wolf/FirstPersonController.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "project/assignment_2_wolf/Wolf3D.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "project/assignment_2_wolf/Wolf3D.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "project/assignment_2_wolf/WorldMap.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "project/assignment_2_wolf/WorldMap.hpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}

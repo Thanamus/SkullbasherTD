@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|win32">
+      <Configuration>Debug</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|win32">
+      <Configuration>Release</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{355F73F3-B2B7-3868-9A5B-8F14BFFC62CF}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>win32</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2-2.0.9\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\glew-2.1.0\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2_image-2.0.4\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2_mixer-2.0.4\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\Box2D\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\Lua\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\All\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\ImGuiColorTextEdit;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\imgui;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\glm;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\picojson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2-2.0.9\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\glew-2.1.0\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2_image-2.0.4\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2_mixer-2.0.4\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\Box2D\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\Lua\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\All\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\ImGuiColorTextEdit;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\imgui;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\glm;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\picojson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2-2.0.9\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\glew-2.1.0\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2_image-2.0.4\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2_mixer-2.0.4\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\Box2D\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\Lua\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\All\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\ImGuiColorTextEdit;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\imgui;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\glm;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\picojson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2-2.0.9\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\glew-2.1.0\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2_image-2.0.4\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\SDL2_mixer-2.0.4\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\Box2D\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\Win\Lua\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\thirdparty\All\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\include;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\ImGuiColorTextEdit;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\imgui;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\glm;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\submodules\SimpleRenderEngine\submodules\picojson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">Building Custom Rule C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf -BC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build --check-stamp-file C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-3.18\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|win32'">Building Custom Rule C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf -BC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build --check-stamp-file C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|win32'">C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-3.18\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|win32'">C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">Building Custom Rule C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf -BC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build --check-stamp-file C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-3.18\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">Building Custom Rule C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf -BC:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build --check-stamp-file C:/Users/kb/Documents/2020-22_MSC_GAMES/GAPRO/SRE_A2_Wolf/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-3.18\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\3.18.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\ZERO_CHECK.vcxproj">
+      <Project>{35EC9A46-A757-37EE-87A4-6E4E42747BB9}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\project\assignment_2_wolf\Exercise6-Wolf3D.vcxproj">
+      <Project>{194DCC50-EAB9-3EC4-ABAF-D6BD77D4EB17}</Project>
+      <Name>Exercise6-Wolf3D</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\src\SRE.vcxproj">
+      <Project>{5465FD1A-3CB8-3208-88DE-9D1CA2331670}</Project>
+      <Name>SRE</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-00_hello-engine.vcxproj">
+      <Project>{CBA99E3D-1F40-3435-8227-C0B5FCA886CE}</Project>
+      <Name>SRE-Example-00_hello-engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-01_hello-engine-raw.vcxproj">
+      <Project>{C8B393B7-0807-3B55-A9F3-D1B5F5397C7E}</Project>
+      <Name>SRE-Example-01_hello-engine-raw</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-02_spheres.vcxproj">
+      <Project>{35C12B3F-EE31-39DE-BAC8-1F310CC4E517}</Project>
+      <Name>SRE-Example-02_spheres</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-03_spinning-cube.vcxproj">
+      <Project>{C9D043BC-8FED-3BE3-B9CC-E964D4BEFD41}</Project>
+      <Name>SRE-Example-03_spinning-cube</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-04_spinning-primitives-tex.vcxproj">
+      <Project>{EB0201E7-D86D-35C8-BC32-3799BA54EF3C}</Project>
+      <Name>SRE-Example-04_spinning-primitives-tex</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-05_obj-viewer.vcxproj">
+      <Project>{5096D515-F9E9-309E-B932-A3D49E7C71AF}</Project>
+      <Name>SRE-Example-05_obj-viewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-06_custom-mesh-layout.vcxproj">
+      <Project>{1C07A100-D669-3966-A2DC-5B14041256E8}</Project>
+      <Name>SRE-Example-06_custom-mesh-layout</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-07_matcap.vcxproj">
+      <Project>{448B57C9-E8D0-39A5-922A-C3E70614783C}</Project>
+      <Name>SRE-Example-07_matcap</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-08_gui.vcxproj">
+      <Project>{C7E49569-DB7F-3694-95AE-4571CEA2CCB1}</Project>
+      <Name>SRE-Example-08_gui</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-09_picking.vcxproj">
+      <Project>{004B95DE-BD57-307A-9DBE-99B0A1535C13}</Project>
+      <Name>SRE-Example-09_picking</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-10_skybox-example.vcxproj">
+      <Project>{37638A2B-F693-39DA-BAB2-59B8CD6FDD7D}</Project>
+      <Name>SRE-Example-10_skybox-example</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-11_sprite-example.vcxproj">
+      <Project>{06801A30-DD64-32F9-83E7-227E7880CA60}</Project>
+      <Name>SRE-Example-11_sprite-example</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-12_render-to-texture.vcxproj">
+      <Project>{FBF82CF1-1FB8-3495-9FFE-F0DA3E695D13}</Project>
+      <Name>SRE-Example-12_render-to-texture</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-13_benchmark64k.vcxproj">
+      <Project>{83961C5E-D865-3C33-BAF1-F40D5FAFB899}</Project>
+      <Name>SRE-Example-13_benchmark64k</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-14_spinning-primitives-openvr.vcxproj">
+      <Project>{DE3A1C09-B51C-3291-8B72-666B7182FBE1}</Project>
+      <Name>SRE-Example-14_spinning-primitives-openvr</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-15_cloth_simulation.vcxproj">
+      <Project>{9AA80A7E-EBEE-31AE-97CC-DCD5E423DF53}</Project>
+      <Name>SRE-Example-15_cloth_simulation</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-16_shadows.vcxproj">
+      <Project>{B0216CEB-3AE4-3790-A844-A7EBFFC44098}</Project>
+      <Name>SRE-Example-16_shadows</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kb\Documents\2020-22_MSC_GAMES\GAPRO\SRE_A2_Wolf\build\submodules\SimpleRenderEngine\examples\SRE-Example-17_deferred-shading.vcxproj">
+      <Project>{04783DA1-59B0-3699-8130-A4052321EBE4}</Project>
+      <Name>SRE-Example-17_deferred-shading</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
