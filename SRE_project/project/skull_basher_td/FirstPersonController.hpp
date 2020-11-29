@@ -30,7 +30,7 @@ private:
     glm::vec3 camera_right;
 
     float movespeed = 8.f;
-    float sensitivity = 0.7f;
+    float sensitivity = 1.7f;
 
     // input stuff
     bool key_fwd = false;

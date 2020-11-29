@@ -8,6 +8,9 @@
 #include "Updatable.hpp"
 #include "glm/glm.hpp"
 #include <vector>
+#include <string>
+
+
 
 class Camera;
 class GameObject;
@@ -34,6 +37,13 @@ public:
     void setAmbientColor(const glm::vec3 &ambientColor);
 
     const std::vector<std::shared_ptr<GameObject>> getGameObjects();
+
+    //World Map stuff
+    void loapMap(std::string filename, std::shared_ptr<Scene> res);
+    // load map()
+    // add stuff we need for load map
+
+    //
 private:
     std::string name;
     bool debugPhysics = true;
@@ -53,5 +63,12 @@ private:
 
     friend class GameObject;
     friend class RigidBody;
+
+    //World Map stuff
+    // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
+    std::string mapAssetFolderLoc = ".\\assets\\worldMapAssets"; // apparently does work
+    double tileHeightOffset = -1;
+    double tilePosOffset = 1;
+
 };
 

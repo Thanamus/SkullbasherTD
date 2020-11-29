@@ -27,8 +27,8 @@ Wolf3D::Wolf3D()
     init();
 
     // Enable mouse lock
-    SDL_SetWindowGrab(r.getSDLWindow(), SDL_TRUE);
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+    // SDL_SetWindowGrab(r.getSDLWindow(), SDL_TRUE);
+    // SDL_SetRelativeMouseMode(SDL_TRUE);
 
     r.frameUpdate = [&](float deltaTime) {
         update(deltaTime);
@@ -61,9 +61,9 @@ void Wolf3D::render()
                           .withCamera(camera)
                           .build();
 
-    renderPass.draw(walls, glm::mat4(1), wallMaterial);
-    renderFloor(renderPass);
-    renderCeiling(renderPass);
+    // renderPass.draw(walls, glm::mat4(1), wallMaterial);
+    // renderFloor(renderPass);
+    // renderCeiling(renderPass);
 
     if (debugBricks)
     {
@@ -220,7 +220,7 @@ void Wolf3D::init()
             int field = map.getTile(x, y);
             if (field != -1)
             {
-                addCube(vertexPositions, textureCoordinates, x, y, field);
+                // addCube(vertexPositions, textureCoordinates, x, y, field);
             }
         }
     }
@@ -283,10 +283,10 @@ void Wolf3D::renderDebugBricks(RenderPass &renderPass)
     }
 }
 
-int main()
-{
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    new Wolf3D();
-    _CrtDumpMemoryLeaks();
-    return 0;
-}
+// int main()
+// {
+//     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+//     new Wolf3D();
+//     _CrtDumpMemoryLeaks();
+//     return 0;
+// }
