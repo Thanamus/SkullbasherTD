@@ -22,16 +22,16 @@ add_executable(skull_basher_td ${SkullBasherTD})
 target_link_libraries(skull_basher_td ${all_libs})
 
 # copy files to dest
-file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
 #file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 IF (WIN32)
     # Copy dll files to ${CMAKE_CURRENT_BINARY_DIR}/Debug
     file(COPY ${DLLFileList} DESTINATION Debug)
     file(COPY ${DLLFileList} DESTINATION Release)
-#    file(COPY ${DLLFileList} DESTINATION .)
+    #file(COPY ${DLLFileList} DESTINATION .)
 
     # Set working directory to ${CMAKE_CURRENT_BINARY_DIR}/Debug
-    set_target_properties(skull_basher_td PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+    set_target_properties(skull_basher_td PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
 ENDIF(WIN32)

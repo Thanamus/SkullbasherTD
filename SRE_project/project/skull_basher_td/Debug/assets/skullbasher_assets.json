@@ -1,0 +1,20 @@
+{"frames": [
+
+{
+	"filename": "powerbar.png",
+	"frame": {"x":0,"y":0,"w":159,"h":45},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":159,"h":45},
+	"sourceSize": {"w":159,"h":45}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "skullbasher_assets.png",
+	"format": "RGBA8888",
+	"size": {"w":159,"h":45},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:cfc7818744ab3ef13ae822bea6b9048e:a00b5eef30c9f3c1dcc8c33ba91cc3ed:9c2a34151a96f784e2b3c8330e18ae52$"
+}
+}

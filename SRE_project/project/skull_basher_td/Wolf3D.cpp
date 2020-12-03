@@ -38,6 +38,7 @@ Wolf3D::Wolf3D()
     };
     r.keyEvent = [&](SDL_Event &e) {
         fpsController.onKey(e);
+        gameManager->onKey(e);
     };
     r.mouseEvent = [&](SDL_Event &e) {
         if (!lockRotation)
@@ -77,6 +78,7 @@ void Wolf3D::render()
     ImGui::DragFloat3("Pos", &(fpsController.position.x), 0.1f);
     ImGui::Checkbox("DebugBricks", &debugBricks);
     ImGui::Checkbox("LockRotation", &lockRotation);
+    guiManager->onGui();
     ImGui::End();
 }
 
@@ -234,6 +236,10 @@ void Wolf3D::init()
 
     floorColor = map.getFloorColor();
     ceilColor = map.getCeilColor();
+
+    gameManager = make_shared<GameManager>();
+    gameManager->init();
+    guiManager = make_shared<GuiManager>(gameManager);
 }
 
 // these two functions are very similar, but I'd rather keep them separate because one might want to add some weird stuff to either floor or ceiling and the "duplication" actually splits the responsibilities better

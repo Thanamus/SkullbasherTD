@@ -32,9 +32,12 @@ void WorldMap::loadMap(std::string filename)
     }
 
     // get starting camera stuff
-    startingPosition.x = d["spawn"]["x"].GetFloat();
-    startingPosition.y = d["spawn"]["y"].GetFloat();
-    startingRotation = d["spawn"]["angle"].GetFloat();
+    //startingPosition.x = d["spawn"]["x"].GetFloat();
+    startingPosition.x = 1;
+    startingPosition.y = 1;
+    //startingPosition.y = d["spawn"]["y"].GetFloat();
+    startingRotation = 0;
+    //startingRotation = d["spawn"]["angle"].GetFloat();
 
     // set floor/ceiling colours
     auto floorColorValues = d["floorColor"].GetArray();

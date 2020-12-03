@@ -4,6 +4,8 @@
 #include "sre/Material.hpp"
 #include "WorldMap.hpp"
 #include "FirstPersonController.hpp"
+#include "GuiManager.hpp"
+#include "GameManager.hpp"
 
 class Wolf3D
 {
@@ -43,6 +45,8 @@ private:
     sre::SDLRenderer r;
     sre::Camera camera;
     WorldMap map;
+    std::shared_ptr<GuiManager> guiManager;
+    std::shared_ptr<GameManager> gameManager;
     std::shared_ptr<sre::Mesh> walls;
     std::shared_ptr<sre::Material> wallMaterial;
     FirstPersonController fpsController;

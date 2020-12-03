@@ -1,0 +1,22 @@
+{"Towers":
+  [
+    {
+      "id": 0,
+      "name":"Arrow Tower",
+      "icon": "arrow_tower.bmp",
+      "mesh": "mesh.mesh",
+      "buildCost": 10,
+      "constructionTime": 5,
+      "delay": 5
+    },
+    {
+      "id": 1,
+      "name":"Catapult Tower",
+      "icon": "catapult_tower.bmp",
+      "mesh": "mesh.mesh",
+      "buildCost": 10,
+      "constructionTime": 5,
+      "delay": 5
+    }
+  ]
+}
