@@ -93,14 +93,6 @@ void GameManager::onKey(SDL_Event &event)
         selectedTower = towers[selectedTowerIndex];
 }
 
-int GameManager::getHealth() const {
-    return health;
-}
-
-void GameManager::setHealth(int health) {
-    GameManager::health = health;
-}
-
 int GameManager::getScore() const {
     return score;
 }

@@ -36,14 +36,20 @@ public:
     bool debugBricks = true;
     bool lockRotation = false;
 
+    // Wave stats
+    int currentWave = 0;
+    int waveAmount = 10;
+    int enermyAmountWave = 5;
+
+
 private:
     void loadTowers(std::string filename);
     static std::map<std::string, std::shared_ptr<sre::Texture>> inventoryTexture;
     std::vector<std::shared_ptr<Tower>> towers;
 
     // Player stats
-    int health = 3; // between 0 and 6
     int score = 42;
     float power = 0.7; // between 0.0 and 1.0
+
 
 };

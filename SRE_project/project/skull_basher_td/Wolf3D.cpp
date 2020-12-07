@@ -73,7 +73,6 @@ void Wolf3D::render()
 
 
     guiManager->onGui();
-    ImGui::End();
 }
 
 // Creates a textured cube with a side length of 1 (e.g. from -0.5 to 0.5).
