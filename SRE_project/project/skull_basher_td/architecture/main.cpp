@@ -27,39 +27,48 @@ std::shared_ptr<Scene> createScene(){
     auto res = std::make_shared<Scene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = {0,1.7f,10};
+    cameraObj->getComponent<Transform>()->position = {10,1.7f,-5};
+    cameraObj->getComponent<Transform>()->rotation = {0,190,0};
+    
 
+    
     auto sphereObj = res->createGameObject("Sphere");
     auto sphereMR = sphereObj->addComponent<MeshRenderer>();
     sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
-    sphereObj->getComponent<Transform>()->position = {0,1.0,0};
-    sphereObj->getComponent<Transform>()->position = {0,1.0,0};
+    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
+    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
     sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0);
 
-    auto planeObj = res->createGameObject("Plane");
-    auto plameMR = planeObj->addComponent<MeshRenderer>();
-    plameMR->setMesh(sre::Mesh::create().withQuad(10).build());
-    planeObj->getComponent<Transform>()->rotation = {-90,0,0};
-    auto planePhysObj = res->createGameObject("PlanePhys");
-    planePhysObj->addComponent<RigidBody>()->initRigidBodyWithStaticPlane({0,1,0}, 0);
+    // auto planeObj = res->createGameObject("Plane");
+    // auto plameMR = planeObj->addComponent<MeshRenderer>();
+    // plameMR->setMesh(sre::Mesh::create().withQuad(10).build());
+    // planeObj->getComponent<Transform>()->rotation = {-90,0,0};
+    // auto planePhysObj = res->createGameObject("PlanePhys");
+    // planePhysObj->addComponent<RigidBody>()->initRigidBodyWithStaticPlane({0,1,0}, 0);
 
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<Transform>()->rotation = {30,30,0};
     lightObj->addComponent<Light>();
 
     auto cube = res->createGameObject("Cube");
-    cube->getComponent<Transform>()->position = {0,4,0};
-    cube->getComponent<Transform>()->rotation = {30,30,0};
+    cube->getComponent<Transform>()->position = {10,4,10};
+    cube->getComponent<Transform>()->rotation = {30,30,10};
     auto cubeRigidBody = cube->addComponent<RigidBody>();
     cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
     auto cubeMR = cube->addComponent<MeshRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
 
+    //Load Map
+    res->loapMap(".\\maps\\SkullBasherTDLevel0.json",res);
+    // res->loapMap("level0.json",res);
+
+
     return res;
 }
 
 int main(){
+    std::cout << "Hello world" << "\n";
     using namespace sre;
     SDLRenderer r;
     r.init();
