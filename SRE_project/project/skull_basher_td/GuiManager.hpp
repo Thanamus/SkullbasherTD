@@ -13,7 +13,9 @@ public:
 private:
     void guiGameInfo();
     void guiTowers();
+    void guiBuildPopUp(ImVec2 size);
     void guiDebugInfo();
+    void guiQuitScreen();
     void guiWaveInfo();
 
     std::shared_ptr<sre::Texture> powerbar;

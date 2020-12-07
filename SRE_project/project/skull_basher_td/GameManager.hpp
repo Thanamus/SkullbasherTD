@@ -3,28 +3,19 @@
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
 #include "Tower.hpp"
-#include "FirstPersonController.hpp"
 
 class GameManager
 {
 public:
-    explicit GameManager(FirstPersonController *player);
+    explicit GameManager();
 
     void init();
-
-
 
     std::vector<std::shared_ptr<Tower>> GetTowers();
     std::shared_ptr<Tower> selectedTower;
     void GameManager::onKey(SDL_Event &event);
     bool quit = false;
     bool buildModeActive = false;
-
-    FirstPersonController* player;
-
-    int getHealth() const;
-
-    void setHealth(int health);
 
     int getScore() const;
 
@@ -33,6 +24,8 @@ public:
     float getPower() const;
 
     void setPower(float power);
+
+    bool paused = false;
     bool debugBricks = true;
     bool lockRotation = false;
 
@@ -40,7 +33,6 @@ public:
     int currentWave = 0;
     int waveAmount = 10;
     int enermyAmountWave = 5;
-
 
 private:
     void loadTowers(std::string filename);

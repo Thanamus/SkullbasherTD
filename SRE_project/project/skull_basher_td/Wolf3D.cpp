@@ -52,6 +52,8 @@ Wolf3D::Wolf3D()
 void Wolf3D::update(float deltaTime)
 {
     fpsController.update(deltaTime);
+    if(gameManager != nullptr)
+        ToggleLockMouse();
     if (gameManager->quit)
         r.stopEventLoop();
 }
@@ -230,7 +232,7 @@ void Wolf3D::init()
     floorColor = map.getFloorColor();
     ceilColor = map.getCeilColor();
 
-    gameManager = make_shared<GameManager>(&fpsController);
+    gameManager = make_shared<GameManager>();
     gameManager->init();
     guiManager = make_shared<GuiManager>(gameManager);
 }
@@ -280,6 +282,12 @@ void Wolf3D::renderDebugBricks(RenderPass &renderPass)
         materials[i]->setColor(colors[i]);
         renderPass.draw(cube, glm::translate(positions[i]), materials[i]);
     }
+}
+
+void Wolf3D::ToggleLockMouse()
+{
+    SDL_SetWindowGrab(r.getSDLWindow(), gameManager->paused ? SDL_FALSE : SDL_TRUE);
+    SDL_SetRelativeMouseMode(gameManager->paused ? SDL_FALSE : SDL_TRUE);
 }
 
 int main()

@@ -5,9 +5,12 @@
 #include <sre/Renderer.hpp>
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
+#include "GameManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 using namespace sre;
 using namespace glm;
@@ -63,7 +66,7 @@ void GuiManager::guiGameInfo() {
     auto scoreStr = std::to_string(gameManager->getScore());
     ImGui::Text("Money"); ImGui::SameLine();
     width = ImGui::CalcTextSize(scoreStr.c_str()).x;
-    ImGui::SetCursorPosX(windowWidth - width); // align right
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), scoreStr)); // align center
     ImGui::Text(scoreStr.c_str());
     ImGui::PopID();
 
@@ -84,6 +87,7 @@ void GuiManager::guiGameInfo() {
     uv1.x *= gameManager->getPower();
     ImVec4 tintColor(0,1,0,1);
     ImGui::Image(powerbar->getNativeTexturePtr(),{innerSize.x,innerSize.y}, uv0, uv1, tintColor);
+
     ImGui::End();
 
 }
@@ -105,7 +109,6 @@ void GuiManager::guiTowers() {
     bool* open = nullptr;
     std::string title = "Towers";
     ImGui::Begin("#Towers", open, flags);
-    //ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - font_size + (font_size / 2)); // align center
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
     ImGui::Text("Towers");
 
@@ -123,16 +126,53 @@ void GuiManager::guiTowers() {
         ImGui::SameLine();
     }
 
-    //ImGui::PopFont();
+    ImGui::End();
+    if(gameManager->buildModeActive)
+        guiBuildPopUp(size);
+}
+
+void GuiManager::guiBuildPopUp(ImVec2 towerWindowSize) {
+    auto r = Renderer::instance;
+    auto winsize = r->getWindowSize();
+    auto cond = ImGuiCond_Always;
+    ImVec2 pivot = {0,0};
+
+    ImVec2 size = {250, 75};
+    ImVec2 pos = {(winsize.x  / 2.0f) - (size.x / 2),winsize.y - towerWindowSize.y - size.y};
+    ImGui::SetNextWindowPos(pos, cond, pivot);
+    ImGui::SetNextWindowSize(size, cond);
+    auto flags =
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoScrollbar;
+    bool* open = nullptr;
+    ImGui::Begin("#BuildPopUp", open, flags);
+    //Title
+    std::string title = "Build: " + gameManager->selectedTower->getName();
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
+    ImGui::Text(title.c_str());
+
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(2) << gameManager->selectedTower->getBuildCost();
+    std::string priceString = stream.str();
+
+    std::string price = "cost: $" + priceString;
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), price)); // align center
+    ImGui::Text(price.c_str());
+
+    std::string exitText = "Press escape to exit build mode";
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), exitText)); // align center
+    ImGui::Text(exitText.c_str());
+
     ImGui::End();
 }
 
-//ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 100, .0f), ImGuiSetCond_Always);
 void GuiManager::guiDebugInfo()
 {
     ImGui::SetNextWindowPos(ImVec2(0, .0f), ImGuiSetCond_Always);
     ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
-    ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+    ImGui::Begin("#Debug", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
     std::string title = "Debug";
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
     ImGui::Text("Debug");
@@ -144,7 +184,7 @@ void GuiManager::guiWaveInfo()
     ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 100, .0f), ImGuiSetCond_Always);
     ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
     //Title
-    ImGui::Begin("Wave", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+    ImGui::Begin("#Wave", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
     std::string title = "Wave";
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
     ImGui::Text(title.c_str());
@@ -167,6 +207,33 @@ void GuiManager::guiWaveInfo()
     ImGui::End();
 }
 
+void GuiManager::guiQuitScreen()
+{
+    ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 150, Renderer::instance->getWindowSize().y / 2), ImGuiSetCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiSetCond_Always);
+    //Title
+    ImGui::Begin("#Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+    std::string title = "Menu";
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
+    ImGui::Text(title.c_str());
+
+    //Back To Game
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
+    if (ImGui::Button("Back to Menu", ImVec2(100, 50))){
+        gameManager->paused = false;
+    }
+
+    ImGui::Spacing();
+
+    //Quit
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
+    if (ImGui::Button("Quit Game", ImVec2(100, 50))){
+        gameManager->quit = true;
+    }
+
+    ImGui::End();
+}
+
 float GuiManager::centerText(ImVec2 window, std::string text)
 {
     float font_size = ImGui::GetFontSize() * text.size() / 2;
@@ -174,8 +241,15 @@ float GuiManager::centerText(ImVec2 window, std::string text)
 }
 
 void GuiManager::onGui() {
+    if(gameManager->paused)
+    {
+        guiQuitScreen();
+        return;
+    }
+
     guiGameInfo();
     guiTowers();
     guiDebugInfo();
     guiWaveInfo();
+
 }
