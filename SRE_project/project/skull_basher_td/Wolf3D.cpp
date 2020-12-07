@@ -52,7 +52,7 @@ Wolf3D::Wolf3D()
 void Wolf3D::update(float deltaTime)
 {
     fpsController.update(deltaTime);
-    if (fpsController.quit)
+    if (gameManager->quit)
         r.stopEventLoop();
 }
 
@@ -71,13 +71,7 @@ void Wolf3D::render()
         renderDebugBricks(renderPass);
     }
 
-    ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 100, .0f), ImGuiSetCond_Always);
-    ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
-    ImGui::Begin("", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
-    ImGui::DragFloat("Rot", &fpsController.rotation);
-    ImGui::DragFloat3("Pos", &(fpsController.position.x), 0.1f);
-    ImGui::Checkbox("DebugBricks", &debugBricks);
-    ImGui::Checkbox("LockRotation", &lockRotation);
+
     guiManager->onGui();
     ImGui::End();
 }
@@ -237,7 +231,7 @@ void Wolf3D::init()
     floorColor = map.getFloorColor();
     ceilColor = map.getCeilColor();
 
-    gameManager = make_shared<GameManager>();
+    gameManager = make_shared<GameManager>(&fpsController);
     gameManager->init();
     guiManager = make_shared<GuiManager>(gameManager);
 }

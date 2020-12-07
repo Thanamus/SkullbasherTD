@@ -83,9 +83,9 @@ void GuiManager::guiGameInfo() {
 
         ImGui::SameLine(windowWidth - width + heartSize.x * i);
         int texIndex = heartFull;
-        if (i*2+1 == health){
+        if (i*2+1 == gameManager->getHealth()){
             texIndex = heartHalf;
-        } else if (i*2 > health){
+        } else if (i*2 > gameManager->getHealth()){
             texIndex = heartEmpty;
         }
         Texture* tex = heartIcons[texIndex].get();
@@ -94,7 +94,7 @@ void GuiManager::guiGameInfo() {
 
     // draw Score
     ImGui::PushID(1);
-    auto scoreStr = std::to_string(score);
+    auto scoreStr = std::to_string(gameManager->getScore());
     ImGui::Text("Score"); ImGui::SameLine();
     width = ImGui::CalcTextSize(scoreStr.c_str()).x;
     ImGui::SetCursorPosX(windowWidth - width); // align right
@@ -112,8 +112,8 @@ void GuiManager::guiGameInfo() {
     ImGui::SetCursorPosX(windowWidth - width + border); // align right
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + border); // move down
     // scale/clip inner bar
-    innerSize.x *= power;
-    uv1.x *= power;
+    innerSize.x *= gameManager->getPower();
+    uv1.x *= gameManager->getPower();
     ImVec4 tintColor(0,1,0,1);
     ImGui::Image(powerbar->getNativeTexturePtr(),{innerSize.x,innerSize.y}, uv0, uv1, tintColor);
     //ImGui::PopFont();
@@ -149,8 +149,9 @@ void GuiManager::guiInventory() {
         ImVec2 uv0(0,1); // flip y axis coordinates
         ImVec2 uv1(1,0);
         ImVec2 s(64,64);
-
-        auto currentBorder = tower.get()->getId() == selectedTowerID ? selectedBorderColor : ImVec4(0,0,0,1);
+        ImVec4 currentBorder = ImVec4(0,0,0,1);;
+        if(gameManager->buildModeActive)
+            currentBorder = tower.get()->getId() == selectedTowerID ? selectedBorderColor : ImVec4(0,0,0,1);
 
         ImGui::Image(tower->getIcon()->getNativeTexturePtr(), s, uv0, uv1 , ImVec4(1,1,1,1),currentBorder);
         ImGui::SameLine();
@@ -159,8 +160,26 @@ void GuiManager::guiInventory() {
     //ImGui::PopFont();
     ImGui::End();
 }
+//ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 100, .0f), ImGuiSetCond_Always);
+void GuiManager::debugInfo()
+{
+    ImGui::SetNextWindowPos(ImVec2(0, .0f), ImGuiSetCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
+    ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+    ImGui::Text("Debug");
+}
+
+void GuiManager::waveInfo()
+{
+    ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 100, .0f), ImGuiSetCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
+    ImGui::Begin("Wave", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+    ImGui::Text("Wave");
+}
 
 void GuiManager::onGui() {
     guiGameInfo();
     guiInventory();
+    debugInfo();
+    //waveInfo();
 }

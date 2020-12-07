@@ -5,7 +5,6 @@
 #include <SDL_events.h>
 #include <sre/Renderer.hpp>
 #include "sre/SpriteAtlas.hpp"
-#include "sre/Texture.hpp"
 #include "GameManager.hpp"
 
 
@@ -20,8 +19,8 @@
 using namespace sre;
 using namespace glm;
 
-GameManager::GameManager()
-{
+GameManager::GameManager(FirstPersonController *player) {
+    this->player = player;
 }
 
 void GameManager::init() {
@@ -68,14 +67,23 @@ void GameManager::onKey(SDL_Event &event)
         case SDLK_1:
             selectedTowerIndex = 0;
             pressed = true;
+            buildModeActive = true;
             break;
         case SDLK_2:
             selectedTowerIndex = 1;
             pressed = true;
+            buildModeActive = true;
             break;
         case SDLK_3:
             selectedTowerIndex = 2;
             pressed = true;
+            buildModeActive = true;
+            break;
+        case SDLK_ESCAPE:
+            if(buildModeActive)
+                buildModeActive = false;
+            else
+                quit = true;
             break;
         default:
             break;
@@ -83,4 +91,28 @@ void GameManager::onKey(SDL_Event &event)
 
     if(pressed && selectedTowerIndex <= towers.size())
         selectedTower = towers[selectedTowerIndex];
+}
+
+int GameManager::getHealth() const {
+    return health;
+}
+
+void GameManager::setHealth(int health) {
+    GameManager::health = health;
+}
+
+int GameManager::getScore() const {
+    return score;
+}
+
+void GameManager::setScore(int score) {
+    GameManager::score = score;
+}
+
+float GameManager::getPower() const {
+    return power;
+}
+
+void GameManager::setPower(float power) {
+    GameManager::power = power;
 }

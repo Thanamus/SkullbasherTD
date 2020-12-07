@@ -3,7 +3,6 @@
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
 #include "WorldMap.hpp"
-#include "FirstPersonController.hpp"
 #include "GuiManager.hpp"
 #include "GameManager.hpp"
 

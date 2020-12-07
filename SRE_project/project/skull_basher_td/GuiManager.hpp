@@ -10,7 +10,6 @@ public:
     explicit GuiManager(std::shared_ptr<GameManager> gameManager);
     void onGui();
 
-
 private:
     void guiGameInfo();
     void guiSpeechBubble();
@@ -33,9 +32,13 @@ private:
     ImVec4 selectedBorderColor;
 
     // hero stats
-    int health = 3; // between 0 and 6
-    int score = 42;
-    float power = 0.7; // between 0.0 and 1.0
+    //int health = 3; // between 0 and 6
+    //int score = 42;
+    //float power = 0.7; // between 0.0 and 1.0
     std::set<std::string> inventorySet;
     std::shared_ptr<GameManager> gameManager;
+    void debugInfo();
+    void waveInfo();
+
+    float totalTime = 0.0f;
 };
