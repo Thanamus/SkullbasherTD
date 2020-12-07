@@ -28,17 +28,17 @@ target_link_libraries(skull_basher_td ${all_libs})
 # copy files to dest
 file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
 file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
-#file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+#file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Copy Asset files tp dest
-file(COPY ./assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY ./assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-#file(COPY ./assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+#file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Copy Map files to dest
-file(COPY ./maps DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY ./maps DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-#file(COPY ./maps DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+#file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 IF (WIN32)
