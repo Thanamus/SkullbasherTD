@@ -61,3 +61,12 @@ Ray Camera::screenPointToRay(glm::vec2 p) {
 sre::Camera Camera::getCamera() {
     return camera;
 }
+
+
+//doing this allows us to control the camera
+void Camera::update(float deltaTime){
+    auto thing = this->getGameObject()->getComponent<Transform>();
+    thing->position += 0.1*deltaTime;
+}
+
+

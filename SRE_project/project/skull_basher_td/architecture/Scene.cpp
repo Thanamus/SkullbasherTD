@@ -13,6 +13,9 @@
 #include "BulletPhysics.hpp"
 #include "sre/RenderPass.hpp"
 
+//fps camera stuff
+// #include "FirstPersonController.hpp"
+
 //WorldMap Imports
     //WorldObject
 #include "WorldObject.hpp"
@@ -42,6 +45,10 @@ Scene::~Scene(){
 
 void Scene::update(float deltaTime){
     bulletPhysics->step(this);
+    auto tempCam = this->cameras[0]->getGameObject();
+    tempCam->getComponent<Camera>()->update(deltaTime);
+    
+
     for (auto& p : this->rigidBodies){
         p->updateTransformFromPhysicsWorld();
     }
@@ -264,7 +271,7 @@ void Scene::loapMap(std::string filename, std::shared_ptr<Scene> res){
                     isPathHolder = d["MapLookup"][c]["isPath"].GetBool();
 
                     std::string meshName = d["MapLookup"][c]["object"].GetString();
-                    
+
                     std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
                     //Load the mesh from file
                     // meshHolder = sre::ModelImporter::importObj(".\\Assets\\WorldMapAssets", "Floor01.obj", materialsLoaded);
@@ -287,9 +294,37 @@ void Scene::loapMap(std::string filename, std::shared_ptr<Scene> res){
 
                     mapTileMR->setMesh(meshHolder);
                     mapTileMR->setMaterial(materialsLoaded[0]);
+
+                    float xOffset = d["MapLookup"][c]["posOffset"]["x"].GetFloat();
+                    float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();;
+                    float zOffset = d["MapLookup"][c]["posOffset"]["z"].GetFloat();;
+
+                    positionHolder.x += xOffset;
+                    positionHolder.y += yOffset;
+                    positionHolder.z += zOffset;
+
                     mapTile->getComponent<Transform>()->position = positionHolder;
+                    // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
+                    // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
+
                     mapTile->getComponent<Transform>()->scale = scaleHolder;
-                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({0.5f,0.3f,0.5f}, 0);
+                    auto bounds = meshHolder->getBoundsMinMax();
+                    
+                    float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/4;
+                    float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/4;
+                    float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/4;
+
+                    // std::cout << "length: " << length << "\n";
+                    // std::cout << "width: " << width << "\n";
+                    // std::cout << "height: " << height << "\n";
+
+                    // std::cout << "bounds: " << bounds[0].x << " " << bounds[0].y << bounds[0].z << "\n";
+
+
+                    // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({0.5f,0.4f,0.5f}, 0);
+
+                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0);
+                    // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
                     // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
                     // gameObjects.push_back(mapTile);
 

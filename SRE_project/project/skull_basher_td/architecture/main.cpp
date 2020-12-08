@@ -68,7 +68,7 @@ std::shared_ptr<Scene> createScene(){
 }
 
 int main(){
-    std::cout << "Hello world" << "\n";
+    // std::cout << "Hello world" << "\n";
     using namespace sre;
     SDLRenderer r;
     r.init();

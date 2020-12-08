@@ -19,6 +19,9 @@ public:
 
     void bind();
 
+    //update the camera?
+    void update(float deltaTime);
+
     bool perspective = true;
     float fovY = 45;
     float size;

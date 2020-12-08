@@ -176,13 +176,188 @@
     ]
 
 ],
-"MapLookup":{
-               "0": {"object": "nul", "material": "unused", "isbuildable": false,"isPath": false, "rotation": 0, "scaleFactors":{"x":0.5,"y":0.5,"z":0.5}},
-               "10": {"object": "GrassBlock01D.obj", "material": "..\\Assets\\WorldMapAssets\\GrassBlock01D.mtl", "isbuildable": false,"isPath": false, "rotation": 0, "scaleFactors":{"x":0.5,"y":0.5,"z":0.5}},
-               "11": {"object": "Floor01.obj", "material": "..\\Assets\\WorldMapAssets\\Floor01.mtl", "isbuildable": false,"isPath": false, "rotation": 0, "scaleFactors":{"x":0.5,"y":0.5,"z":0.5}},
-               "12": {"object": "PathBlock01D.obj", "material": "..\\Assets\\WorldMapAssets\\PathBlock01D.mtl", "isbuildable": false,"isPath": true, "rotation": 0, "scaleFactors":{"x":0.5,"y":0.5,"z":0.5}},
-               "13": {"object": "BuildableBlock01D.obj", "material": "..\\Assets\\WorldMapAssets\\BuildableBlock01D.mtl", "isbuildable": true, "isPath": false, "rotation": 0, "scaleFactors":{"x":0.5,"y":0.5,"z":0.5}},
-               "20": {"object": "Step01D.obj", "material": "..\\Assets\\WorldMapAssets\\Step01D.mtl", "isbuildable": false,"isPath": false, "rotation": 180, "scaleFactors":{"x":0.5,"y":0.5,"z":0.5}},
-               "30": {"object": "Bridge01D.obj", "material": "..\\Assets\\WorldMapAssets\\Bridge01D.mtl", "isbuildable": false,"isPath": false, "rotation": 180, "scaleFactors":{"x":0.5,"y":0.5,"z":0.5}}
-             }
+"MapLookup": {
+    "0": {
+        "object": "nul",
+        "material": "unused",
+        "isbuildable": false,
+        "isPath": false,
+        "rotation": 0,
+        "scaleFactors": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "collision": [
+            {
+                "type": "box",
+                "x": null,
+                "y": null,
+                "z": null
+            }
+        ],
+        "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+    },
+    "10": {
+        "object": "GrassBlock01D.obj",
+        "material": "..\\Assets\\WorldMapAssets\\GrassBlock01D.mtl",
+        "isbuildable": false,
+        "isPath": false,
+        "rotation": 0,
+        "scaleFactors": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "collision": [
+            {
+                "type": "box",
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        ],
+        "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+    },
+    "11": {
+        "object": "Floor01.obj",
+        "material": "..\\Assets\\WorldMapAssets\\Floor01.mtl",
+        "isbuildable": false,
+        "isPath": false,
+        "rotation": 0,
+        "scaleFactors": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "collision": [
+            {
+                "type": "box",
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        ],
+        "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+    },
+    "12": {
+        "object": "PathBlock01D.obj",
+        "material": "..\\Assets\\WorldMapAssets\\PathBlock01D.mtl",
+        "isbuildable": false,
+        "isPath": true,
+        "rotation": 0,
+        "scaleFactors": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "collision": [
+            {
+                "type": "box",
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        ],
+        "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+    },
+    "13": {
+        "object": "BuildableBlock01D.obj",
+        "material": "..\\Assets\\WorldMapAssets\\BuildableBlock01D.mtl",
+        "isbuildable": true,
+        "isPath": false,
+        "rotation": 0,
+        "scaleFactors": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "collision": [
+            {
+                "type": "box",
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        ],
+        "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+    },
+    "20": {
+        "object": "Step01D.obj",
+        "material": "..\\Assets\\WorldMapAssets\\Step01D.mtl",
+        "isbuildable": false,
+        "isPath": false,
+        "rotation": 180,
+        "scaleFactors": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "collision": [
+            {
+                "type": "box",
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        ],
+        "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+    },
+    "30": {
+        "object": "Bridge01D.obj",
+        "material": "..\\Assets\\WorldMapAssets\\Bridge01D.mtl",
+        "isbuildable": false,
+        "isPath": false,
+        "rotation": 180,
+        "scaleFactors": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "collision": [
+            {
+                "type": "box",
+                "x": 0.5,
+                "y": 0.3,
+                "z": 0.5
+            }
+        ],
+        "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.5,
+                "z": 0.0
+            }
+    }
+}
 }
