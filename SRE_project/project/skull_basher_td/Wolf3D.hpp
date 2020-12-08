@@ -4,7 +4,7 @@
 #include "sre/Material.hpp"
 #include "WorldMap.hpp"
 #include "GuiManager.hpp"
-#include "GameManager.hpp"
+#include "FirstPersonController.hpp"
 
 class Wolf3D
 {
@@ -23,6 +23,7 @@ public:
         YZ,
         XZ
     };
+    void ToggleLockMouse();
 
     // some useful public const regarding the tileset
     const short unsigned int texturesPerRow = 16;

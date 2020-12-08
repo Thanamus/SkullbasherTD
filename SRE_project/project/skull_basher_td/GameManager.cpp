@@ -19,8 +19,7 @@
 using namespace sre;
 using namespace glm;
 
-GameManager::GameManager(FirstPersonController *player) {
-    this->player = player;
+GameManager::GameManager() {
 }
 
 void GameManager::init() {
@@ -82,8 +81,14 @@ void GameManager::onKey(SDL_Event &event)
         case SDLK_ESCAPE:
             if(buildModeActive)
                 buildModeActive = false;
-            else
-                quit = true;
+            else if (!buildModeActive && !paused)
+            {
+                paused = true;
+            }
+            else if (paused)
+            {
+                paused = false;
+            }
             break;
         default:
             break;
@@ -91,14 +96,6 @@ void GameManager::onKey(SDL_Event &event)
 
     if(pressed && selectedTowerIndex <= towers.size())
         selectedTower = towers[selectedTowerIndex];
-}
-
-int GameManager::getHealth() const {
-    return health;
-}
-
-void GameManager::setHealth(int health) {
-    GameManager::health = health;
 }
 
 int GameManager::getScore() const {
