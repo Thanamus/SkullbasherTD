@@ -40,7 +40,7 @@ public:
     Ray screenPointToRay(glm::vec2 point);
 
     sre::Camera getCamera();
-    void TestRay(std::shared_ptr<GameObject> rayTestedCube, glm::vec2 mousePos);
+    void TestRay(glm::vec3 front, std::shared_ptr<GameObject> rayTestedCube);
 private:
     Transform* transform;
     sre::Camera camera;

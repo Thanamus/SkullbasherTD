@@ -249,7 +249,7 @@ void GuiManager::onGui() {
 
     guiGameInfo();
     guiTowers();
-    guiDebugInfo();
+    //guiDebugInfo();
     guiWaveInfo();
 
 }

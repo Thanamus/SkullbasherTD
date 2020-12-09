@@ -31,4 +31,8 @@ public:
 private:
     std::shared_ptr<Model> model;
     Transform* transform;
+public:
+    Transform *getTransform() const;
+
+    void setTransform(Transform *transform);
 };

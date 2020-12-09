@@ -61,12 +61,12 @@ Ray Camera::screenPointToRay(glm::vec2 p) {
     return ray;
 }
 
-void Camera::TestRay(std::shared_ptr<GameObject> rayTestedCube, glm::vec2 mousePos)
+void Camera::TestRay(glm::vec3 front, std::shared_ptr<GameObject> rayTestedCube)
 {
     auto size = sre::Renderer::instance->getDrawableSize();
     auto ray = screenPointToRay(glm::vec2(size.x / 2, size.y / 2));
 
-    glm::vec3 tDirection = transform->rotation * ray.direction;
+    glm::vec3 tDirection = transform->rotation * front;
     //glm::vec3 tDirection = transform->rotation * glm::vec3 (0,-1,0);
 
     glm::vec3 target = transform->position + tDirection * 10.0f;
@@ -82,7 +82,7 @@ void Camera::TestRay(std::shared_ptr<GameObject> rayTestedCube, glm::vec2 mouseP
 
     //test.z += 10;
 
-    glm::vec3 test = transform->position+glm::normalize(transform->rotation)*5.0f;
+    glm::vec3 test = transform->position+glm::normalize(front)*5.0f;
 
     rayTestedCube->getComponent<Transform>()->position = test;
 }
@@ -92,11 +92,9 @@ sre::Camera Camera::getCamera() {
     return camera;
 }
 
+void Camera::update(float deltaTime)
+{
 
-//doing this allows us to control the camera
-void Camera::update(float deltaTime){
-    /*auto thing = this->getGameObject()->getComponent<Transform>();
-    thing->position += 0.1*deltaTime;*/
 }
 
 

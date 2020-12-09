@@ -6,9 +6,47 @@
 #include "ModelRenderer.hpp"
 #include "Light.hpp"
 #include "RigidBody.hpp"
+#include "PersonController.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 #include "BulletPhysics.hpp"
+#include "Main.hpp"
+
+Main::Main()
+{
+    // std::cout << "Hello world" << "\n";
+    using namespace sre;
+    SDLRenderer r;
+    r.init();
+    auto scene = createScene();
+    currentScene = scene;
+
+    gameManager = std::make_shared<GameManager>();
+    gameManager->init();
+    guiManager = std::make_shared<GuiManager>(gameManager);
+    guiManager->gameManager = gameManager;
+    currentScene->guiManager = guiManager;
+    currentScene->gameManager = gameManager;
+
+    r.frameUpdate = [&](float deltaTime){
+        currentScene->update(deltaTime);
+    };
+    r.frameRender = [&]{
+        currentScene->render();
+    };
+    r.keyEvent = [&](SDL_Event &e) {
+        currentScene->onKey(e); //worked! // asks scene to manage the onKey
+        // fpsController.onKey(e);
+        // gameManager->onKey(e);
+    };
+    r.mouseEvent = [&](SDL_Event &e) {
+        // if (!lockRotation) //carry over from Wolf3D... not sure what it's there for
+        // {
+        currentScene->onMouse(e); // asks scene to manage the mouse thing
+        // }
+    };
+    r.startEventLoop();
+}
 
 class CustomCollisionHandler : public Component, public CollisionHandler {
 public:
@@ -24,12 +62,15 @@ public:
     }
 };
 
-std::shared_ptr<Scene> createScene(){
+std::shared_ptr<Scene> Main::createScene(){
     auto res = std::make_shared<Scene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = {10,1.7f,-5};
+    cameraObj->getComponent<Transform>()->position = {20,1.0f,11};
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
+    cameraObj->addComponent<PersonController>(); // adding the controller to the camera (the player)
+    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.1f, 0);
+    // cameraObj->addComponent<RigidBody>();
     
 
     
@@ -59,14 +100,13 @@ std::shared_ptr<Scene> createScene(){
     auto cubeMR = cube->addComponent<ModelRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
-    res->physicsCube = cube;
 
     auto rayTestCube = res->createGameObject("Ray Tested Cube");
     rayTestCube->getComponent<Transform>()->position = {0,0,0};
     rayTestCube->getComponent<Transform>()->rotation = {0,0,0};
     auto rayTestCubeMR = rayTestCube->addComponent<ModelRenderer>();
     rayTestCubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    res->rayTestedCube = rayTestCube;
+    cameraObj->getComponent<PersonController>()->rayTestedCube = rayTestCube;
     //Load Map
     res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
     // res->loadMap("level0.json",res);
@@ -76,11 +116,12 @@ std::shared_ptr<Scene> createScene(){
 }
 
 int main(){
-    // std::cout << "Hello world" << "\n";
+   /* // std::cout << "Hello world" << "\n";
     using namespace sre;
     SDLRenderer r;
     r.init();
     auto scene = createScene();
+
 
     r.frameUpdate = [&](float deltaTime){
         scene->update(deltaTime);
@@ -88,21 +129,19 @@ int main(){
     r.frameRender = [&]{
         scene->render();
     };
-    r.mouseEvent = [&](SDL_Event &e) {
-        float x = e.motion.x;
-        float y = e.motion.y;
-        glm::vec2 mousePos;
-        mousePos.x = x;
-        mousePos.y = y;
-        scene->cameras[0]->TestRay(scene->rayTestedCube, mousePos);
-        /*glm::vec3 startPos = scene->cameras[0]->getCamera().getPosition();
-        glm::vec3 endPos = startPos;
-        endPos.z += 15.0f;
-
-        scene->physicsCube->getComponent<BulletPhysics>()->RaycastWorld(startPos,endPos);*/
+    r.keyEvent = [&](SDL_Event &e) {
+        scene->onKey(e); //worked! // asks scene to manage the onKey
+        // fpsController.onKey(e);
+        // gameManager->onKey(e);
     };
-
+    r.mouseEvent = [&](SDL_Event &e) {
+        // if (!lockRotation) //carry over from Wolf3D... not sure what it's there for
+        // {
+            scene->onMouse(e); // asks scene to manage the mouse thing
+        // }
+    };
     r.startEventLoop();
-
+*/
+    new Main();
     return 0;
 }

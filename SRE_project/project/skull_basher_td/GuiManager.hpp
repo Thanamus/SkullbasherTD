@@ -9,7 +9,7 @@ class GuiManager
 public:
     explicit GuiManager(std::shared_ptr<GameManager> gameManager);
     void onGui();
-
+    std::shared_ptr<GameManager> gameManager;
 private:
     void guiGameInfo();
     void guiTowers();
@@ -30,7 +30,7 @@ private:
     glm::ivec2 heroSize;
 
     ImVec4 selectedBorderColor;
-    std::shared_ptr<GameManager> gameManager;
+
 
     float centerText(ImVec2 window, std::string text);
 

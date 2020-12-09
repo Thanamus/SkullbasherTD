@@ -49,3 +49,35 @@ const std::vector<std::shared_ptr<Component>> &GameObject::getComponents() {
 Scene *GameObject::getScene() {
     return scene;
 }
+
+GameObject *GameObject::getParent() const {
+    return parent;
+}
+
+void GameObject::setParent(GameObject *parent) {
+    if (GameObject::parent != nullptr){
+        auto& parentChildren = GameObject::parent->children;
+        auto pos = std::find(parentChildren.begin(), parentChildren.end(), this);
+        if (pos != parentChildren.end()){
+            parentChildren.erase(pos);
+        }
+    }
+    GameObject::parent = parent;
+    if (parent != nullptr){
+        parent->children.push_back(this);
+    }
+}
+
+const std::vector<GameObject *> &GameObject::getChildren() {
+    return children;
+}
+
+const GameObject *GameObject::getChildByName(const std::string& childName) {
+    if(!children.empty()) {
+        for(auto c : children) {
+            if (c->getName() == childName)
+                return c;
+        }
+    }
+    return nullptr;
+}

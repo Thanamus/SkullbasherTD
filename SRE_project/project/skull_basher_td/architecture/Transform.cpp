@@ -15,8 +15,10 @@
 using namespace sre;
 
 Transform::Transform(GameObject* gameObject)
-:Component(gameObject)
-{
+: Component(gameObject) {
+    if(gameObject->getParent() && gameObject->getComponent<Transform>().get()) {
+        setParent(gameObject->getComponent<Transform>().get());
+    }
 }
 
 glm::mat4 Transform::localTransform() {

@@ -14,7 +14,7 @@
 #include "sre/RenderPass.hpp"
 
 //fps camera stuff
-// #include "FirstPersonController.hpp"
+#include "PersonController.hpp"
 
 //WorldMap Imports
     //WorldObject
@@ -46,7 +46,8 @@ Scene::~Scene(){
 void Scene::update(float deltaTime){
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
-    tempCam->getComponent<Camera>()->update(deltaTime);
+    // tempCam->getComponent<Camera>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->update(deltaTime);
     
 
     for (auto& p : this->rigidBodies){
@@ -55,7 +56,26 @@ void Scene::update(float deltaTime){
     for (auto& u : updatables){
         u->update(deltaTime);
     }
+
+    if(gameManager != nullptr)
+        ToggleLockMouse();
+    //if (gameManager->quit)
+        //r.stopEventLoop();
 }
+
+void Scene::onKey(SDL_Event &event){
+    auto tempCam = this->cameras[0]->getGameObject(); // gets the main camera object and gets the game object from that
+    // tempCam->getComponent<Camera>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->onKey(event); //camera game object has a PersonController
+    gameManager->onKey(event);
+}
+
+void Scene::onMouse(SDL_Event &event){
+    auto tempCam = this->cameras[0]->getGameObject(); //gets the main camera 
+    // tempCam->getComponent<Camera>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->onMouse(event); //triggers the onMouse event handling in the Person controller
+}
+
 
 void Scene::render(){
     if (debugPhysics){
@@ -90,6 +110,7 @@ void Scene::render(){
             bulletPhysics->debugDraw(rp);
         }
         if (c->debugGui){
+            guiManager->onGui();
             ImGui::Begin(name.c_str());
             ImGui::Checkbox("Debug Physics", &debugPhysics);
             ImGui::ColorEdit3("Ambient light", &(ambientColor.x));
@@ -107,6 +128,9 @@ void Scene::render(){
             ImGui::End();
         }
     }
+
+    //guiManager->onGui();
+
 }
 
 std::shared_ptr<GameObject> Scene::createGameObject(std::string name){
@@ -358,6 +382,12 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
     // std::cout << "ceilColor.x: " << ceilColor.x << "\n";
 
 }
+void Scene::ToggleLockMouse()
+{
+    //SDL_SetWindowGrab(r.getSDLWindow(), gameManager->paused ? SDL_FALSE : SDL_TRUE);
+    //SDL_SetRelativeMouseMode(gameManager->paused ? SDL_FALSE : SDL_TRUE);
+}
+
 
 // }
 

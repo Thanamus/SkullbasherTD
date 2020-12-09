@@ -7,9 +7,10 @@
 #include "Renderable.hpp"
 #include "Updatable.hpp"
 #include "glm/glm.hpp"
+#include "../GameManager.hpp"
+#include "../GuiManager.hpp"
 #include <vector>
 #include <string>
-
 
 
 class Camera;
@@ -42,10 +43,12 @@ public:
     void loadMap(std::string filename, std::shared_ptr<Scene> res);
     // load map()
     // add stuff we need for load map
-    std::shared_ptr<GameObject> rayTestedCube;
-    std::shared_ptr<GameObject> physicsCube;
     std::vector<Camera*> cameras;
-    //
+
+    void onKey(SDL_Event &event);
+    void onMouse(SDL_Event &event);
+    std::shared_ptr<GuiManager> guiManager;
+    std::shared_ptr<GameManager> gameManager;
 private:
     std::string name;
     bool debugPhysics = true;
@@ -64,6 +67,8 @@ private:
 
     friend class GameObject;
     friend class RigidBody;
+
+    void ToggleLockMouse();
 
     //World Map stuff
     // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
