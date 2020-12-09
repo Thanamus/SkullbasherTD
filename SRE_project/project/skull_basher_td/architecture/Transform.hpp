@@ -13,7 +13,6 @@ class Transform : public Component {
 public:
     Transform(GameObject* gameObject);
 
-    glm::vec4 color;
     std::string name;
 
     glm::vec3 position = glm::vec3(0,0,0);

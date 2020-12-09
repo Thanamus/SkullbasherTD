@@ -66,7 +66,7 @@ sre::Camera Camera::getCamera() {
 //doing this allows us to control the camera
 void Camera::update(float deltaTime){
     auto thing = this->getGameObject()->getComponent<Transform>();
-    thing->position += 0.1*deltaTime;
+//    thing->position += 0.1*deltaTime;
 }
 
 

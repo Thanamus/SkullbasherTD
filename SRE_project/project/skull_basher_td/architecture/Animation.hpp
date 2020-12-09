@@ -7,31 +7,32 @@
 #include "glm/glm.hpp"
 
 struct Keyframe {
-    glm::vec3 position;
+    glm::vec3 translate;
     glm::vec3 scale;
-    glm::vec3 rotation;
+    glm::vec3 rotate;
     float timeDuration; // duration of transition to keyframe in seconds
 };
 
 class Animation {
 private:
     std::vector<Keyframe> keyframes;
-    unsigned int currentFrameIndex;
-    float currentFrameTime;
+    unsigned int currentKeyframeIndex;
+    float currentKeyframeTime;
     bool looping;
 
     void nextFrame();
 
 public:
     Animation();
+    explicit Animation(bool looping);
 
-    unsigned int getCurrentFrameIndex() const;
+    unsigned int getCurrentKeyframeIndex() const;
 
-    float getCurrentFrameTime() const;
+    float getCurrentKeyframeTime() const;
 
-    void addFrame(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation, float timeDuration);
+    void addFrame(glm::vec3 translate, glm::vec3 scale, glm::vec3 rotate, float timeDuration);
 
-    const Keyframe* getCurrentFrame() const;
+    const Keyframe* getCurrentKeyframe() const;
 
     bool updateFrame(float deltaTime);
 

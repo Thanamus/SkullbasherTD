@@ -8,6 +8,7 @@
 #include "RigidBody.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
+#include "Animator.hpp"
 
 class CustomCollisionHandler : public Component, public CollisionHandler {
 public:
@@ -29,9 +30,9 @@ std::shared_ptr<Scene> createScene(){
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
     cameraObj->getComponent<Transform>()->position = {10,1.7f,-5};
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
-    
 
-    
+
+
     auto sphereObj = res->createGameObject("Sphere");
     auto sphereMR = sphereObj->addComponent<ModelRenderer>();
     sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
@@ -53,11 +54,16 @@ std::shared_ptr<Scene> createScene(){
     auto cube = res->createGameObject("Cube");
     cube->getComponent<Transform>()->position = {10,4,10};
     cube->getComponent<Transform>()->rotation = {30,30,10};
-    auto cubeRigidBody = cube->addComponent<RigidBody>();
-    cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
+    //auto cubeRigidBody = cube->addComponent<RigidBody>(); todo: re-enable
+    //cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
     auto cubeMR = cube->addComponent<ModelRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
+    auto cubeAN = cube->addComponent<Animator>();
+    auto rotate = std::make_shared<Animation>(false);
+    rotate->addFrame(glm::vec3( 0.5, 0, 0), glm::vec3(1,1,1), glm::vec3(0, 90, 0), 5.f);
+    cubeAN->addAnimation("translate", rotate);
+    cubeAN->setAnimationState("translate");
 
     //Load Map
     res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);

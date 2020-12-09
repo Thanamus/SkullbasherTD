@@ -18,6 +18,7 @@ public:
     void initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeDist);
     void initRigidBody(btRigidBody::btRigidBodyConstructionInfo info);
     btRigidBody* getRigidBody();
+
 private:
     int collisionStartFrameId;
     int collisionStartUpdateFrameId;

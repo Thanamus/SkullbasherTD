@@ -47,11 +47,11 @@ void Scene::update(float deltaTime){
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
     tempCam->getComponent<Camera>()->update(deltaTime);
-    
 
-    for (auto& p : this->rigidBodies){
+    for (auto& p : rigidBodies){
         p->updateTransformFromPhysicsWorld();
     }
+
     for (auto& u : updatables){
         u->update(deltaTime);
     }
@@ -125,6 +125,7 @@ void Scene::addComponent(Component *component) {
     }
     auto updatable = dynamic_cast<Updatable*>(component);
     if (updatable) {
+        std::cout << "hey! added an updatable " << component->getGameObject()->getName() << std::endl;
         updatables.push_back(updatable);
     }
     auto light = dynamic_cast<Light*>(component);
