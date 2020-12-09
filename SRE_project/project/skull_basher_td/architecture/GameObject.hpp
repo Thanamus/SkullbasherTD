@@ -32,8 +32,15 @@ public:
     Scene* getScene();
 
     const std::vector<CollisionHandler*>& getCollisionHandlers();
+
+    GameObject *getParent() const;
+
+    void setParent(GameObject *parent);
+    const std::vector<GameObject*> & getChildren();
 private:
     Scene* scene;
+    GameObject* parent = nullptr;
+    std::vector<GameObject*> children;
     std::vector<std::shared_ptr<Component>> components;
     std::vector<CollisionHandler*> collisionHandlers;
     GameObject(std::string name, Scene* scene);

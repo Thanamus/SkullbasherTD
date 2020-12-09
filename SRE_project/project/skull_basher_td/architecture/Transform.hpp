@@ -7,8 +7,7 @@
 #include <string>
 #include <vector>
 #include "Component.hpp"
-
-class GameObject;
+#include "GameObject.hpp"
 
 class Transform : public Component {
 public:
