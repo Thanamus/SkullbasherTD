@@ -37,11 +37,6 @@ Model::ModelBuilder &Model::ModelBuilder::withOBJ(const std::string& file)
     auto path = file.substr(0, pos);
     auto filename = file.substr(pos);
     ModelBuilder::mesh = sre::ModelImporter::importObj(path, filename, materials);
-    std::cout << "deb2 " << materials.size() << std::endl;
-    for (auto m : materials)
-    {
-        std::cout << m->getName() << std::endl;
-    }
     return *this;
 }
 
