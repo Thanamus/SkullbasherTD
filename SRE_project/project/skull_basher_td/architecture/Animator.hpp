@@ -11,11 +11,11 @@ public:
     explicit Animator(GameObject* gameObject);
     ~Animator() override = default;
 
-    void addAnimation(const std::string& state, std::shared_ptr<Animation> animation);
+    void update(float deltaTime);
+
+    void addAnimation(const std::string& state, const std::shared_ptr<Animation>& animation);
 
     void setAnimationState(std::string state);
-
-
 private:
     ModelRenderer* modelRenderer;
     std::pair<std::string, std::shared_ptr<Animation>> currentAnimation;

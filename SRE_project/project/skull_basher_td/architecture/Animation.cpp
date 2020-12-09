@@ -5,15 +5,17 @@
 #include "Animation.hpp"
 
 Animation::Animation() : keyframes(0), currentFrameIndex(0),
-                         currentFrameTime(0.f)
+                         currentFrameTime(0.f), looping(false)
 {
 
 }
 
-void Animation::addFrame(glm::mat4 transform, float timeDuration)
+void Animation::addFrame(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation, float timeDuration)
 {
     Keyframe data{};
-    data.transform = transform;
+    data.position = position;
+    data.scale = scale;
+    data.rotation = position;
     data.timeDuration = timeDuration;
     keyframes.push_back(data);
 }
@@ -30,6 +32,9 @@ const Keyframe* Animation::getCurrentFrame() const
 bool Animation::updateFrame(float deltaTime) {
     if(!keyframes.empty()) {
         currentFrameTime += deltaTime;
+        // stops animating if looping is false
+        if(hasEnded())
+            return false;
         if(currentFrameTime >= keyframes[currentFrameIndex].timeDuration) {
             currentFrameTime = 0.f;
             nextFrame();
@@ -54,4 +59,8 @@ unsigned int Animation::getCurrentFrameIndex() const {
 
 float Animation::getCurrentFrameTime() const {
     return currentFrameTime;
+}
+
+bool Animation::hasEnded() {
+    return !looping && (currentFrameIndex == (keyframes.size() - 1));
 }

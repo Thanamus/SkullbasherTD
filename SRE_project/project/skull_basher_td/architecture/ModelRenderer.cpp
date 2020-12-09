@@ -72,3 +72,11 @@ void ModelRenderer::debugGUI() {
     }
 }
 
+Transform *ModelRenderer::getTransform() const {
+    return transform;
+}
+
+void ModelRenderer::setTransform(Transform *transform) {
+    ModelRenderer::transform = transform;
+}
+
