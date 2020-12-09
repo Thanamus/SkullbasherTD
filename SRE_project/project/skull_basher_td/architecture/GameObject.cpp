@@ -71,3 +71,13 @@ void GameObject::setParent(GameObject *parent) {
 const std::vector<GameObject *> &GameObject::getChildren() {
     return children;
 }
+
+const GameObject *GameObject::getChildByName(const std::string& childName) {
+    if(!children.empty()) {
+        for(auto c : children) {
+            if (c->getName() == childName)
+                return c;
+        }
+    }
+    return nullptr;
+}

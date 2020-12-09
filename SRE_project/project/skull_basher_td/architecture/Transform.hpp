@@ -38,7 +38,6 @@ public:
     void lookAt(Transform* at,glm::vec3 up);
 private:
     Transform * parent = nullptr;
-    sre::Mesh* mesh = nullptr;
     std::vector<Transform*> children;
 };
 

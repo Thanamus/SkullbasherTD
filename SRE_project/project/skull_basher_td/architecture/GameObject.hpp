@@ -37,6 +37,7 @@ public:
 
     void setParent(GameObject *parent);
     const std::vector<GameObject*> & getChildren();
+    const GameObject* getChildByName(const std::string& childName);
 private:
     Scene* scene;
     GameObject* parent = nullptr;

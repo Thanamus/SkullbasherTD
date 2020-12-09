@@ -10,16 +10,15 @@
 
 using namespace sre;
 
-ModelRenderer::ModelRenderer(GameObject* gameObject) : Component(gameObject), transform(gameObject->getComponent<Transform>().get()) {
+ModelRenderer::ModelRenderer(GameObject* gameObject)
+: Component(gameObject), transform(gameObject->getComponent<Transform>().get()) {
     std::vector<std::shared_ptr<Material>> materials;
     materials.push_back(sre::Shader::getStandardBlinnPhong()->createMaterial());
     static auto sharedMeshCube = Mesh::create().withCube().build();
     model = Model::create().withMesh(sharedMeshCube).withMaterials(materials).build();
 }
 
-ModelRenderer::~ModelRenderer() {
-
-}
+ModelRenderer::~ModelRenderer() = default;
 
 void ModelRenderer::setModel(std::shared_ptr<Model> model) {
     ModelRenderer::model = std::move(model);
