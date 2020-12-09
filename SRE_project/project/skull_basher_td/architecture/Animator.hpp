@@ -20,11 +20,10 @@ public:
 
     void updateNextTransform(glm::vec3 translate, glm::vec3 scale, glm::vec3 rotate);
 private:
-    ModelRenderer* modelRenderer;
+    Transform* transform;
     std::pair<std::string, std::shared_ptr<Animation>> currentAnimation;
     std::map<std::string, std::shared_ptr<Animation>> animations; // animations are given a name; can be later defined in an an animation json/script/whatever
     glm::vec3 nextPosition;
     glm::vec3 nextScale;
     glm::vec3 nextRotation;
-    int lastIndex;
 };

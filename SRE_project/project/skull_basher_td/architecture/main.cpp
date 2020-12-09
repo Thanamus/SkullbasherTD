@@ -60,10 +60,10 @@ std::shared_ptr<Scene> createScene(){
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
     auto cubeAN = cube->addComponent<Animator>();
-    auto rotate = std::make_shared<Animation>(false);
-    rotate->addFrame(glm::vec3( 0.5, 0, 0), glm::vec3(1,1,1), glm::vec3(0, 90, 0), 5.f);
-    cubeAN->addAnimation("translate", rotate);
-    cubeAN->setAnimationState("translate");
+    auto rotate = std::make_shared<Animation>(true);
+    rotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(0, 90, 0), 5.f);
+    cubeAN->addAnimation("rotate", rotate);
+    cubeAN->setAnimationState("rotate");
 
     //Load Map
     res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);

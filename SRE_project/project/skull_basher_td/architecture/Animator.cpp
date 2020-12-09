@@ -5,12 +5,11 @@
 #include "Animator.hpp"
 Animator::Animator(GameObject* gameObject)
 : Component(gameObject),
-modelRenderer(gameObject->getComponent<ModelRenderer>().get()),
+transform(gameObject->getComponent<Transform>().get()),
 currentAnimation("none", new Animation()),
-lastIndex(-1),
-nextPosition(modelRenderer->getTransform()->position),
-nextScale(modelRenderer->getTransform()->scale),
-nextRotation(modelRenderer->getTransform()->rotation) {
+nextPosition(transform->position),
+nextScale(transform->scale),
+nextRotation(transform->rotation) {
 }
 
 void Animator::addAnimation(std::string state, std::shared_ptr<Animation> animation) {
@@ -32,28 +31,23 @@ void Animator::setAnimationState(const std::string& state) {
 void Animator::update(float deltaTime) {
     if(currentAnimation.first != "none" && currentAnimation.second->hasEnded(deltaTime)) {
         setAnimationState("none");
-        lastIndex = -1;
         return;
     }
 
     if(currentAnimation.first != "none") {
-        bool newFrame = currentAnimation.second->updateFrame(deltaTime);
-         if(newFrame) {
+        bool playing = currentAnimation.second->updateFrame(deltaTime);
+         if(playing) {
              auto keyframe = currentAnimation.second->getCurrentKeyframe();
              std::cout << currentAnimation.second->getCurrentKeyframeTime() << std::endl;
              // prep for next frame
-             auto currIndex = currentAnimation.second->getCurrentKeyframeIndex();
-             if(lastIndex != currIndex) {
-                 lastIndex = currIndex;
+             if(currentAnimation.second->getCurrentKeyframeTime() == 0) {
                  updateNextTransform(keyframe->translate, keyframe->scale, keyframe->rotate);
              }
-             auto transform = modelRenderer->getTransform();
              auto t = glm::smoothstep(0.0f, keyframe->timeDuration, currentAnimation.second->getCurrentKeyframeTime());
              transform->position = glm::mix(transform->position, nextPosition, t);
              transform->scale = glm::mix(transform->scale, nextScale, t);
              transform->rotation = glm::mix(transform->rotation, nextRotation, t);
-         } else
-             lastIndex = -1;
+         }
     }
 }
 
