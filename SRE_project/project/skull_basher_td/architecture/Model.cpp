@@ -4,37 +4,39 @@
 
 #include "Model.hpp"
 
+#include <utility>
+
 Model::ModelBuilder &Model::ModelBuilder::withName(std::string name)
 {
-    this->name = name;
+    ModelBuilder::name = std::move(name);
     return *this;
 }
 
 Model::ModelBuilder &Model::ModelBuilder::withMaterials(std::vector<std::shared_ptr<sre::Material>> materials)
 {
-    this->materials.clear();
-    this->materials = materials;
+    ModelBuilder::materials.clear();
+    ModelBuilder::materials = std::move(materials);
     return *this;
 }
 
 Model::ModelBuilder &Model::ModelBuilder::withTransform(glm::mat4 transform)
 {
-    this->transform = transform;
+    ModelBuilder::transform =  transform;
     return *this;
 }
 
 Model::ModelBuilder &Model::ModelBuilder::withMesh(std::shared_ptr<sre::Mesh> mesh)
 {
-    this->mesh = mesh;
+    ModelBuilder::mesh = std::move(mesh);
     return *this;
 }
 
-Model::ModelBuilder &Model::ModelBuilder::withOBJ(std::string file)
+Model::ModelBuilder &Model::ModelBuilder::withOBJ(const std::string& file)
 {
     auto pos = file.find_last_of(PATH_SEPARATOR) + 1;
     auto path = file.substr(0, pos);
     auto filename = file.substr(pos);
-    this->mesh = sre::ModelImporter::importObj(path, filename, materials);
+    ModelBuilder::mesh = sre::ModelImporter::importObj(path, filename, materials);
     std::cout << "deb2 " << materials.size() << std::endl;
     for (auto m : materials)
     {
@@ -61,10 +63,10 @@ Model::ModelBuilder Model::create()
 Model::Model(std::string name, std::shared_ptr<sre::Mesh> mesh, std::vector<::std::shared_ptr<sre::Material>> materials,
              glm::mat4 transform = glm::mat4(0))
 {
-    this->name = name;
-    this->mesh = mesh;
-    this->materials = materials;
-    this->transform = transform;
+    Model::name = std::move(name);
+    Model::mesh = std::move(mesh);
+    Model::materials = std::move(materials);
+    Model::transform = transform;
 }
 
 const std::string &Model::getName() const
@@ -74,7 +76,7 @@ const std::string &Model::getName() const
 
 void Model::setName(const std::string &name)
 {
-    this->name = name;
+    Model::name = name;
 }
 
 std::shared_ptr<sre::Mesh> &Model::getMesh()

@@ -36,10 +36,10 @@ public:
 
     void setAmbientColor(const glm::vec3 &ambientColor);
 
-    const std::vector<std::shared_ptr<GameObject>> getGameObjects();
+    std::vector<std::shared_ptr<GameObject>> getGameObjects();
 
     //World Map stuff
-    void loapMap(std::string filename, std::shared_ptr<Scene> res);
+    void loadMap(std::string filename, std::shared_ptr<Scene> res);
     // load map()
     // add stuff we need for load map
 

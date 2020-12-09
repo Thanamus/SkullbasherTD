@@ -8,7 +8,7 @@
 #include "Camera.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
-#include "MeshRenderer.hpp"
+#include "ModelRenderer.hpp"
 #include "Light.hpp"
 #include "BulletPhysics.hpp"
 #include "sre/RenderPass.hpp"
@@ -177,12 +177,12 @@ void Scene::setAmbientColor(const glm::vec3 &ambientColor) {
     Scene::ambientColor = ambientColor;
 }
 
-const std::vector<std::shared_ptr<GameObject>> Scene::getGameObjects() {
+std::vector<std::shared_ptr<GameObject>> Scene::getGameObjects() {
     return gameObjects;
 }
 
 
-void Scene::loapMap(std::string filename, std::shared_ptr<Scene> res){
+void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
     // original
     // push back one row of tiles (a vector)
@@ -246,6 +246,7 @@ void Scene::loapMap(std::string filename, std::shared_ptr<Scene> res){
 
             bool isbuildableHolder = false;
             bool isPathHolder = false;
+            std::shared_ptr<Model> modelHolder;
             std::shared_ptr<sre::Mesh> meshHolder;
             std::shared_ptr<sre::Material> matHolder;
             
@@ -270,31 +271,35 @@ void Scene::loapMap(std::string filename, std::shared_ptr<Scene> res){
                     isbuildableHolder = d["MapLookup"][c]["isbuildable"].GetBool();
                     isPathHolder = d["MapLookup"][c]["isPath"].GetBool();
 
-                    std::string meshName = d["MapLookup"][c]["object"].GetString();
+                    std::string modelName = d["MapLookup"][c]["object"].GetString();
 
                     std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
                     //Load the mesh from file
                     // meshHolder = sre::ModelImporter::importObj(".\\Assets\\WorldMapAssets", "Floor01.obj", materialsLoaded);
-                    meshHolder = sre::ModelImporter::importObj(mapAssetFolderLoc, meshName, materialsLoaded);
+                    // OLD: meshHolder = sre::ModelImporter::importObj(mapAssetFolderLoc, modelName, materialsLoaded);
+                    // NEW
+                    auto path = mapAssetFolderLoc + "\\" + modelName;
+                    modelHolder = Model::create().withOBJ(path).withName(modelName).build();
                     // std::cout << "Asset folder: " << mapAssetFolderLoc << "\n";
 
                     // //create the world object map tile
                     // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder); 
 
                     //create game object
-                    auto mapTile = res->createGameObject(meshName);
-                    // std::cout << "mesh Name: " << meshName << "\n";
-                    auto mapTileMR = mapTile->addComponent<MeshRenderer>();
+                    auto mapTile = res->createGameObject(modelName);
+                    // std::cout << "mesh Name: " << modelName << "\n";
+                    auto mapTileMR = mapTile->addComponent<ModelRenderer>();
                     mapTile->addComponent<WorldObject>();
                     mapTile->getComponent<WorldObject>()->setBuildable(isbuildableHolder);
                     mapTile->getComponent<WorldObject>()->setPath(isPathHolder);
 
                     bool test = mapTile->getComponent<WorldObject>()->getBuildableStatus();
                     // std::cout << "is buildable test: " << test  << "\n";
-
-                    mapTileMR->setMesh(meshHolder);
-                    mapTileMR->setMaterial(materialsLoaded[0]);
-
+                    // OLD
+//                    mapTileMR->setMesh(meshHolder);
+//                    mapTileMR->setMaterials(materialsLoaded);
+                    // NEW
+                    mapTileMR->setModel(modelHolder);
                     float xOffset = d["MapLookup"][c]["posOffset"]["x"].GetFloat();
                     float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();;
                     float zOffset = d["MapLookup"][c]["posOffset"]["z"].GetFloat();;
@@ -308,7 +313,7 @@ void Scene::loapMap(std::string filename, std::shared_ptr<Scene> res){
                     // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
 
                     mapTile->getComponent<Transform>()->scale = scaleHolder;
-                    auto bounds = meshHolder->getBoundsMinMax();
+                    auto bounds = mapTileMR->getMesh()->getBoundsMinMax();
                     
                     float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/4;
                     float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/4;

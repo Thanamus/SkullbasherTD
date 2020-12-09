@@ -11,9 +11,9 @@ ENDIF(WIN32)
 
 # Add hpp and cpp files to Snake variable
 file(GLOB SkullBasherTD
-        "*.hpp"
-        "*.h"
-        "*.cpp"
+#        "*.hpp"
+#        "*.h"
+#        "*.cpp"
         "./architecture/*.hpp"
         "./architecture/*.h"
         "./architecture/*.cpp"

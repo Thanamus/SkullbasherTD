@@ -3,7 +3,7 @@
 #include "Scene.hpp"
 #include "GameObject.hpp"
 #include "Camera.hpp"
-#include "MeshRenderer.hpp"
+#include "ModelRenderer.hpp"
 #include "Light.hpp"
 #include "RigidBody.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
@@ -33,14 +33,14 @@ std::shared_ptr<Scene> createScene(){
 
     
     auto sphereObj = res->createGameObject("Sphere");
-    auto sphereMR = sphereObj->addComponent<MeshRenderer>();
+    auto sphereMR = sphereObj->addComponent<ModelRenderer>();
     sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
     sphereObj->getComponent<Transform>()->position = {10,1.0,10};
     sphereObj->getComponent<Transform>()->position = {10,1.0,10};
     sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0);
 
     // auto planeObj = res->createGameObject("Plane");
-    // auto plameMR = planeObj->addComponent<MeshRenderer>();
+    // auto plameMR = planeObj->addComponent<ModelRenderer>();
     // plameMR->setMesh(sre::Mesh::create().withQuad(10).build());
     // planeObj->getComponent<Transform>()->rotation = {-90,0,0};
     // auto planePhysObj = res->createGameObject("PlanePhys");
@@ -55,13 +55,13 @@ std::shared_ptr<Scene> createScene(){
     cube->getComponent<Transform>()->rotation = {30,30,10};
     auto cubeRigidBody = cube->addComponent<RigidBody>();
     cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
-    auto cubeMR = cube->addComponent<MeshRenderer>();
+    auto cubeMR = cube->addComponent<ModelRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
 
     //Load Map
-    res->loapMap(".\\maps\\SkullBasherTDLevel0.json",res);
-    // res->loapMap("level0.json",res);
+    res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
+    // res->loadMap("level0.json",res);
 
 
     return res;
