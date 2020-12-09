@@ -8,6 +8,9 @@
 #include "glm/gtx/string_cast.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 
+using namespace std;
+using namespace glm;
+
 Camera::Camera(GameObject * gameObject)
 :Component(gameObject)
 {
@@ -58,6 +61,33 @@ Ray Camera::screenPointToRay(glm::vec2 p) {
     return ray;
 }
 
+void Camera::TestRay(std::shared_ptr<GameObject> rayTestedCube, glm::vec2 mousePos)
+{
+    auto size = sre::Renderer::instance->getDrawableSize();
+    auto ray = screenPointToRay(glm::vec2(size.x / 2, size.y / 2));
+
+    glm::vec3 tDirection = transform->rotation * ray.direction;
+    //glm::vec3 tDirection = transform->rotation * glm::vec3 (0,-1,0);
+
+    glm::vec3 target = transform->position + tDirection * 10.0f;
+    //ray.point.z = ray.point.z + 15;
+
+    /*glm::vec3 cameraFront = glm::vec3(cos(glm::radians(transform->rotation.x)),0,glm::sin(glm::radians(transform->rotation.z)));
+
+    glm::vec3 direction;
+    direction.x = glm::cos(radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = glm::sin(glm::radians(pitch));
+    direction.z = glm::sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraFront = glm::normalize(direction);*/
+
+    //test.z += 10;
+
+    glm::vec3 test = transform->position+glm::normalize(transform->rotation)*5.0f;
+
+    rayTestedCube->getComponent<Transform>()->position = test;
+}
+
+
 sre::Camera Camera::getCamera() {
     return camera;
 }
@@ -65,8 +95,8 @@ sre::Camera Camera::getCamera() {
 
 //doing this allows us to control the camera
 void Camera::update(float deltaTime){
-    auto thing = this->getGameObject()->getComponent<Transform>();
-    thing->position += 0.1*deltaTime;
+    /*auto thing = this->getGameObject()->getComponent<Transform>();
+    thing->position += 0.1*deltaTime;*/
 }
 
 

@@ -42,14 +42,15 @@ public:
     void loadMap(std::string filename, std::shared_ptr<Scene> res);
     // load map()
     // add stuff we need for load map
-
+    std::shared_ptr<GameObject> rayTestedCube;
+    std::shared_ptr<GameObject> physicsCube;
+    std::vector<Camera*> cameras;
     //
 private:
     std::string name;
     bool debugPhysics = true;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     glm::vec3 ambientColor = {0.5f,0.5f,0.5f};
-    std::vector<Camera*> cameras;
     std::vector<Renderable*> renderables;
     std::vector<Updatable*> updatables;
     std::vector<RigidBody*> rigidBodies;

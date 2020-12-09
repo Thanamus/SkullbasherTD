@@ -74,6 +74,7 @@ void Scene::render(){
     for (auto c : cameras){
         c->bind();
 
+
         auto rp = sre::RenderPass::create()
                 .withCamera(c->getCamera())
                 .withClearColor(c->clearColorBuffer, c->clearColor)

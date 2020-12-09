@@ -8,6 +8,7 @@
 #include "RigidBody.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
+#include "BulletPhysics.hpp"
 
 class CustomCollisionHandler : public Component, public CollisionHandler {
 public:
@@ -58,7 +59,14 @@ std::shared_ptr<Scene> createScene(){
     auto cubeMR = cube->addComponent<ModelRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
+    res->physicsCube = cube;
 
+    auto rayTestCube = res->createGameObject("Ray Tested Cube");
+    rayTestCube->getComponent<Transform>()->position = {0,0,0};
+    rayTestCube->getComponent<Transform>()->rotation = {0,0,0};
+    auto rayTestCubeMR = rayTestCube->addComponent<ModelRenderer>();
+    rayTestCubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    res->rayTestedCube = rayTestCube;
     //Load Map
     res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
     // res->loadMap("level0.json",res);
@@ -79,6 +87,19 @@ int main(){
     };
     r.frameRender = [&]{
         scene->render();
+    };
+    r.mouseEvent = [&](SDL_Event &e) {
+        float x = e.motion.x;
+        float y = e.motion.y;
+        glm::vec2 mousePos;
+        mousePos.x = x;
+        mousePos.y = y;
+        scene->cameras[0]->TestRay(scene->rayTestedCube, mousePos);
+        /*glm::vec3 startPos = scene->cameras[0]->getCamera().getPosition();
+        glm::vec3 endPos = startPos;
+        endPos.z += 15.0f;
+
+        scene->physicsCube->getComponent<BulletPhysics>()->RaycastWorld(startPos,endPos);*/
     };
 
     r.startEventLoop();

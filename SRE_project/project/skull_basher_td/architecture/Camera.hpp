@@ -12,6 +12,7 @@
 #include "Renderable.hpp"
 #include "Ray.hpp"
 
+
 class Camera : public Component {
 public:
     explicit Camera(GameObject * gameObject);
@@ -39,6 +40,7 @@ public:
     Ray screenPointToRay(glm::vec2 point);
 
     sre::Camera getCamera();
+    void TestRay(std::shared_ptr<GameObject> rayTestedCube, glm::vec2 mousePos);
 private:
     Transform* transform;
     sre::Camera camera;

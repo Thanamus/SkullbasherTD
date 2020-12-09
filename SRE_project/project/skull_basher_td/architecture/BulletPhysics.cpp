@@ -67,6 +67,8 @@ bool contactDestroyedCallback(void * data) {
     delete id;
     return true;
 }
+
+// Performs raycasting on the world and returns the point of collision
 }
 
 BulletPhysics::BulletPhysics() {
@@ -112,4 +114,21 @@ void BulletPhysics::debugDrawNewFrame() {
 
 void BulletPhysics::debugDraw(sre::RenderPass &renderPass) {
     debugDrawObj.render(renderPass);
+}
+
+bool BulletPhysics::RaycastWorld(const glm::vec3 &Start, glm::vec3 &End) {
+
+    btCollisionWorld::ClosestRayResultCallback RayCallback(btVector3(Start.x, Start.y, Start.z), btVector3(End.x, End.y, End.z));
+    //RayCallback.m_collisionFilterMask = came;
+
+    // Perform raycast
+    world->rayTest(btVector3(Start.x, Start.y, Start.z), btVector3(End.x, End.y, End.z), RayCallback);
+    if(RayCallback.hasHit()) {
+
+        btVector3 target = RayCallback.m_hitPointWorld;
+        btVector3 Normal = RayCallback.m_hitNormalWorld;
+        return true;
+    }
+
+    return false;
 }
