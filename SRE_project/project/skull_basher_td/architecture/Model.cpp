@@ -56,7 +56,7 @@ Model::ModelBuilder Model::create()
 }
 
 Model::Model(std::string name, std::shared_ptr<sre::Mesh> mesh, std::vector<::std::shared_ptr<sre::Material>> materials,
-             glm::mat4 transform = glm::mat4(0))
+             glm::mat4 transform)
 {
     Model::name = std::move(name);
     Model::mesh = std::move(mesh);

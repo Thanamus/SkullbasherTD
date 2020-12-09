@@ -31,7 +31,7 @@ private:
     std::string name;
     std::shared_ptr<sre::Mesh> mesh;
     std::vector<std::shared_ptr<sre::Material>> materials;
-    glm::mat4 transform{};
+    glm::mat4 transform = glm::mat4(1.0f);
 
     Model(std::string name, std::shared_ptr<sre::Mesh> mesh, std::vector<::std::shared_ptr<sre::Material>> materials, glm::mat4 transform);
 public:
@@ -51,7 +51,7 @@ public:
         std::string name;
         std::shared_ptr<sre::Mesh> mesh;
         std::vector<std::shared_ptr<sre::Material>> materials;
-        glm::mat4 transform{};
+        glm::mat4 transform = glm::mat4(1.0f);
 
         ModelBuilder() = default;
         ModelBuilder(const ModelBuilder&) = default;

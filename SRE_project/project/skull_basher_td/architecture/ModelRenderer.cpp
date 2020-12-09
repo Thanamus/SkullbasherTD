@@ -10,8 +10,7 @@
 
 using namespace sre;
 
-ModelRenderer::ModelRenderer(GameObject* gameObject)
-:Component(gameObject), transform(gameObject->getComponent<Transform>().get()) {
+ModelRenderer::ModelRenderer(GameObject* gameObject) : Component(gameObject), transform(gameObject->getComponent<Transform>().get()) {
     std::vector<std::shared_ptr<Material>> materials;
     materials.push_back(sre::Shader::getStandardBlinnPhong()->createMaterial());
     static auto sharedMeshCube = Mesh::create().withCube().build();
@@ -47,7 +46,8 @@ void ModelRenderer::setMaterials(std::vector<std::shared_ptr<sre::Material>> mat
 }
 
 void ModelRenderer::draw(sre::RenderPass* renderPass) {
-    renderPass->draw(model->getMesh(), transform->globalTransform(), model->getMaterials());
+    auto compositeTransform = model->getTransform() * transform->globalTransform();
+    renderPass->draw(model->getMesh(), compositeTransform, model->getMaterials());
 }
 
 void ModelRenderer::debugGUI() {
