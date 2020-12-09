@@ -14,7 +14,7 @@
 #include "sre/RenderPass.hpp"
 
 //fps camera stuff
-// #include "FirstPersonController.hpp"
+#include "PersonController.hpp"
 
 //WorldMap Imports
     //WorldObject
@@ -46,7 +46,8 @@ Scene::~Scene(){
 void Scene::update(float deltaTime){
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
-    tempCam->getComponent<Camera>()->update(deltaTime);
+    // tempCam->getComponent<Camera>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->update(deltaTime);
     
 
     for (auto& p : this->rigidBodies){
@@ -56,6 +57,19 @@ void Scene::update(float deltaTime){
         u->update(deltaTime);
     }
 }
+
+void Scene::onKey(SDL_Event &event){
+    auto tempCam = this->cameras[0]->getGameObject(); // gets the main camera object and gets the game object from that
+    // tempCam->getComponent<Camera>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->onKey(event); //camera game object has a PersonController
+}
+
+void Scene::onMouse(SDL_Event &event){
+    auto tempCam = this->cameras[0]->getGameObject(); //gets the main camera 
+    // tempCam->getComponent<Camera>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->onMouse(event); //triggers the onMouse event handling in the Person controller
+}
+
 
 void Scene::render(){
     if (debugPhysics){

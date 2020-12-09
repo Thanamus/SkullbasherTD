@@ -43,7 +43,9 @@ public:
     // load map()
     // add stuff we need for load map
 
-    //
+    void onKey(SDL_Event &event);
+    void onMouse(SDL_Event &event);
+
 private:
     std::string name;
     bool debugPhysics = true;

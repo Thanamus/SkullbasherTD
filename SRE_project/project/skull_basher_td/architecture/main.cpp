@@ -6,6 +6,7 @@
 #include "ModelRenderer.hpp"
 #include "Light.hpp"
 #include "RigidBody.hpp"
+#include "PersonController.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 
@@ -27,8 +28,11 @@ std::shared_ptr<Scene> createScene(){
     auto res = std::make_shared<Scene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = {10,1.7f,-5};
+    cameraObj->getComponent<Transform>()->position = {20,1.0f,11};
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
+    cameraObj->addComponent<PersonController>(); // adding the controller to the camera (the player)
+    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.1f, 0);
+    // cameraObj->addComponent<RigidBody>();
     
 
     
@@ -81,6 +85,17 @@ int main(){
         scene->render();
     };
 
+    r.keyEvent = [&](SDL_Event &e) {
+        scene->onKey(e); //worked! // asks scene to manage the onKey
+        // fpsController.onKey(e);
+        // gameManager->onKey(e);
+    };
+    r.mouseEvent = [&](SDL_Event &e) {
+        // if (!lockRotation) //carry over from Wolf3D... not sure what it's there for
+        // {
+            scene->onMouse(e); // asks scene to manage the mouse thing
+        // }
+    };
     r.startEventLoop();
 
     return 0;
