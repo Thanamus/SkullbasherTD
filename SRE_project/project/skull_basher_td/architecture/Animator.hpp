@@ -15,7 +15,7 @@ public:
 
     void addAnimation(std::string state, std::shared_ptr<Animation> animation);
 
-    void setAnimationState(std::string state);
+    void setAnimationState(const std::string& state);
     const std::string& getAnimationState() const;
 
     void updateNextTransform(glm::vec3 translate, glm::vec3 scale, glm::vec3 rotate);

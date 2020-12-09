@@ -4,17 +4,20 @@
 
 #include "Animator.hpp"
 Animator::Animator(GameObject* gameObject)
-: Component(gameObject), modelRenderer(gameObject->getComponent<ModelRenderer>().get()), currentAnimation("none", new Animation()), lastIndex(-1) {
-    nextPosition = modelRenderer->getTransform()->position;
-    nextScale = modelRenderer->getTransform()->scale;
-    nextRotation = modelRenderer->getTransform()->rotation;
+: Component(gameObject),
+modelRenderer(gameObject->getComponent<ModelRenderer>().get()),
+currentAnimation("none", new Animation()),
+lastIndex(-1),
+nextPosition(modelRenderer->getTransform()->position),
+nextScale(modelRenderer->getTransform()->scale),
+nextRotation(modelRenderer->getTransform()->rotation) {
 }
 
 void Animator::addAnimation(std::string state, std::shared_ptr<Animation> animation) {
     animations.insert(std::make_pair(std::move(state), std::move(animation)));
 }
 
-void Animator::setAnimationState(std::string state) {
+void Animator::setAnimationState(const std::string& state) {
     if (currentAnimation.first == state)
         return;
 
@@ -27,6 +30,12 @@ void Animator::setAnimationState(std::string state) {
 }
 
 void Animator::update(float deltaTime) {
+    if(currentAnimation.first != "none" && currentAnimation.second->hasEnded(deltaTime)) {
+        setAnimationState("none");
+        lastIndex = -1;
+        return;
+    }
+
     if(currentAnimation.first != "none") {
         bool newFrame = currentAnimation.second->updateFrame(deltaTime);
          if(newFrame) {

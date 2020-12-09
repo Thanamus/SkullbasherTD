@@ -36,7 +36,7 @@ public:
 
     bool updateFrame(float deltaTime);
 
-    bool hasEnded();
+    bool hasEnded(float deltaTime);
 
     void reset();
 };
