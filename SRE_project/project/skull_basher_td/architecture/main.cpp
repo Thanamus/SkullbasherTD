@@ -33,12 +33,12 @@ std::shared_ptr<Scene> createScene(){
 
 
 
-    auto sphereObj = res->createGameObject("Sphere");
-    auto sphereMR = sphereObj->addComponent<ModelRenderer>();
-    sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
-    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
-    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
-    sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0);
+//    auto sphereObj = res->createGameObject("Sphere");
+//    auto sphereMR = sphereObj->addComponent<ModelRenderer>();
+//    sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
+//    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
+//    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
+//    sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0);
 
     // auto planeObj = res->createGameObject("Plane");
     // auto plameMR = planeObj->addComponent<ModelRenderer>();
@@ -54,14 +54,18 @@ std::shared_ptr<Scene> createScene(){
     auto cube = res->createGameObject("Cube");
     cube->getComponent<Transform>()->position = {10,4,10};
     cube->getComponent<Transform>()->rotation = {30,30,10};
-    //auto cubeRigidBody = cube->addComponent<RigidBody>(); todo: re-enable
-    //cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
+    auto cubeRigidBody = cube->addComponent<RigidBody>(); //todo: re-enable
+    cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
+
     auto cubeMR = cube->addComponent<ModelRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
+
     auto cubeAN = cube->addComponent<Animator>();
+    cubeMR->setAnimator(cubeAN.get());
     auto rotate = std::make_shared<Animation>(true);
-    rotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(0, 90, 0), 5.f);
+    rotate->addFrame(glm::vec3( 0), glm::vec3(1.25), glm::vec3(0), 2.f);
+    rotate->addFrame(glm::vec3( 0), glm::vec3(0.8), glm::vec3(0), 2.f);
     cubeAN->addAnimation("rotate", rotate);
     cubeAN->setAnimationState("rotate");
 

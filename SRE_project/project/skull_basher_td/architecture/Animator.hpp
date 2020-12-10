@@ -3,10 +3,11 @@
 //
 #pragma once
 #include "Animation.hpp"
-#include "Transform.hpp"
-#include "ModelRenderer.hpp"
+#include "GameObject.hpp"
+#include "Updatable.hpp"
+#include "Component.hpp"
 
-struct TransformVectors {
+struct TransformData {
     glm::vec3 position;
     glm::vec3 scale;
     glm::vec3 rotation;
@@ -24,11 +25,19 @@ public:
     void setAnimationState(const std::string& state);
     const std::string& getAnimationState() const;
 
-    void updateNextTransform(glm::vec3 translate, glm::vec3 scale, glm::vec3 rotate);
+    glm::mat4 getSQTMatrix() const;
+
 private:
-    Transform* transform;
     std::pair<std::string, std::shared_ptr<Animation>> currentAnimation;
     std::map<std::string, std::shared_ptr<Animation>> animations; // animations are given a name; can be later defined in an an animation json/script/whatever
-    TransformVectors nextTransform{};
-    TransformVectors startTransform{};
+    glm::mat4 SQTMatrix = glm::mat4(1.0f);
+
+    TransformData currentTransform{glm::vec3(0), glm::vec3(1), glm::vec3(0) };
+    TransformData targetTransform{glm::vec3(0), glm::vec3(1), glm::vec3(0) };
+
+    static glm::mat4 getQuaternionRotation(glm::vec3 rotation);
+    void updateSQTMatrix();
+    void resetVectors();
+
+    static TransformData initTransformData(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation);
 };
