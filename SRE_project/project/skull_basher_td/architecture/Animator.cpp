@@ -3,15 +3,21 @@
 //
 
 #include "Animator.hpp"
+#include "WorldObject.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/euler_angles.hpp"
+#include "glm/gtx/string_cast.hpp"
+
 Animator::Animator(GameObject* gameObject)
-: Component(gameObject), modelRenderer(gameObject->getComponent<ModelRenderer>().get()), currentAnimation("none", new Animation()) {
+: Component(gameObject), currentAnimation("none", new Animation())
+{
 }
 
-void Animator::addAnimation(const std::string& state, const std::shared_ptr<Animation>& animation) {
-    animations.insert(std::make_pair(state, animation));
+void Animator::addAnimation(std::string state, std::shared_ptr<Animation> animation) {
+    animations.insert(std::make_pair(std::move(state), std::move(animation)));
 }
 
-void Animator::setAnimationState(std::string state) {
+void Animator::setAnimationState(const std::string& state) {
     if (currentAnimation.first == state)
         return;
 
@@ -24,15 +30,66 @@ void Animator::setAnimationState(std::string state) {
 }
 
 void Animator::update(float deltaTime) {
-    if(currentAnimation.first != "none") {
-        bool newFrame = currentAnimation.second->updateFrame(deltaTime);
-         if(newFrame) {
-             auto keyframe = currentAnimation.second->getCurrentFrame();
-             auto transform = modelRenderer->getTransform();
-             auto t = glm::smoothstep(0.0f, 1.0f, currentAnimation.second->getCurrentFrameTime());
-             transform->position = glm::mix(transform->position, keyframe->position, t);
-             transform->scale = glm::mix(transform->scale, keyframe->scale, t);
-             transform->rotation = glm::mix(transform->rotation, keyframe->rotation, t);
-         }
+    if(currentAnimation.first == "none")
+        return;
+
+    if(currentAnimation.second->hasEnded(deltaTime)) {
+        resetVectors();
+        // end if the animation should only play once
+        if(!currentAnimation.second->isLooping()) {
+            setAnimationState("none");
+            return;
+        }
+    }
+
+    if(currentAnimation.second->updateFrame(deltaTime)) {
+        // get keyframe
+        auto keyframe = currentAnimation.second->getCurrentKeyframe();
+        if(currentAnimation.second->getCurrentKeyframeTime() == 0) {
+            // at start of frame, compute new target vectors
+            targetTransform = initTransformData(currentTransform.position + keyframe->translate,
+                                                currentTransform.scale * keyframe->scale,
+                                                currentTransform.rotation + keyframe->rotate);
+        }
+
+        auto t = glm::smoothstep(0.0f, keyframe->timeDuration, currentAnimation.second->getCurrentKeyframeTime());
+        currentTransform = initTransformData(
+                glm::mix(currentTransform.position, targetTransform.position, t),
+                glm::mix(currentTransform.scale, targetTransform.scale, t),
+                glm::mix(currentTransform.rotation, targetTransform.rotation, t));
+        updateSQTMatrix();
     }
 }
+
+const std::string &Animator::getAnimationState() const {
+    return currentAnimation.first;
+}
+
+TransformData Animator::initTransformData(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
+    return {position, scale, rotation};
+}
+
+
+glm::mat4 Animator::getQuaternionRotation(glm::vec3 rotation) {
+    glm::mat4 rotZ = glm::eulerAngleZ(glm::radians(rotation.z));
+    glm::mat4 rotY = glm::eulerAngleY(glm::radians(rotation.y));
+    glm::mat4 rotX = glm::eulerAngleX(glm::radians(rotation.x));
+    return rotZ*rotY*rotX;
+}
+
+void Animator::updateSQTMatrix() {
+    glm::mat4 translateMat = glm::translate(glm::mat4(1), currentTransform.position);
+    glm::mat4 scaleMat = glm::scale(glm::mat4(1), currentTransform.scale);
+    SQTMatrix = translateMat*getQuaternionRotation(currentTransform.rotation)*scaleMat;
+}
+
+void Animator::resetVectors() {
+    currentTransform = initTransformData(glm::vec3(0), glm::vec3(1), glm::vec3(0));
+    targetTransform = initTransformData(glm::vec3(0), glm::vec3(1), glm::vec3(0));
+}
+
+glm::mat4 Animator::getSQTMatrix() const {
+    return SQTMatrix;
+}
+
+

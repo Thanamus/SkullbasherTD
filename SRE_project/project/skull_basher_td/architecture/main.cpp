@@ -47,6 +47,7 @@ Main::Main()
     };
     r.startEventLoop();
 }
+#include "Animator.hpp"
 
 class CustomCollisionHandler : public Component, public CollisionHandler {
 public:
@@ -97,6 +98,7 @@ std::shared_ptr<Scene> Main::createScene(){
     cube->getComponent<Transform>()->rotation = {30,30,10};
     auto cubeRigidBody = cube->addComponent<RigidBody>();
     cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
+
     auto cubeMR = cube->addComponent<ModelRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
@@ -107,6 +109,14 @@ std::shared_ptr<Scene> Main::createScene(){
     auto rayTestCubeMR = rayTestCube->addComponent<ModelRenderer>();
     rayTestCubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cameraObj->getComponent<PersonController>()->rayTestedCube = rayTestCube;
+    auto cubeAN = cube->addComponent<Animator>();
+    cubeMR->setAnimator(cubeAN.get());
+    auto rotate = std::make_shared<Animation>(true);
+    rotate->addFrame(glm::vec3( 0), glm::vec3(1.25), glm::vec3(0), 2.f);
+    rotate->addFrame(glm::vec3( 0), glm::vec3(0.8), glm::vec3(0), 2.f);
+    cubeAN->addAnimation("rotate", rotate);
+    cubeAN->setAnimationState("rotate");
+
     //Load Map
     res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
     // res->loadMap("level0.json",res);

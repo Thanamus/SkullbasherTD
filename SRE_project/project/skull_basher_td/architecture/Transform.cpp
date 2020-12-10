@@ -24,7 +24,6 @@ Transform::Transform(GameObject* gameObject)
 glm::mat4 Transform::localTransform() {
     glm::mat4 translateMat = glm::translate(glm::mat4(1), position);
 
-
     glm::mat4 scaleMat = glm::scale(glm::mat4(1), scale);
 
     return translateMat*localRotation()*scaleMat;

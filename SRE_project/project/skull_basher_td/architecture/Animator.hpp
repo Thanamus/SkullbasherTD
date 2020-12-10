@@ -3,21 +3,41 @@
 //
 #pragma once
 #include "Animation.hpp"
-#include "Transform.hpp"
-#include "ModelRenderer.hpp"
+#include "GameObject.hpp"
+#include "Updatable.hpp"
+#include "Component.hpp"
 
-class Animator : public Component {
+struct TransformData {
+    glm::vec3 position;
+    glm::vec3 scale;
+    glm::vec3 rotation;
+};
+
+class Animator : public Component, public Updatable {
 public:
     explicit Animator(GameObject* gameObject);
     ~Animator() override = default;
 
-    void update(float deltaTime);
+    void update(float deltaTime) override;
 
-    void addAnimation(const std::string& state, const std::shared_ptr<Animation>& animation);
+    void addAnimation(std::string state, std::shared_ptr<Animation> animation);
 
-    void setAnimationState(std::string state);
+    void setAnimationState(const std::string& state);
+    const std::string& getAnimationState() const;
+
+    glm::mat4 getSQTMatrix() const;
+
 private:
-    ModelRenderer* modelRenderer;
     std::pair<std::string, std::shared_ptr<Animation>> currentAnimation;
     std::map<std::string, std::shared_ptr<Animation>> animations; // animations are given a name; can be later defined in an an animation json/script/whatever
+    glm::mat4 SQTMatrix = glm::mat4(1.0f);
+
+    TransformData currentTransform{glm::vec3(0), glm::vec3(1), glm::vec3(0) };
+    TransformData targetTransform{glm::vec3(0), glm::vec3(1), glm::vec3(0) };
+
+    static glm::mat4 getQuaternionRotation(glm::vec3 rotation);
+    void updateSQTMatrix();
+    void resetVectors();
+
+    static TransformData initTransformData(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation);
 };
