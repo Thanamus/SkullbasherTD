@@ -102,13 +102,6 @@ std::shared_ptr<Scene> Main::createScene(){
     auto cubeMR = cube->addComponent<ModelRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
-
-    auto rayTestCube = res->createGameObject("Ray Tested Cube");
-    rayTestCube->getComponent<Transform>()->position = {0,0,0};
-    rayTestCube->getComponent<Transform>()->rotation = {0,0,0};
-    auto rayTestCubeMR = rayTestCube->addComponent<ModelRenderer>();
-    rayTestCubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    cameraObj->getComponent<PersonController>()->rayTestedCube = rayTestCube;
     auto cubeAN = cube->addComponent<Animator>();
     cubeMR->setAnimator(cubeAN.get());
     auto rotate = std::make_shared<Animation>(true);
@@ -116,6 +109,13 @@ std::shared_ptr<Scene> Main::createScene(){
     rotate->addFrame(glm::vec3( 0), glm::vec3(0.8), glm::vec3(0), 2.f);
     cubeAN->addAnimation("rotate", rotate);
     cubeAN->setAnimationState("rotate");
+
+    auto rayTestCube = res->createGameObject("Ray Tested Cube");
+    rayTestCube->getComponent<Transform>()->position = {0,0,0};
+    rayTestCube->getComponent<Transform>()->rotation = {0,0,0};
+    auto rayTestCubeMR = rayTestCube->addComponent<ModelRenderer>();
+    rayTestCubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    cameraObj->getComponent<PersonController>()->rayTestedCube = rayTestCube;
 
     //Load Map
     res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);

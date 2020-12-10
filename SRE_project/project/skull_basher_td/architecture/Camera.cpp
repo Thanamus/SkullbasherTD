@@ -85,6 +85,7 @@ void Camera::TestRay(glm::vec3 front, std::shared_ptr<GameObject> rayTestedCube)
     glm::vec3 test = transform->position+glm::normalize(front)*5.0f;
 
     rayTestedCube->getComponent<Transform>()->position = test;
+    rayTestedCube->getComponent<Transform>()->lookAt(camera.getPosition(), glm::vec3(0, 1, 0));
 }
 
 
