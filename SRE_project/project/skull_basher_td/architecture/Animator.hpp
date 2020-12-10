@@ -6,6 +6,12 @@
 #include "Transform.hpp"
 #include "ModelRenderer.hpp"
 
+struct TransformVectors {
+    glm::vec3 position;
+    glm::vec3 scale;
+    glm::vec3 rotation;
+};
+
 class Animator : public Component, public Updatable {
 public:
     explicit Animator(GameObject* gameObject);
@@ -23,7 +29,6 @@ private:
     Transform* transform;
     std::pair<std::string, std::shared_ptr<Animation>> currentAnimation;
     std::map<std::string, std::shared_ptr<Animation>> animations; // animations are given a name; can be later defined in an an animation json/script/whatever
-    glm::vec3 nextPosition;
-    glm::vec3 nextScale;
-    glm::vec3 nextRotation;
+    TransformVectors nextTransform{};
+    TransformVectors startTransform{};
 };

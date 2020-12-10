@@ -42,7 +42,7 @@ bool Animation::updateFrame(float deltaTime) {
         return false;
 
     // stops animating if not looping and reaches the end
-    if(hasEnded(deltaTime))
+    if(!looping && hasEnded(deltaTime))
         return false;
 
     currentKeyframeTime += deltaTime;
@@ -72,6 +72,14 @@ float Animation::getCurrentKeyframeTime() const {
 }
 
 bool Animation::hasEnded(float deltaTime) {
-    // it ends if not looping and the last keyframe has finished playing
-    return !looping && (currentKeyframeIndex == keyframes.size() - 1) && currentKeyframeTime + deltaTime > keyframes[currentKeyframeIndex].timeDuration;
+    // the last keyframe has finished playing
+    return (currentKeyframeIndex == keyframes.size() - 1) && (currentKeyframeTime + deltaTime > keyframes[currentKeyframeIndex].timeDuration);
+}
+
+bool Animation::isLooping() const {
+    return looping;
+}
+
+void Animation::setLooping(bool looping) {
+    Animation::looping = looping;
 }

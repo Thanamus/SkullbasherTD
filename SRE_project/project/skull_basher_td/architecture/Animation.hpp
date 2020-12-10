@@ -19,6 +19,12 @@ private:
     unsigned int currentKeyframeIndex;
     float currentKeyframeTime;
     bool looping;
+public:
+    bool isLooping() const;
+
+    void setLooping(bool looping);
+
+private:
 
     void nextFrame();
 
