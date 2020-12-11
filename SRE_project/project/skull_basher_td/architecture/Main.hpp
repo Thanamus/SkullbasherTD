@@ -11,7 +11,7 @@ class Main
 {
 public:
     Main();
-    std::shared_ptr<Scene> createScene();
+    static std::shared_ptr<Scene> createScene();
 private:
 
     std::shared_ptr<Scene> currentScene;
