@@ -113,3 +113,11 @@ float GameManager::getPower() const {
 void GameManager::setPower(float power) {
     GameManager::power = power;
 }
+
+void GameManager::setPath(std::vector<glm::vec3> pathToBe){
+    path = pathToBe;
+}
+
+std::vector<glm::vec3> GameManager::getPath() {
+    return path;
+}

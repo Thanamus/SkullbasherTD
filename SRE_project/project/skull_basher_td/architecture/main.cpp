@@ -18,15 +18,20 @@ Main::Main()
     using namespace sre;
     SDLRenderer r;
     r.init();
+    //make scence
     auto scene = createScene();
     currentScene = scene;
 
+    //handshaking
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
     guiManager = std::make_shared<GuiManager>(gameManager);
     guiManager->gameManager = gameManager;
     currentScene->guiManager = guiManager;
     currentScene->gameManager = gameManager;
+
+    //load map
+    currentScene->loadMap(".\\maps\\SkullBasherTDLevel0.json", currentScene);
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
@@ -118,7 +123,7 @@ std::shared_ptr<Scene> Main::createScene(){
     cameraObj->getComponent<PersonController>()->rayTestedCube = rayTestCube;
 
     //Load Map
-    res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
+    // res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
     // res->loadMap("level0.json",res);
 
 

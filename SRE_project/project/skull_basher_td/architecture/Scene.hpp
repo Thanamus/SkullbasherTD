@@ -43,6 +43,7 @@ public:
     void loadMap(std::string filename, std::shared_ptr<Scene> res);
     // load map()
     // add stuff we need for load map
+
     std::vector<Camera*> cameras;
 
     void onKey(SDL_Event &event);
@@ -73,6 +74,7 @@ private:
     //World Map stuff
     // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
     std::string mapAssetFolderLoc = ".\\assets\\worldMapAssets"; // apparently does work
+    std::string enemiesAssetFolderLoc = ".\\assets\\enemies";
     double tileHeightOffset = -1;
     double tilePosOffset = 1;
 

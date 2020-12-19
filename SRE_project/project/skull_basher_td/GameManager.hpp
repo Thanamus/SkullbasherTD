@@ -31,8 +31,11 @@ public:
 
     // Wave stats
     int currentWave = 0;
-    int waveAmount = 10;
-    int enermyAmountWave = 5;
+    int waveAmount = 0; //assuming this means how many waves
+    int enermyAmountWave = 0;
+
+    void setPath(std::vector<glm::vec3> pathToBe);
+    std::vector<glm::vec3> getPath();
 
 private:
     void loadTowers(std::string filename);
@@ -43,5 +46,7 @@ private:
     int score = 42;
     float power = 0.7; // between 0.0 and 1.0
 
+    //path
+    std::vector<glm::vec3> path;
 
 };
