@@ -340,6 +340,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                     positionHolder.z += zOffset;
 
                     mapTile->getComponent<Transform>()->position = positionHolder;
+                    mapTile->getComponent<Transform>()->rotation.y = rotationHolder;
                     // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
                     // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
 
