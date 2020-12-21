@@ -139,5 +139,5 @@ glm::vec3 GameManager::getNextPathPoint(int currentPathIndex){
 
 
 int GameManager::getFirstPathIndex(){
-    return path.size()-2;
+    return path.size()-1;
 }

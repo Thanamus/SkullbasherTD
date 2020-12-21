@@ -64,14 +64,13 @@ void PathFinder::update(float deltaTime){
     //mix currentposition with next path point and delta time
     //update transform
     // auto t = glm::smoothstep(0.0f, keyframe->timeDuration, currentAnimation.second->getCurrentKeyframeTime());
-    float velocity = 0.01f;
-    // float velocity = 0.01;
+ 
     // nextPosition.x = glm::mix(nextPathPoint.x, currentPosition.x, 0.01f);
     // // nextPosition.y = glm::mix(nextPathPoint.y, currentPosition.y, 0.01f);
     // nextPosition.z = glm::mix(nextPathPoint.z, currentPosition.z, 0.01f);
-    nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, 0.05f);
+    nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, pfMoveSpeed); //speed is controlled with the float
     // nextPosition.y = glm::mix(currentPosition.y, nextPathPoint.y, 0.01f);
-    nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, 0.05f);
+    nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, pfMoveSpeed);
     // nextPosition = glm::mix(currentPosition, nextPathPoint, 0.01f);
 
     // nextPosition.x = glm::smoothstep(nextPathPoint.x, currentPosition.x, 0.1f);

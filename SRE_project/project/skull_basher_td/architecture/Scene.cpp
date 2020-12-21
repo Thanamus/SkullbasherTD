@@ -268,15 +268,19 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
             std::shared_ptr<sre::Material> matHolder;
             std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
 
+    std::vector<glm::vec3> pathBuffer;
+    bool reverseBuffer = false;
+
     for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
     {
  
         mapRow.clear(); //clear the temporary buffer
         int heightArrayCount = d["tileMap"][row].GetArray().Size(); //inner array is the number of positions in the current row
         // std::cout << "inner array count:" << innerArrayCount << "\n";
-
+        pathBuffer.clear();
         // push each field's value into the buffer
-        for (size_t heightFactor = 0; heightFactor < heightArrayCount; heightFactor++){
+        for (size_t heightFactor = 0; heightFactor < heightArrayCount; heightFactor++)
+        {
 
             
             double tileHeight = tileHeightOffset + heightFactor;
@@ -369,7 +373,11 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                     if (isPathHolder)
                     {
-                        pathHolder.push_back(positionHolder);
+                        // pathHolder.push_back(positionHolder);
+                        pathBuffer.push_back(positionHolder);
+
+                        //check if reverseBuffer should be set
+                        reverseBuffer = d["MapLookup"][c]["reverseBuffer"].GetBool(); //a 'reverseBuffer' parameter tells the game that the path section needs to be loaded in reverse
                     }
                     
                     
@@ -377,6 +385,21 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
             }
             
         }
+
+        //if the path is running from 'right to left' in the map, then it needs to be loaded into the path in reverse
+        if (!reverseBuffer && !pathBuffer.empty())
+        {
+            for (size_t pathInBuffer = 0; pathInBuffer <= pathBuffer.size()-1; pathInBuffer++)
+            {
+                pathHolder.push_back(pathBuffer[pathInBuffer]);
+            }
+        } else if (!pathBuffer.empty()) {
+            for (size_t pathInBuffer = pathBuffer.size(); pathInBuffer > 0; pathInBuffer--)
+            {
+                pathHolder.push_back(pathBuffer[pathInBuffer-1]);
+            }
+        }
+        reverseBuffer = false;
     }
     gameManager->setPath(pathHolder);
 
@@ -399,8 +422,8 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
         std::vector<glm::vec3> path = gameManager->getPath();
         int endOfPath = path.size();
-        positionHolder = path[endOfPath-3];
-        positionHolder.y += 1.0;
+        positionHolder = path[endOfPath-1]; //sets where the enemy will spawn
+        positionHolder.y += 1.0; //compensates for the fact that the path is well, the ground
         // positionHolder = {3,3,3};
 
         scaleHolder.x = d["enemyLookup"][c]["scaleFactors"]["x"].GetFloat();// scale
