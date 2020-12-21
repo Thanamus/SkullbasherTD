@@ -269,7 +269,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
             std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
 
     std::vector<glm::vec3> pathBuffer;
-    bool reverseBuffer = false;
+    bool reversePathBuffer = false;
 
     for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
     {
@@ -377,7 +377,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                         pathBuffer.push_back(positionHolder);
 
                         //check if reverseBuffer should be set
-                        reverseBuffer = d["MapLookup"][c]["reverseBuffer"].GetBool(); //a 'reverseBuffer' parameter tells the game that the path section needs to be loaded in reverse
+                        reversePathBuffer = d["MapLookup"][c]["reversePathBuffer"].GetBool(); //a 'reverseBuffer' parameter tells the game that the path section needs to be loaded in reverse
                     }
                     
                     
@@ -387,7 +387,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
         }
 
         //if the path is running from 'right to left' in the map, then it needs to be loaded into the path in reverse
-        if (!reverseBuffer && !pathBuffer.empty())
+        if (!reversePathBuffer && !pathBuffer.empty())
         {
             for (size_t pathInBuffer = 0; pathInBuffer <= pathBuffer.size()-1; pathInBuffer++)
             {
@@ -399,7 +399,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 pathHolder.push_back(pathBuffer[pathInBuffer-1]);
             }
         }
-        reverseBuffer = false;
+        reversePathBuffer = false;
     }
     gameManager->setPath(pathHolder);
 
