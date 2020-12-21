@@ -320,7 +320,7 @@
                     "y": 0.0,
                     "z": 0.0
                 },
-            "reverseBuffer":false
+            "reversePathBuffer":false
         },
         "121": {
             "object": "PathBlock01D.obj",
@@ -347,7 +347,7 @@
                     "y": 0.0,
                     "z": 0.0
                 },
-            "reverseBuffer":true
+            "reversePathBuffer":true
         },
         "129": {
             "object": "PathBlock01D.obj",
@@ -455,7 +455,7 @@
         }
     },
     "waves": [
-        {"enemyType":1,"quantity":1}
+        {"enemyType":1,"quantity":2}
     ],
     "enemyLookup":{
         "1": {
