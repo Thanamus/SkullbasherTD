@@ -121,3 +121,23 @@ void GameManager::setPath(std::vector<glm::vec3> pathToBe){
 std::vector<glm::vec3> GameManager::getPath() {
     return path;
 }
+
+glm::vec3 GameManager::getNextPathPoint(int currentPathIndex){
+    //path should count down from end of vector to 0
+     if (currentPathIndex == 0)
+    {
+        return path[0];
+    } else if (currentPathIndex <= (path.size()-1))
+    {
+        return path[currentPathIndex-1];
+    } else  
+    {
+        return path[0];
+    }
+    
+}
+
+
+int GameManager::getFirstPathIndex(){
+    return path.size()-2;
+}

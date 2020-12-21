@@ -20,6 +20,8 @@
     //WorldObject
 #include "WorldObject.hpp"
 
+#include "PathFinder.hpp"
+
 //rapidjson imports
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
@@ -441,8 +443,12 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
             // std::cout << "length: " << length << "\n";
             // std::cout << "width: " << width << "\n";
             // std::cout << "height: " << height << "\n";
-            enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1);      
             
+            //Add Physics to skull
+            // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1);      
+
+            //Add Path Finder to Skull
+            enemy->addComponent<PathFinder>();           
         }
     }
     

@@ -36,6 +36,8 @@ public:
 
     void setPath(std::vector<glm::vec3> pathToBe);
     std::vector<glm::vec3> getPath();
+    int getFirstPathIndex();
+    glm::vec3 getNextPathPoint(int currentPathIndex);
 
 private:
     void loadTowers(std::string filename);
