@@ -37,32 +37,64 @@ void PathFinder::fetchNextPathPoint(){
 }
 
 void PathFinder::update(float deltaTime){
-    std::cout << "delta time is: " << deltaTime << "\n";
+    // std::cout << "delta time is: " << deltaTime << "\n";
     // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
-    //get current position
-    auto currentTransform = gameObject->getComponent<Transform>();
+    if (moving)
+    { //only if the skull has been set to moving should it move
+        //get current position
+        auto currentTransform = gameObject->getComponent<Transform>();
 
-    currentPosition = currentTransform->position;
-    // std::cout << "I am a skull, my current position is: " << currentPosition.x << "\n";
+        currentPosition = currentTransform->position;
+        // std::cout << "I am a skull, my current position is: " << currentPosition.x << "\n";
 
-    //get nextposition
-    // if (currentPosition.x == nextPathPoint.x && currentPosition.z == nextPathPoint.z)
-    if ((currentPosition.x <= nextPathPoint.x+0.5f && currentPosition.x >= nextPathPoint.x-0.5f)  && (currentPosition.z <= nextPathPoint.z+0.5f && currentPosition.z >= nextPathPoint.z-0.5f))
-    {
-        fetchNextPathPoint();
-    } 
+        //get nextposition
+        // if (currentPosition.x == nextPathPoint.x && currentPosition.z == nextPathPoint.z)
+        if ((currentPosition.x <= nextPathPoint.x+0.5f && currentPosition.x >= nextPathPoint.x-0.5f)  && (currentPosition.z <= nextPathPoint.z+0.5f && currentPosition.z >= nextPathPoint.z-0.5f))
+        {
+            fetchNextPathPoint();
+        } 
+        
+        // std::cout << "I am a skull, I should be moving to: " << nextPathPoint.x << "\n";
+        //move skull
+        //mix currentposition with next path point and delta time
+        nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, pfMoveSpeed); //speed is controlled with the float
+        // nextPosition.y = glm::mix(currentPosition.y, nextPathPoint.y, 0.01f);
+        nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, pfMoveSpeed);
+
+        // nextPosition = glm::mix(currentPosition, nextPathPoint, velocity);
+        nextPosition.y = 0; // correction for the path being on the floor
+        // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
+
+        //update transform
+        currentTransform->position = nextPosition;
+        
+    }
     
-    // std::cout << "I am a skull, I should be moving to: " << nextPathPoint.x << "\n";
-    //move skull
-    //mix currentposition with next path point and delta time
-    nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, pfMoveSpeed); //speed is controlled with the float
-    // nextPosition.y = glm::mix(currentPosition.y, nextPathPoint.y, 0.01f);
-    nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, pfMoveSpeed);
 
-    // nextPosition = glm::mix(currentPosition, nextPathPoint, velocity);
-    nextPosition.y = 0; // correction for the path being on the floor
-    // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
 
-    //update transform
-    currentTransform->position = nextPosition;
 }
+
+
+    void PathFinder::setWave(int incomingWaveNumber){
+        waveNumber = incomingWaveNumber;
+    }
+
+    int PathFinder::getWave(){
+        return waveNumber;
+    }
+
+    void PathFinder::setEnemyNumber(int incomingEnemyNumber){
+        enemyNumber = incomingEnemyNumber;
+    }
+
+    int PathFinder::getEnemyNumber(){
+        return enemyNumber;
+    }
+
+    void PathFinder::setMovingStatus(bool incomingMovingStatus){
+        moving = incomingMovingStatus;
+    }
+
+    bool PathFinder::getMovingStatus(){
+        return moving;
+    }

@@ -26,12 +26,15 @@ Main::Main()
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
     guiManager = std::make_shared<GuiManager>(gameManager);
+    scheduleManager = std::make_shared<ScheduleManager>();
     guiManager->gameManager = gameManager;
     currentScene->guiManager = guiManager;
     currentScene->gameManager = gameManager;
+    currentScene->scheduleManager = scheduleManager;
 
     //load map
     currentScene->loadMap(".\\maps\\SkullBasherTDLevel0.json", currentScene);
+
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
@@ -125,7 +128,6 @@ std::shared_ptr<Scene> Main::createScene(){
     //Load Map
     // res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
     // res->loadMap("level0.json",res);
-
 
     return res;
 }

@@ -6,6 +6,7 @@
 #include "../GuiManager.hpp"
 #include "../GameManager.hpp"
 #include "./Scene.hpp"
+#include "./ScheduleManager.hpp"
 
 class Main
 {
@@ -18,4 +19,5 @@ private:
     sre::SDLRenderer r;
     std::shared_ptr<GuiManager> guiManager;
     std::shared_ptr<GameManager> gameManager;
+    std::shared_ptr<ScheduleManager> scheduleManager;
 };

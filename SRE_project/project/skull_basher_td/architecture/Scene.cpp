@@ -49,7 +49,7 @@ void Scene::update(float deltaTime){
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
     // tempCam->getComponent<Camera>()->update(deltaTime);
-    tempCam->getComponent<PersonController>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
     
 
     for (auto& p : this->rigidBodies){
@@ -58,6 +58,7 @@ void Scene::update(float deltaTime){
     for (auto& u : updatables){
         u->update(deltaTime);
     }
+    scheduleManager->update(deltaTime); //has to be updated separately from the rest
 
     if(gameManager != nullptr)
         ToggleLockMouse();
@@ -445,7 +446,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
         // //create the world object map tile
         // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder); 
 
-        for (size_t anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++)
+        for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++)
         {
             gameManager->enermyAmountWave += 1;
             //create game object
@@ -470,8 +471,11 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
             //Add Physics to skull
             // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1);      
 
+            // std::cout << "anEnemy is: " << anEnemy << "\n";
             //Add Path Finder to Skull
-            enemy->addComponent<PathFinder>();           
+            enemy->addComponent<PathFinder>();
+            enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
+            enemy->getComponent<PathFinder>()->setWave(wave);
         }
     }
     
