@@ -21,6 +21,7 @@ class Component;
 class Light;
 class BulletPhysics;
 class RigidBody;
+class ScheduleManager;
 
 class Scene {
 public:

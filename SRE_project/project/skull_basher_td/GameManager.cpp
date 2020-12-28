@@ -141,3 +141,36 @@ glm::vec3 GameManager::getNextPathPoint(int currentPathIndex){
 int GameManager::getFirstPathIndex(){
     return path.size()-1;
 }
+
+// void GameManager::setWaves(int waves){
+//     waveAmount = waves;
+// }
+
+void GameManager::addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails){
+    waveAndEnemys[waveNumber]=enemySets;
+    waveAndTimeBetweens[waveNumber]=waveDetails;
+    enemyAmountWave += 1; //adds a wave amount every time add wave is called. 
+    // waveAndEnemys.insert(waveNumber, enemySets);
+}
+
+int GameManager::getCurrentEnemy(){
+    return currentEnemy;
+}
+
+int GameManager::getCurrentWave(){
+    return currentWave;
+}
+
+int GameManager::getEnemyAmountWave(){
+    return enemyAmountWave;
+}
+
+waveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
+
+//     //return current
+//     struct waveScheduleDetails {
+//     int timeBetweenWaves;
+//     int timeBetweenEnemies;
+// };
+    return waveAndTimeBetweens[currentWave];
+}

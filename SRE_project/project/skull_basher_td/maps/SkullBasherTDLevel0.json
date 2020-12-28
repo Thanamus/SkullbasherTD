@@ -455,7 +455,7 @@
         }
     },
     "waves": [
-        {"enemyType":1,"quantity":2}
+        {"enemies":[{"enemyType":1,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":10}
     ],
     "enemyLookup":{
         "1": {

@@ -329,7 +329,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                     auto mapTileMR = mapTile->addComponent<ModelRenderer>();
                     mapTile->addComponent<WorldObject>();
                     mapTile->getComponent<WorldObject>()->setBuildable(isbuildableHolder);
-                    mapTile->getComponent<WorldObject>()->setPath(isPathHolder);
+                    mapTile->getComponent<WorldObject>()->setIsPath(isPathHolder);
 
                     // bool test = mapTile->getComponent<WorldObject>()->getBuildableStatus();
                     // std::cout << "is buildable test: " << test  << "\n";
@@ -405,78 +405,103 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
     gameManager->setPath(pathHolder);
 
 
-    //Load enemies
+    //-----------------Load enemies----------------------
     int howManyWaves = d["waves"].GetArray().Size();
-    gameManager->waveAmount = howManyWaves;
+    // gameManager->setWaves(howManyWaves);
+    // gameManager->waveAmount = howManyWaves;
             int enemyTypeInt;
             std::string enemyTypeStr;
 
 
     for (size_t wave = 0; wave < howManyWaves; wave++)
-    {
-        enemyTypeInt = d["waves"][wave]["enemyType"].GetInt();
-        enemyTypeStr = std::to_string(enemyTypeInt);
-        const char *c = enemyTypeStr.c_str();
+    { //wave level
+        //get the number of enemyTypes and quantities in order
+        int numberOfEnemySets = d["waves"][wave]["enemies"].GetArray().Size();
+        std::vector<enemySetsInWave> enemySetsHolder;
+        enemySetsInWave tempEnemySet;
 
-        int howManyOfEnemyType = d["waves"][wave]["quantity"].GetInt();
-        rotationHolder = d["enemyLookup"][c]["rotation"].GetFloat();
+        waveScheduleDetails waveScheduleDetailHolder;
+        waveScheduleDetailHolder.timeBetweenWaves = d["waves"][wave]["timeBetweenWaves"].GetInt();
+        waveScheduleDetailHolder.timeBetweenEnemies = d["waves"][wave]["timeBetweenEnemy"].GetInt();
 
-        std::vector<glm::vec3> path = gameManager->getPath();
-        int endOfPath = path.size();
-        positionHolder = path[endOfPath-1]; //sets where the enemy will spawn
-        positionHolder.y += 1.0; //compensates for the fact that the path is well, the ground
-        // positionHolder = {3,3,3};
+        for (size_t currentEnemySet = 0; currentEnemySet < numberOfEnemySets; currentEnemySet++)
+        { //inside set level
+            enemyTypeInt = d["waves"][wave]["enemies"][currentEnemySet]["enemyType"].GetInt();
+            enemyTypeStr = std::to_string(enemyTypeInt);
+            const char *enemyTypeChar = enemyTypeStr.c_str();
 
-        scaleHolder.x = d["enemyLookup"][c]["scaleFactors"]["x"].GetFloat();// scale
-        scaleHolder.y = d["enemyLookup"][c]["scaleFactors"]["y"].GetFloat();// scale
-        scaleHolder.z = d["enemyLookup"][c]["scaleFactors"]["z"].GetFloat();// scale
+            int howManyOfEnemyType = d["waves"][wave]["enemies"][currentEnemySet]["quantity"].GetInt();
+            rotationHolder = d["enemyLookup"][enemyTypeChar]["rotation"].GetFloat();
 
-
-        modelName = d["enemyLookup"][c]["object"].GetString();
-          
-        //Load the mesh from file
-        // meshHolder = sre::ModelImporter::importObj(".\\Assets\\WorldMapAssets", "Floor01.obj", materialsLoaded);
-        // OLD: meshHolder = sre::ModelImporter::importObj(mapAssetFolderLoc, modelName, materialsLoaded);
-        // NEW
-        auto filePath = enemiesAssetFolderLoc + "\\" + modelName;
-        modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
-        std::cout << "Asset folder: " << filePath << "\n";
-        std::cout << "Model Name: " << modelName << "\n";
-
-        // //create the world object map tile
-        // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder); 
-
-        for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++)
-        {
-            gameManager->enermyAmountWave += 1;
-            //create game object
-            auto enemy = res->createGameObject(modelName);
-            // std::cout << "mesh Name: " << modelName << "\n";
-            auto enemyMR = enemy->addComponent<ModelRenderer>();
-            enemyMR->setModel(modelHolder);
-
-            enemy->getComponent<Transform>()->position = positionHolder;
-            enemy->getComponent<Transform>()->rotation.y = rotationHolder;
-            enemy->getComponent<Transform>()->scale = scaleHolder;
-            auto bounds = enemyMR->getMesh()->getBoundsMinMax();
+            //put the set into the enemySetHolder to be sent to GameManager later
+            tempEnemySet.enemyType = enemyTypeInt;
+            tempEnemySet.quantiy = howManyOfEnemyType;
+            enemySetsHolder.push_back(tempEnemySet);
             
-            float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/4;
-            float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/4;
-            float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/4;
 
-            // std::cout << "length: " << length << "\n";
-            // std::cout << "width: " << width << "\n";
-            // std::cout << "height: " << height << "\n";
+            std::vector<glm::vec3> path = gameManager->getPath();
+            int endOfPath = path.size();
+            positionHolder = path[endOfPath-1]; //sets where the enemy will spawn
+            positionHolder.y += 1.0; //compensates for the fact that the path is well, the ground
+            // positionHolder = {3,3,3};
+
+            scaleHolder.x = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["x"].GetFloat();// scale
+            scaleHolder.y = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["y"].GetFloat();// scale
+            scaleHolder.z = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["z"].GetFloat();// scale
+
+
+            modelName = d["enemyLookup"][enemyTypeChar]["object"].GetString();
             
-            //Add Physics to skull
-            // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1);      
+            //Load the mesh from file
+            // meshHolder = sre::ModelImporter::importObj(".\\Assets\\WorldMapAssets", "Floor01.obj", materialsLoaded);
+            // OLD: meshHolder = sre::ModelImporter::importObj(mapAssetFolderLoc, modelName, materialsLoaded);
+            // NEW
+            auto filePath = enemiesAssetFolderLoc + "\\" + modelName;
+            modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
+            std::cout << "Asset folder: " << filePath << "\n";
+            std::cout << "Model Name: " << modelName << "\n";
 
-            // std::cout << "anEnemy is: " << anEnemy << "\n";
-            //Add Path Finder to Skull
-            enemy->addComponent<PathFinder>();
-            enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
-            enemy->getComponent<PathFinder>()->setWave(wave);
+            // //create the world object map tile
+            // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder); 
+
+            for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++)
+            {
+                // gameManager->enermyAmountWave += 1;
+                //create game object
+                auto enemy = res->createGameObject(modelName);
+                // std::cout << "mesh Name: " << modelName << "\n";
+                auto enemyMR = enemy->addComponent<ModelRenderer>();
+                enemyMR->setModel(modelHolder);
+
+                enemy->getComponent<Transform>()->position = positionHolder;
+                enemy->getComponent<Transform>()->rotation.y = rotationHolder;
+                enemy->getComponent<Transform>()->scale = scaleHolder;
+                auto bounds = enemyMR->getMesh()->getBoundsMinMax();
+                
+                float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/4;
+                float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/4;
+                float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/4;
+
+                // std::cout << "length: " << length << "\n";
+                // std::cout << "width: " << width << "\n";
+                // std::cout << "height: " << height << "\n";
+                
+                //Add Physics to skull
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1);      
+
+                // std::cout << "anEnemy is: " << anEnemy << "\n";
+                //Add Path Finder to Skull
+                enemy->addComponent<PathFinder>();
+                enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
+                enemy->getComponent<PathFinder>()->setWave(wave);
+            }
+            
         }
+
+        //send the wave details to the Game Manager
+        gameManager->addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
+        
+
     }
     
 

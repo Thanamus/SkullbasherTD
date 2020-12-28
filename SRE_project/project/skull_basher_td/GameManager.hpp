@@ -4,6 +4,20 @@
 #include "sre/Material.hpp"
 #include "Tower.hpp"
 
+struct enemySetsInWave {
+    int enemyType;
+    int quantiy;
+};
+
+struct waveScheduleDetails {
+    int timeBetweenWaves;
+    int timeBetweenEnemies;
+};
+
+// struct somethingmeaningful { float meaningful1; float meaningful2; };
+// using mymeaningfulmap = std::map<int, somethingmeaninful>;
+// from https://stackoverflow.com/questions/24882357/stdpair-vs-array
+
 class GameManager
 {
 public:
@@ -29,15 +43,19 @@ public:
     bool debugBricks = true;
     bool lockRotation = false;
 
-    // Wave stats
-    int currentWave = 0;
-    int waveAmount = 0; //assuming this means how many waves
-    int enermyAmountWave = 0;
 
     void setPath(std::vector<glm::vec3> pathToBe);
     std::vector<glm::vec3> getPath();
     int getFirstPathIndex();
     glm::vec3 getNextPathPoint(int currentPathIndex);
+
+    int getCurrentEnemy();
+    int getCurrentWave();
+    int getEnemyAmountWave();
+    waveScheduleDetails getCurrentTimeBetweenWaves();
+
+    void setCurrentEnemy(int currentEnemy);
+    void addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails);
 
 private:
     void loadTowers(std::string filename);
@@ -51,4 +69,20 @@ private:
     //path
     std::vector<glm::vec3> path;
 
+    // Wave stats
+    int currentWave = 0;
+    int enemySetsAmount = 0; //assuming this means how many waves
+
+    int currentEnemySet = 0;
+    int currentEnemyInset = 0;
+
+    int currentEnemy = 0;
+    int enemyAmountWave = 0;
+
+// struct somethingmeaningful { float meaningful1; float meaningful2; };
+// using mymeaningfulmap = std::map<int, somethingmeaninful>;
+// from https://stackoverflow.com/questions/24882357/stdpair-vs-array
+
+    std::map <int, std::vector<enemySetsInWave>> waveAndEnemys;
+    std::map <int, waveScheduleDetails> waveAndTimeBetweens;
 };

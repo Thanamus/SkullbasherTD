@@ -1,19 +1,30 @@
 #pragma once
 
 #include "Updatable.hpp"
+// #include "Scene.hpp"
 #include <chrono>
+#include <memory>
+
+//std::shared_ptr<Scene> currentScene;
+class Scene;
 
 class ScheduleManager {
     public:
         explicit ScheduleManager();
-        ~ScheduleManager();
+        virtual ~ScheduleManager();
 
         void update(float deltaTime); //Note, can't inherit from Updateable, since Updateable is private to scene.
 
+        std::shared_ptr<Scene> currentScene;
+        void fectInitialWaveSchedule();
     private:
 
-        int timeBetweenWaves = 5;
-        int timeInSec;
+        int timeBetweenWaves = 0;
+        int timeBetweenEnemies = 0;
+        bool waveGoGoGo = false;
+        bool enemyGoGoGo = false;
+
+        int elapsedTimeInSec;
         std::chrono::steady_clock::time_point startTime;
         std::chrono::steady_clock::time_point kickOffTime;
         // startTimeEpoch;

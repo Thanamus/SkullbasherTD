@@ -30,11 +30,14 @@ Main::Main()
     guiManager->gameManager = gameManager;
     currentScene->guiManager = guiManager;
     currentScene->gameManager = gameManager;
-    currentScene->scheduleManager = scheduleManager;
 
     //load map
     currentScene->loadMap(".\\maps\\SkullBasherTDLevel0.json", currentScene);
 
+    scheduleManager->currentScene = currentScene; //not sure about this pattern, here the two managers 'know' each other
+    currentScene->scheduleManager = scheduleManager;
+
+    currentScene->scheduleManager->fectInitialWaveSchedule();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
