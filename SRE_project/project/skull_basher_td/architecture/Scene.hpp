@@ -7,7 +7,7 @@
 #include "Renderable.hpp"
 #include "Updatable.hpp"
 #include "glm/glm.hpp"
-#include "../GameManager.hpp"
+// #include "../GameManager.hpp"
 #include "../GuiManager.hpp"
 #include "ScheduleManager.hpp"
 
@@ -22,6 +22,7 @@ class Light;
 class BulletPhysics;
 class RigidBody;
 class ScheduleManager;
+class GameManager;
 
 class Scene {
 public:

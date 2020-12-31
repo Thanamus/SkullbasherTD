@@ -101,6 +101,8 @@ void PathFinder::update(float deltaTime){
 
     void PathFinder::setEnemySetNumber(int incomingEnemySet){
         enemySetNumber = incomingEnemySet;
+        // std::cout << " enemy Set Number set to: " << enemySetNumber << std::endl;
+        // std::cout << " should have been:  " << incomingEnemySet << std::endl;
     }
 
     int PathFinder::getEnemySetNumber() {

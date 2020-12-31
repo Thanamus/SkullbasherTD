@@ -39,6 +39,6 @@ private:
     //Wave and enemy
     int PathFinder::waveNumber = 0;
     int PathFinder::enemyNumber = 0;
-    int enemySetNumber = 0;
+    int PathFinder::enemySetNumber = 0;
     bool PathFinder::moving = false;
 };

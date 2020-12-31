@@ -12,6 +12,7 @@
 #include "Light.hpp"
 #include "BulletPhysics.hpp"
 #include "sre/RenderPass.hpp"
+#include "../GameManager.hpp"
 
 //fps camera stuff
 #include "PersonController.hpp"
@@ -496,7 +497,10 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 enemy->addComponent<PathFinder>();
                 enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
                 enemy->getComponent<PathFinder>()->setWave(wave);
-                enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);       
+                enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);
+                std::cout << "created enemy with enemy number: " << anEnemy << std::endl; 
+                std::cout << "created enemy with set number: " << currentEnemySet << std::endl; 
+                std::cout << "created enemy with wave number: " << wave << std::endl; 
             }
             
         }

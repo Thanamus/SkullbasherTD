@@ -181,13 +181,48 @@ waveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
 
 void GameManager::updateAllWaveStats(){
     int tempCurrentEnemyHolder = currentEnemy;
-    tempCurrentEnemyHolder ++;
+    int tempCurrentEnemySetHolder = currentEnemySet;
+    int tempCurrentEnemyWaveHolder = currentWave;
 
+    //check enemy
+    tempCurrentEnemyHolder ++;
     if (tempCurrentEnemyHolder > totalEnemiesInCurrentSet)
-    {
-        
-        /* code */
+    { //temp number is higher than in the set
+
+        //check set
+        tempCurrentEnemySetHolder ++;
+        if (tempCurrentEnemySetHolder > totalEnemySetsInCurrentWave)
+        { // temp set is higher than the total
+
+            //check wave
+            tempCurrentEnemyWaveHolder ++;
+            if (tempCurrentEnemyWaveHolder > totalWavesInLevel)
+            {
+                return; //Do nothing, the level is at the last wave anyway
+            } else //update wave
+            {
+                checkAndUpdateWaveNumber(tempCurrentEnemyWaveHolder);
+                return;
+            }
+
+
+        } else // update the set
+        {
+            currentEnemySet = tempCurrentEnemySetHolder;
+            //get total number of enemies in the current set
+            totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy;
+
+            //reset enemy number
+            currentEnemy = 0;
+
+            return;
+        }
+            
+    } else
+    { //temp enemy number wasn't too high, means there is another enemy in the set
+        currentEnemy = tempCurrentEnemyHolder;
     }
+    
     
 
     // check enemy
@@ -198,3 +233,33 @@ void GameManager::updateAllWaveStats(){
                     // update wave
                     // reset set and enemy to 0
 }
+
+
+    void GameManager::checkAndUpdateEnemyNumber(){
+
+    }
+
+    void GameManager::checkAndUpdateEnemySetNumber(){
+
+    }
+
+    void GameManager::checkAndUpdateWaveNumber(int tempCurrentEnemyWaveHolder){
+            currentWave = tempCurrentEnemyWaveHolder;
+            //reset cenemy and set numbers
+            currentEnemy = 0;
+            currentEnemySet = 0;
+
+            //get new total enemies
+            totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1; //minus one, because counting starts at 1, not 0
+                
+            //get new total sets
+            totalEnemySetsInCurrentWave = waveAndEnemys[currentWave].size();
+    }
+
+    void GameManager::setInitialWaveStats(){
+        //get wave 0 sets
+        totalEnemySetsInCurrentWave = waveAndEnemys[0].size();
+
+        //get wave 0 enemies
+        totalEnemiesInCurrentSet = waveAndEnemys[0][0].quantiy;
+    }

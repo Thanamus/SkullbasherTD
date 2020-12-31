@@ -61,6 +61,7 @@ public:
     void addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails);
 
     void updateAllWaveStats();
+    void setInitialWaveStats();
 
 private:
     void loadTowers(std::string filename);
@@ -89,6 +90,10 @@ private:
     int totalEnemiesInCurrentSet = 0;
 
     int enemyAmountWave = 0;
+
+    void checkAndUpdateEnemyNumber();
+    void checkAndUpdateEnemySetNumber();
+    void checkAndUpdateWaveNumber(int tempCurrentEnemyWaveHolder);
 
 // struct somethingmeaningful { float meaningful1; float meaningful2; };
 // using mymeaningfulmap = std::map<int, somethingmeaninful>;
