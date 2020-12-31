@@ -98,3 +98,11 @@ void PathFinder::update(float deltaTime){
     bool PathFinder::getMovingStatus(){
         return moving;
     }
+
+    void PathFinder::setEnemySetNumber(int incomingEnemySet){
+        enemySetNumber = incomingEnemySet;
+    }
+
+    int PathFinder::getEnemySetNumber() {
+        return enemySetNumber;
+    }

@@ -420,6 +420,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
         std::vector<enemySetsInWave> enemySetsHolder;
         enemySetsInWave tempEnemySet;
 
+        //wave schedule parameters per this current wave
         waveScheduleDetails waveScheduleDetailHolder;
         waveScheduleDetailHolder.timeBetweenWaves = d["waves"][wave]["timeBetweenWaves"].GetInt();
         waveScheduleDetailHolder.timeBetweenEnemies = d["waves"][wave]["timeBetweenEnemy"].GetInt();
@@ -490,10 +491,12 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1);      
 
                 // std::cout << "anEnemy is: " << anEnemy << "\n";
+
                 //Add Path Finder to Skull
                 enemy->addComponent<PathFinder>();
                 enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
                 enemy->getComponent<PathFinder>()->setWave(wave);
+                enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);       
             }
             
         }

@@ -37,7 +37,7 @@ Main::Main()
     scheduleManager->currentScene = currentScene; //not sure about this pattern, here the two managers 'know' each other
     currentScene->scheduleManager = scheduleManager;
 
-    currentScene->scheduleManager->fectInitialWaveSchedule();
+    currentScene->scheduleManager->fetchInitialWaveSchedule();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);

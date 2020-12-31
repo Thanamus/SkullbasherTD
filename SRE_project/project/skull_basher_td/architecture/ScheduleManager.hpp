@@ -16,7 +16,7 @@ class ScheduleManager {
         void update(float deltaTime); //Note, can't inherit from Updateable, since Updateable is private to scene.
 
         std::shared_ptr<Scene> currentScene;
-        void fectInitialWaveSchedule();
+        void fetchInitialWaveSchedule();
     private:
 
         int timeBetweenWaves = 0;
@@ -24,7 +24,7 @@ class ScheduleManager {
         bool waveGoGoGo = false;
         bool enemyGoGoGo = false;
 
-        int elapsedTimeInSec;
+        int elapsedTimeInSec = 0;;
         std::chrono::steady_clock::time_point startTime;
         std::chrono::steady_clock::time_point kickOffTime;
         // startTimeEpoch;

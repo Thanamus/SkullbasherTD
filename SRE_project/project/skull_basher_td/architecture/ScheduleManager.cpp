@@ -36,22 +36,38 @@ void ScheduleManager::update(float deltaTime){
         if ( elapsedTimeInSec % timeBetweenEnemies == 0)
         {
             auto gameObjectsList = currentScene->getGameObjects();
+            int enemyToGoGoGo = currentScene->gameManager->getCurrentEnemy();
+            int enemySetToGoGoGo = currentScene->gameManager->getCurrentEnemySet();
+            int enemyWaveToGoGoGo = currentScene->gameManager->getCurrentWave();
+
             for (size_t i = 0; i < gameObjectsList.size(); i++)
             {
                 auto tempGameObject = gameObjectsList[i];
                 if (auto objectWithPathFinder = tempGameObject->getComponent<PathFinder>())
-                {
-                    int waveOfCurrentObjectWithPathFinder = objectWithPathFinder->getWave();
-                    if (waveOfCurrentObjectWithPathFinder == currentScene->gameManager->getCurrentWave())
-                    {
-                        int currentEnemyNumber = objectWithPathFinder->getEnemyNumber();
-                        if (currentEnemyNumber == currentScene->gameManager->getCurrentEnemy())
-                        {
-                            objectWithPathFinder->setMovingStatus(true);
+                { //get the GameObject with PathFinder
 
-                            //TODOMake Game Manager Update Enemy and Wave Details
-                        }
+                    //get the wave number to compare with the next enemy to start moving
+                    int currentEnemyWaveNumber = objectWithPathFinder->getWave();
+                    int currentEnemyNumber = objectWithPathFinder->getEnemyNumber();
+                    int currentEnemySetNumber = objectWithPathFinder->getEnemyNumber();
+
+                    if (currentEnemyWaveNumber == enemyWaveToGoGoGo &&
+                        currentEnemySetNumber == enemySetToGoGoGo &&
+                        currentEnemyNumber == enemyToGoGoGo)
+                    {
+                        objectWithPathFinder->setMovingStatus(true);
                     }
+                    
+
+                    // if (waveOfCurrentObjectWithPathFinder == currentScene->gameManager->getCurrentWave())
+                    // { //wave number is correct, check set number
+                    //     if (currentEnemyNumber == currentScene->gameManager->getCurrentEnemy())
+                    //     {
+                    //         objectWithPathFinder->setMovingStatus(true);
+
+                    //         //TODOMake Game Manager Update Enemy and Wave Details
+                    //     }
+                    // }
                 }
             }
         }
@@ -66,7 +82,7 @@ void ScheduleManager::update(float deltaTime){
 }
 
 
-void ScheduleManager::fectInitialWaveSchedule(){
+void ScheduleManager::fetchInitialWaveSchedule(){
         //set inital timeBetweenWaves
     waveScheduleDetails initialTimeBetweens = currentScene->gameManager->getCurrentTimeBetweenWaves();
     timeBetweenWaves = initialTimeBetweens.timeBetweenWaves;

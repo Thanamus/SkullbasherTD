@@ -49,13 +49,18 @@ public:
     int getFirstPathIndex();
     glm::vec3 getNextPathPoint(int currentPathIndex);
 
+    //wave details
     int getCurrentEnemy();
+    int getCurrentEnemySet();
     int getCurrentWave();
+
     int getEnemyAmountWave();
     waveScheduleDetails getCurrentTimeBetweenWaves();
 
     void setCurrentEnemy(int currentEnemy);
     void addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails);
+
+    void updateAllWaveStats();
 
 private:
     void loadTowers(std::string filename);
@@ -71,12 +76,18 @@ private:
 
     // Wave stats
     int currentWave = 0;
+    int totalWavesInLevel = 0;
+
     int enemySetsAmount = 0; //assuming this means how many waves
 
+
     int currentEnemySet = 0;
-    int currentEnemyInset = 0;
+    int totalEnemySetsInCurrentWave = 0;
+    // int currentEnemyInset = 0;
 
     int currentEnemy = 0;
+    int totalEnemiesInCurrentSet = 0;
+
     int enemyAmountWave = 0;
 
 // struct somethingmeaningful { float meaningful1; float meaningful2; };

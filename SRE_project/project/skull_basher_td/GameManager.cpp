@@ -157,6 +157,10 @@ int GameManager::getCurrentEnemy(){
     return currentEnemy;
 }
 
+int GameManager::getCurrentEnemySet(){
+    return currentEnemySet;
+}
+
 int GameManager::getCurrentWave(){
     return currentWave;
 }
@@ -173,4 +177,24 @@ waveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
 //     int timeBetweenEnemies;
 // };
     return waveAndTimeBetweens[currentWave];
+}
+
+void GameManager::updateAllWaveStats(){
+    int tempCurrentEnemyHolder = currentEnemy;
+    tempCurrentEnemyHolder ++;
+
+    if (tempCurrentEnemyHolder > totalEnemiesInCurrentSet)
+    {
+        
+        /* code */
+    }
+    
+
+    // check enemy
+        //if last enemy in current set
+            // update Set
+            // reset enemy to 0
+                //if last set in wave
+                    // update wave
+                    // reset set and enemy to 0
 }
