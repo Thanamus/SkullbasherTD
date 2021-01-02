@@ -455,7 +455,9 @@
         }
     },
     "waves": [
-        {"enemies":[{"enemyType":1,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":10}
+        {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":2,"quantity":4}], "timeBetweenEnemy":5, "timeBetweenWaves":10},
+        {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":1,"quantity":2}], "timeBetweenEnemy":1, "timeBetweenWaves":10},
+        {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":5, "timeBetweenWaves":10}
     ],
     "enemyLookup":{
         "1": {
@@ -465,6 +467,24 @@
                 "x": 0.4,
                 "y": 0.4,
                 "z": 0.4
+            }
+        },
+        "2": {
+            "object": "Skull01.obj",
+            "rotation": -90,
+            "scaleFactors": {
+                "x": 0.1,
+                "y": 0.1,
+                "z": 0.1
+            }
+        },
+        "3": {
+            "object": "Skull01.obj",
+            "rotation": -90,
+            "scaleFactors": {
+                "x": 0.8,
+                "y": 0.8,
+                "z": 0.8
             }
         }
     }

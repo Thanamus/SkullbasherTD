@@ -94,6 +94,7 @@ private:
     void checkAndUpdateEnemyNumber();
     void checkAndUpdateEnemySetNumber();
     void checkAndUpdateWaveNumber(int tempCurrentEnemyWaveHolder);
+    void setTotalEnemiesInCurrentSet(); // made this into a method to maintain consitent code
 
 // struct somethingmeaningful { float meaningful1; float meaningful2; };
 // using mymeaningfulmap = std::map<int, somethingmeaninful>;

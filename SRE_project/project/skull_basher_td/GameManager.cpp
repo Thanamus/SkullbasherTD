@@ -150,6 +150,7 @@ void GameManager::addWave(int waveNumber, std::vector<enemySetsInWave> enemySets
     waveAndEnemys[waveNumber]=enemySets;
     waveAndTimeBetweens[waveNumber]=waveDetails;
     enemyAmountWave += 1; //adds a wave amount every time add wave is called. 
+    totalWavesInLevel += 1;
     // waveAndEnemys.insert(waveNumber, enemySets);
 }
 
@@ -191,16 +192,18 @@ void GameManager::updateAllWaveStats(){
 
         //check set
         tempCurrentEnemySetHolder ++;
-        if (tempCurrentEnemySetHolder > totalEnemySetsInCurrentWave)
+        if (tempCurrentEnemySetHolder >= totalEnemySetsInCurrentWave)
         { // temp set is higher than the total
 
             //check wave
             tempCurrentEnemyWaveHolder ++;
-            if (tempCurrentEnemyWaveHolder > totalWavesInLevel)
-            {
+            std::cout << "waves in level" << totalWavesInLevel;
+            
+            if (tempCurrentEnemyWaveHolder >= totalWavesInLevel)
+            { // temp waves is higher than total waves
                 return; //Do nothing, the level is at the last wave anyway
             } else //update wave
-            {
+            { //temp wave is under total waves
                 checkAndUpdateWaveNumber(tempCurrentEnemyWaveHolder);
                 return;
             }
@@ -210,7 +213,8 @@ void GameManager::updateAllWaveStats(){
         {
             currentEnemySet = tempCurrentEnemySetHolder;
             //get total number of enemies in the current set
-            totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy;
+            setTotalEnemiesInCurrentSet(); 
+            // totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1;
 
             //reset enemy number
             currentEnemy = 0;
@@ -250,7 +254,8 @@ void GameManager::updateAllWaveStats(){
             currentEnemySet = 0;
 
             //get new total enemies
-            totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1; //minus one, because counting starts at 1, not 0
+            setTotalEnemiesInCurrentSet();
+            // totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1; 
                 
             //get new total sets
             totalEnemySetsInCurrentWave = waveAndEnemys[currentWave].size();
@@ -261,5 +266,9 @@ void GameManager::updateAllWaveStats(){
         totalEnemySetsInCurrentWave = waveAndEnemys[0].size();
 
         //get wave 0 enemies
-        totalEnemiesInCurrentSet = waveAndEnemys[0][0].quantiy;
+        totalEnemiesInCurrentSet = waveAndEnemys[0][0].quantiy - 1; //minus one, because counting starts at 1, not 0
+    }
+
+    void GameManager::setTotalEnemiesInCurrentSet() {
+        totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1; //minus one, because counting starts at 1, not 0
     }
