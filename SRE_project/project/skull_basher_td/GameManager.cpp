@@ -142,16 +142,11 @@ int GameManager::getFirstPathIndex(){
     return path.size()-1;
 }
 
-// void GameManager::setWaves(int waves){
-//     waveAmount = waves;
-// }
-
 void GameManager::addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails){
     waveAndEnemys[waveNumber]=enemySets;
     waveAndTimeBetweens[waveNumber]=waveDetails;
     enemyAmountWave += 1; //adds a wave amount every time add wave is called. 
     totalWavesInLevel += 1;
-    // waveAndEnemys.insert(waveNumber, enemySets);
 }
 
 int GameManager::getCurrentEnemy(){
@@ -172,11 +167,6 @@ int GameManager::getEnemyAmountWave(){
 
 waveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
 
-//     //return current
-//     struct waveScheduleDetails {
-//     int timeBetweenWaves;
-//     int timeBetweenEnemies;
-// };
     return waveAndTimeBetweens[currentWave];
 }
 
@@ -197,7 +187,7 @@ void GameManager::updateAllWaveStats(){
 
             //check wave
             tempCurrentEnemyWaveHolder ++;
-            std::cout << "waves in level" << totalWavesInLevel;
+            // std::cout << "waves in level" << totalWavesInLevel;
             
             if (tempCurrentEnemyWaveHolder >= totalWavesInLevel)
             { // temp waves is higher than total waves
@@ -214,7 +204,6 @@ void GameManager::updateAllWaveStats(){
             currentEnemySet = tempCurrentEnemySetHolder;
             //get total number of enemies in the current set
             setTotalEnemiesInCurrentSet(); 
-            // totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1;
 
             //reset enemy number
             currentEnemy = 0;
@@ -227,15 +216,6 @@ void GameManager::updateAllWaveStats(){
         currentEnemy = tempCurrentEnemyHolder;
     }
     
-    
-
-    // check enemy
-        //if last enemy in current set
-            // update Set
-            // reset enemy to 0
-                //if last set in wave
-                    // update wave
-                    // reset set and enemy to 0
 }
 
 
@@ -255,7 +235,6 @@ void GameManager::updateAllWaveStats(){
 
             //get new total enemies
             setTotalEnemiesInCurrentSet();
-            // totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1; 
                 
             //get new total sets
             totalEnemySetsInCurrentWave = waveAndEnemys[currentWave].size();
