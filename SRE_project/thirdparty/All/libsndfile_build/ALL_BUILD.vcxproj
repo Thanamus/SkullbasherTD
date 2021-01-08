@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4B8A970F-EE60-3CF7-9FE7-3FB4EA386E80}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files\CMake\share\cmake-3.19\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakePushCheckState.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTestTargets.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCSourceRuns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\DartConfiguration.tcl.in;C:\Program Files\CMake\share\cmake-3.19\Modules\FeatureSummary.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindSQLite3.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckSourceRuns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\TestBigEndian.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.19\Templates\CPackConfig.cmake.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\CMakeAutoGen.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\CheckCPUArch.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\ClipMode.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindFLAC.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindOgg.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindOpus.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindSpeex.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindVorbis.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\SndFileChecks.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\SndFileConfig.cmake.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\TestInline.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\TestLargeFiles.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\include\sndfile.h.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\sndfile.pc.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\src\config.h.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeCXXCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeRCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files\CMake\share\cmake-3.19\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakePushCheckState.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTestTargets.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCSourceRuns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\DartConfiguration.tcl.in;C:\Program Files\CMake\share\cmake-3.19\Modules\FeatureSummary.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindSQLite3.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckSourceRuns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\TestBigEndian.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.19\Templates\CPackConfig.cmake.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\CMakeAutoGen.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\CheckCPUArch.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\ClipMode.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindFLAC.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindOgg.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindOpus.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindSpeex.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindVorbis.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\SndFileChecks.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\SndFileConfig.cmake.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\TestInline.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\TestLargeFiles.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\include\sndfile.h.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\sndfile.pc.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\src\config.h.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeCXXCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeRCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Program Files\CMake\share\cmake-3.19\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakePushCheckState.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTestTargets.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCSourceRuns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\DartConfiguration.tcl.in;C:\Program Files\CMake\share\cmake-3.19\Modules\FeatureSummary.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindSQLite3.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckSourceRuns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\TestBigEndian.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.19\Templates\CPackConfig.cmake.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\CMakeAutoGen.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\CheckCPUArch.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\ClipMode.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindFLAC.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindOgg.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindOpus.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindSpeex.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindVorbis.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\SndFileChecks.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\SndFileConfig.cmake.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\TestInline.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\TestLargeFiles.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\include\sndfile.h.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\sndfile.pc.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\src\config.h.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeCXXCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeRCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/libsndfile_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Program Files\CMake\share\cmake-3.19\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakePushCheckState.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTestTargets.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckCSourceRuns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\DartConfiguration.tcl.in;C:\Program Files\CMake\share\cmake-3.19\Modules\FeatureSummary.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\FindSQLite3.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Internal\CheckSourceRuns.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\TestBigEndian.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.19\Templates\CPackConfig.cmake.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\CMakeAutoGen.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\CheckCPUArch.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\ClipMode.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindFLAC.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindOgg.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindOpus.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindSpeex.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\FindVorbis.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\SndFileChecks.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\SndFileConfig.cmake.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\TestInline.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\cmake\TestLargeFiles.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\include\sndfile.h.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\sndfile.pc.in;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile\src\config.h.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeCXXCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeRCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\3.19.0-rc2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\ZERO_CHECK.vcxproj">
+      <Project>{A45C94FD-7BE8-38A5-B673-AE84B849F8DD}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\aiff_rw_test.vcxproj">
+      <Project>{48A7CB0C-84E9-3B9B-A9A3-2B27C621737A}</Project>
+      <Name>aiff_rw_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\alaw_test.vcxproj">
+      <Project>{B2822B93-03CC-3718-B7A9-2234B03F5722}</Project>
+      <Name>alaw_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\channel_test.vcxproj">
+      <Project>{DFC9875D-28B5-3DB1-8EF7-B41B7B6DE7CC}</Project>
+      <Name>channel_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\checksum_test.vcxproj">
+      <Project>{297E6717-4EBB-39D5-924A-458327545B49}</Project>
+      <Name>checksum_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\chunk_test.vcxproj">
+      <Project>{997A63D8-FBAF-310A-98C8-AD71DCBAF99B}</Project>
+      <Name>chunk_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\command_test.vcxproj">
+      <Project>{2AF98BC0-E536-367E-BE8E-4DC88572DC07}</Project>
+      <Name>command_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\compression_size_test.vcxproj">
+      <Project>{34D55B69-D685-3F6D-8B80-8DCA2CF2FCCE}</Project>
+      <Name>compression_size_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\cpp_test.vcxproj">
+      <Project>{E942110D-99F1-39BF-A485-EAB0EA4940A4}</Project>
+      <Name>cpp_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\dwvw_test.vcxproj">
+      <Project>{7529AF4E-E9E1-39C7-B254-25EB0B4E2B74}</Project>
+      <Name>dwvw_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\error_test.vcxproj">
+      <Project>{3E5DC275-160A-3C5C-B935-F11595726F46}</Project>
+      <Name>error_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\external_libs_test.vcxproj">
+      <Project>{1A32EE7D-8C09-352D-B2E0-83FF00747DC5}</Project>
+      <Name>external_libs_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\floating_point_test.vcxproj">
+      <Project>{716D4834-C6B7-3FBB-B487-FED77A478C29}</Project>
+      <Name>floating_point_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\format_check_test.vcxproj">
+      <Project>{BC6AD662-06CB-3C46-8B43-342D8088B68D}</Project>
+      <Name>format_check_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\g72x_test.vcxproj">
+      <Project>{EA5653EB-0E07-3B77-B7A5-79AE56C53641}</Project>
+      <Name>g72x_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\header_test.vcxproj">
+      <Project>{E61EB22E-1535-3F6B-8F99-2DD685ACDBC2}</Project>
+      <Name>header_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\headerless_test.vcxproj">
+      <Project>{A6471E48-B566-390B-B286-0415C1176689}</Project>
+      <Name>headerless_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\list_formats.vcxproj">
+      <Project>{460B9056-CD7C-37F2-8799-C3DFCFE21CE8}</Project>
+      <Name>list_formats</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\locale_test.vcxproj">
+      <Project>{16E3C3E2-5274-3B96-82B4-D565E8CB3A15}</Project>
+      <Name>locale_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\long_read_write_test.vcxproj">
+      <Project>{824B82A3-D6E5-327E-B5E9-4B1B5A5FEBBE}</Project>
+      <Name>long_read_write_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\lossy_comp_test.vcxproj">
+      <Project>{B1100FC1-577D-3127-AB55-DBF3F4D4EEF7}</Project>
+      <Name>lossy_comp_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\make_sine.vcxproj">
+      <Project>{A11CD9AC-A26E-32DC-95F3-FC066DF9B159}</Project>
+      <Name>make_sine</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\misc_test.vcxproj">
+      <Project>{80E1B27E-D9CD-3BE2-90CF-8D45D98C41C5}</Project>
+      <Name>misc_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\multi_file_test.vcxproj">
+      <Project>{10D70B50-5151-3059-B319-CC1904B563ED}</Project>
+      <Name>multi_file_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\ogg_opus_test.vcxproj">
+      <Project>{0112A9E4-20CB-3828-9F21-D9B0332A23DC}</Project>
+      <Name>ogg_opus_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\ogg_test.vcxproj">
+      <Project>{8342E82D-71D6-3AB0-A145-DC8C1FA5A89C}</Project>
+      <Name>ogg_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\pcm_test.vcxproj">
+      <Project>{036DC768-6CCE-3BC5-8DFA-6144195FF8BF}</Project>
+      <Name>pcm_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\peak_chunk_test.vcxproj">
+      <Project>{F22DFE64-1952-3106-A07E-9F7AE84D403C}</Project>
+      <Name>peak_chunk_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\pipe_test.vcxproj">
+      <Project>{98D18260-8790-371F-9363-166BD4C0A0E9}</Project>
+      <Name>pipe_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\raw_test.vcxproj">
+      <Project>{06BD725E-782F-3ABB-A518-A48DB6CDEDA0}</Project>
+      <Name>raw_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\rdwr_test.vcxproj">
+      <Project>{FCE6B7B3-FC63-38F5-B0F5-38E2C7A0478E}</Project>
+      <Name>rdwr_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\scale_clip_test.vcxproj">
+      <Project>{1F68B8C5-430F-31BA-9EF7-C9699BBC24FD}</Project>
+      <Name>scale_clip_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sfprocess.vcxproj">
+      <Project>{BE9B029D-FD99-3B28-BD95-0AC7517FDC73}</Project>
+      <Name>sfprocess</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sfversion.vcxproj">
+      <Project>{60C77D9F-F52A-3F6C-8622-80C8B88A1479}</Project>
+      <Name>sfversion</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile.vcxproj">
+      <Project>{473DA195-19B6-3C85-A52B-1E5485DB0D4F}</Project>
+      <Name>sndfile</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-cmp.vcxproj">
+      <Project>{C582B3C3-8580-3B0D-BF47-E0BB2120DFE0}</Project>
+      <Name>sndfile-cmp</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-concat.vcxproj">
+      <Project>{9039EBC7-8E83-33C4-978C-05CCAC640314}</Project>
+      <Name>sndfile-concat</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-convert.vcxproj">
+      <Project>{EC3EE4F3-85F1-3533-8082-4B398694FEEB}</Project>
+      <Name>sndfile-convert</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-deinterleave.vcxproj">
+      <Project>{ACF94A4D-A186-36F6-946A-B8572A772827}</Project>
+      <Name>sndfile-deinterleave</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-info.vcxproj">
+      <Project>{C46E0EE5-CD7A-3989-8A4C-C835587A7FF8}</Project>
+      <Name>sndfile-info</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-interleave.vcxproj">
+      <Project>{3258FC29-A191-3A6B-A368-281E92E42DD2}</Project>
+      <Name>sndfile-interleave</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-loopify.vcxproj">
+      <Project>{0D783E0E-F9FB-3441-B9D4-AF9B9F26B668}</Project>
+      <Name>sndfile-loopify</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-metadata-get.vcxproj">
+      <Project>{98E141C8-7922-37BA-8A1B-640DC1EF38A2}</Project>
+      <Name>sndfile-metadata-get</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-metadata-set.vcxproj">
+      <Project>{6048F0C9-EEA5-31EF-98E9-023B2194F185}</Project>
+      <Name>sndfile-metadata-set</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-play.vcxproj">
+      <Project>{1CDA73AB-23F5-3E01-9CBD-8F263CFD13B2}</Project>
+      <Name>sndfile-play</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-salvage.vcxproj">
+      <Project>{571CB395-3F4A-30B3-9006-933C770D9BD6}</Project>
+      <Name>sndfile-salvage</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile-to-text.vcxproj">
+      <Project>{0EA98D3B-8081-3E99-A0C6-794760AB3484}</Project>
+      <Name>sndfile-to-text</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfilehandle.vcxproj">
+      <Project>{F0DCA3ED-931C-34CE-8DAF-930DE8D10012}</Project>
+      <Name>sndfilehandle</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\stdin_test.vcxproj">
+      <Project>{6B263785-01A2-3EA9-A501-3CF48244A037}</Project>
+      <Name>stdin_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\stdio_test.vcxproj">
+      <Project>{25522773-8A41-3FC3-9F40-26A97EA7D0E8}</Project>
+      <Name>stdio_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\stdout_test.vcxproj">
+      <Project>{E70891CE-101A-3E3B-B47C-F06826395FAD}</Project>
+      <Name>stdout_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\string_test.vcxproj">
+      <Project>{1F6502F9-B84B-3341-9FC9-2436B9D5F123}</Project>
+      <Name>string_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\test_main.vcxproj">
+      <Project>{3DCD35ED-948D-37A1-AA80-73E444709E97}</Project>
+      <Name>test_main</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\test_utils.vcxproj">
+      <Project>{9AAE1305-3CD9-39CD-96AB-28BB9E085F74}</Project>
+      <Name>test_utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\ulaw_test.vcxproj">
+      <Project>{1FBE0029-0B9F-33AF-A48C-9948D503DF39}</Project>
+      <Name>ulaw_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\virtual_io_test.vcxproj">
+      <Project>{9FEC893B-7FB5-377E-AF49-F7D9904941AF}</Project>
+      <Name>virtual_io_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\write_read_test.vcxproj">
+      <Project>{85084205-F74D-3C5E-A046-3C8C65BA58E4}</Project>
+      <Name>write_read_test</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

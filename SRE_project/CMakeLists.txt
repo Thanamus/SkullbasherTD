@@ -144,6 +144,20 @@ ENDIF(USE_BULLET)
 #### Sol #####
 INCLUDE_DIRECTORIES (thirdparty/All/include)
 
+#### OpenAL #####
+find_package(OpenAL)
+add_subdirectory(thirdparty/All/OpenAL-soft)
+INCLUDE_DIRECTORIES (thirdparty/All/OpenAL-soft/include)
+
+#### libsndfile ### 
+# used by OpenAL coding in Skullbasher TD
+find_package(SndFile)
+add_subdirectory(thirdparty/All/libsndfile)
+#add_subdirectory(thirdparty/All/libsndfile_build)
+INCLUDE_DIRECTORIES (thirdparty/All/libsndfile)
+INCLUDE_DIRECTORIES (thirdparty/All/libsndfile_build/include)
+#INCLUDE_DIRECTORIES (thirdparty/All/libsndfile_build/include)
+
 set(OPENVR_LIB)
 IF (USE_OPENVR)
     find_package(OpenVR REQUIRED)

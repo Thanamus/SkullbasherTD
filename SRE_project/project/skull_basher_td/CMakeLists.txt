@@ -25,6 +25,7 @@ add_executable(skull_basher_td ${SkullBasherTD})
 target_link_libraries(skull_basher_td ${all_libs})
 
 
+
 # copy files to dest
 file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
 file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)

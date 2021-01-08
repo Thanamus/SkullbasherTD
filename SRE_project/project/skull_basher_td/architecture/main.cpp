@@ -12,6 +12,11 @@
 #include "BulletPhysics.hpp"
 #include "Main.hpp"
 
+
+//sound Device
+#include "SoundDevice.hpp"
+#include "SoundBuffer.hpp"
+
 Main::Main()
 {
     // std::cout << "Hello world" << "\n";
@@ -21,6 +26,10 @@ Main::Main()
     //make scence
     auto scene = createScene();
     currentScene = scene;
+
+    //setup sound
+    SoundDevice * mySoundDevice = SoundDevice::get();
+    uint32_t /*ALuint*/ sound1 = SoundBuffer::get()->addSoundEffect("C:\\Users\\nfgol\\ITU_GProg\\Potential_assets\\sounds\\spells\\pestilence.ogg");
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
