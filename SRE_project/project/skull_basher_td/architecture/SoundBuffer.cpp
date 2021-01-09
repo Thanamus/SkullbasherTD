@@ -2,7 +2,8 @@
 #include <sndfile.h> //To make sure snd loads, first cMake sndfile and into the SRE thirdparty /All folder
 // #include <sndfile.hh>
 #include <inttypes.h>
-#include <AL\alext.h>
+// #include <AL\alext.h>
+#include <AL/alext.h>
 
 SoundBuffer* SoundBuffer::get(){
     static SoundBuffer* sndbuf = new SoundBuffer();

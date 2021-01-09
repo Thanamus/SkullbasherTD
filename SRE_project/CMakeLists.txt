@@ -144,19 +144,121 @@ ENDIF(USE_BULLET)
 #### Sol #####
 INCLUDE_DIRECTORIES (thirdparty/All/include)
 
+include(ExternalProject)
+
 #### OpenAL #####
 find_package(OpenAL)
-add_subdirectory(thirdparty/All/OpenAL-soft)
+if($OPENAL_FOUND)
+else($OPENAL_Found)
+        ExternalProject_Add(
+        OpenAL
+        URL http://kcat.strangesoft.net/openal-releases/openal-soft-1.14.tar.bz2
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ${MAKE}
+    )
+endif($OPENAL_FOUND)
+
+
+#add_subdirectory(thirdparty/All/OpenAL-soft)
 INCLUDE_DIRECTORIES (thirdparty/All/OpenAL-soft/include)
+
+#file(COPY thirdparty/All/OpenAL-soft DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+#file(COPY thirdparty/All/OpenAL-soft DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
 
 #### libsndfile ### 
 # used by OpenAL coding in Skullbasher TD
 find_package(SndFile)
-add_subdirectory(thirdparty/All/libsndfile)
-#add_subdirectory(thirdparty/All/libsndfile_build)
-INCLUDE_DIRECTORIES (thirdparty/All/libsndfile)
-INCLUDE_DIRECTORIES (thirdparty/All/libsndfile_build/include)
+#add_subdirectory(thirdparty/All/libsndfile)
+
+#INCLUDE_DIRECTORIES (thirdparty/All/libsndfile)
 #INCLUDE_DIRECTORIES (thirdparty/All/libsndfile_build/include)
+
+find_package(FLAC)
+if(${FLAC_FOUND})
+else(${FLAC_FOUND})
+
+    ExternalProject_Add(
+        FLAC
+        URL "http://downloads.xiph.org/releases/flac/flac-1.3.0.tar.xz"
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ${MAKE}
+    )
+
+    ExternalProject_Get_Property(FLAC install_dir)
+    include_directories(${install_dir/include})
+    SET(FLAC_DIR install_dir)
+endif(${FLAC_FOUND})
+
+find_package(Ogg)
+if(${Ogg_FOUND})
+else(${Ogg_FOUND})
+    include(ExternalProject)
+
+    ExternalProject_Add(
+        libogg
+        URL "https://downloads.xiph.org/releases/ogg/libogg-1.3.4.tar.xz"
+        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/flac/configure --prefix=<INSTALL_DIR>
+        BUILD_COMMAND ${MAKE}
+        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/ogg
+        UPDATE_COMMAND ""
+        INSTALL_COMMAND 
+        LOG_DOWNLOAD ON
+        LOG_CONFIGURE ON
+        LOG_BUILD ON
+    )
+    ExternalProject_Get_Property(libogg install_dir)
+    include_directories(${install_dir/include})
+endif(${Ogg_FOUND})
+
+find_package(Vorbis)
+if(${Vorbis_FOUND})
+else(${Vorbis_FOUND})
+    include(ExternalProject)
+
+    ExternalProject_Add(
+        libvorbis
+        URL "https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz"
+        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/flac/configure --prefix=<INSTALL_DIR>
+        BUILD_COMMAND ${MAKE}
+        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/vorbis
+        UPDATE_COMMAND ""
+        INSTALL_COMMAND 
+        LOG_DOWNLOAD ON
+        LOG_CONFIGURE ON
+        LOG_BUILD ON
+    )
+    ExternalProject_Get_Property(libvorbis install_dir)
+    include_directories(${install_dir/include})
+endif(${Vorbis_FOUND})
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+
+find_package(SndFile)
+ExternalProject_Add(
+    SndFile
+    DEPENDS FLAC libogg libvorbis
+    URL "http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.25.tar.gz"
+    CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/LibSndFile/configure --prefix=<INSTALL_DIR>
+    BUILD_COMMAND ${MAKE}
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/SndFile
+    UPDATE_COMMAND ""
+    INSTALL_COMMAND 
+    LOG_DOWNLOAD ON
+    LOG_CONFIGURE ON
+    LOG_BUILD ON
+)
+    ExternalProject_Get_Property(SndFile install_dir)
+    include_directories(${install_dir/include})
+
+#dd_subdirectory(thirdparty/All/libsndfile_build)
+INCLUDE_DIRECTORIES (thirdparty/All/libsndfile_build/include)
+    
+######### end libsndfile ##############
+
+file(COPY thirdparty/All/libsndfile_build DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+file(COPY thirdparty/All/libsndfile_build DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+
 
 set(OPENVR_LIB)
 IF (USE_OPENVR)
@@ -197,3 +299,4 @@ SET(USE_SRE_PROJECT_EXAMPLES ON CACHE BOOL "Enable project examples for SRE")
 if (USE_SRE_PROJECT_EXAMPLES)
 add_subdirectory(project)
 endif(USE_SRE_PROJECT_EXAMPLES)
+
