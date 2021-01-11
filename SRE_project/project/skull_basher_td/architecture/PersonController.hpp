@@ -26,6 +26,8 @@ public:
     bool quit = false;
     std::shared_ptr<Camera> camera;
     std::shared_ptr<GameObject> rayTestedCube;
+    std::shared_ptr<GameObject> tower;
+    std::shared_ptr<Scene> currentScene;
 private:
 
     glm::vec3 world_up = glm::vec3(0, 1, 0);

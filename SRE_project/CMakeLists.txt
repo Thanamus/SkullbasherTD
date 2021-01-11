@@ -125,8 +125,8 @@ ENDIF (APPLE)
 #    BULLET_MATH_LIBRARY_DEBUG:PATH=/usr/local/Cellar/bullet/2.87_1/Frameworks/LinearMath.framework
 #
 
-option(USE_BULLET "Include bullet example" ON)
-IF (USE_BULLET)
+#option(USE_BULLET "Include bullet example" ON)
+#IF (USE_BULLET)
 IF (WIN32)
     SET(BULLET_DYNAMICS_LIBRARY  ${CMAKE_SOURCE_DIR}/thirdparty/Win/Bullet/lib/BulletDynamics.lib CACHE PATH "")
     SET(BULLET_COLLISION_LIBRARY ${CMAKE_SOURCE_DIR}/thirdparty/Win/Bullet/lib/BulletCollision.lib CACHE PATH  "")
@@ -139,7 +139,7 @@ ELSE (WIN32)
     find_package(Bullet REQUIRED)
 ENDIF(WIN32)
     include_directories(${BULLET_INCLUDE_DIRS})
-ENDIF(USE_BULLET)
+#ENDIF(USE_BULLET)
 
 #### Sol #####
 INCLUDE_DIRECTORIES (thirdparty/All/include)
@@ -160,9 +160,9 @@ ENDIF(USE_OPENVR)
 # all_libs contains a list of all libraries that should be linked
 # for bullet support add ${BULLET_LIBRARIES}
 set(all_libs ${EXTRA_LIBS} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${SDL2MIXER_LIBRARY} ${LUA_LIBRARIES} SRE debug ${Box2D_LIBRARY_DEBUG} optimized ${Box2D_LIBRARY_REL} ${OPENVR_LIB})
-IF (USE_BULLET)
+#IF (USE_BULLET)
 	set(all_libs optimized  ${all_libs} optimized  ${BULLET_DYNAMICS_LIBRARY} optimized  ${BULLET_COLLISION_LIBRARY} optimized  ${BULLET_MATH_LIBRARY} debug ${BULLET_DYNAMICS_LIBRARY_DEBUG} debug ${BULLET_COLLISION_LIBRARY_DEBUG} debug ${BULLET_MATH_LIBRARY_DEBUG} )
-ENDIF(USE_BULLET)
+#ENDIF(USE_BULLET)
 
 
 

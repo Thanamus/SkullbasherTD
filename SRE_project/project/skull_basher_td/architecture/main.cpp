@@ -11,6 +11,7 @@
 #include "glm/gtx/string_cast.hpp"
 #include "BulletPhysics.hpp"
 #include "Main.hpp"
+#include "sre/Material.hpp"
 
 Main::Main()
 {
@@ -20,6 +21,10 @@ Main::Main()
     r.init();
     auto scene = createScene();
     currentScene = scene;
+
+    auto tempCam = currentScene->cameras[0]->getGameObject();
+    // tempCam->getComponent<Camera>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->currentScene = currentScene;
 
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
@@ -113,9 +118,19 @@ std::shared_ptr<Scene> Main::createScene(){
     auto rayTestCube = res->createGameObject("Ray Tested Cube");
     rayTestCube->getComponent<Transform>()->position = {0,0,0};
     rayTestCube->getComponent<Transform>()->rotation = {0,0,0};
+    rayTestCube->getComponent<Transform>()->scale = {0.1f,0.1f,0.1f};
     auto rayTestCubeMR = rayTestCube->addComponent<ModelRenderer>();
     rayTestCubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+
+    auto tower = res->createGameObject("Tower");
+    tower->getComponent<Transform>()->position = {0,0,0};
+    tower->getComponent<Transform>()->rotation = {0,0,0};
+    tower->getComponent<Transform>()->scale = {0.5f,0.5f,0.5f};
+    auto towerMR = tower->addComponent<ModelRenderer>();
+    towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+
     cameraObj->getComponent<PersonController>()->rayTestedCube = rayTestCube;
+    cameraObj->getComponent<PersonController>()->tower = tower;
 
     //Load Map
     res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);

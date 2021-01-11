@@ -37,7 +37,7 @@ void PersonController::update(float deltaTime)
     updateVectors();
 
     camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
-    camera->TestRay(camera_front, this->rayTestedCube);
+    camera->TestRay(camera_front, this->rayTestedCube, this->tower, currentScene->getGameObjects());
 
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);

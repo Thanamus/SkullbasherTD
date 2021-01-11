@@ -40,7 +40,11 @@ public:
     Ray screenPointToRay(glm::vec2 point);
 
     sre::Camera getCamera();
-    void TestRay(glm::vec3 front, std::shared_ptr<GameObject> rayTestedCube);
+    void TestRay(glm::vec3 front, std::shared_ptr<GameObject> rayTestedCube, std::shared_ptr<GameObject> tower, std::vector<std::shared_ptr<GameObject>> gameObjects);
+    bool Camera::AabbContainsSegment (float x1, float y1, float x2, float y2, float minX, float minY, float maxX, float maxY);
+    int inline Camera::GetIntersection( float fDst1, float fDst2, glm::vec3 P1, glm::vec3 P2, glm::vec3 &Hit);
+    int inline Camera::InBox( glm::vec3 Hit, glm::vec3 B1, glm::vec3 B2, const int Axis) ;
+    int Camera::CheckLineBox( glm::vec3 B1, glm::vec3 B2, glm::vec3 L1, glm::vec3 L2, glm::vec3 &Hit) ;
 private:
     Transform* transform;
     sre::Camera camera;
