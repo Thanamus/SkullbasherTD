@@ -17,6 +17,7 @@
 #include "SoundDevice.hpp" //i.e a device that is the "Listener"
 #include "SoundEffectsLibrary.hpp" //i.e. SoundBuffer
 #include "SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
+#include "MusicBuffer.hpp"
 
 Main::Main()
 {
@@ -33,6 +34,8 @@ Main::Main()
     uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load("C:\\Users\\nfgol\\ITU_GProg\\Potential_assets\\sounds\\spells\\pestilence.ogg");
 
     SoundEffectsPlayer mySpeaker;
+    
+    MusicBuffer music("C:\\Users\\nfgol\\ITU_GProg\\Potential_assets\\music\\68-Gerudo_Valley.wav"); 
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
@@ -51,10 +54,24 @@ Main::Main()
 
     currentScene->gameManager->setInitialWaveStats();
     currentScene->scheduleManager->fetchInitialWaveSchedule();
+
+    //Playing Sounds //TODO remove as these are tests
     mySpeaker.Play(sound1);
+    music.Play();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
+
+        //Update Music buffer (pkeep playing music)
+        music.UpdateBufferStream();
+        if (!music.isPlaying())
+        {
+            std::cout << "Music is: " << music.isPlaying() << std::endl;
+            music.Play();
+            music.Stop();
+            music.Resume();
+        }
+        
     };
     r.frameRender = [&]{
         currentScene->render();
@@ -179,3 +196,6 @@ int main(){
     new Main();
     return 0;
 }
+
+
+

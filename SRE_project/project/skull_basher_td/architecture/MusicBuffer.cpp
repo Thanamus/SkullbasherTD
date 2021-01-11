@@ -7,9 +7,11 @@
 #include <AL\alext.h>
 #include <malloc.h>
 #include "OpenALErrorCheck.hpp"
+#include <iostream> //for cout
 
 void MusicBuffer::Play()
 {
+	std::cout << "starting to play music: " << p_Source << "\n";
 	ALsizei i;
 
 	// clear any al errors
@@ -107,10 +109,13 @@ void MusicBuffer::UpdateBufferStream()
 		alGetSourcei(p_Source, AL_BUFFERS_QUEUED, &queued);
 		AL_CheckAndThrow();
 		if (queued == 0)
-			return;
+			 alSourceRewind(p_Source);
+		// if (queued == 0)
+		// 	return;
 
 		alSourcePlay(p_Source);
 		AL_CheckAndThrow();
+
 	}
 
 }
