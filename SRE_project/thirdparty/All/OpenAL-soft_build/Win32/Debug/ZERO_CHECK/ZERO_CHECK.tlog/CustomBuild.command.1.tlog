@@ -1,0 +1,10 @@
+^C:\USERS\NFGOL\ITU_GPROG\SKULLBASHERTD\SRE_PROJECT\THIRDPARTY\ALL\OPENAL-SOFT_BUILD\CMAKEFILES\587F6A8B555E180FF21255857C958EDF\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/OpenAL.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

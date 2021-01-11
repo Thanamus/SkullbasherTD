@@ -1,0 +1,2 @@
+C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\Debug\sndfile.pdb
+C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\sndfile.dir\Debug\sndfile.pdb

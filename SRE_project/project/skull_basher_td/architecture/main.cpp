@@ -14,8 +14,9 @@
 
 
 //sound Device
-#include "SoundDevice.hpp"
-#include "SoundBuffer.hpp"
+#include "SoundDevice.hpp" //i.e a device that is the "Listener"
+#include "SoundEffectsLibrary.hpp" //i.e. SoundBuffer
+#include "SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
 
 Main::Main()
 {
@@ -28,8 +29,10 @@ Main::Main()
     currentScene = scene;
 
     //setup sound
-    SoundDevice * mySoundDevice = SoundDevice::get();
-    uint32_t /*ALuint*/ sound1 = SoundBuffer::get()->addSoundEffect("C:\\Users\\nfgol\\ITU_GProg\\Potential_assets\\sounds\\spells\\pestilence.ogg");
+    SoundDevice * mySoundDevice = SoundDevice::Get();
+    uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load("C:\\Users\\nfgol\\ITU_GProg\\Potential_assets\\sounds\\spells\\pestilence.ogg");
+
+    SoundEffectsPlayer mySpeaker;
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
@@ -48,6 +51,7 @@ Main::Main()
 
     currentScene->gameManager->setInitialWaveStats();
     currentScene->scheduleManager->fetchInitialWaveSchedule();
+    mySpeaker.Play(sound1);
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);

@@ -26,7 +26,7 @@ file(GLOB SkullBasherTD
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Debug")
 add_executable(skull_basher_td ${SkullBasherTD})
 
-target_link_libraries(skull_basher_td ${all_libs})
+target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS})
 
 
 
