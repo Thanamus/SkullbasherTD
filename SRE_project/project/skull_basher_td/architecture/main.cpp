@@ -31,7 +31,7 @@ Main::Main()
 
     //setup sound
     SoundDevice * mySoundDevice = SoundDevice::Get();
-    uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load("C:\\Users\\nfgol\\ITU_GProg\\Potential_assets\\sounds\\spells\\pestilence.ogg");
+    uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
 
     SoundEffectsPlayer mySpeaker;
     
