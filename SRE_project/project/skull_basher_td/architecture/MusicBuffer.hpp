@@ -33,6 +33,12 @@ private:
 	short* p_Membuf;
 	ALenum p_Format;
 
+	const char* m_filename;
+
 	MusicBuffer() = delete;
+
+	void ResetDecoders();
+	void OpenDecoder();
+	void CloseDecoder();
 };
 

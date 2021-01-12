@@ -35,7 +35,7 @@ Main::Main()
 
     SoundEffectsPlayer mySpeaker;
     
-    MusicBuffer music("C:\\Users\\nfgol\\ITU_GProg\\Potential_assets\\music\\68-Gerudo_Valley.wav"); 
+    MusicBuffer music(".\\assets\\music\\68-Gerudo_Valley.wav"); 
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
@@ -64,13 +64,13 @@ Main::Main()
 
         //Update Music buffer (pkeep playing music)
         music.UpdateBufferStream();
-        if (!music.isPlaying())
-        {
-            std::cout << "Music is: " << music.isPlaying() << std::endl;
-            music.Play();
-            music.Stop();
-            music.Resume();
-        }
+        // if (!music.isPlaying())
+        // {
+        //     std::cout << "Music is: " << music.isPlaying() << std::endl;
+        //     // music.Play();
+        //     // music.Stop();
+        //     // music.Resume();
+        // }
         
     };
     r.frameRender = [&]{

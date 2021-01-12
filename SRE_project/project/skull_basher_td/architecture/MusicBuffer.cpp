@@ -108,8 +108,12 @@ void MusicBuffer::UpdateBufferStream()
 		/* If no buffers are queued, playback is finished */
 		alGetSourcei(p_Source, AL_BUFFERS_QUEUED, &queued);
 		AL_CheckAndThrow();
-		if (queued == 0)
-			 alSourceRewind(p_Source);
+		if (queued == 0) {
+			std::cout << "attempting to restart" << std::endl;
+			ResetDecoders();
+			Play();
+			return;
+		}
 		// if (queued == 0)
 		// 	return;
 
@@ -144,12 +148,64 @@ void MusicBuffer::SetGain(const float& val)
 
 MusicBuffer::MusicBuffer(const char* filename)
 {
+	m_filename = filename;
+	OpenDecoder();
+	// alGenSources(1, &p_Source);
+	// alGenBuffers(NUM_BUFFERS, p_Buffers);
+
+	// std::size_t frame_size;
+
+	// p_SndFile = sf_open(filename, SFM_READ, &p_Sfinfo);
+	// if (!p_SndFile)
+	// {
+	// 	throw("could not open provided music file -- check path");
+	// }
+
+	// /* Get the sound format, and figure out the OpenAL format */
+	// if (p_Sfinfo.channels == 1)
+	// 	p_Format = AL_FORMAT_MONO16;
+	// else if (p_Sfinfo.channels == 2)
+	// 	p_Format = AL_FORMAT_STEREO16;
+	// else if (p_Sfinfo.channels == 3)
+	// {
+	// 	if (sf_command(p_SndFile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
+	// 		p_Format = AL_FORMAT_BFORMAT2D_16;
+	// }
+	// else if (p_Sfinfo.channels == 4)
+	// {
+	// 	if (sf_command(p_SndFile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
+	// 		p_Format = AL_FORMAT_BFORMAT3D_16;
+	// }
+	// if (!p_Format)
+	// {
+	// 	sf_close(p_SndFile);
+	// 	p_SndFile = NULL;
+	// 	throw("Unsupported channel count from file");
+	// }
+
+	// frame_size = ((size_t)BUFFER_SAMPLES * (size_t)p_Sfinfo.channels) * sizeof(short);
+	// p_Membuf = static_cast<short*>(malloc(frame_size));
+}
+
+MusicBuffer::~MusicBuffer()
+{
+	CloseDecoder();
+	// alDeleteSources(1, &p_Source);
+	// if (p_SndFile)
+	// 	sf_close(p_SndFile);
+	// p_SndFile = nullptr;
+	// free(p_Membuf);
+	// alDeleteBuffers(NUM_BUFFERS, p_Buffers);
+}
+
+
+void MusicBuffer::OpenDecoder(){
 	alGenSources(1, &p_Source);
 	alGenBuffers(NUM_BUFFERS, p_Buffers);
 
 	std::size_t frame_size;
 
-	p_SndFile = sf_open(filename, SFM_READ, &p_Sfinfo);
+	p_SndFile = sf_open(m_filename, SFM_READ, &p_Sfinfo);
 	if (!p_SndFile)
 	{
 		throw("could not open provided music file -- check path");
@@ -181,12 +237,16 @@ MusicBuffer::MusicBuffer(const char* filename)
 	p_Membuf = static_cast<short*>(malloc(frame_size));
 }
 
-MusicBuffer::~MusicBuffer()
-{
+void MusicBuffer::CloseDecoder(){
 	alDeleteSources(1, &p_Source);
 	if (p_SndFile)
 		sf_close(p_SndFile);
 	p_SndFile = nullptr;
 	free(p_Membuf);
 	alDeleteBuffers(NUM_BUFFERS, p_Buffers);
+}
+
+void MusicBuffer::ResetDecoders(){
+	CloseDecoder();
+	OpenDecoder();
 }
