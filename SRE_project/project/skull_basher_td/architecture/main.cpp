@@ -115,6 +115,8 @@ std::shared_ptr<Scene> Main::createScene(){
     // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.1f, 0);
     // cameraObj->addComponent<RigidBody>();
     
+    // Testing sound loading
+    uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
 
     
     auto sphereObj = res->createGameObject("Sphere");
