@@ -31,13 +31,27 @@ PersonController::PersonController(GameObject* gameObject)
 //     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
 // }
 
+void PersonController::debugGUI() {
+    ImGui::PushID(this);
+    if (ImGui::TreeNode("PersonController")) {
+        ImGui::Checkbox("AllowedToBuild", &allowedToBuild);
+        ImGui::TreePop();
+    }
+    ImGui::PopID();
+}
+
 void PersonController::update(float deltaTime)
 {
     updateInput(deltaTime);
     updateVectors();
 
     camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
-    camera->TestRay(camera_front, this->rayTestedCube, this->tower, currentScene->getGameObjects());
+    if(currentScene->gameManager->buildModeActive)
+    {
+        camera->moveTowerCursor(camera_front, this->tower);
+        camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());
+    }
+
 
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
@@ -121,6 +135,8 @@ void PersonController::onMouse(SDL_Event &event)
     {
         // std::cout << "mouse event recorded \n";
         mouse_offset = event.motion.xrel * sensitivity;
+        /*if(currentScene->gameManager->buildModeActive)
+            camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());*/
     }
 }
 

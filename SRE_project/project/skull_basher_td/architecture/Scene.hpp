@@ -68,7 +68,7 @@ private:
     friend class GameObject;
     friend class RigidBody;
 
-    void ToggleLockMouse();
+
 
     //World Map stuff
     // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work

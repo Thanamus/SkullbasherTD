@@ -57,8 +57,8 @@ void Scene::update(float deltaTime){
         u->update(deltaTime);
     }
 
-    if(gameManager != nullptr)
-        ToggleLockMouse();
+   // if(gameManager != nullptr)
+//        ToggleLockMouse();
     //if (gameManager->quit)
         //r.stopEventLoop();
 }
@@ -74,6 +74,7 @@ void Scene::onMouse(SDL_Event &event){
     auto tempCam = this->cameras[0]->getGameObject(); //gets the main camera 
     // tempCam->getComponent<Camera>()->update(deltaTime);
     tempCam->getComponent<PersonController>()->onMouse(event); //triggers the onMouse event handling in the Person controller
+    gameManager->onMouse(event);
 }
 
 
@@ -93,7 +94,6 @@ void Scene::render(){
 
     for (auto c : cameras){
         c->bind();
-
 
         auto rp = sre::RenderPass::create()
                 .withCamera(c->getCamera())
@@ -382,11 +382,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
     // std::cout << "ceilColor.x: " << ceilColor.x << "\n";
 
 }
-void Scene::ToggleLockMouse()
-{
-    //SDL_SetWindowGrab(r.getSDLWindow(), gameManager->paused ? SDL_FALSE : SDL_TRUE);
-    //SDL_SetRelativeMouseMode(gameManager->paused ? SDL_FALSE : SDL_TRUE);
-}
+
 
 
 // }

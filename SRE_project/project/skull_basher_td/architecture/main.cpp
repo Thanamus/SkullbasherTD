@@ -32,6 +32,7 @@ Main::Main()
     guiManager->gameManager = gameManager;
     currentScene->guiManager = guiManager;
     currentScene->gameManager = gameManager;
+    gameManager->currentScene = currentScene;
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
@@ -115,13 +116,6 @@ std::shared_ptr<Scene> Main::createScene(){
     cubeAN->addAnimation("rotate", rotate);
     cubeAN->setAnimationState("rotate");
 
-    auto rayTestCube = res->createGameObject("Ray Tested Cube");
-    rayTestCube->getComponent<Transform>()->position = {0,0,0};
-    rayTestCube->getComponent<Transform>()->rotation = {0,0,0};
-    rayTestCube->getComponent<Transform>()->scale = {0.1f,0.1f,0.1f};
-    auto rayTestCubeMR = rayTestCube->addComponent<ModelRenderer>();
-    rayTestCubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-
     auto tower = res->createGameObject("Tower");
     tower->getComponent<Transform>()->position = {0,0,0};
     tower->getComponent<Transform>()->rotation = {0,0,0};
@@ -129,7 +123,6 @@ std::shared_ptr<Scene> Main::createScene(){
     auto towerMR = tower->addComponent<ModelRenderer>();
     towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
 
-    cameraObj->getComponent<PersonController>()->rayTestedCube = rayTestCube;
     cameraObj->getComponent<PersonController>()->tower = tower;
 
     //Load Map
@@ -140,33 +133,11 @@ std::shared_ptr<Scene> Main::createScene(){
     return res;
 }
 
+const sre::SDLRenderer &Main::getR() const {
+    return r;
+}
+
 int main(){
-   /* // std::cout << "Hello world" << "\n";
-    using namespace sre;
-    SDLRenderer r;
-    r.init();
-    auto scene = createScene();
-
-
-    r.frameUpdate = [&](float deltaTime){
-        scene->update(deltaTime);
-    };
-    r.frameRender = [&]{
-        scene->render();
-    };
-    r.keyEvent = [&](SDL_Event &e) {
-        scene->onKey(e); //worked! // asks scene to manage the onKey
-        // fpsController.onKey(e);
-        // gameManager->onKey(e);
-    };
-    r.mouseEvent = [&](SDL_Event &e) {
-        // if (!lockRotation) //carry over from Wolf3D... not sure what it's there for
-        // {
-            scene->onMouse(e); // asks scene to manage the mouse thing
-        // }
-    };
-    r.startEventLoop();
-*/
     new Main();
     return 0;
 }

@@ -6,6 +6,9 @@
 #include <sre/Renderer.hpp>
 #include "sre/SpriteAtlas.hpp"
 #include "GameManager.hpp"
+#include "./architecture/Camera.hpp"
+#include "./architecture/PersonController.hpp"
+#include "./architecture/ModelRenderer.hpp"
 
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -80,10 +83,14 @@ void GameManager::onKey(SDL_Event &event)
             break;
         case SDLK_ESCAPE:
             if(buildModeActive)
+            {
                 buildModeActive = false;
+                pressed = true;
+            }
             else if (!buildModeActive && !paused)
             {
                 paused = true;
+                //currentScene->ToggleLockMouse();
             }
             else if (paused)
             {
@@ -95,7 +102,40 @@ void GameManager::onKey(SDL_Event &event)
     }
 
     if(pressed && selectedTowerIndex <= towers.size())
+    {
         selectedTower = towers[selectedTowerIndex];
+        if(buildModeActive)
+        {
+            updateTowerIndicator();
+        }
+        else {
+            auto towerIndicator = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
+            towerIndicator->getComponent<ModelRenderer>()->active = false;
+        }
+    }
+}
+
+void GameManager::onMouse(SDL_Event &event)
+{
+    if(event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
+    {
+        auto personController = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
+        if(personController->allowedToBuild)
+        {
+            auto tower = currentScene->createGameObject(selectedTower->getName());
+            tower->getComponent<Transform>()->position = personController->tower->getComponent<Transform>()->position;
+            tower->getComponent<Transform>()->rotation = personController->tower->getComponent<Transform>()->rotation;
+            tower->getComponent<Transform>()->scale = {0.5f,0.5f,0.5f};
+
+            auto towerMR = tower->addComponent<ModelRenderer>();
+            auto path =  ".\\assets\\"+ selectedTower->getMesh();
+            std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName(selectedTower->getMesh()).build();
+            //towerMR->setMesh(personController->tower->getComponent<ModelRenderer>()->getMesh());
+            towerMR->setModel(modelHolder);
+
+            score -= selectedTower->getBuildCost();
+        }
+    }
 }
 
 int GameManager::getScore() const {
@@ -112,4 +152,26 @@ float GameManager::getPower() const {
 
 void GameManager::setPower(float power) {
     GameManager::power = power;
+}
+
+void GameManager::updateTowerIndicator()
+{
+    if(currentScene == nullptr)
+        return;
+
+    auto towerIndicator = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
+
+    auto path =  ".\\assets\\"+ selectedTower->getMesh();
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName(selectedTower->getMesh()).build();
+
+    towerIndicator->getComponent<ModelRenderer>()->setModel(modelHolder);
+    towerIndicator->getComponent<ModelRenderer>()->active = true;
+}
+
+
+void GameManager::ToggleLockMouse()
+{
+
+    //SDL_SetWindowGrab(.getSDLWindow(), paused ? SDL_FALSE : SDL_TRUE);
+    //SDL_SetRelativeMouseMode(paused ? SDL_FALSE : SDL_TRUE);
 }

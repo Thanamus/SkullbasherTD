@@ -12,7 +12,6 @@
 #include "Renderable.hpp"
 #include "Ray.hpp"
 
-
 class Camera : public Component {
 public:
     explicit Camera(GameObject * gameObject);
@@ -40,14 +39,21 @@ public:
     Ray screenPointToRay(glm::vec2 point);
 
     sre::Camera getCamera();
-    void TestRay(glm::vec3 front, std::shared_ptr<GameObject> rayTestedCube, std::shared_ptr<GameObject> tower, std::vector<std::shared_ptr<GameObject>> gameObjects);
-    bool Camera::AabbContainsSegment (float x1, float y1, float x2, float y2, float minX, float minY, float maxX, float maxY);
-    int inline Camera::GetIntersection( float fDst1, float fDst2, glm::vec3 P1, glm::vec3 P2, glm::vec3 &Hit);
-    int inline Camera::InBox( glm::vec3 Hit, glm::vec3 B1, glm::vec3 B2, const int Axis) ;
-    int Camera::CheckLineBox( glm::vec3 B1, glm::vec3 B2, glm::vec3 L1, glm::vec3 L2, glm::vec3 &Hit) ;
+    void simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, std::vector<std::shared_ptr<GameObject>> gameObjects);
+    void moveTowerCursor(glm::vec3 front, std::shared_ptr<GameObject> tower);
+    int inline GetIntersection( float fDst1, float fDst2, glm::vec3 P1, glm::vec3 P2, glm::vec3 &Hit);
+    int inline InBox( glm::vec3 Hit, glm::vec3 B1, glm::vec3 B2, const int Axis) ;
+    int CheckLineBox( glm::vec3 B1, glm::vec3 B2, glm::vec3 L1, glm::vec3 L2, glm::vec3 &Hit);
+    int CheckIntersection(glm::vec3 blockPosition, glm::vec3 towerCursorPosition, glm::vec3 &Hit);
+    double calcDistance(glm::vec3 pos1, glm::vec3 pos2);
+    bool checkBuildableStatus(std::shared_ptr<GameObject> block);
+    void resetTowerCursor(std::shared_ptr<GameObject> tower, glm::vec3 position);
+    glm::vec3 calcTowerCursorPosition(glm::vec3 front);
 private:
     Transform* transform;
     sre::Camera camera;
     friend class Engine;
     friend class Scene;
+    std::vector<sre::Color> colors;
+    std::vector<std::shared_ptr<sre::Material>> materials;
 };

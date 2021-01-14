@@ -13,6 +13,8 @@ class PersonController : public Component {
 public:
     explicit PersonController(GameObject* GameObject);
 
+    void debugGUI() override ;
+
     void update(float deltaTime);
     void updateInput(float deltaTime);
     void updateVectors();
@@ -25,9 +27,10 @@ public:
     glm::vec3 position;
     bool quit = false;
     std::shared_ptr<Camera> camera;
-    std::shared_ptr<GameObject> rayTestedCube;
     std::shared_ptr<GameObject> tower;
+    std::shared_ptr<GameObject> targetBlock;
     std::shared_ptr<Scene> currentScene;
+    bool allowedToBuild = false;
 private:
 
     glm::vec3 world_up = glm::vec3(0, 1, 0);

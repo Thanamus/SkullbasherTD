@@ -46,6 +46,9 @@ void ModelRenderer::setMaterials(std::vector<std::shared_ptr<sre::Material>> mat
 }
 
 void ModelRenderer::draw(sre::RenderPass* renderPass) {
+    if(!active)
+        return;
+
     auto compositeTransform = model->getTransform();
     if(transform)
         compositeTransform *= transform->globalTransform();
