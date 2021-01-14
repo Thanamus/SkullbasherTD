@@ -9,7 +9,7 @@
 #include "glm/glm.hpp"
 // #include "../GameManager.hpp"
 #include "../GuiManager.hpp"
-#include "ScheduleManager.hpp"
+// #include "ScheduleManager.hpp"
 
 #include <vector>
 #include <string>
@@ -23,6 +23,7 @@ class BulletPhysics;
 class RigidBody;
 class ScheduleManager;
 class GameManager;
+class SoundDevice;
 
 class Scene {
 public:
@@ -55,6 +56,8 @@ public:
     std::shared_ptr<GuiManager> guiManager;
     std::shared_ptr<GameManager> gameManager;
     std::shared_ptr<ScheduleManager> scheduleManager;
+    std::shared_ptr<SoundDevice> listener;
+
 private:
     std::string name;
     bool debugPhysics = true;

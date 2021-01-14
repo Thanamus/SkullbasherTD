@@ -8,11 +8,13 @@
 #include "./Scene.hpp"
 #include "./ScheduleManager.hpp"
 
+class SoundDevice;
+
 class Main
 {
 public:
     Main();
-    static std::shared_ptr<Scene> createScene();
+    static std::shared_ptr<Scene> createScene(std::shared_ptr<SoundDevice> listener);
 private:
 
     std::shared_ptr<Scene> currentScene;
@@ -21,6 +23,6 @@ private:
     std::shared_ptr<GameManager> gameManager;
     std::shared_ptr<ScheduleManager> scheduleManager;
 
-
+    std::shared_ptr<SoundDevice> listener;
     static uint32_t /*ALuint*/ m_sound1;
 };

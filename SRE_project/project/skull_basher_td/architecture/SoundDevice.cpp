@@ -8,19 +8,21 @@
 #include <vector>
 #include "OpenALErrorCheck.hpp"
 
-static SoundDevice* _instance = nullptr;
 
-SoundDevice* SoundDevice::Get()
-{
-	Init();
-	return _instance;
-}
+// Removed to make SoundDevice a smart pointer
+// static SoundDevice* _instance = nullptr;
 
-void SoundDevice::Init()
-{
-	if (_instance == nullptr)
-		_instance = new SoundDevice();
-}
+// SoundDevice* SoundDevice::Get()
+// {
+// 	Init();
+// 	return _instance;
+// }
+
+// void SoundDevice::Init()
+// {
+// 	if (_instance == nullptr)
+// 		_instance = new SoundDevice();
+// }
 
 /// <summary>
 /// Gets the listeners current locaiton.

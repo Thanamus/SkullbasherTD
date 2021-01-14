@@ -10,9 +10,16 @@
 //using namespace sre;
 using namespace glm;
 
-PersonController::PersonController(GameObject* gameObject)
- : Component(gameObject)
-{
+#include "SoundDevice.hpp"
+#include "Component.hpp"
+#include "Transform.hpp"
+#include "GameObject.hpp"
+// #include "Scene.hpp"
+
+
+PersonController::PersonController(GameObject* gameObject) 
+: Component(gameObject)
+{   
     camera = gameObject->getComponent<Camera>();
     // camera->setPerspectiveProjection(45, 0.1f, 1000);
     // position = vec3(0, 0, 0);
@@ -20,6 +27,12 @@ PersonController::PersonController(GameObject* gameObject)
     // camera_front = vec3(0, 0, -1);                         // set initial target of the camera on the negative Z axis (default)
     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
+
+    //initialise main sound device to reflect the PersonController
+    m_earsToListenWith->SetLocation(static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(position.z));
+    m_earsToListenWith->SetOrientation(camera_dir.x, camera_dir.y, camera_dir.z, 
+    world_up.x, world_up.y, world_up.z);
+
 }
 // FirstPersonController::FirstPersonController(sre::Camera *camera)
 //     : camera(camera)
@@ -41,6 +54,15 @@ void PersonController::update(float deltaTime)
 
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
+
+    //update listener position and orientation
+    m_earsToListenWith->SetLocation(static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(position.z));
+    m_earsToListenWith->SetOrientation(camera_dir.x, camera_dir.y, camera_dir.z, 
+        world_up.x, world_up.y, world_up.z);
+
+    // glm::vec3 thing(0.f,0.f,0.f);
+    // gameObject->getScene()->listener->GetLocation(thing.x, thing.y, thing.z);
+    // std::cout << "thing.x" << thing.x << std::endl;
 }
 
 void PersonController::updateVectors()
@@ -129,3 +151,23 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
     this->position = glm::vec3(position.x, 0, position.y);
     this->rotation = rotation;
 }
+
+
+
+// class MyClass
+// {
+// private:
+//     // MyClass owns the unique_ptr.
+//     unique_ptr<ClassFactory> factory;
+// public:
+
+//     // Initialize by using make_unique with ClassFactory default constructor.
+//     MyClass() : factory (make_unique<ClassFactory>())
+//     {
+//     }
+
+//     void MakeClass()
+//     {
+//         factory->DoSomething();
+//     }
+// };

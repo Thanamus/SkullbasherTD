@@ -26,11 +26,14 @@ Main::Main()
     SDLRenderer r;
     r.init();
     //make scence
-    auto scene = createScene();
+    listener = std::make_shared<SoundDevice>();
+    auto scene = createScene(listener);
     currentScene = scene;
 
     //setup sound
-    SoundDevice * mySoundDevice = SoundDevice::Get();
+    // SoundDevice * mySoundDevice = SoundDevice::Get();
+    
+
     uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
 
     SoundEffectsPlayer mySpeaker;
@@ -45,6 +48,8 @@ Main::Main()
     guiManager->gameManager = gameManager;
     currentScene->guiManager = guiManager;
     currentScene->gameManager = gameManager;
+    // currentScene->listener = listener;
+
 
     //load map
     currentScene->loadMap(".\\maps\\SkullBasherTDLevel0.json", currentScene);
@@ -105,8 +110,9 @@ public:
     }
 };
 
-std::shared_ptr<Scene> Main::createScene(){
+std::shared_ptr<Scene> Main::createScene(std::shared_ptr<SoundDevice> listener) {
     auto res = std::make_shared<Scene>();
+    res->listener = listener;
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
     cameraObj->getComponent<Transform>()->position = {20,1.0f,11};
@@ -114,7 +120,7 @@ std::shared_ptr<Scene> Main::createScene(){
     cameraObj->addComponent<PersonController>(); // adding the controller to the camera (the player)
     // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.1f, 0);
     // cameraObj->addComponent<RigidBody>();
-    
+        
     // Testing sound loading
     uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
 

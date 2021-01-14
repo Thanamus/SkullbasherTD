@@ -5,19 +5,22 @@
 #pragma once
 #include <AL\alc.h>
 
+// #include "GameObject.hpp"
+//Forward Declarations
+
 /// <summary>
 /// Singleton class that initilizes our sound hardware device and allows
 /// us to change our listener values.
 /// </summary>
 
-#define SD_INIT SoundDevice::Init();
-#define LISTENER SoundDevice::Get() //sets up the sound device as a singleton, to use multiple devices we will need to change the design pattern
+// #define SD_INIT SoundDevice::Init();
+// #define LISTENER SoundDevice::Get() //sets up the sound device as a singleton, to use multiple devices we will need to change the design pattern
 
 class SoundDevice
 {
 public:
-	static SoundDevice* Get();
-	static void Init();
+	// static SoundDevice* Get();
+	// static void Init();
 
 	void GetLocation(float &x, float& y, float& z);
 	void GetOrientation(float &ori);
@@ -30,9 +33,9 @@ public:
 		const float& upx, const float& upy, const float& upz);
 	void SetGain(const float& val);
 
-private:
-	SoundDevice();
+	explicit SoundDevice();
 	~SoundDevice();
+private:
 
 	ALCdevice* p_ALCDevice;
 	ALCcontext* p_ALCContext;

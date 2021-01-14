@@ -21,7 +21,13 @@
     //WorldObject
 #include "WorldObject.hpp"
 
+//path finder / enemy movement imports
 #include "PathFinder.hpp"
+#include "ScheduleManager.hpp"
+
+//sound imports
+#include "SoundDevice.hpp"
+
 
 //rapidjson imports
 #include "rapidjson/rapidjson.h"
