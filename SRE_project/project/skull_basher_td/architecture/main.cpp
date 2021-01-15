@@ -12,12 +12,11 @@
 #include "BulletPhysics.hpp"
 #include "Main.hpp"
 
+// #include <audeo/audeo.hpp>
+// #include "audeo.hpp"
+#include <audeo.hpp>
 
 //sound Device
-#include "SoundDevice.hpp" //i.e a device that is the "Listener"
-#include "SoundEffectsLibrary.hpp" //i.e. SoundBuffer
-#include "SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
-#include "MusicBuffer.hpp"
 
 Main::Main()
 {
@@ -26,19 +25,25 @@ Main::Main()
     SDLRenderer r;
     r.init();
     //make scence
-    listener = std::make_shared<SoundDevice>();
-    auto scene = createScene(listener);
+    // listener = std::make_shared<SoundDevice>();
+    //TODO remove references to old SoundDevice stuff
+    // auto scene = createScene(listener);
+    auto scene = createScene();
     currentScene = scene;
+
+    // if (!audeo::init()){
+    //     return -1;
+    // }
+
+    if (!audeo::init()) {
+        // return -1;
+    }
 
     //setup sound
     // SoundDevice * mySoundDevice = SoundDevice::Get();
-    
-
-    uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
-
-    SoundEffectsPlayer mySpeaker;
-    
-    MusicBuffer music(".\\assets\\music\\68-Gerudo_Valley.wav"); 
+    audeo::SoundSource music_source = audeo::load_source( "./assets/music/68-Gerudo_Valley.wav", audeo::AudioType::Music);
+    audeo::Sound music = audeo::play_sound(music_source, 1);
+// project\skull_basher_td\assets\music\68-Gerudo_Valley.wav
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
@@ -61,14 +66,12 @@ Main::Main()
     currentScene->scheduleManager->fetchInitialWaveSchedule();
 
     //Playing Sounds //TODO remove as these are tests
-    mySpeaker.Play(sound1);
-    music.Play();
-
+ 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
 
         //Update Music buffer (pkeep playing music)
-        music.UpdateBufferStream();
+        // music.UpdateBufferStream();
         // if (!music.isPlaying())
         // {
         //     std::cout << "Music is: " << music.isPlaying() << std::endl;
@@ -110,9 +113,10 @@ public:
     }
 };
 
-std::shared_ptr<Scene> Main::createScene(std::shared_ptr<SoundDevice> listener) {
+// std::shared_ptr<Scene> Main::createScene(std::shared_ptr<SoundDevice> listener) {
+std::shared_ptr<Scene> Main::createScene() {
     auto res = std::make_shared<Scene>();
-    res->listener = listener;
+    // res->listener = listener;
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
     cameraObj->getComponent<Transform>()->position = {20,1.0f,11};
@@ -122,7 +126,7 @@ std::shared_ptr<Scene> Main::createScene(std::shared_ptr<SoundDevice> listener) 
     // cameraObj->addComponent<RigidBody>();
         
     // Testing sound loading
-    uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
+    // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
 
     
     auto sphereObj = res->createGameObject("Sphere");
@@ -203,6 +207,7 @@ int main(){
 */
     new Main();
     return 0;
+    audeo::quit();
 }
 
 

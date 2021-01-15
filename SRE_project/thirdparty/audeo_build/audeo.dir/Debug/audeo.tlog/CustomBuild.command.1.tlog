@@ -1,0 +1,10 @@
+^C:\USERS\NFGOL\ITU_GPROG\SKULLBASHERTD\SRE_PROJECT\THIRDPARTY\AUDEO\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

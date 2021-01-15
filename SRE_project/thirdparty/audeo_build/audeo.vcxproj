@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5CA67ACA-26FD-3AB7-9053-0770B312E67F}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>audeo</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">audeo.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">audeo</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">audeo.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">audeo</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">audeo.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">audeo</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">audeo.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">audeo</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;MBCS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;MBCS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ConformanceMode>true</ConformanceMode>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;MBCS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;MBCS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;MBCS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;MBCS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;MBCS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;MBCS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl\include;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\dependencies\sdl_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\WindowsPaths.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeCXXCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeRCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\WindowsPaths.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeCXXCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeRCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\WindowsPaths.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeCXXCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeRCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/audeo_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.19\Modules\Platform\WindowsPaths.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeCXXCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeRCCompiler.cmake;C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\3.19.0-rc2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\audeo.hpp" />
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\effects.hpp" />
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\export_import.hpp" />
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\exception.hpp" />
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\Sound.hpp" />
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\SoundEngine.hpp" />
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\SoundSource.hpp" />
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\vec3.hpp" />
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\src\effects.cpp" />
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\src\SoundEngine.cpp" />
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\src\vec3.cpp" />
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\example_effects.cpp" />
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\examples_main.cpp" />
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\basic_playback.cpp" />
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\control_sounds.cpp" />
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\positional_audio.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo_build\ZERO_CHECK.vcxproj">
+      <Project>{BE8373E5-8496-35D6-996F-F98FC31804D5}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

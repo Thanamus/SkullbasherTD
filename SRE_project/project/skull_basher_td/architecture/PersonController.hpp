@@ -7,7 +7,7 @@
 
 
 
-class SoundDevice;
+// class SoundDevice;
 class Component;
 class GameObject;
 
@@ -15,7 +15,7 @@ class PersonController : public Component {
 public:
     explicit PersonController(GameObject* GameObject);
     
-    void addListener(SoundDevice& earsToListenWith);
+    // void addListener(SoundDevice& earsToListenWith);
 
     void update(float deltaTime);
     void updateInput(float deltaTime);
@@ -24,7 +24,7 @@ public:
     void onMouse(SDL_Event &event);
 
     void setInitialPosition(glm::vec2 position, float rotation);
-    void setListener(std::shared_ptr<SoundDevice> incomingEars);
+    // void setListener(std::shared_ptr<SoundDevice> incomingEars);
 
     float rotation = 0.f;
     glm::vec3 position;
@@ -53,6 +53,6 @@ private:
 
     float mouse_offset = 0.f;
 
-    std::shared_ptr<SoundDevice> m_earsToListenWith; 
+    // std::shared_ptr<SoundDevice> m_earsToListenWith; 
     // void initSoundDevice();
 };

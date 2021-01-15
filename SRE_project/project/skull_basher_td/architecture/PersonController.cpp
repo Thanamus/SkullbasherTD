@@ -10,7 +10,7 @@
 //using namespace sre;
 using namespace glm;
 
-#include "SoundDevice.hpp"
+// #include "SoundDevice.hpp"
 #include "Component.hpp"
 #include "Transform.hpp"
 #include "GameObject.hpp"
@@ -29,9 +29,9 @@ PersonController::PersonController(GameObject* gameObject)
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
 
     //initialise main sound device to reflect the PersonController
-    m_earsToListenWith->SetLocation(static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(position.z));
-    m_earsToListenWith->SetOrientation(camera_dir.x, camera_dir.y, camera_dir.z, 
-    world_up.x, world_up.y, world_up.z);
+    // m_earsToListenWith->SetLocation(static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(position.z));
+    // m_earsToListenWith->SetOrientation(camera_dir.x, camera_dir.y, camera_dir.z, 
+    // world_up.x, world_up.y, world_up.z);
 
 }
 // FirstPersonController::FirstPersonController(sre::Camera *camera)
@@ -56,9 +56,9 @@ void PersonController::update(float deltaTime)
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
 
     //update listener position and orientation
-    m_earsToListenWith->SetLocation(static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(position.z));
-    m_earsToListenWith->SetOrientation(camera_dir.x, camera_dir.y, camera_dir.z, 
-        world_up.x, world_up.y, world_up.z);
+    // m_earsToListenWith->SetLocation(static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(position.z));
+    // m_earsToListenWith->SetOrientation(camera_dir.x, camera_dir.y, camera_dir.z, 
+    //     world_up.x, world_up.y, world_up.z);
 
     // glm::vec3 thing(0.f,0.f,0.f);
     // gameObject->getScene()->listener->GetLocation(thing.x, thing.y, thing.z);

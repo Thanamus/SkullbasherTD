@@ -1,0 +1,5 @@
+﻿  SoundEngine.cpp
+C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\src\SoundEngine.cpp(21,26): error C7626: unnamed class used in typedef name cannot declare members other than non-static data members, member enumerations, or member classes
+  vec3.cpp
+  positional_audio.cpp
+  Generating Code...

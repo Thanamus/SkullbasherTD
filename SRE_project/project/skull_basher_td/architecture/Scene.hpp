@@ -23,7 +23,7 @@ class BulletPhysics;
 class RigidBody;
 class ScheduleManager;
 class GameManager;
-class SoundDevice;
+// class SoundDevice;
 
 class Scene {
 public:
@@ -56,7 +56,7 @@ public:
     std::shared_ptr<GuiManager> guiManager;
     std::shared_ptr<GameManager> gameManager;
     std::shared_ptr<ScheduleManager> scheduleManager;
-    std::shared_ptr<SoundDevice> listener;
+    // std::shared_ptr<SoundDevice> listener;
 
 private:
     std::string name;

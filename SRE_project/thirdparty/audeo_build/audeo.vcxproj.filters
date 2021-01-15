@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\src\effects.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\src\SoundEngine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\src\vec3.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\example_effects.cpp">
+      <Filter>examples</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\examples_main.cpp">
+      <Filter>examples</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\basic_playback.cpp">
+      <Filter>examples</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\control_sounds.cpp">
+      <Filter>examples</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\examples\positional_audio.cpp">
+      <Filter>examples</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\audeo.hpp">
+      <Filter>include\audeo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\effects.hpp">
+      <Filter>include\audeo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\export_import.hpp">
+      <Filter>include\audeo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\exception.hpp">
+      <Filter>include\audeo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\Sound.hpp">
+      <Filter>include\audeo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\SoundEngine.hpp">
+      <Filter>include\audeo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\SoundSource.hpp">
+      <Filter>include\audeo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\include\audeo\vec3.hpp">
+      <Filter>include\audeo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\audeo\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="examples">
+      <UniqueIdentifier>{289551AD-0111-385A-A89C-A7DCF9EE062B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{021EAA6D-186A-3690-8F06-0CA94199F1FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\audeo">
+      <UniqueIdentifier>{5C3B4346-D98C-32B7-8BB1-4DE558F62F99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{0D5248AE-4BCB-3E2B-8EF1-D338B025C9BB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
