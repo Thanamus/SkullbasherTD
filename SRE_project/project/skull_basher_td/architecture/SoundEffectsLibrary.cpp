@@ -7,6 +7,8 @@
 #include <inttypes.h>
 #include <AL\alext.h>
 
+#include <iostream>
+
 /// <summary>
 /// Static class access.
 /// </summary>
@@ -105,6 +107,7 @@ ALuint SoundEffectsLibrary::Load(const char* filename)
 
 	p_SoundEffectBuffers.push_back(buffer);  // add to the list of known buffers
 
+	std::cout << "just loaded buffer: " << buffer << std::endl;
 	return buffer;
 }
 

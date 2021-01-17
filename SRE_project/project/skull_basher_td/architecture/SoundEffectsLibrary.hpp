@@ -33,6 +33,7 @@ private:
 	SoundEffectsLibrary();
 	~SoundEffectsLibrary();
 
-	std::vector<ALuint> p_SoundEffectBuffers;
+	std::vector<ALuint> p_SoundEffectBuffers; //TODO change this to a map
+	//add a load sound effects function in scene
 };
 

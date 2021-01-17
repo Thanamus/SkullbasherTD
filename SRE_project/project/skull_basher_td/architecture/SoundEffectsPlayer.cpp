@@ -11,6 +11,7 @@ SoundEffectsPlayer::SoundEffectsPlayer()
 	alGenSources(1, &p_Source);
 	alSourcei(p_Source, AL_BUFFER, p_Buffer);
 	AL_CheckAndThrow();
+	std::cout << "new source made: " << &p_Source << std::endl;
 }
 
 SoundEffectsPlayer::~SoundEffectsPlayer()
@@ -26,7 +27,9 @@ void SoundEffectsPlayer::Play(const ALuint& buffer_to_play)
 			alSourcei(p_Source, AL_BUFFER, (ALint)p_Buffer);
 			AL_CheckAndThrow();
 	}
+	alSourceRewind(p_Source);
 	alSourcePlay(p_Source);
+	std::cout << "playing a sound!: " << p_Buffer << std::endl;
 	AL_CheckAndThrow();
 }
 

@@ -10,6 +10,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
+set( BUILD_SHARED_LIBS ON CACHE BOOL "" )
+
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out CACHE STRING "" )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out CACHE STRING "" )
+
 IF (UNIX)
     find_package(SDL2 REQUIRED)
     include_directories(${SDL2_INCLUDE_DIR})
@@ -147,7 +152,7 @@ INCLUDE_DIRECTORIES (thirdparty/All/include)
 include(ExternalProject)
 
 #### OpenAL #####
-#find_package(OpenAL)
+find_package(OpenAL)
 #if($OPENAL_FOUND)
 #else($OPENAL_Found)
 #        ExternalProject_Add(
@@ -161,7 +166,7 @@ include(ExternalProject)
 SET(OpenAL_LIBRARY "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/OpenAL32.lib" CACHE STRING "Where the OpenAL lib(static) can be found")
 SET(OpenAL_COMMON_LIBRARY "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/common.lib" CACHE STRING "Where the OpenAL Common lib(static) can be found")
 SET(OpenAL_Ex-COMMON_LIBRARY "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/ex-common.lib" CACHE STRING "Where the OpenAL ex-Common lib(static) can be found")
-#SET(OpenAL_DLL_Path "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/" CACHE STRING "Base DLL File Path")
+SET(OpenAL_DLL_Path "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/" CACHE STRING "Base DLL File Path")
 #list(APPEND OpenAL_LIBRARY "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/OpenAL32.dll") #BAD idea, don't link a .dll this way
 
 list(APPEND EXTRA_LIBS ${OpenAL_LIBRARY} ${OpenAL_COMMON_LIBRARY} ${Ex-COMMON_LIBRARY})
@@ -172,6 +177,10 @@ add_subdirectory(thirdparty/All/OpenAL-soft)
 SET(OpenAL_include "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft/include" CACHE STRING "Where the openAL headers can be found")
 INCLUDE_DIRECTORIES (${OpenAL_include})
 list(APPEND EXTRA_INCLUDES ${OpenAL_include})
+
+find_library(OpenAL_DLL NAMES OpenAL32.dll PATHS "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/")
+list(APPEND DLLFileList ${OpenAL_DLL})
+#file(COPY ${OpenAL_DLL} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 #file(COPY thirdparty/All/OpenAL-soft DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
 #file(COPY thirdparty/All/OpenAL-soft DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)

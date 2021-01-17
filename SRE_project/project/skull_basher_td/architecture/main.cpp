@@ -19,6 +19,11 @@
 #include "SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
 #include "MusicBuffer.hpp"
 
+#include "SourceManager.hpp"
+
+#include "SoundNode.h"
+#include "Sound.h"
+
 Main::Main()
 {
     // std::cout << "Hello world" << "\n";
@@ -29,13 +34,23 @@ Main::Main()
     auto scene = createScene();
     currentScene = scene;
 
+    // myNewSpeaker = mySpeaker;
     //setup sound
     SoundDevice * mySoundDevice = SoundDevice::Get();
-    uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
+    // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
+    soundA = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
 
-    SoundEffectsPlayer mySpeaker;
+    // SourceManager * mySourceManager = SourceManager::Get();
+    // mySourceManager->playSource((ALuint)1);
+        // SoundEffectsPlayer mySpeaker;
+        // SoundEffectsPlayer myOtherSpeaker;
+        // // alSourcePlay(0);
+        // mySpeaker.Play(soundA);
+        // myOtherSpeaker.Play(soundA);
     
-    MusicBuffer music(".\\assets\\music\\68-Gerudo_Valley.wav"); 
+    // MusicBuffer music(".\\assets\\music\\68-Gerudo_Valley.wav"); 
+
+    SoundNode musicThing;
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
@@ -56,14 +71,20 @@ Main::Main()
     currentScene->scheduleManager->fetchInitialWaveSchedule();
 
     //Playing Sounds //TODO remove as these are tests
-    mySpeaker.Play(sound1);
-    music.Play();
+
+
+    // music.Play();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
 
         //Update Music buffer (pkeep playing music)
-        music.UpdateBufferStream();
+        // music.UpdateBufferStream();
+
+        // if (mySpeaker.isPlaying() == false){
+        //     mySpeaker.Play(soundA);
+
+        // }
         // if (!music.isPlaying())
         // {
         //     std::cout << "Music is: " << music.isPlaying() << std::endl;
