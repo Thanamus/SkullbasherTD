@@ -39,6 +39,7 @@ Main::Main()
     SoundDevice * mySoundDevice = SoundDevice::Get();
     // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
     soundA = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
+    uint32_t soundB = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
 
     SourceManager * mySourceManager = SourceManager::Get();
     // mySourceManager->playSource((ALuint)1);

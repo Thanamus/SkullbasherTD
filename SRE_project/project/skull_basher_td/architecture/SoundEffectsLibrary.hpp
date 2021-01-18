@@ -5,6 +5,8 @@
 #pragma once
 #include <AL\al.h>
 #include <vector>
+#include <map>
+#include <string>
 
 /// <summary>
 /// SoundEffectsLibrary: Singleton class that keeps track of the shorter sounds
@@ -34,6 +36,9 @@ private:
 	~SoundEffectsLibrary();
 
 	std::vector<ALuint> p_SoundEffectBuffers; //TODO change this to a map
+
+	std::map<std::string, ALuint> loadedSounds;
+
 	//add a load sound effects function in scene
 };
 
