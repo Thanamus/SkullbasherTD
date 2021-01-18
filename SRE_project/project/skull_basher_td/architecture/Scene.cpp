@@ -12,6 +12,7 @@
 #include "Light.hpp"
 #include "BulletPhysics.hpp"
 #include "sre/RenderPass.hpp"
+#include "../GameManager.hpp"
 
 //fps camera stuff
 #include "PersonController.hpp"
@@ -19,6 +20,8 @@
 //WorldMap Imports
     //WorldObject
 #include "WorldObject.hpp"
+
+#include "PathFinder.hpp"
 
 //rapidjson imports
 #include "rapidjson/rapidjson.h"
@@ -47,7 +50,7 @@ void Scene::update(float deltaTime){
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
     // tempCam->getComponent<Camera>()->update(deltaTime);
-    tempCam->getComponent<PersonController>()->update(deltaTime);
+    tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
     
 
     for (auto& p : this->rigidBodies){
@@ -56,6 +59,7 @@ void Scene::update(float deltaTime){
     for (auto& u : updatables){
         u->update(deltaTime);
     }
+    scheduleManager->update(deltaTime); //has to be updated separately from the rest
 
    // if(gameManager != nullptr)
 //        ToggleLockMouse();
@@ -247,22 +251,10 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
     // std::vector<int> mapRow;
     mapRow.clear(); //because mapRow is used in the original
 
+    std::vector<glm::vec3> pathHolder;
+
     int rowArrayCount = d["tileMap"].GetArray().Size(); //get the tile map key, the array size is the outset loop's size
-    std::cout << "rowArrayCount: " << rowArrayCount << "\n";
-    for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
-    {
- 
-        mapRow.clear(); //clear the temporary buffer
-        int heightArrayCount = d["tileMap"][row].GetArray().Size(); //inner array is the number of positions in the current row
-        // std::cout << "inner array count:" << innerArrayCount << "\n";
-
-        // push each field's value into the buffer
-        for (size_t heightFactor = 0; heightFactor < heightArrayCount; heightFactor++){
-
-            
-            double tileHeight = tileHeightOffset + heightFactor;
-
-            //variables defined here, attempting to save processing power
+    // std::cout << "rowArrayCount: " << rowArrayCount << "\n";
             int tileTypeInt;
             std::string tileTypeStr;
             float rotationHolder;
@@ -271,9 +263,31 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
             bool isbuildableHolder = false;
             bool isPathHolder = false;
+            
+            std::string modelName = "";
             std::shared_ptr<Model> modelHolder;
             std::shared_ptr<sre::Mesh> meshHolder;
             std::shared_ptr<sre::Material> matHolder;
+            std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
+
+    std::vector<glm::vec3> pathBuffer;
+    bool reversePathBuffer = false;
+
+    for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
+    {
+ 
+        mapRow.clear(); //clear the temporary buffer
+        int heightArrayCount = d["tileMap"][row].GetArray().Size(); //inner array is the number of positions in the current row
+        // std::cout << "inner array count:" << innerArrayCount << "\n";
+        pathBuffer.clear();
+        // push each field's value into the buffer
+        for (size_t heightFactor = 0; heightFactor < heightArrayCount; heightFactor++)
+        {
+
+            
+            double tileHeight = tileHeightOffset + heightFactor;
+
+            //variables defined here, attempting to save processing power
             
             int columnArrayCount = d["tileMap"][row].GetArray()[heightFactor].GetArray().Size();
             for (size_t column = 0; column < columnArrayCount; column++)
@@ -296,15 +310,15 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                     isbuildableHolder = d["MapLookup"][c]["isbuildable"].GetBool();
                     isPathHolder = d["MapLookup"][c]["isPath"].GetBool();
 
-                    std::string modelName = d["MapLookup"][c]["object"].GetString();
+                    modelName = d["MapLookup"][c]["object"].GetString();
 
-                    std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
+                    
                     //Load the mesh from file
                     // meshHolder = sre::ModelImporter::importObj(".\\Assets\\WorldMapAssets", "Floor01.obj", materialsLoaded);
                     // OLD: meshHolder = sre::ModelImporter::importObj(mapAssetFolderLoc, modelName, materialsLoaded);
                     // NEW
-                    auto path = mapAssetFolderLoc + "\\" + modelName;
-                    modelHolder = Model::create().withOBJ(path).withName(modelName).build();
+                    auto filePath = mapAssetFolderLoc + "\\" + modelName;
+                    modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
                     // std::cout << "Asset folder: " << mapAssetFolderLoc << "\n";
 
                     // //create the world object map tile
@@ -316,9 +330,9 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                     auto mapTileMR = mapTile->addComponent<ModelRenderer>();
                     mapTile->addComponent<WorldObject>();
                     mapTile->getComponent<WorldObject>()->setBuildable(isbuildableHolder);
-                    mapTile->getComponent<WorldObject>()->setPath(isPathHolder);
+                    mapTile->getComponent<WorldObject>()->setIsPath(isPathHolder);
 
-                    bool test = mapTile->getComponent<WorldObject>()->getBuildableStatus();
+                    // bool test = mapTile->getComponent<WorldObject>()->getBuildableStatus();
                     // std::cout << "is buildable test: " << test  << "\n";
                     // OLD
 //                    mapTileMR->setMesh(meshHolder);
@@ -334,6 +348,7 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                     positionHolder.z += zOffset;
 
                     mapTile->getComponent<Transform>()->position = positionHolder;
+                    mapTile->getComponent<Transform>()->rotation.y = rotationHolder;
                     // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
                     // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
 
@@ -358,12 +373,144 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                     // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
                     // gameObjects.push_back(mapTile);
 
+                    if (isPathHolder)
+                    {
+                        // pathHolder.push_back(positionHolder);
+                        pathBuffer.push_back(positionHolder);
 
+                        //check if reverseBuffer should be set
+                        reversePathBuffer = d["MapLookup"][c]["reversePathBuffer"].GetBool(); //a 'reverseBuffer' parameter tells the game that the path section needs to be loaded in reverse
+                    }
+                    
+                    
                 }
             }
             
         }
+
+        //if the path is running from 'right to left' in the map, then it needs to be loaded into the path in reverse
+        if (!reversePathBuffer && !pathBuffer.empty())
+        {
+            for (size_t pathInBuffer = 0; pathInBuffer <= pathBuffer.size()-1; pathInBuffer++)
+            {
+                pathHolder.push_back(pathBuffer[pathInBuffer]);
+            }
+        } else if (!pathBuffer.empty()) {
+            for (size_t pathInBuffer = pathBuffer.size(); pathInBuffer > 0; pathInBuffer--)
+            {
+                pathHolder.push_back(pathBuffer[pathInBuffer-1]);
+            }
+        }
+        reversePathBuffer = false;
     }
+    gameManager->setPath(pathHolder);
+
+
+    //-----------------Load enemies----------------------
+    int howManyWaves = d["waves"].GetArray().Size();
+    // gameManager->setWaves(howManyWaves);
+    // gameManager->waveAmount = howManyWaves;
+            int enemyTypeInt;
+            std::string enemyTypeStr;
+
+
+    for (size_t wave = 0; wave < howManyWaves; wave++)
+    { //wave level
+        //get the number of enemyTypes and quantities in order
+        int numberOfEnemySets = d["waves"][wave]["enemies"].GetArray().Size();
+        std::vector<enemySetsInWave> enemySetsHolder;
+        enemySetsInWave tempEnemySet;
+
+        //wave schedule parameters per this current wave
+        waveScheduleDetails waveScheduleDetailHolder;
+        waveScheduleDetailHolder.timeBetweenWaves = d["waves"][wave]["timeBetweenWaves"].GetInt();
+        waveScheduleDetailHolder.timeBetweenEnemies = d["waves"][wave]["timeBetweenEnemy"].GetInt();
+
+        for (size_t currentEnemySet = 0; currentEnemySet < numberOfEnemySets; currentEnemySet++)
+        { //inside set level
+            enemyTypeInt = d["waves"][wave]["enemies"][currentEnemySet]["enemyType"].GetInt();
+            enemyTypeStr = std::to_string(enemyTypeInt);
+            const char *enemyTypeChar = enemyTypeStr.c_str();
+
+            int howManyOfEnemyType = d["waves"][wave]["enemies"][currentEnemySet]["quantity"].GetInt();
+            rotationHolder = d["enemyLookup"][enemyTypeChar]["rotation"].GetFloat();
+
+            //put the set into the enemySetHolder to be sent to GameManager later
+            tempEnemySet.enemyType = enemyTypeInt;
+            tempEnemySet.quantiy = howManyOfEnemyType;
+            enemySetsHolder.push_back(tempEnemySet);
+            
+
+            std::vector<glm::vec3> path = gameManager->getPath();
+            int endOfPath = path.size();
+            positionHolder = path[endOfPath-1]; //sets where the enemy will spawn
+            positionHolder.y += 1.0; //compensates for the fact that the path is well, the ground
+            // positionHolder = {3,3,3};
+
+            scaleHolder.x = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["x"].GetFloat();// scale
+            scaleHolder.y = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["y"].GetFloat();// scale
+            scaleHolder.z = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["z"].GetFloat();// scale
+
+
+            modelName = d["enemyLookup"][enemyTypeChar]["object"].GetString();
+            
+            //Load the mesh from file
+            // meshHolder = sre::ModelImporter::importObj(".\\Assets\\WorldMapAssets", "Floor01.obj", materialsLoaded);
+            // OLD: meshHolder = sre::ModelImporter::importObj(mapAssetFolderLoc, modelName, materialsLoaded);
+            // NEW
+            auto filePath = enemiesAssetFolderLoc + "\\" + modelName;
+            modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
+            std::cout << "Asset folder: " << filePath << "\n";
+            std::cout << "Model Name: " << modelName << "\n";
+
+            // //create the world object map tile
+            // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder); 
+
+            for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++)
+            {
+                // gameManager->enermyAmountWave += 1;
+                //create game object
+                auto enemy = res->createGameObject(modelName);
+                // std::cout << "mesh Name: " << modelName << "\n";
+                auto enemyMR = enemy->addComponent<ModelRenderer>();
+                enemyMR->setModel(modelHolder);
+
+                enemy->getComponent<Transform>()->position = positionHolder;
+                enemy->getComponent<Transform>()->rotation.y = rotationHolder;
+                enemy->getComponent<Transform>()->scale = scaleHolder;
+                auto bounds = enemyMR->getMesh()->getBoundsMinMax();
+                
+                float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/4;
+                float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/4;
+                float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/4;
+
+                // std::cout << "length: " << length << "\n";
+                // std::cout << "width: " << width << "\n";
+                // std::cout << "height: " << height << "\n";
+                
+                //Add Physics to skull
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1);      
+
+                // std::cout << "anEnemy is: " << anEnemy << "\n";
+
+                //Add Path Finder to Skull
+                enemy->addComponent<PathFinder>();
+                enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
+                enemy->getComponent<PathFinder>()->setWave(wave);
+                enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);
+                std::cout << "created enemy with enemy number: " << anEnemy << std::endl; 
+                std::cout << "created enemy with set number: " << currentEnemySet << std::endl; 
+                std::cout << "created enemy with wave number: " << wave << std::endl; 
+            }
+            
+        }
+
+        //send the wave details to the Game Manager
+        gameManager->addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
+        
+
+    }
+    
 
     //import model testing
     // std::vector<std::shared_ptr<sre::Material>> materials_unused;
@@ -382,8 +529,6 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
     // std::cout << "ceilColor.x: " << ceilColor.x << "\n";
 
 }
-
-
 
 // }
 

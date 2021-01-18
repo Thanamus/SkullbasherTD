@@ -34,7 +34,7 @@ public:
     ~WorldObject();
 
     void setBuildable(bool isBuildable);
-    void setPath(bool isPath);
+    void setIsPath(bool isPath);
 
     bool getBuildableStatus();
     bool getPathStatus();

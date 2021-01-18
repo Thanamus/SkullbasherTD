@@ -19,6 +19,7 @@ Main::Main()
     using namespace sre;
     SDLRenderer r;
     r.init();
+    //make scence
     auto scene = createScene();
     currentScene = scene;
 
@@ -26,13 +27,24 @@ Main::Main()
     // tempCam->getComponent<Camera>()->update(deltaTime);
     tempCam->getComponent<PersonController>()->currentScene = currentScene;
 
+    //handshaking
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
     guiManager = std::make_shared<GuiManager>(gameManager);
+    scheduleManager = std::make_shared<ScheduleManager>();
     guiManager->gameManager = gameManager;
     currentScene->guiManager = guiManager;
     currentScene->gameManager = gameManager;
     gameManager->currentScene = currentScene;
+
+    //load map
+    currentScene->loadMap(".\\maps\\SkullBasherTDLevel0.json", currentScene);
+
+    scheduleManager->currentScene = currentScene; //not sure about this pattern, here the two managers 'know' each other
+    currentScene->scheduleManager = scheduleManager;
+
+    currentScene->gameManager->setInitialWaveStats();
+    currentScene->scheduleManager->fetchInitialWaveSchedule();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
@@ -126,9 +138,8 @@ std::shared_ptr<Scene> Main::createScene(){
     cameraObj->getComponent<PersonController>()->tower = tower;
 
     //Load Map
-    res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
+    // res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
     // res->loadMap("level0.json",res);
-
 
     return res;
 }

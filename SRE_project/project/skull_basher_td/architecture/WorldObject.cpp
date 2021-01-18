@@ -10,7 +10,7 @@ void WorldObject::setBuildable(bool isBuildable){
     this->isbuildable = isBuildable;
 }
 
-void WorldObject::setPath(bool isPath){
+void WorldObject::setIsPath(bool isPath){
     this->isPath = isPath;
 }
 

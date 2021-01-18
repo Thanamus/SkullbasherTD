@@ -175,3 +175,139 @@ void GameManager::ToggleLockMouse()
     //SDL_SetWindowGrab(.getSDLWindow(), paused ? SDL_FALSE : SDL_TRUE);
     //SDL_SetRelativeMouseMode(paused ? SDL_FALSE : SDL_TRUE);
 }
+
+void GameManager::setPath(std::vector<glm::vec3> pathToBe){
+    path = pathToBe;
+}
+
+std::vector<glm::vec3> GameManager::getPath() {
+    return path;
+}
+
+glm::vec3 GameManager::getNextPathPoint(int currentPathIndex){
+    //path should count down from end of vector to 0
+     if (currentPathIndex == 0)
+    {
+        return path[0];
+    } else if (currentPathIndex <= (path.size()-1))
+    {
+        return path[currentPathIndex-1];
+    } else  
+    {
+        return path[0];
+    }
+}
+
+
+int GameManager::getFirstPathIndex(){
+    return path.size()-1;
+}
+
+void GameManager::addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails){
+    waveAndEnemys[waveNumber]=enemySets;
+    waveAndTimeBetweens[waveNumber]=waveDetails;
+    enemyAmountWave += 1; //adds a wave amount every time add wave is called. 
+    totalWavesInLevel += 1;
+}
+
+int GameManager::getCurrentEnemy(){
+    return currentEnemy;
+}
+
+int GameManager::getCurrentEnemySet(){
+    return currentEnemySet;
+}
+
+int GameManager::getCurrentWave(){
+    return currentWave;
+}
+
+int GameManager::getEnemyAmountWave(){
+    return enemyAmountWave;
+}
+
+waveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
+
+    return waveAndTimeBetweens[currentWave];
+}
+
+void GameManager::updateAllWaveStats(){
+    int tempCurrentEnemyHolder = currentEnemy;
+    int tempCurrentEnemySetHolder = currentEnemySet;
+    int tempCurrentEnemyWaveHolder = currentWave;
+
+    //check enemy
+    tempCurrentEnemyHolder ++;
+    if (tempCurrentEnemyHolder > totalEnemiesInCurrentSet)
+    { //temp number is higher than in the set
+
+        //check set
+        tempCurrentEnemySetHolder ++;
+        if (tempCurrentEnemySetHolder >= totalEnemySetsInCurrentWave)
+        { // temp set is higher than the total
+
+            //check wave
+            tempCurrentEnemyWaveHolder ++;
+            // std::cout << "waves in level" << totalWavesInLevel;
+
+            if (tempCurrentEnemyWaveHolder >= totalWavesInLevel)
+            { // temp waves is higher than total waves
+                return; //Do nothing, the level is at the last wave anyway
+            } else //update wave
+            { //temp wave is under total waves
+                checkAndUpdateWaveNumber(tempCurrentEnemyWaveHolder);
+                return;
+            }
+
+
+        } else // update the set
+        {
+            currentEnemySet = tempCurrentEnemySetHolder;
+            //get total number of enemies in the current set
+            setTotalEnemiesInCurrentSet();
+
+            //reset enemy number
+            currentEnemy = 0;
+
+            return;
+        }
+
+    } else
+    { //temp enemy number wasn't too high, means there is another enemy in the set
+        currentEnemy = tempCurrentEnemyHolder;
+    }
+}
+
+
+void GameManager::checkAndUpdateEnemyNumber(){
+
+}
+
+void GameManager::checkAndUpdateEnemySetNumber(){
+
+}
+
+void GameManager::checkAndUpdateWaveNumber(int tempCurrentEnemyWaveHolder){
+    currentWave = tempCurrentEnemyWaveHolder;
+    //reset cenemy and set numbers
+    currentEnemy = 0;
+    currentEnemySet = 0;
+
+    //get new total enemies
+    setTotalEnemiesInCurrentSet();
+
+    //get new total sets
+    totalEnemySetsInCurrentWave = waveAndEnemys[currentWave].size();
+}
+
+void GameManager::setInitialWaveStats(){
+    //get wave 0 sets
+    totalEnemySetsInCurrentWave = waveAndEnemys[0].size();
+
+    //get wave 0 enemies
+    totalEnemiesInCurrentSet = waveAndEnemys[0][0].quantiy - 1; //minus one, because counting starts at 1, not 0
+}
+
+void GameManager::setTotalEnemiesInCurrentSet() {
+    totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1; //minus one, because counting starts at 1, not 0
+}
