@@ -21,8 +21,8 @@
 
 #include "SourceManager.hpp"
 
-#include "SoundNode.h"
-#include "Sound.h"
+// #include "SoundNode.h"
+// #include "Sound.h"
 
 Main::Main()
 {
@@ -40,7 +40,7 @@ Main::Main()
     // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
     soundA = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
 
-    // SourceManager * mySourceManager = SourceManager::Get();
+    SourceManager * mySourceManager = SourceManager::Get();
     // mySourceManager->playSource((ALuint)1);
         // SoundEffectsPlayer mySpeaker;
         // SoundEffectsPlayer myOtherSpeaker;
@@ -48,9 +48,9 @@ Main::Main()
         // mySpeaker.Play(soundA);
         // myOtherSpeaker.Play(soundA);
     
-    // MusicBuffer music(".\\assets\\music\\68-Gerudo_Valley.wav"); 
+    MusicBuffer music(".\\assets\\music\\68-Gerudo_Valley.wav"); 
 
-    SoundNode musicThing;
+    // SoundNode musicThing;
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
@@ -73,13 +73,14 @@ Main::Main()
     //Playing Sounds //TODO remove as these are tests
 
 
-    // music.Play();
+    music.Play();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
 
+        mySourceManager->CheckAndReleaseOALSource();
         //Update Music buffer (pkeep playing music)
-        // music.UpdateBufferStream();
+        music.UpdateBufferStream();
 
         // if (mySpeaker.isPlaying() == false){
         //     mySpeaker.Play(soundA);
