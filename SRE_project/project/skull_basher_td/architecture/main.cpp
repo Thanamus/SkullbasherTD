@@ -13,6 +13,18 @@
 #include "Main.hpp"
 #include "sre/Material.hpp"
 
+
+//sound Device
+#include "SoundDevice.hpp" //i.e a device that is the "Listener"
+#include "SoundEffectsLibrary.hpp" //i.e. SoundBuffer
+#include "SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
+#include "MusicBuffer.hpp"
+
+#include "SourceManager.hpp"
+
+// #include "SoundNode.h"
+// #include "Sound.h"
+
 Main::Main()
 {
     // std::cout << "Hello world" << "\n";
@@ -26,6 +38,25 @@ Main::Main()
     auto tempCam = currentScene->cameras[0]->getGameObject();
     // tempCam->getComponent<Camera>()->update(deltaTime);
     tempCam->getComponent<PersonController>()->currentScene = currentScene;
+
+    // myNewSpeaker = mySpeaker;
+    //setup sound
+    SoundDevice * mySoundDevice = SoundDevice::Get();
+    // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
+    soundA = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
+    uint32_t soundB = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
+
+    SourceManager * mySourceManager = SourceManager::Get();
+    // mySourceManager->playSource((ALuint)1);
+        // SoundEffectsPlayer mySpeaker;
+        // SoundEffectsPlayer myOtherSpeaker;
+        // // alSourcePlay(0);
+        // mySpeaker.Play(soundA);
+        // myOtherSpeaker.Play(soundA);
+    
+    MusicBuffer music(".\\assets\\music\\68-Gerudo_Valley.wav"); 
+
+    // SoundNode musicThing;
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
@@ -46,8 +77,30 @@ Main::Main()
     currentScene->gameManager->setInitialWaveStats();
     currentScene->scheduleManager->fetchInitialWaveSchedule();
 
+    //Playing Sounds //TODO remove as these are tests
+
+
+    music.Play();
+
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
+
+        mySourceManager->CheckAndReleaseOALSource();
+        //Update Music buffer (pkeep playing music)
+        music.UpdateBufferStream();
+
+        // if (mySpeaker.isPlaying() == false){
+        //     mySpeaker.Play(soundA);
+
+        // }
+        // if (!music.isPlaying())
+        // {
+        //     std::cout << "Music is: " << music.isPlaying() << std::endl;
+        //     // music.Play();
+        //     // music.Stop();
+        //     // music.Resume();
+        // }
+        
     };
     r.frameRender = [&]{
         currentScene->render();
@@ -152,3 +205,6 @@ int main(){
     new Main();
     return 0;
 }
+
+
+

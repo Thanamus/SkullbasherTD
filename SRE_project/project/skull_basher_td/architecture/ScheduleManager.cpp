@@ -5,6 +5,8 @@
 #include "GameObject.hpp"
 #include "PathFinder.hpp"
 
+#include "SourceManager.hpp"
+
 class GameManager;
 
 ScheduleManager::ScheduleManager(){
@@ -62,6 +64,11 @@ void ScheduleManager::update(float deltaTime){
                                 /* code */
                                 //object was the right one, make it go
                                 objectWithPathFinder->setMovingStatus(true);
+
+                                //play sound
+                                    SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
+                                    mySourceManager->playSource((ALuint)1);
+
 
                                 //make Game Manager Update the enemy and wave
                                 currentScene->gameManager->updateAllWaveStats();

@@ -1,0 +1,540 @@
+﻿  Building Custom Rule C:/Users/nfgol/ITU_GProg/libsndfile/CMakeLists.txt
+  common.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(70,45): warning C4244: 'function': conversion from 'sf_count_t' to 'size_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(78,70): warning C4244: 'function': conversion from 'sf_count_t' to 'size_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(255,41): warning C4244: 'function': conversion from 'sf_count_t' to 'char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(393,36): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(528,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(529,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(530,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(531,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(532,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(533,50): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(534,43): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(539,44): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(540,50): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(541,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(542,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(543,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(544,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(545,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(567,26): warning C4244: 'return': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(733,32): warning C4267: 'function': conversion from 'size_t' to 'char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(857,112): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(967,26): warning C4244: 'return': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(1608,46): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(1619,46): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(1677,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\common.c(1688,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  file_io.c
+  command.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\command.c(312,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\command.c(357,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  pcm.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(556,40): warning C4244: '=': conversion from 'const short' to 'uint8_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(565,40): warning C4244: '=': conversion from 'const short' to 'uint8_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(579,27): warning C4244: '=': conversion from 'const short' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(592,27): warning C4244: '=': conversion from 'const short' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(675,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(697,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(712,52): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(714,32): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(723,52): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(725,32): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(741,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(763,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(785,67): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(807,67): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(832,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(854,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(876,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(898,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(920,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(942,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(957,50): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(959,30): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(968,50): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(970,30): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(985,71): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(992,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1010,71): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1017,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1035,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1042,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1060,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1067,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1086,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1093,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1112,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1119,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1137,77): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1144,67): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1162,77): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1169,67): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1197,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1222,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1247,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1272,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1297,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1323,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1348,67): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1373,67): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1401,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1423,80): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1449,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1474,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1496,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1518,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1540,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1562,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1587,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1609,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1631,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1653,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1675,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1697,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1722,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1747,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1766,44): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1777,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1808,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1825,44): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1836,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1867,80): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1886,46): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1892,21): warning C4244: '=': conversion from 'short' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1903,62): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1940,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1959,46): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(1976,62): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2013,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2031,48): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2046,60): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2084,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2102,48): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2117,60): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2155,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2174,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2192,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2235,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2254,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2273,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2316,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2357,42): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2375,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2434,80): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2459,21): warning C4244: '=': conversion from 'short' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2507,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2532,21): warning C4244: '=': conversion from 'short' to 'unsigned char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2580,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2651,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2722,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2803,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pcm.c(2884,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  ulaw.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(876,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(898,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(916,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(923,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(947,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(973,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(995,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(1013,67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(1021,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ulaw.c(1047,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  alaw.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(375,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(397,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(415,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(422,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(446,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(472,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(494,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(511,77): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(519,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alaw.c(544,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  float32.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(269,68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(275,33): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(277,39): warning C4244: '/=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(297,68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(303,33): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(305,39): warning C4244: '/=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(324,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(359,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(391,35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(395,34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(504,31): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(521,69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(526,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(552,76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(557,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(586,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(610,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(634,59): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(648,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(665,71): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(679,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(696,37): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(709,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(739,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(760,69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(765,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(790,69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(795,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(825,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(854,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(878,59): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(894,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(911,71): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(927,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(945,37): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(960,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\float32.c(991,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  double64.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(440,35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(444,34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(518,1): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(532,31): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(575,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(605,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(631,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(658,40): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(698,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(729,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(758,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(775,38): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(788,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(814,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(844,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(872,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(902,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(943,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(976,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(1004,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(1022,38): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\double64.c(1037,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  ima_adpcm.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(214,56): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(216,52): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(271,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(376,77): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(399,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(555,60): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(655,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(731,45): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(780,44): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ima_adpcm.c(955,65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  ms_adpcm.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(156,41): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(159,55): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(161,51): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(227,57): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(327,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(352,61): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(379,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(381,62): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(407,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(411,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(413,62): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(443,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(445,62): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(486,43): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(630,58): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(646,70): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(676,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(702,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(705,60): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(727,65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(732,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(735,60): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(762,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ms_adpcm.c(765,60): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  gsm610.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(137,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(146,59): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(150,63): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(201,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(229,63): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(305,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(329,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(334,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(363,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(409,47): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(440,64): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(461,72): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(535,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(559,65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(564,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\gsm610.c(595,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  dwvw.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(178,66): warning C4244: 'return': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(201,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(253,77): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(258,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(290,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(380,82): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(572,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(624,69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(629,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dwvw.c(661,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  vox_adpcm.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\vox_adpcm.c(131,61): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\vox_adpcm.c(215,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\vox_adpcm.c(278,62): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\vox_adpcm.c(352,65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  interleave.c
+  strings.c
+  dither.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dither.c(245,80): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dither.c(291,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dither.c(330,62): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dither.c(336,80): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dither.c(376,63): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\dither.c(382,82): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  cart.c
+  broadcast.c
+  audio_detect.c
+  ima_oki_adpcm.c
+  Generating Code...
+  Compiling...
+  alac.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(227,66): warning C4244: 'return': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(474,49): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(504,49): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(530,77): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(537,49): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(570,49): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(616,45): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(651,73): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(682,73): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(716,73): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(749,73): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\alac.c(968,19): warning C4244: 'return': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+  chunk.c
+  ogg.c
+  chanmap.c
+  id3.c
+  windows.c
+  sndfile.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sndfile.c(1005,80): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  aiff.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\aiff.c(469,63): warning C4244: '=': conversion from 'sf_count_t' to 'uint32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\aiff.c(1180,32): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\aiff.c(1249,76): warning C4244: '=': conversion from 'sf_count_t' to 'uint32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\aiff.c(1401,64): warning C4244: '=': conversion from 'sf_count_t' to 'uint32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\aiff.c(1747,59): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  au.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\au.c(331,48): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  avr.c
+  caf.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(408,79): warning C4244: 'function': conversion from 'sf_count_t' to 'uint32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(414,61): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(445,60): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(457,59): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(482,64): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(488,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(489,59): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(520,51): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(521,59): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(540,59): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(845,35): warning C4244: 'function': conversion from 'sf_count_t' to 'size_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\caf.c(848,71): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+  dwd.c
+  flac.c
+  htk.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\htk.c(120,45): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  ircam.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\ircam.c(265,34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  macos.c
+  mat4.c
+  mat5.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\mat5.c(211,45): warning C4244: 'function': conversion from 'sf_count_t' to 'size_t', possible loss of data
+  nist.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nist.c(314,45): warning C4244: 'function': conversion from 'sf_count_t' to 'size_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nist.c(355,27): warning C4244: '=': conversion from 'sf_count_t' to 'long', possible loss of data
+  paf.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(394,64): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(397,60): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(426,46): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(496,63): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(552,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(571,43): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(589,79): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(594,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(622,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(671,64): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(721,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(770,79): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(775,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\paf.c(806,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
+  pvf.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\pvf.c(115,52): warning C4244: 'function': conversion from 'sf_count_t' to 'const size_t', possible loss of data
+  raw.c
+  rx2.c
+  sd2.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sd2.c(211,34): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sd2.c(225,58): warning C4267: '=': conversion from 'size_t' to 'char', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sd2.c(378,40): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  sds.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(284,47): warning C4244: '+=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(434,62): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(478,62): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(522,62): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(568,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(588,39): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(609,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(614,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(646,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(708,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(761,66): warning C4244: 'return': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(797,64): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(839,64): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(882,64): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(906,29): warning C4244: '+=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(911,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(930,29): warning C4244: '+=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(932,40): warning C4244: 'function': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(949,29): warning C4244: '+=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(954,42): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(959,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(961,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(982,29): warning C4244: '+=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(992,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\sds.c(994,42): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  svx.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\svx.c(307,39): warning C4244: '=': conversion from 'sf_count_t' to 'uint32_t', possible loss of data
+  txw.c
+  voc.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\voc.c(376,32): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\voc.c(381,32): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\voc.c(344,1): warning C4244: 'initializing': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\voc.c(488,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\voc.c(495,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\voc.c(502,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\voc.c(508,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  wve.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\wve.c(176,28): warning C4244: '=': conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+  w64.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\w64.c(244,27): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\w64.c(368,24): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  wavlike.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\wavlike.c(946,48): warning C4244: '=': conversion from 'sf_count_t' to 'uint32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\wavlike.c(1126,41): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\wavlike.c(1178,38): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  wav.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\wav.c(352,65): warning C4244: '=': conversion from 'sf_count_t' to 'uint32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\wav.c(1176,1): warning C4244: 'initializing': conversion from 'sf_count_t' to 'size_t', possible loss of data
+  xi.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(251,19): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(255,52): warning C4244: '-=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(259,19): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(263,51): warning C4244: '-=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(525,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(551,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(573,71): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(580,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(609,76): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(638,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(664,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(686,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(693,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(722,69): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(763,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(789,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(810,63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(818,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(847,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(874,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(900,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(921,65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(929,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\xi.c(958,71): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  mpc2k.c
+  rf64.c
+  ogg_vorbis.c
+  ogg_speex.c
+  ogg_pcm.c
+  ogg_opus.c
+  ogg_vcomment.c
+  Generating Code...
+  Compiling...
+  nms_adpcm.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(658,67): warning C4244: 'function': conversion from 'int16_t' to 'uint8_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(705,77): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(788,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(816,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(821,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(853,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(878,78): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(948,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(974,65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(979,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(1011,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(1089,88): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\nms_adpcm.c(1092,82): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  add.c
+  code.c
+  decode.c
+  gsm_create.c
+  gsm_decode.c
+  gsm_destroy.c
+  gsm_encode.c
+  gsm_option.c
+  long_term.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(569,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(570,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(571,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(572,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(573,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(574,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(575,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(576,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(577,32): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\long_term.c(811,37): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  lpc.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\lpc.c(165,35): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+  preprocess.c
+  rpe.c
+  short_term.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\short_term.c(245,11): warning C4244: '=': conversion from 'float' to 'int16_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\short_term.c(247,43): warning C4244: '=': conversion from 'float' to 'int16_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\short_term.c(323,24): warning C4244: '=': conversion from 'float' to 'int16_t', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\GSM610\short_term.c(325,43): warning C4244: '=': conversion from 'float' to 'int16_t', possible loss of data
+  table.c
+  g721.c
+  g723_16.c
+  g723_24.c
+  g723_40.c
+  ALACBitUtilities.c
+  Generating Code...
+  Compiling...
+  ag_dec.c
+  ag_enc.c
+  dp_dec.c
+  dp_enc.c
+  matrix_dec.c
+  matrix_enc.c
+  alac_decoder.c
+  alac_encoder.c
+  Generating Code...
+  g72x.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(139,67): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(142,61): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(161,67): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(163,61): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(193,65): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(267,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(295,73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(300,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(332,53): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(435,62): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(508,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(534,65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(539,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+C:\Users\nfgol\ITU_GProg\libsndfile\src\g72x.c(571,54): warning C4244: '=': conversion from 'sf_count_t' to 'int', possible loss of data
+  g72x.c
+C:\Users\nfgol\ITU_GProg\libsndfile\src\G72x\g72x.c(432,30): warning C4244: '=': conversion from 'long' to 'short', possible loss of data
+  sndfile.vcxproj -> C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\libsndfile_build\Debug\sndfile.lib

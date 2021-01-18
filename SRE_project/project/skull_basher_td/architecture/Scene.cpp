@@ -23,6 +23,10 @@
 
 #include "PathFinder.hpp"
 
+#include <AL/al.h>
+#include "SoundEffectsPlayer.hpp"
+#include "SourceManager.hpp"
+
 //rapidjson imports
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
@@ -508,7 +512,6 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
         //send the wave details to the Game Manager
         gameManager->addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
         
-
     }
     
 
@@ -527,6 +530,13 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
     // worldTiles.push_back(test2);
 
     // std::cout << "ceilColor.x: " << ceilColor.x << "\n";
+            // SoundEffectsPlayer mySpeaker;
+        // SoundEffectsPlayer myOtherSpeaker;
+        // // alSourcePlay(0);
+        // mySpeaker.Play(soundA);
+        // myOtherSpeaker.Play(1);
+    // SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
+    // mySourceManager->playSource((ALuint)1);
 
 }
 

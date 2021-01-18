@@ -1,0 +1,12 @@
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/INSTALL.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/build_version.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/OpenAL.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/common.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/openal-info.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/ex-common.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/altonegen.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/alrecord.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/ALL_BUILD.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/utils/alsoft-config/CMakeFiles/INSTALL.dir
+C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/utils/alsoft-config/CMakeFiles/ALL_BUILD.dir

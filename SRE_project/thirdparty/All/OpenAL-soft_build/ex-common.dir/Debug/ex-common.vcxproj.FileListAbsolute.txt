@@ -1,0 +1,2 @@
+C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\Debug\ex-common.pdb
+C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\ex-common.dir\Debug\ex-common.pdb
