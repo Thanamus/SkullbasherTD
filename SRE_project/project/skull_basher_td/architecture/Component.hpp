@@ -11,6 +11,7 @@ class Component {
 public:
     virtual ~Component() = default;
     GameObject* getGameObject();
+    bool active = true;
 
     // invoked on start
     virtual void onStart();

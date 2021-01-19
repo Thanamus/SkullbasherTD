@@ -7,7 +7,13 @@
 #include "Renderable.hpp"
 #include "Updatable.hpp"
 #include "glm/glm.hpp"
+// #include "../GameManager.hpp"
+#include "../GuiManager.hpp"
+#include "ScheduleManager.hpp"
+
 #include <vector>
+#include <string>
+
 
 class Camera;
 class GameObject;
@@ -15,6 +21,8 @@ class Component;
 class Light;
 class BulletPhysics;
 class RigidBody;
+class ScheduleManager;
+class GameManager;
 
 class Scene {
 public:
@@ -33,13 +41,25 @@ public:
 
     void setAmbientColor(const glm::vec3 &ambientColor);
 
-    const std::vector<std::shared_ptr<GameObject>> getGameObjects();
+    std::vector<std::shared_ptr<GameObject>> getGameObjects();
+
+    //World Map stuff
+    void loadMap(std::string filename, std::shared_ptr<Scene> res);
+    // load map()
+    // add stuff we need for load map
+
+    std::vector<Camera*> cameras;
+
+    void onKey(SDL_Event &event);
+    void onMouse(SDL_Event &event);
+    std::shared_ptr<GuiManager> guiManager;
+    std::shared_ptr<GameManager> gameManager;
+    std::shared_ptr<ScheduleManager> scheduleManager;
 private:
     std::string name;
     bool debugPhysics = true;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     glm::vec3 ambientColor = {0.5f,0.5f,0.5f};
-    std::vector<Camera*> cameras;
     std::vector<Renderable*> renderables;
     std::vector<Updatable*> updatables;
     std::vector<RigidBody*> rigidBodies;
@@ -53,5 +73,13 @@ private:
 
     friend class GameObject;
     friend class RigidBody;
+
+    //World Map stuff
+    // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
+    std::string mapAssetFolderLoc = ".\\assets\\worldMapAssets"; // apparently does work
+    std::string enemiesAssetFolderLoc = ".\\assets\\enemies";
+    double tileHeightOffset = -1;
+    double tilePosOffset = 1;
+
 };
 

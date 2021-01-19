@@ -15,13 +15,14 @@
 using namespace sre;
 
 Transform::Transform(GameObject* gameObject)
-:Component(gameObject)
-{
+: Component(gameObject) {
+    if(gameObject->getParent() && gameObject->getComponent<Transform>().get()) {
+        setParent(gameObject->getComponent<Transform>().get());
+    }
 }
 
 glm::mat4 Transform::localTransform() {
     glm::mat4 translateMat = glm::translate(glm::mat4(1), position);
-
 
     glm::mat4 scaleMat = glm::scale(glm::mat4(1), scale);
 

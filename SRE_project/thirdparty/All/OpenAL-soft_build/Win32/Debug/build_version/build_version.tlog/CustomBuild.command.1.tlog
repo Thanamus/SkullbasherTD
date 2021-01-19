@@ -1,0 +1,24 @@
+^C:\USERS\NFGOL\ITU_GPROG\SKULLBASHERTD\SRE_PROJECT\THIRDPARTY\ALL\OPENAL-SOFT_BUILD\CMAKEFILES\587F6A8B555E180FF21255857C958EDF\BUILD_VERSION.RULE
+setlocal
+cd C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -D "GIT_EXECUTABLE=C:/Program Files/Git/cmd/git.exe" -D LIB_VERSION=1.21.0 -D LIB_VERSION_NUM=1,21,0,0 -D SRC=C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft/version.h.in -D DST=C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/version.h -P C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft/version.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\NFGOL\ITU_GPROG\SKULLBASHERTD\SRE_PROJECT\THIRDPARTY\ALL\OPENAL-SOFT\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
