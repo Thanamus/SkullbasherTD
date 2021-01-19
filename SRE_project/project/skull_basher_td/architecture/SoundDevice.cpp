@@ -73,6 +73,7 @@ void SoundDevice::SetAttunation(int key)
 		throw("bad attunation key");
 
 	alDistanceModel(key);
+	// alDistanceModel(AL_LINEAR_DISTANCE);
 	AL_CheckAndThrow();
 }
 
@@ -146,6 +147,7 @@ SoundDevice::SoundDevice()
 	if (!name || alcGetError(p_ALCDevice) != AL_NO_ERROR)
 		name = alcGetString(p_ALCDevice, ALC_DEVICE_SPECIFIER);
 	printf("Opened \"%s\"\n", name);
+
 }
 
 SoundDevice::~SoundDevice()

@@ -4,6 +4,8 @@
 #include <vector>
 #include <AL/al.h>
 
+#include "glm/glm.hpp"
+
 struct OALSource {
 	ALuint	source;
 	bool	inUse;
@@ -28,21 +30,33 @@ private:
     OALSource*		oalSource;
     float			radius;
     OALSource*	GetSource();
+
+    void checkSoundIsLoaded();
+
 public:
     static SourceManager* Get();
 
     // play source
     // void playSource(ALuint source_To_Play);
     // const ALuint& buffer_to_play
-    void playSource(ALuint buffer_To_play);
+    // void playSource(ALuint buffer_To_play);
     // make source
+        // play source
+    // void playSource(ALuint buffer_To_play); // Plays a sound based on buffer
+    void playMyJam(std::string sound_to_play, glm::vec3 position, float max_distance_of_Sound); // Triggers a search for sound's buffer, then plays that
+    void playMyJam_global(std::string sound_to_play);
+    // make source
+    void checkDistanceBetweenSourceAndListener(); // TODO
 
     // Allocate Source
         // Rents out a source to a given game object
     void attachSource (OALSource* s, ALuint buffer_to_play);
+
     // Unallocate Source
         // Free's a source from a game object
     void CheckAndReleaseOALSource();
+
+
 
     // Delete all sources
     // std::map<int, ALuint> stuff;

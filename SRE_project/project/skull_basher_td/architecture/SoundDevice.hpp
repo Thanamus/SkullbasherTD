@@ -3,7 +3,9 @@
 // Thanks Matthew Early for the OpenAL implementation
 
 #pragma once
+
 #include <AL\alc.h>
+
 
 /// <summary>
 /// Singleton class that initilizes our sound hardware device and allows

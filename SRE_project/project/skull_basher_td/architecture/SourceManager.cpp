@@ -1,11 +1,14 @@
-#include "SourceManager.hpp"
 
 #include <iostream>
 #include <array>
 #include <vector>
 // #include <algorithm>
 #include <AL/al.h>
+
 #include "OpenALErrorCheck.hpp"
+#include "SourceManager.hpp"
+#include "SoundEffectsLibrary.hpp"
+#include "SoundDevice.hpp"
 
 SourceManager::SourceManager(unsigned int num_of_sources)
 {
@@ -66,24 +69,25 @@ void SourceManager::Init(){
     if (_instance == nullptr) _instance = new SourceManager();
 }
 
-void SourceManager::playSource(ALuint buffer_to_play){
+// Depricated design
+// void SourceManager::playSource(ALuint buffer_to_play){
 
-	OALSource* source_that_will_play_sound = GetSource();
+// 	OALSource* source_that_will_play_sound = GetSource();
 
-	attachSource(source_that_will_play_sound, buffer_to_play);
+// 	attachSource(source_that_will_play_sound, buffer_to_play);
 
-    	if (buffer_to_play != p_buffer) //p_buffer defaults to 0, otherwise it should be 'the last used buffer'
-	{
-			p_buffer = buffer_to_play;
-			// alSourcei(source, AL_BUFFER, (ALint)p_buffer);
-			// alSourcei(*sourceArray[0], AL_BUFFER, (ALint)p_buffer);
-			AL_CheckAndThrow();
-	}
-	// alSourceRewind(p_Source);
-	// alSourcePlay(*sourceArray[0]);
-	std::cout << "playing a sound from source Manager: " << p_buffer << std::endl;
-	AL_CheckAndThrow();
-}
+//     	if (buffer_to_play != p_buffer) //p_buffer defaults to 0, otherwise it should be 'the last used buffer'
+// 	{
+// 			p_buffer = buffer_to_play;
+// 			// alSourcei(source, AL_BUFFER, (ALint)p_buffer);
+// 			// alSourcei(*sourceArray[0], AL_BUFFER, (ALint)p_buffer);
+// 			AL_CheckAndThrow();
+// 	}
+// 	// alSourceRewind(p_Source);
+// 	// alSourcePlay(*sourceArray[0]);
+// 	std::cout << "playing a sound from source Manager: " << p_buffer << std::endl;
+// 	AL_CheckAndThrow();
+// }
 
 
 void SourceManager::attachSource (OALSource* s, ALuint buffer_to_play){
@@ -97,8 +101,8 @@ void SourceManager::attachSource (OALSource* s, ALuint buffer_to_play){
 	oalSource->inUse = true;
 	radius = 100.0f;
 	alSourceStop(oalSource->source);	
-	alSourcef(oalSource->source, AL_MAX_DISTANCE, radius);
-	alSourcef(oalSource->source, AL_REFERENCE_DISTANCE, radius * 0.2f);
+	// alSourcef(oalSource->source, AL_MAX_DISTANCE, radius);
+	// alSourcef(oalSource->source, AL_REFERENCE_DISTANCE, radius * 0.2f);
 
 	//if(timeLeft > 0) {
 		// if(sound->IsStreaming()) {	//Part 2
@@ -124,7 +128,7 @@ void SourceManager::attachSource (OALSource* s, ALuint buffer_to_play){
 			// alSourcef(oalSource->source,AL_SEC_OFFSET,(sound->GetLength()/ 1000.0) - (timeLeft / 1000.0));
 
 			// std::cout << "Attaching! Timeleft: " << (sound->GetLength()/ 1000.0) - (timeLeft / 1000.0) << std::endl;
-			alSourcePlay(oalSource->source);
+			// alSourcePlay(oalSource->source);
 		// }
 		// alSourcePlay(oalSource->source);
 }
@@ -182,3 +186,81 @@ void SourceManager::CheckAndReleaseOALSource (){
 // 		}
 // 	}
 // }
+
+void SourceManager::playMyJam_global(std::string sound_to_play){
+
+	ALuint buffer_to_play;
+	
+	// Get sound and load it in to buffer (or return if that fails)
+	if(!SoundEffectsLibrary::Get()->retrive_buffer_of_loaded_sound_effect(sound_to_play, &buffer_to_play)){
+		std::cout << "tried to play a sound that wasn't loaded";
+		return;
+	}
+
+	OALSource* source_that_will_play_sound = GetSource();
+
+	attachSource(source_that_will_play_sound, buffer_to_play);
+	glm::vec3 position;
+	// get the position of the Listener from soundDevice and set it to a position vector
+	// SoundDevice::Get()->GetLocation(position.x, position.y, position.z);
+
+	// alSourcefv(source_that_will_play_sound->source,AL_POSITION, (float*)&position); // so no need to set sounds position for global sounds, just set relative to true
+	alSourcef(oalSource->source, AL_MAX_DISTANCE, 2);
+	alSourcef(oalSource->source, AL_REFERENCE_DISTANCE, 2.0f);
+	alSourcef(oalSource->source, AL_ROLLOFF_FACTOR, 0.0f);
+	alSourcei(oalSource->source, AL_SOURCE_RELATIVE, 1);
+	
+
+    	if (buffer_to_play != p_buffer) //p_buffer defaults to 0, otherwise it should be 'the last used buffer'
+	{
+			p_buffer = buffer_to_play;
+			// alSourcei(source, AL_BUFFER, (ALint)p_buffer);
+			// alSourcei(*sourceArray[0], AL_BUFFER, (ALint)p_buffer);
+			AL_CheckAndThrow();
+	}
+	// alSourceRewind(p_Source);
+	// alSourcePlay(*sourceArray[0]);
+	alSourcePlay(oalSource->source);
+	std::cout << "playing a global sound from source Manager: " << p_buffer << std::endl;
+	AL_CheckAndThrow();
+}
+
+void SourceManager::playMyJam(std::string sound_to_play, glm::vec3 position, float max_distance_of_Sound){
+
+	ALuint buffer_to_play;
+	
+	// Get sound and load it in to buffer (or return if that fails)
+	if(!SoundEffectsLibrary::Get()->retrive_buffer_of_loaded_sound_effect(sound_to_play, &buffer_to_play)){
+		std::cout << "tried to play a sound that wasn't loaded";
+		return;
+	}
+
+	OALSource* source_that_will_play_sound = GetSource();
+
+	attachSource(source_that_will_play_sound, buffer_to_play);
+	// glm::vec3 position;
+	// // get the position of the Listener from soundDevice and set it to a position vector
+	// SoundDevice::Get()->GetLocation(position.x, position.y, position.z);
+
+	alSourcefv(source_that_will_play_sound->source,AL_POSITION, (float*)&position);
+	alSourcef(oalSource->source, AL_MAX_DISTANCE, max_distance_of_Sound);
+	alSourcef(oalSource->source, AL_REFERENCE_DISTANCE, max_distance_of_Sound * 0.1f);
+	alSourcef(oalSource->source, AL_ROLLOFF_FACTOR, 1);
+	alSourcei(oalSource->source, AL_SOURCE_RELATIVE, 0);
+	std::cout << "Max distance should be: " << max_distance_of_Sound;
+	// alSourcei(oalSource->source, AL_SOURCE_RELATIVE, AL_TRUE);
+
+    	if (buffer_to_play != p_buffer) //p_buffer defaults to 0, otherwise it should be 'the last used buffer'
+	{
+			p_buffer = buffer_to_play;
+			// alSourcei(source, AL_BUFFER, (ALint)p_buffer);
+			// alSourcei(*sourceArray[0], AL_BUFFER, (ALint)p_buffer);
+			AL_CheckAndThrow();
+	}
+	// alSourceRewind(p_Source);
+	// alSourcePlay(*sourceArray[0]);
+	alSourcePlay(oalSource->source);
+	std::cout << "playing a local sound from source Manager: " << p_buffer << std::endl;
+	AL_CheckAndThrow();
+}
+

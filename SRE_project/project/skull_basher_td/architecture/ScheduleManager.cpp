@@ -67,7 +67,12 @@ void ScheduleManager::update(float deltaTime){
 
                                 //play sound
                                     SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
-                                    mySourceManager->playSource((ALuint)1);
+                                    // mySourceManager->playMyJam_global("pestilence.wav");
+                                    glm::vec3 testPosition(0,0,0);
+                                    float testSoundDist = 30.0f;
+                                    // mySourceManager->playMyJam("pestilence.ogg", testPosition, testSoundDist);
+                                    mySourceManager->playMyJam("pestilence.wav", testPosition, testSoundDist);
+                                    // mySourceManager->playSource((ALuint)1);
 
 
                                 //make Game Manager Update the enemy and wave

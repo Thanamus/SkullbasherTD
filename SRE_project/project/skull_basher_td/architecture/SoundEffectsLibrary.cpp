@@ -189,3 +189,18 @@ SoundEffectsLibrary::~SoundEffectsLibrary()
 
 	p_SoundEffectBuffers.clear();
 }
+
+
+bool SoundEffectsLibrary::retrive_buffer_of_loaded_sound_effect(std::string sound_to_retrive, ALuint* const &returned_buffer){
+	// retrives the buffer (where the sound 'lives') of a sound based on it's name
+	// name = filename + file extension, e.g. pestilence.ogg 
+	if (loadedSounds.find(sound_to_retrive) == loadedSounds.end() ) {
+		// not found, return false
+		return false;
+	} else {
+	// sound found, return the buffer
+		*returned_buffer = loadedSounds[sound_to_retrive];
+		return true;
+	}
+	
+}

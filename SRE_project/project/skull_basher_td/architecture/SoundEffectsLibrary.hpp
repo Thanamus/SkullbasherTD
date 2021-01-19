@@ -31,6 +31,8 @@ public:
 	ALuint Load(const char* filename);
 	bool UnLoad(const ALuint& bufferId);
 
+	bool retrive_buffer_of_loaded_sound_effect(std::string sound_to_retrive, ALuint* const &returned_buffer);
+
 private:
 	SoundEffectsLibrary();
 	~SoundEffectsLibrary();
