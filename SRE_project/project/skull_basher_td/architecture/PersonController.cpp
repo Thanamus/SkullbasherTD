@@ -46,6 +46,7 @@ void PersonController::update(float deltaTime)
     updateVectors();
 
     camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
+    camera->moveHandCursor(camera_front, this->hand);
     if(currentScene->gameManager->buildModeActive)
     {
         camera->moveTowerCursor(camera_front, this->tower);

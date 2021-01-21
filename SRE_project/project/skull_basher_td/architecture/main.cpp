@@ -36,6 +36,7 @@ Main::Main()
     currentScene->guiManager = guiManager;
     currentScene->gameManager = gameManager;
     gameManager->currentScene = currentScene;
+    gameManager->ToggleLockMouse();
 
     //load map
     currentScene->loadMap(".\\maps\\SkullBasherTDLevel0.json", currentScene);
@@ -136,6 +137,19 @@ std::shared_ptr<Scene> Main::createScene(){
     towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
 
     cameraObj->getComponent<PersonController>()->tower = tower;
+
+    auto hand = res->createGameObject("Hand");
+    hand->getComponent<Transform>()->position = {0,0,0};
+    hand->getComponent<Transform>()->rotation = {0,0,0};
+    hand->getComponent<Transform>()->scale = {0.1f,0.1f,0.1f};
+    auto handMR = hand->addComponent<ModelRenderer>();
+    auto path =  ".\\assets\\lowpoly_crossbow_2_2.obj";
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
+
+    handMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    handMR->setModel(modelHolder);
+
+    cameraObj->getComponent<PersonController>()->hand = hand;
 
     //Load Map
     // res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);

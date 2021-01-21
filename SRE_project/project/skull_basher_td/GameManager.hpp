@@ -29,6 +29,7 @@ public:
     std::shared_ptr<Tower> selectedTower;
     void GameManager::onKey(SDL_Event &event);
     void GameManager::onMouse(SDL_Event &event);
+    void TogglePause();
     void ToggleLockMouse();
     bool quit = false;
     bool buildModeActive = false;
@@ -41,9 +42,9 @@ public:
 
     void setPower(float power);
 
+    bool levelRunning = true;
+    bool won = false;
     bool paused = false;
-    bool debugBricks = true;
-    bool lockRotation = false;
 
     void updateTowerIndicator();
     std::shared_ptr<class Scene> currentScene;
@@ -66,7 +67,8 @@ public:
 
     void updateAllWaveStats();
     void setInitialWaveStats();
-
+    const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
+    int getTotalEnemiesInCurrentSet() const;
 private:
     void loadTowers(std::string filename);
     static std::map<std::string, std::shared_ptr<sre::Texture>> inventoryTexture;
