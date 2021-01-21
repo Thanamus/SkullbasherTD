@@ -193,7 +193,9 @@ list(APPEND DLLFileList ${OpenAL_DLL})
 
 #### libsndfile ### 
 # used by OpenAL coding in Skullbasher TD
-find_package(SndFile)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/thirdparty/All/libsndfile/cmake)
+
+#find_package(SndFile)
 #add_subdirectory(thirdparty/All/libsndfile)
 
 #INCLUDE_DIRECTORIES (thirdparty/All/libsndfile)
@@ -205,11 +207,19 @@ else(${FLAC_FOUND})
 
     ExternalProject_Add(
         FLAC
-        URL "http://downloads.xiph.org/releases/flac/flac-1.3.0.tar.xz"
+        URL "http://downloads.xiph.org/releases/flac/flac-1.3.0.tar.xz"   
+        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/FLAC/configure --prefix=<INSTALL_DIR>
+        BUILD_COMMAND ${MAKE}
+        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/FLAC
+        UPDATE_COMMAND ""
+        INSTALL_COMMAND 
+        LOG_DOWNLOAD ON
+        LOG_CONFIGURE ON
+        LOG_BUILD ON
     )
 
     ExternalProject_Get_Property(FLAC install_dir)
-    include_directories(${install_dir/include})
+    include_directories(${install_dir}/include})
     SET(FLAC_DIR install_dir)
 endif(${FLAC_FOUND})
 
@@ -221,7 +231,7 @@ else(${Ogg_FOUND})
     ExternalProject_Add(
         libogg
         URL "https://downloads.xiph.org/releases/ogg/libogg-1.3.4.tar.xz"
-        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/flac/configure --prefix=<INSTALL_DIR>
+        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/ogg/configure --prefix=<INSTALL_DIR>
         BUILD_COMMAND ${MAKE}
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/ogg
         UPDATE_COMMAND ""
@@ -231,7 +241,7 @@ else(${Ogg_FOUND})
         LOG_BUILD ON
     )
     ExternalProject_Get_Property(libogg install_dir)
-    include_directories(${install_dir/include})
+    include_directories(${install_dir}/include})
 endif(${Ogg_FOUND})
 
 find_package(Vorbis)
@@ -242,7 +252,7 @@ else(${Vorbis_FOUND})
     ExternalProject_Add(
         libvorbis
         URL "https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz"
-        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/flac/configure --prefix=<INSTALL_DIR>
+        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/vorbis/configure --prefix=<INSTALL_DIR>
         BUILD_COMMAND ${MAKE}
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/vorbis
         UPDATE_COMMAND ""
@@ -252,24 +262,22 @@ else(${Vorbis_FOUND})
         LOG_BUILD ON
     )
     ExternalProject_Get_Property(libvorbis install_dir)
-    include_directories(${install_dir/include})
+    include_directories(${install_dir}/include})
 endif(${Vorbis_FOUND})
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-
-find_package(SndFile)
+#find_package(SndFile)
 ExternalProject_Add(
     SndFile
     DEPENDS FLAC libogg libvorbis
     URL "http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.25.tar.gz"
-
+    INSTALL_COMMAND 
     LOG_DOWNLOAD ON
     LOG_CONFIGURE ON
     LOG_BUILD ON
 )
     ExternalProject_Get_Property(SndFile install_dir)
-    include_directories(${install_dir/include})
+    include_directories(${install_dir}/include})
 
 SET(SndFile_Library "${CMAKE_SOURCE_DIR}/thirdparty/All/libsndfile_build/Debug/sndfile.lib" CACHE STRING "Where the snd file lib (static) can be found")
 list(APPEND EXTRA_LIBS ${SndFile_Library})
