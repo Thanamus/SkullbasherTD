@@ -23,26 +23,26 @@ file(GLOB SkullBasherTD
 #    include_directories(${install_dir/include})
 
 # Compile cpp files (from Snake variable)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Debug")
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Debug")
 add_executable(skull_basher_td ${SkullBasherTD})
 
-target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS})
+target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile OpenAL)
 
 
 
 # copy files to dest
-file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
-file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+file(COPY level0.json level0.png powerbar.png assets data DESTINATION Debug)
+file(COPY level0.json level0.png powerbar.png assets data DESTINATION Release)
 #file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Copy Asset files tp dest
-file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
-file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+file(COPY ./assets DESTINATION Debug)
+file(COPY ./assets DESTINATION Release)
 #file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Copy Map files to dest
-file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
-file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+file(COPY ./maps DESTINATION Debug)
+file(COPY ./maps DESTINATION Release)
 #file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 
