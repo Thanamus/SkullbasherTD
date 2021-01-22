@@ -47,6 +47,11 @@ Main::Main()
     soundA = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
     uint32_t soundB = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
     uint32_t soundC = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.wav");
+    uint32_t soundD = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\SoundPack1\\Alarm.aif");
+    uint32_t soundE = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav");
+    uint32_t soundF = SoundEffectsLibrary::Get()->Load("SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav");
+    
+    // SRE_project\project\skull_basher_td\assets\soundEffects\NPC\gutteral beast\mnstr1.wav
 
     SourceManager * mySourceManager = SourceManager::Get();
     // mySourceManager->playSource((ALuint)1);
@@ -82,14 +87,14 @@ Main::Main()
     //Playing Sounds //TODO remove as these are tests
 
 
-    // music.Play();
+    music.Play();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
 
         mySourceManager->CheckAndReleaseOALSource();
         //Update Music buffer (pkeep playing music)
-        // music.UpdateBufferStream();
+        music.UpdateBufferStream();
 
         // if (mySpeaker.isPlaying() == false){
         //     mySpeaker.Play(soundA);
