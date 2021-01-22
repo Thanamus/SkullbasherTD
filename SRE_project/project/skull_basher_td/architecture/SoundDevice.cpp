@@ -4,6 +4,8 @@
 
 #include "SoundDevice.hpp"
 #include <AL\al.h>
+#include <AL\alext.h>
+
 #include <stdio.h>
 #include <vector>
 #include "OpenALErrorCheck.hpp"
@@ -130,6 +132,8 @@ void SoundDevice::SetGain(const float& val)
 
 SoundDevice::SoundDevice()
 {
+
+
 	p_ALCDevice = alcOpenDevice(nullptr); // nullptr = get default device
 	if (!p_ALCDevice)
 		throw("failed to get sound device");

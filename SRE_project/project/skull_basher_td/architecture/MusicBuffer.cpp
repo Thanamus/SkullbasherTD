@@ -121,6 +121,12 @@ void MusicBuffer::UpdateBufferStream()
 		AL_CheckAndThrow();
 
 	}
+	if (changingTracks == true)
+	{
+		/* code */
+		fadeOutMusic();
+	}
+	
 
 }
 
@@ -249,4 +255,47 @@ void MusicBuffer::CloseDecoder(){
 void MusicBuffer::ResetDecoders(){
 	CloseDecoder();
 	OpenDecoder();
+}
+
+void MusicBuffer::changeTracks(const char* filename){
+	// set changing tracks to true
+	changingTracks = true; // sets the flag to true so the update function can fade out
+
+	// set music track to be
+	m_filename_to_be = filename;
+
+	start_time = std::chrono::steady_clock::now();
+	// fade out float t = now - stopTime;
+	// float d = 10
+	// if(t > d)
+	//    //Stop sound and delete source
+	// else 
+	//     alSourcef(source, AL_GAIN, originalGain * (1F - t / d)) 
+
+
+
+
+
+	//Open decoder
+
+
+}
+
+void MusicBuffer::fadeOutMusic() {
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	elapsedTimeInSec = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
+
+	if (elapsedTimeInSec > fade_out_time)
+	{
+		// close Decoder
+		CloseDecoder();
+		m_filename = m_filename_to_be;
+		// change to be track to m_music (or whatever)
+		// m_filename = m_filename_to_be;
+		OpenDecoder();
+		changingTracks = false;
+	} else{
+		alSourcef(p_Source, AL_GAIN, originalGain*(1.0f - elapsedTimeInSec / fade_out_time));
+	}
+	
 }

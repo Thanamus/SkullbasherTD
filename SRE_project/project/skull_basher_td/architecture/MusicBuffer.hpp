@@ -5,6 +5,8 @@
 #pragma once
 #include <AL\al.h>
 #include <sndfile.h>
+#include <chrono>
+
 class MusicBuffer
 {
 public:
@@ -21,6 +23,8 @@ public:
 
 	void SetGain(const float& val);
 
+	void changeTracks(const char* filename);
+
 	MusicBuffer(const char* filename);
 	~MusicBuffer();
 private:
@@ -34,6 +38,15 @@ private:
 	ALenum p_Format;
 
 	const char* m_filename;
+
+	const char* m_filename_to_be;
+	bool changingTracks = false;
+	std::chrono::steady_clock::time_point start_time;
+	// std::chrono::steady_clock::time_point fade_out_Time;
+	int fade_out_time = 1;
+	int elapsedTimeInSec = 0;
+	void fadeOutMusic();
+	float originalGain = 1.0f;
 
 	MusicBuffer() = delete;
 

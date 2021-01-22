@@ -179,6 +179,7 @@ INCLUDE_DIRECTORIES (${OpenAL_include})
 list(APPEND EXTRA_INCLUDES ${OpenAL_include})
 
 find_library(OpenAL_DLL NAMES OpenAL32.dll PATHS "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/")
+SET(OpenAL_DLL "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/" CACHE STRING "Where the OpenAL dll is")
 list(APPEND DLLFileList ${OpenAL_DLL})
 #file(COPY ${OpenAL_DLL} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
