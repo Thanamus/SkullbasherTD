@@ -9,6 +9,10 @@
 #include "OpenALErrorCheck.hpp"
 #include <iostream> //for cout
 
+#include <inttypes.h>
+
+
+
 void MusicBuffer::Play()
 {
 	std::cout << "starting to play music: " << p_Source << "\n";
@@ -210,12 +214,28 @@ void MusicBuffer::OpenDecoder(){
 	alGenBuffers(NUM_BUFFERS, p_Buffers);
 
 	std::size_t frame_size;
-
+	/* Open the audio file and check that it's usable. */
 	p_SndFile = sf_open(m_filename, SFM_READ, &p_Sfinfo);
 	if (!p_SndFile)
 	{
-		throw("could not open provided music file -- check path");
+		fprintf(stderr, "Could not open audio in %s: %s\n", m_filename, sf_strerror(p_SndFile));
+		return;
 	}
+	if (p_Sfinfo.frames < 1 || p_Sfinfo.frames >(sf_count_t)(INT_MAX / sizeof(short)) / p_Sfinfo.channels)
+	{
+		fprintf(stderr, "Bad sample count in %s (%" PRId64 ")\n", m_filename, p_Sfinfo.frames);
+		sf_close(p_SndFile);
+		return;
+	}
+
+	/* Get the sound format, and figure out the OpenAL format */
+	p_Format = AL_NONE;
+
+	// p_SndFile = sf_open(m_filename, SFM_READ, &p_Sfinfo);
+	// if (!p_SndFile)
+	// {
+	// 	throw("could not open provided music file -- check path");
+	// }
 
 	/* Get the sound format, and figure out the OpenAL format */
 	if (p_Sfinfo.channels == 1)
