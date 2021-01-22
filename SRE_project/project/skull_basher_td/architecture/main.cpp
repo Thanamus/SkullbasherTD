@@ -44,12 +44,12 @@ Main::Main()
     SoundDevice * mySoundDevice = SoundDevice::Get();
     // mySoundDevice->SetAttunation(3);
     // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
-    soundA = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
-    uint32_t soundB = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
-    uint32_t soundC = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.wav");
-    uint32_t soundH = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.wav");
-    uint32_t soundD = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\SoundPack1\\Alarm.aif");
-    uint32_t soundE = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav");
+    soundA = SoundEffectsLibrary::Get()->Load("..\\assets\\soundEffects\\spells\\pestilence.ogg");
+    uint32_t soundB = SoundEffectsLibrary::Get()->Load("..\\assets\\soundEffects\\spells\\pestilence.ogg");
+    uint32_t soundC = SoundEffectsLibrary::Get()->Load("..\\assets\\soundEffects\\spells\\pestilence.wav");
+    uint32_t soundH = SoundEffectsLibrary::Get()->Load("..\\assets\\soundEffects\\spells\\pestilence.wav");
+    uint32_t soundD = SoundEffectsLibrary::Get()->Load("..\\assets\\soundEffects\\SoundPack1\\Alarm.aif");
+    uint32_t soundE = SoundEffectsLibrary::Get()->Load("..\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav");
     // uint32_t soundF = SoundEffectsLibrary::Get()->Load("SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav");
     // uint32_t soundG = SoundEffectsLibrary::Get()->Load("C:\\Users\\nfgol\\ITU_GProg\\SkullBasherTD\\SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr2.wav");
     
@@ -64,7 +64,7 @@ Main::Main()
         // mySpeaker.Play(soundG);
         // myOtherSpeaker.Play(soundA);
     
-    MusicBuffer music(".\\assets\\music\\68-Gerudo_Valley.wav"); 
+    MusicBuffer music("..\\assets\\music\\68-Gerudo_Valley.wav"); 
     // MusicBuffer music("..\\..\\project\\skull_basher_td\\assets\\Debug\\music\\The-Precipice-of-Victory-MP3.wav"); 
 
     // SoundNode musicThing;
@@ -80,7 +80,7 @@ Main::Main()
     gameManager->currentScene = currentScene;
 
     //load map
-    currentScene->loadMap(".\\maps\\SkullBasherTDLevel0.json", currentScene);
+    currentScene->loadMap("..\\maps\\SkullBasherTDLevel0.json", currentScene);
 
     scheduleManager->currentScene = currentScene; //not sure about this pattern, here the two managers 'know' each other
     currentScene->scheduleManager = scheduleManager;
