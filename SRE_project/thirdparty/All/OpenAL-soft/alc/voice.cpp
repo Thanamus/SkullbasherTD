@@ -497,6 +497,15 @@ void Voice::mix(const State vstate, ALCcontext *Context, const uint SamplesToDo)
         }
     }
 
+    float fadeCoeff{1.0f}, fadeGain{1.0f};
+    if UNLIKELY(vstate == Stopping)
+    {
+        /* Calculate the multiplier for fading the resampled signal by -60dB
+         * over 1ms.
+         */
+        fadeCoeff = std::pow(0.001f, 1000.0f/static_cast<float>(Device->Frequency));
+    }
+
     uint buffers_done{0u};
     uint OutPos{0u};
     do {
@@ -572,12 +581,12 @@ void Voice::mix(const State vstate, ALCcontext *Context, const uint SamplesToDo)
             }
         }
 
+        const float fadeVal{fadeGain};
+        const size_t num_chans{mChans.size()};
+        size_t chan_idx{0};
         ASSUME(DstBufferSize > 0);
         for(auto &chandata : mChans)
         {
-            const size_t num_chans{mChans.size()};
-            const auto chan = static_cast<size_t>(std::distance(mChans.data(),
-                std::addressof(chandata)));
             const al::span<float> SrcData{Device->SourceData, SrcBufferSize};
 
             /* Load the previous samples into the source data first, then load
@@ -591,13 +600,13 @@ void Voice::mix(const State vstate, ALCcontext *Context, const uint SamplesToDo)
                     chandata.mPrevSamples.end(), srciter);
             else if((mFlags&VoiceIsStatic))
                 srciter = LoadBufferStatic(BufferListItem, BufferLoopItem, num_chans,
-                    SampleSize, chan, DataPosInt, {srciter, SrcData.end()});
+                    SampleSize, chan_idx, DataPosInt, {srciter, SrcData.end()});
             else if((mFlags&VoiceIsCallback))
-                srciter = LoadBufferCallback(BufferListItem, num_chans, SampleSize, chan,
+                srciter = LoadBufferCallback(BufferListItem, num_chans, SampleSize, chan_idx,
                     mNumCallbackSamples, {srciter, SrcData.end()});
             else
                 srciter = LoadBufferQueue(BufferListItem, BufferLoopItem, num_chans,
-                    SampleSize, chan, DataPosInt, {srciter, SrcData.end()});
+                    SampleSize, chan_idx, DataPosInt, {srciter, SrcData.end()});
 
             if UNLIKELY(srciter != SrcData.end())
             {
@@ -615,20 +624,20 @@ void Voice::mix(const State vstate, ALCcontext *Context, const uint SamplesToDo)
                 chandata.mPrevSamples.size(), chandata.mPrevSamples.begin());
 
             /* Resample, then apply ambisonic upsampling as needed. */
-            const float *ResampledData{Resample(&mResampleState,
-                &SrcData[MaxResamplerPadding>>1], DataPosFrac, increment,
-                {Device->ResampledData, DstBufferSize})};
+            float *ResampledData{Resample(&mResampleState, &SrcData[MaxResamplerPadding>>1],
+                DataPosFrac, increment, {Device->ResampledData, DstBufferSize})};
             if((mFlags&VoiceIsAmbisonic))
+                chandata.mAmbiSplitter.processHfScale({ResampledData, DstBufferSize},
+                    chandata.mAmbiScale);
+
+            if UNLIKELY(vstate == Stopping)
             {
-                const float hfscale{chandata.mAmbiScale};
-                /* Beware the evil const_cast. It's safe since it's pointing to
-                 * either SourceData or ResampledData (both non-const), but the
-                 * resample method takes the source as const float* and may
-                 * return it without copying to output, making it currently
-                 * unavoidable.
-                 */
-                const al::span<float> samples{const_cast<float*>(ResampledData), DstBufferSize};
-                chandata.mAmbiSplitter.processHfScale(samples, hfscale);
+                fadeGain = fadeVal;
+                for(float &sample : al::span<float>{ResampledData, DstBufferSize})
+                {
+                    fadeGain *= fadeCoeff;
+                    sample *= fadeGain;
+                }
             }
 
             /* Now filter and mix to the appropriate outputs. */
@@ -675,6 +684,8 @@ void Voice::mix(const State vstate, ALCcontext *Context, const uint SamplesToDo)
                 MixSamples({samples, DstBufferSize}, mSend[send].Buffer,
                     parms.Gains.Current.data(), TargetGains, Counter, OutPos);
             }
+
+            ++chan_idx;
         }
         /* Update positions */
         DataPosFrac += increment*DstBufferSize;
