@@ -44,9 +44,9 @@ Main::Main()
     SoundDevice * mySoundDevice = SoundDevice::Get();
     // mySoundDevice->SetAttunation(3);
     // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
-    soundA = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
-    uint32_t soundB = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
-    uint32_t soundC = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
+    // soundA = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
+    // uint32_t soundB = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
+    // uint32_t soundC = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
     // uint32_t soundH = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
     // uint32_t soundD = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\SoundPack1\Alarm.aif)");
     // uint32_t soundE = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\NPC\gutteral_beast\mnstr1.wav)");
