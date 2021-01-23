@@ -319,8 +319,12 @@ void MusicBuffer::changeTracks(const char* filename){
 void MusicBuffer::fadeOutMusic() {
 	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
 	elapsedTimeInSec = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
+	float elapsedTimeInMillisec = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time).count();
+	float fade_out_time_milli = fade_out_time * 1000;
 
-	if (elapsedTimeInSec > fade_out_time)
+	std::cout << "elapsed time of fade out: " << elapsedTimeInSec << std::endl;
+
+	if (elapsedTimeInMillisec > fade_out_time_milli)
 	{
 		// close Decoder
 		CloseDecoder();
@@ -329,8 +333,15 @@ void MusicBuffer::fadeOutMusic() {
 		// m_filename = m_filename_to_be;
 		OpenDecoder();
 		changingTracks = false;
+		std::cout << "tracks changed" << std::endl;
 	} else{
-		alSourcef(p_Source, AL_GAIN, originalGain*(1.0f - elapsedTimeInSec / fade_out_time));
+		alSourcef(p_Source, AL_GAIN, originalGain*std::fabs(1.0f - (elapsedTimeInMillisec / fade_out_time_milli)));
+		std::cout << "fading out: " << originalGain*std::fabs(1.0f - (elapsedTimeInMillisec / fade_out_time_milli)) << std::endl;
+		// alSourcef(p_Source, AL_GAIN, originalGain*(1.0f - ((float)elapsedTimeInSec / (float)fade_out_time)));
+		// std::cout << "fading out: " << originalGain*(1.0f - ((float)elapsedTimeInSec / (float)fade_out_time)) << std::endl;
+		float test = 1.0f;
+		std::cout << "test: " << test << std::endl;
+		
 	}
 	
 }
