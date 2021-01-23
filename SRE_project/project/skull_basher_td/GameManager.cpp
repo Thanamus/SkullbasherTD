@@ -89,12 +89,15 @@ void GameManager::onKey(SDL_Event &event)
             }
             else if (!buildModeActive && !paused)
             {
-                paused = true;
-                //currentScene->ToggleLockMouse();
+                //paused = true;
+                //ToggleLockMouse();
+                TogglePause();
             }
             else if (paused)
             {
-                paused = false;
+                /*paused = false;
+                ToggleLockMouse();*/
+                TogglePause();
             }
             break;
         default:
@@ -169,11 +172,17 @@ void GameManager::updateTowerIndicator()
 }
 
 
+void GameManager::TogglePause()
+{
+    this->paused = !this->paused;
+    ToggleLockMouse();
+}
+
 void GameManager::ToggleLockMouse()
 {
-
-    //SDL_SetWindowGrab(.getSDLWindow(), paused ? SDL_FALSE : SDL_TRUE);
-    //SDL_SetRelativeMouseMode(paused ? SDL_FALSE : SDL_TRUE);
+    auto r = SDLRenderer::instance;
+    SDL_SetWindowGrab(r->getSDLWindow(), paused ? SDL_FALSE : SDL_TRUE);
+    SDL_SetRelativeMouseMode(paused ? SDL_FALSE : SDL_TRUE);
 }
 
 void GameManager::setPath(std::vector<glm::vec3> pathToBe){
@@ -310,4 +319,12 @@ void GameManager::setInitialWaveStats(){
 
 void GameManager::setTotalEnemiesInCurrentSet() {
     totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1; //minus one, because counting starts at 1, not 0
+}
+
+const std::map<int, std::vector<enemySetsInWave>> &GameManager::getWaveAndEnemys() const {
+    return waveAndEnemys;
+}
+
+int GameManager::getTotalEnemiesInCurrentSet() const {
+    return totalEnemiesInCurrentSet;
 }
