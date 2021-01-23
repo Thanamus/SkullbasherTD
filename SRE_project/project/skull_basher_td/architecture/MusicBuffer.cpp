@@ -11,6 +11,20 @@
 
 #include <inttypes.h>
 
+static MusicBuffer* _instance = nullptr;
+MusicBuffer * MusicBuffer::Get(){
+	Init();
+	return _instance;
+}
+
+void MusicBuffer::Init(){
+	if (_instance == nullptr) _instance = new MusicBuffer();
+}
+
+void MusicBuffer::Load(const char* filename){
+	m_filename = filename;
+	OpenDecoder();
+}
 
 
 void MusicBuffer::Play()
@@ -156,10 +170,11 @@ void MusicBuffer::SetGain(const float& val)
 	AL_CheckAndThrow();
 }
 
-MusicBuffer::MusicBuffer(const char* filename)
+// MusicBuffer::MusicBuffer(const char* filename)
+MusicBuffer::MusicBuffer()
 {
-	m_filename = filename;
-	OpenDecoder();
+	// m_filename = filename;
+	// OpenDecoder();
 	// alGenSources(1, &p_Source);
 	// alGenBuffers(NUM_BUFFERS, p_Buffers);
 

@@ -47,9 +47,9 @@ Main::Main()
     soundA = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
     uint32_t soundB = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
     uint32_t soundC = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
-    uint32_t soundH = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
-    uint32_t soundD = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\SoundPack1\Alarm.aif)");
-    uint32_t soundE = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\NPC\gutteral_beast\mnstr1.wav)");
+    // uint32_t soundH = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
+    // uint32_t soundD = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\SoundPack1\Alarm.aif)");
+    // uint32_t soundE = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\NPC\gutteral_beast\mnstr1.wav)");
     // uint32_t soundF = SoundEffectsLibrary::Get()->Load("SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav");
     // uint32_t soundG = SoundEffectsLibrary::Get()->Load("C:\\Users\\nfgol\\ITU_GProg\\SkullBasherTD\\SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr2.wav");
     
@@ -64,7 +64,12 @@ Main::Main()
         // mySpeaker.Play(soundG);
         // myOtherSpeaker.Play(soundA);
     
-    MusicBuffer music(R"(.\assets\music\68-Gerudo_Valley.wav)");
+    // Old way
+    // MusicBuffer music(R"(.\assets\music\68-Gerudo_Valley.wav)");
+
+    //new way - MusicBuffer is now a singleton
+    MusicBuffer * myMusicBuffer = MusicBuffer::Get(); 
+    myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)");
     // MusicBuffer music("..\\..\\project\\skull_basher_td\\assets\\Debug\\music\\The-Precipice-of-Victory-MP3.wav"); 
 
     // SoundNode musicThing;
@@ -91,14 +96,14 @@ Main::Main()
     //Playing Sounds //TODO remove as these are tests
 
 
-    music.Play();
+    myMusicBuffer->Play();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
 
         mySourceManager->CheckAndReleaseOALSource();
         //Update Music buffer (pkeep playing music)
-        music.UpdateBufferStream();
+        myMusicBuffer->UpdateBufferStream();
 
         // if (mySpeaker.isPlaying() == false){
         //     mySpeaker.Play(soundA);

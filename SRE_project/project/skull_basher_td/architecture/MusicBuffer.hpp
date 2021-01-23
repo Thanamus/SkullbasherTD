@@ -24,10 +24,13 @@ public:
 	void SetGain(const float& val);
 
 	void changeTracks(const char* filename);
+	void Load(const char* filename);
 
-	MusicBuffer(const char* filename);
-	~MusicBuffer();
+	static MusicBuffer* Get();
 private:
+	// MusicBuffer(const char* filename);
+	MusicBuffer();
+	~MusicBuffer();
 	ALuint p_Source;
 	static const int BUFFER_SAMPLES = 8192;
 	static const int NUM_BUFFERS = 4;
@@ -48,7 +51,9 @@ private:
 	void fadeOutMusic();
 	float originalGain = 1.0f;
 
-	MusicBuffer() = delete;
+	//MusicBuffer() = delete;
+
+	static void Init();
 
 	void ResetDecoders();
 	void OpenDecoder();

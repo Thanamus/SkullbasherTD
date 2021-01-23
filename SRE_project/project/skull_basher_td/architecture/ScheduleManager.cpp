@@ -6,6 +6,7 @@
 #include "PathFinder.hpp"
 
 #include "SourceManager.hpp"
+#include "MusicBuffer.hpp"
 
 class GameManager;
 
@@ -74,6 +75,8 @@ void ScheduleManager::update(float deltaTime){
                                     mySourceManager->playMyJam("pestilence.wav", testPosition, testSoundDist);
                                     // mySourceManager->playSource((ALuint)1);
 
+                                    MusicBuffer * myMusicBuffer = MusicBuffer::Get();
+                                    myMusicBuffer->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
 
                                 //make Game Manager Update the enemy and wave
                                 currentScene->gameManager->updateAllWaveStats();
