@@ -1,0 +1,4 @@
+﻿  Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft/CMakeLists.txt
+  openal-info.c
+  LINK : C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\Debug\openal-info.exe not found or not built by the last incremental link; performing full link
+  openal-info.vcxproj -> C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\Debug\openal-info.exe

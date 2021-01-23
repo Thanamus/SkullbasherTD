@@ -71,6 +71,18 @@ Ray Camera::screenPointToRay(glm::vec2 p) {
     return ray;
 }
 
+void Camera::moveHandCursor(glm::vec3 front, std::shared_ptr<GameObject> hand)
+{
+    glm::vec3 handCursorPosition = transform->position+glm::normalize(front)*0.75f;
+
+    hand->getComponent<Transform>()->position = handCursorPosition;
+    hand->getComponent<Transform>()->position.y -= 0.25f;
+    //hand->getComponent<Transform>()->position.x -= 0.5f;
+
+    hand->getComponent<Transform>()->lookAt(hand->getComponent<Transform>()->position + front, glm::vec3(0, 1, 0));
+    hand->getComponent<Transform>()->rotation = transform->rotation;
+}
+
 void Camera::moveTowerCursor(glm::vec3 front, std::shared_ptr<GameObject> tower)
 {
     if(this->getGameObject()->getComponent<PersonController>()->targetBlock != nullptr)

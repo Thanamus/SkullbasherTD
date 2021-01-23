@@ -28,6 +28,7 @@ GuiManager::GuiManager(std::shared_ptr<GameManager> gameManager)
     heartIcons[heartFull] = Texture::create().withFile("assets/hud_heartFull.png").withFilterSampling(false).build();
     heartSize = {heartIcons[heartFull]->getWidth()*0.5f, heartIcons[heartFull]->getHeight()*0.5f};
     powerbar = Texture::create().withFile("powerbar.png").withFilterSampling(false).build();
+    crosshair = Texture::create().withFile("assets/crosshair.png").withFilterSampling(false).build();
     powerbarSize = {heartSize.x*3,heartSize.y};
 
     selectedBorderColor = ImVec4(36.0f/255.0f,250.0f/255.0f,0,1);
@@ -91,6 +92,41 @@ void GuiManager::guiGameInfo() {
     ImGui::End();
 
 }
+
+void GuiManager::guiCrosshair() {
+    auto r = Renderer::instance;
+    auto winsize = r->getWindowSize();
+    ImVec2 size = {64, 64};
+    ImVec2 pos = {(winsize.x / 2.0f) - 32 ,(winsize.y / 2.0f) - 32};
+    auto cond = ImGuiCond_Always;
+    ImVec2 pivot = {0,0};
+    ImGui::SetNextWindowPos(pos, cond, pivot);
+
+    ImGui::SetNextWindowSize(size, cond);
+    auto flags =
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoScrollbar;
+    bool* open = nullptr;
+    ImGui::PushStyleColor(ImGuiCol_WindowBg,
+                          ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+    ImGui::PushStyleColor(ImGuiCol_Border,
+                          ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+
+    ImGui::Begin("#crosshair", open, flags);
+
+    ImVec2 uv0(0,1); // flip y axis coordinates
+    ImVec2 uv1(1,0);
+
+    // Draw background
+    ImGui::Image(crosshair->getNativeTexturePtr(),size, uv0, uv1);
+
+    ImGui::End();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleColor();
+}
+
 void GuiManager::guiTowers() {
     auto r = Renderer::instance;
     auto winsize = r->getWindowSize();
@@ -168,17 +204,6 @@ void GuiManager::guiBuildPopUp(ImVec2 towerWindowSize) {
     ImGui::End();
 }
 
-void GuiManager::guiDebugInfo()
-{
-    ImGui::SetNextWindowPos(ImVec2(0, .0f), ImGuiSetCond_Always);
-    ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
-    ImGui::Begin("#Debug", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
-    std::string title = "Debug";
-    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
-    ImGui::Text("Debug");
-    ImGui::End();
-}
-
 void GuiManager::guiWaveInfo()
 {
     ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 100, .0f), ImGuiSetCond_Always);
@@ -200,7 +225,7 @@ void GuiManager::guiWaveInfo()
     std::string enemies = "Enemies";
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enemies)); // align center
     ImGui::Text(enemies.c_str());
-    std::string enermyText = std::to_string(0) + "/" + std::to_string(gameManager->getEnemyAmountWave());
+    std::string enermyText = std::to_string(gameManager->getCurrentEnemy()) + "/" + std::to_string(gameManager->getTotalEnemiesInCurrentSet());
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enermyText)); // align center
     ImGui::Text(enermyText.c_str());
 
@@ -220,7 +245,7 @@ void GuiManager::guiQuitScreen()
     //Back To Game
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
     if (ImGui::Button("Back to Menu", ImVec2(100, 50))){
-        gameManager->paused = false;
+        gameManager->TogglePause();
     }
 
     ImGui::Spacing();
@@ -234,6 +259,29 @@ void GuiManager::guiQuitScreen()
     ImGui::End();
 }
 
+void GuiManager::guiWinLooseScreen()
+{
+    ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 150, Renderer::instance->getWindowSize().y / 2), ImGuiSetCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiSetCond_Always);
+    //Title
+    ImGui::Begin("#Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+    std::string title;
+    if(gameManager->won)
+        title = "You Won!";
+    else
+        title = "You Lost!";
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
+    ImGui::Text(title.c_str());
+
+    //Back To Game
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
+    if (ImGui::Button("Back to Main Menu", ImVec2(100, 50))){
+        gameManager->TogglePause();
+    }
+
+    ImGui::End();
+}
+
 float GuiManager::centerText(ImVec2 window, std::string text)
 {
     float font_size = ImGui::GetFontSize() * text.size() / 2;
@@ -241,15 +289,20 @@ float GuiManager::centerText(ImVec2 window, std::string text)
 }
 
 void GuiManager::onGui() {
+    if(!gameManager->levelRunning)
+    {
+        guiWinLooseScreen();
+        return;
+    }
     if(gameManager->paused)
     {
         guiQuitScreen();
         return;
     }
 
+    guiCrosshair();
     guiGameInfo();
     guiTowers();
-    //guiDebugInfo();
     guiWaveInfo();
 
 }

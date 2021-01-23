@@ -12,13 +12,15 @@ public:
     std::shared_ptr<GameManager> gameManager;
 private:
     void guiGameInfo();
+    void guiCrosshair();
     void guiTowers();
     void guiBuildPopUp(ImVec2 size);
-    void guiDebugInfo();
     void guiQuitScreen();
+    void guiWinLooseScreen();
     void guiWaveInfo();
 
     std::shared_ptr<sre::Texture> powerbar;
+    std::shared_ptr<sre::Texture> crosshair;
     glm::vec2 powerbarSize;
     std::shared_ptr<sre::Texture> heartIcons[3];
     glm::vec2 heartSize;

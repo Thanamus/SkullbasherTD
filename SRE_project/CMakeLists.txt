@@ -10,6 +10,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
+set( BUILD_SHARED_LIBS ON CACHE BOOL "" )
+
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out CACHE STRING "" )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out CACHE STRING "" )
+
 IF (UNIX)
     find_package(SDL2 REQUIRED)
     include_directories(${SDL2_INCLUDE_DIR})
@@ -144,6 +149,156 @@ ENDIF(WIN32)
 #### Sol #####
 INCLUDE_DIRECTORIES (thirdparty/All/include)
 
+include(ExternalProject)
+
+#### OpenAL #####
+#find_package(OpenAL)
+#if($OPENAL_FOUND)
+#else($OPENAL_Found)
+#        ExternalProject_Add(
+#        OpenAL
+#        URL http://kcat.strangesoft.net/openal-releases/openal-soft-1.14.tar.bz2
+#    )
+#endif($OPENAL_FOUND)
+
+#SET(OpenAL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft/include" CACHE STRING "Where the openAL headers can be found")
+#include_directories(${OpenAL_include})
+#SET(OpenAL_LIBRARY "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/OpenAL32.lib" CACHE STRING "Where the OpenAL lib(static) can be found")
+#SET(OpenAL_COMMON_LIBRARY "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/common.lib" CACHE STRING "Where the OpenAL Common lib(static) can be found")
+#SET(OpenAL_Ex-COMMON_LIBRARY "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/ex-common.lib" CACHE STRING "Where the OpenAL ex-Common lib(static) can be found")
+#SET(OpenAL_DLL_Path "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/" CACHE STRING "Base DLL File Path")
+#list(APPEND OpenAL_LIBRARY "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/OpenAL32.dll") #BAD idea, don't link a .dll this way
+
+#list(APPEND EXTRA_LIBS ${OpenAL_LIBRARY} ${OpenAL_COMMON_LIBRARY} ${Ex-COMMON_LIBRARY})
+
+add_subdirectory(thirdparty/All/libsndfile)
+find_package(SndFile)
+
+add_subdirectory(thirdparty/All/OpenAL-soft)
+find_package(OpenAL)
+
+
+
+
+#list(APPEND all_libs OpenAL-soft)
+#SET(OpenAL_include "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft/include" CACHE STRING "Where the openAL headers can be found")
+#INCLUDE_DIRECTORIES (${OpenAL_include})
+#list(APPEND EXTRA_INCLUDES ${OpenAL_include})
+
+#find_library(OpenAL_DLL NAMES OpenAL32.dll PATHS "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/")
+#SET(OpenAL_DLL "${CMAKE_SOURCE_DIR}/thirdparty/All/OpenAL-soft_build/Debug/" CACHE STRING "Where the OpenAL dll is")
+#list(APPEND DLLFileList ${OpenAL_DLL})
+#file(COPY ${OpenAL_DLL} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+#file(COPY thirdparty/All/OpenAL-soft DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+#file(COPY thirdparty/All/OpenAL-soft DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+#file(COPY thirdparty/All/OpenAL-soft_build DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+#file(COPY thirdparty/All/OpenAL-soft_build DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+
+
+
+#### end openAL ###########
+
+#### libsndfile ### 
+# used by OpenAL coding in Skullbasher TD
+#list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/thirdparty/All/libsndfile/cmake)
+
+
+
+#INCLUDE_DIRECTORIES (thirdparty/All/libsndfile)
+#INCLUDE_DIRECTORIES (thirdparty/All/libsndfile_build/include)
+
+#find_package(FLAC)
+#if(${FLAC_FOUND})
+#else(${FLAC_FOUND})
+
+ #   ExternalProject_Add(
+  #      FLAC
+   #     URL "http://downloads.xiph.org/releases/flac/flac-1.3.0.tar.xz"   
+    #    CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/FLAC/configure --prefix=<INSTALL_DIR>
+     #   BUILD_COMMAND ${MAKE}
+      #  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/FLAC
+       # UPDATE_COMMAND ""
+        #INSTALL_COMMAND 
+        #LOG_DOWNLOAD ON
+        #LOG_CONFIGURE ON
+        #LOG_BUILD ON
+    #)
+
+   # ExternalProject_Get_Property(FLAC install_dir)
+  #  include_directories(${install_dir}/include})
+ #   SET(FLAC_DIR install_dir)
+#endif(${FLAC_FOUND})
+
+#find_package(Ogg)
+#if(${Ogg_FOUND})
+#else(${Ogg_FOUND})
+#    include(ExternalProject)
+#
+#    ExternalProject_Add(
+#        libogg
+#        URL "https://downloads.xiph.org/releases/ogg/libogg-1.3.4.tar.xz"
+#        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/ogg/configure --prefix=<INSTALL_DIR>
+#        BUILD_COMMAND ${MAKE}
+#        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/ogg
+#        UPDATE_COMMAND ""
+#        INSTALL_COMMAND 
+#        LOG_DOWNLOAD ON
+#        LOG_CONFIGURE ON
+#        LOG_BUILD ON
+#    )
+#    ExternalProject_Get_Property(libogg install_dir)
+#    include_directories(${install_dir}/include})
+#endif(${Ogg_FOUND})
+
+#find_package(Vorbis)
+#if(${Vorbis_FOUND})
+#else(${Vorbis_FOUND})
+#    include(ExternalProject)
+#
+#    ExternalProject_Add(
+#        libvorbis
+#        URL "https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz"
+#        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lib/vorbis/configure --prefix=<INSTALL_DIR>
+#        BUILD_COMMAND ${MAKE}
+#        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/vorbis
+#        UPDATE_COMMAND ""
+#        INSTALL_COMMAND 
+#        LOG_DOWNLOAD ON
+#        LOG_CONFIGURE ON
+#        LOG_BUILD ON
+#    )
+#    ExternalProject_Get_Property(libvorbis install_dir)
+#    include_directories(${install_dir}/include})
+#endif(${Vorbis_FOUND})
+
+
+#find_package(SndFile)
+#ExternalProject_Add(
+#    SndFile
+#    DEPENDS FLAC libogg libvorbis
+#    URL "http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.25.tar.gz"
+#    INSTALL_COMMAND 
+#    LOG_DOWNLOAD ON
+#    LOG_CONFIGURE ON
+#    LOG_BUILD ON
+#)
+#    ExternalProject_Get_Property(SndFile install_dir)
+#    include_directories(${install_dir}/include})
+
+#SET(SndFile_Library "${CMAKE_SOURCE_DIR}/thirdparty/All/libsndfile_build/Debug/sndfile.lib" CACHE STRING "Where the snd file lib (static) can be found")
+#list(APPEND EXTRA_LIBS ${SndFile_Library})
+
+
+#dd_subdirectory(thirdparty/All/libsndfile_build)
+#INCLUDE_DIRECTORIES (thirdparty/All/libsndfile_build/include)
+    
+######### end libsndfile ##############
+
+#file(COPY thirdparty/All/libsndfile_build DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+#file(COPY thirdparty/All/libsndfile_build DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+
+
 set(OPENVR_LIB)
 IF (USE_OPENVR)
     find_package(OpenVR REQUIRED)
@@ -172,6 +327,7 @@ IF (WIN32)
     SET(SDL2_image_dll_path "${CMAKE_SOURCE_DIR}/thirdparty/Win/SDL2_image-2.0.4/lib/x86" CACHE PATH "Where the SDL2_image.dll can be found")
     SET(SDL2_mixer_dll_path "${CMAKE_SOURCE_DIR}/thirdparty/Win/SDL2_mixer-2.0.4/lib/x86" CACHE PATH "Where the SDL2_mixer.dll can be found")
     SET(DLLFileList "${SDL2_image_dll_path}/SDL2_image.dll" "${SDL2_image_dll_path}/libjpeg-9.dll" "${SDL2_image_dll_path}/libpng16-16.dll" "${SDL2_image_dll_path}/libtiff-5.dll" "${SDL2_image_dll_path}/libwebp-7.dll" "${SDL2_image_dll_path}/zlib1.dll" "${SDL2_mixer_dll_path}/SDL2_mixer.dll" "${SDL2_mixer_dll_path}/libvorbisfile-3.dll"  "${SDL2_mixer_dll_path}/libvorbis-0.dll"  "${SDL2_mixer_dll_path}/libogg-0.dll"  "${SDL2_mixer_dll_path}/libmodplug-1.dll"  "${SDL2_mixer_dll_path}/libFLAC-8.dll"   "${SDL2_mixer_dll_path}/libmpg123-0.dll" ${SDL2_dll})
+    #SET(DLLFileList "${OpenAL_DLL_Path}/OpenAL32.dll" "${SDL2_image_dll_path}/SDL2_image.dll" "${SDL2_image_dll_path}/libjpeg-9.dll" "${SDL2_image_dll_path}/libpng16-16.dll" "${SDL2_image_dll_path}/libtiff-5.dll" "${SDL2_image_dll_path}/libwebp-7.dll" "${SDL2_image_dll_path}/zlib1.dll" "${SDL2_mixer_dll_path}/SDL2_mixer.dll" "${SDL2_mixer_dll_path}/libvorbisfile-3.dll"  "${SDL2_mixer_dll_path}/libvorbis-0.dll"  "${SDL2_mixer_dll_path}/libogg-0.dll"  "${SDL2_mixer_dll_path}/libmodplug-1.dll"  "${SDL2_mixer_dll_path}/libFLAC-8.dll"   "${SDL2_mixer_dll_path}/libmpg123-0.dll" ${SDL2_dll})
 ENDIF(WIN32)
 
 # build sre library

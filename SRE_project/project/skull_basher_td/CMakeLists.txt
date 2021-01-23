@@ -19,34 +19,58 @@ file(GLOB SkullBasherTD
         "./architecture/*.cpp"
         )
 
+#    ExternalProject_Get_Property(LibSndFile install_dir)
+#    include_directories(${install_dir/include})
+
 # Compile cpp files (from Snake variable)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Debug")
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Debug")
+
+find_package(SDL2 REQUIRED)
+
 add_executable(skull_basher_td ${SkullBasherTD})
-target_link_libraries(skull_basher_td ${all_libs})
+
+target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile OpenAL)
+
 
 
 # copy files to dest
-file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
-file(COPY level0.json level0.png powerbar.png assets data DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+#file(COPY level0.json level0.png powerbar.png assets data DESTINATION Debug)
+#file(COPY level0.json level0.png powerbar.png assets data DESTINATION Release)
+#file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+#file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
+file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+#file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${TARGET_FILE_DIR}/Release)
+
+#file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
+#file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
+
 #file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Copy Asset files tp dest
-file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
-file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+#file(COPY ./assets DESTINATION Debug)
+#file(COPY ./assets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+#file(COPY ./assets DESTINATION Release)
 #file(COPY ./assets DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Copy Map files to dest
-file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
-file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/Release)
+#file(COPY ./maps DESTINATION Debug)
+#file(COPY ./maps DESTINATION Release)
 #file(COPY ./maps DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 IF (WIN32)
     # Copy dll files to ${CMAKE_CURRENT_BINARY_DIR}/Debug
-    file(COPY ${DLLFileList} DESTINATION Debug)
-    file(COPY ${DLLFileList} DESTINATION Release)
+#    file(COPY ${DLLFileList} DESTINATION Debug)
+#    file(COPY ${DLLFileList} DESTINATION Release)
+#
     #file(COPY ${DLLFileList} DESTINATION .)
+    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+#    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY/Debug})
+
+    #This does copy the files there
+#    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
+#    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
 
     # Set working directory to ${CMAKE_CURRENT_BINARY_DIR}/Debug
-    set_target_properties(skull_basher_td PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
+    #set_target_properties(skull_basher_td PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
 ENDIF(WIN32)

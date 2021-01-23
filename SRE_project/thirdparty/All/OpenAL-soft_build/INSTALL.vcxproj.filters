@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\CMakeFiles\587f6a8b555e180ff21255857c958edf\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{30F95594-2DA3-359B-804A-F88E00633813}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -487,5 +487,16 @@
                 "z": 0.8
             }
         }
-    }
+    },
+    "soundEffects":
+        [
+            {
+                "name": "pestilence.wav",
+                "location": ".\\assets\\soundEffects\\spells\\pestilence.wav"
+            },
+            {
+                "name": "monstergrunt1.wav",
+                "location": ".\\assets\\soundEffects\\monstergrunt1.wav"  
+            }
+        ]
 }

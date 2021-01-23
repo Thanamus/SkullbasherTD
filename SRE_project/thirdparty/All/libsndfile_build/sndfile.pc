@@ -1,0 +1,12 @@
+prefix=C:/Program Files (x86)/libsndfile
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: sndfile
+Description: A library for reading and writing audio files
+Requires:
+Requires.private: 
+Version: 1.0.30
+Libs: -L${libdir} -lsndfile
+Cflags: -I${includedir}

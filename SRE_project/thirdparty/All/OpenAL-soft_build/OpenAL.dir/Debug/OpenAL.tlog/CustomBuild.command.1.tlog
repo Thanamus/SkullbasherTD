@@ -1,0 +1,24 @@
+^C:\USERS\NFGOL\ITU_GPROG\SKULLBASHERTD\SRE_PROJECT\THIRDPARTY\ALL\OPENAL-SOFT_BUILD\CMAKEFILES\A13E4FC06FBCE518F19DF6D4539B3912\HRTF_DEFAULT.H.RULE
+setlocal
+cd C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -D "INPUT_FILE=C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft/hrtf/Default HRTF.mhr" -D OUTPUT_FILE=C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/hrtf_default.h -D VARIABLE_NAME=hrtf_default -P C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft/cmake/bin2h.script.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\NFGOL\ITU_GPROG\SKULLBASHERTD\SRE_PROJECT\THIRDPARTY\ALL\OPENAL-SOFT\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft -BC:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build --check-stamp-file C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

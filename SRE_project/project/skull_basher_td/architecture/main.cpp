@@ -13,6 +13,18 @@
 #include "Main.hpp"
 #include "sre/Material.hpp"
 
+
+//sound Device
+#include "SoundDevice.hpp" //i.e a device that is the "Listener"
+#include "SoundEffectsLibrary.hpp" //i.e. SoundBuffer
+#include "SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
+#include "MusicBuffer.hpp"
+
+#include "SourceManager.hpp"
+
+// #include "SoundNode.h"
+// #include "Sound.h"
+
 Main::Main()
 {
     // std::cout << "Hello world" << "\n";
@@ -27,6 +39,41 @@ Main::Main()
     // tempCam->getComponent<Camera>()->update(deltaTime);
     tempCam->getComponent<PersonController>()->currentScene = currentScene;
 
+    // myNewSpeaker = mySpeaker;
+    //setup sound
+    SoundDevice * mySoundDevice = SoundDevice::Get();
+    // mySoundDevice->SetAttunation(3);
+    // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
+    // soundA = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
+    // uint32_t soundB = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
+    // uint32_t soundC = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
+    // uint32_t soundH = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
+    // uint32_t soundD = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\SoundPack1\Alarm.aif)");
+    // uint32_t soundE = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\NPC\gutteral_beast\mnstr1.wav)");
+    // uint32_t soundF = SoundEffectsLibrary::Get()->Load("SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav");
+    // uint32_t soundG = SoundEffectsLibrary::Get()->Load("C:\\Users\\nfgol\\ITU_GProg\\SkullBasherTD\\SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr2.wav");
+    
+    // \\project\\skull_basher_td\\Debug\\assets
+    // SRE_project\project\skull_basher_td\assets\soundEffects\NPC\gutteral beast\mnstr1.wav
+
+    SourceManager * mySourceManager = SourceManager::Get();
+    // mySourceManager->playSource((ALuint)1);
+        // SoundEffectsPlayer mySpeaker;
+        // SoundEffectsPlayer myOtherSpeaker;
+        // // alSourcePlay(0);
+        // mySpeaker.Play(soundG);
+        // myOtherSpeaker.Play(soundA);
+    
+    // Old way
+    // MusicBuffer music(R"(.\assets\music\68-Gerudo_Valley.wav)");
+
+    //new way - MusicBuffer is now a singleton
+    MusicBuffer * myMusicBuffer = MusicBuffer::Get(); 
+    myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)");
+    // MusicBuffer music("..\\..\\project\\skull_basher_td\\assets\\Debug\\music\\The-Precipice-of-Victory-MP3.wav"); 
+
+    // SoundNode musicThing;
+
     //handshaking
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
@@ -36,9 +83,10 @@ Main::Main()
     currentScene->guiManager = guiManager;
     currentScene->gameManager = gameManager;
     gameManager->currentScene = currentScene;
+    gameManager->ToggleLockMouse();
 
     //load map
-    currentScene->loadMap(".\\maps\\SkullBasherTDLevel0.json", currentScene);
+    currentScene->loadMap(R"(.\maps\SkullBasherTDLevel0.json)", currentScene);
 
     scheduleManager->currentScene = currentScene; //not sure about this pattern, here the two managers 'know' each other
     currentScene->scheduleManager = scheduleManager;
@@ -46,8 +94,30 @@ Main::Main()
     currentScene->gameManager->setInitialWaveStats();
     currentScene->scheduleManager->fetchInitialWaveSchedule();
 
+    //Playing Sounds //TODO remove as these are tests
+
+
+    myMusicBuffer->Play();
+
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
+
+        mySourceManager->CheckAndReleaseOALSource();
+        //Update Music buffer (pkeep playing music)
+        myMusicBuffer->UpdateBufferStream();
+
+        // if (mySpeaker.isPlaying() == false){
+        //     mySpeaker.Play(soundA);
+
+        // }
+        // if (!music.isPlaying())
+        // {
+        //     std::cout << "Music is: " << music.isPlaying() << std::endl;
+        //     // music.Play();
+        //     // music.Stop();
+        //     // music.Resume();
+        // }
+        
     };
     r.frameRender = [&]{
         currentScene->render();
@@ -137,6 +207,19 @@ std::shared_ptr<Scene> Main::createScene(){
 
     cameraObj->getComponent<PersonController>()->tower = tower;
 
+    auto hand = res->createGameObject("Hand");
+    hand->getComponent<Transform>()->position = {0,0,0};
+    hand->getComponent<Transform>()->rotation = {0,0,0};
+    hand->getComponent<Transform>()->scale = {0.1f,0.1f,0.1f};
+    auto handMR = hand->addComponent<ModelRenderer>();
+    auto path =  ".\\assets\\lowpoly_crossbow_2_2.obj";
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
+
+    handMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    handMR->setModel(modelHolder);
+
+    cameraObj->getComponent<PersonController>()->hand = hand;
+
     //Load Map
     // res->loadMap(".\\maps\\SkullBasherTDLevel0.json", res);
     // res->loadMap("level0.json",res);
@@ -152,3 +235,6 @@ int main(){
     new Main();
     return 0;
 }
+
+
+

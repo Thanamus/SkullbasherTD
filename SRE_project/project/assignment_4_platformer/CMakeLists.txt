@@ -17,7 +17,7 @@ file(GLOB Platformer
         )
 
 # Compile cpp files (from Snake variable)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Debug")
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Debug")
 add_executable(assignment_4_platformer ${Platformer})
 target_link_libraries(assignment_4_platformer ${all_libs})
 
@@ -33,5 +33,5 @@ IF (WIN32)
     file(COPY ${DLLFileList} DESTINATION ./)
 
     # Set working directory to ${CMAKE_CURRENT_BINARY_DIR}/Debug
-    set_target_properties(assignment_4_platformer PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+    #set_target_properties(assignment_4_platformer PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 ENDIF(WIN32)

@@ -7,6 +7,8 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <iostream>
 
+#include "SoundDevice.hpp"
+
 //using namespace sre;
 using namespace glm;
 
@@ -46,6 +48,7 @@ void PersonController::update(float deltaTime)
     updateVectors();
 
     camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
+    camera->moveHandCursor(camera_front, this->hand);
     if(currentScene->gameManager->buildModeActive)
     {
         camera->moveTowerCursor(camera_front, this->tower);
@@ -55,6 +58,15 @@ void PersonController::update(float deltaTime)
 
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
+
+    // update Listener
+    // TODO make this into a helper function instead
+    SoundDevice::Get()->SetLocation(position.x, position.y, position.z);
+    SoundDevice::Get()->SetOrientation(camera_front.x, camera_front.y, camera_front.z,
+                                        world_up.x, world_up.y, world_up.z);
+    // glm::vec3 testingPos;
+    // SoundDevice::Get()->GetLocation(testingPos.x, testingPos.y, testingPos.z);
+    // std::cout << "Listener is at: " << testingPos.x << std::endl;
 }
 
 void PersonController::updateVectors()

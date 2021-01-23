@@ -27,6 +27,7 @@ public:
     glm::vec3 position;
     bool quit = false;
     std::shared_ptr<Camera> camera;
+    std::shared_ptr<GameObject> hand;
     std::shared_ptr<GameObject> tower;
     std::shared_ptr<GameObject> targetBlock;
     std::shared_ptr<Scene> currentScene;
