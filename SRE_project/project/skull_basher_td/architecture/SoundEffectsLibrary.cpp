@@ -1,7 +1,10 @@
-// Based on https://www.youtube.com/watch?v=fG2veGWNPJY
-// git repo: https://github.com/codetechandtutorials/openal-impl
-// Thanks Matthew Early for the OpenAL implementation
-// note: Matthew Early's implementation has been heavily modified
+/* 	Based on https://www.youtube.com/watch?v=fG2veGWNPJY
+ 	git repo: https://github.com/codetechandtutorials/openal-impl
+ 	Thanks Matthew Early for the OpenAL implementation
+
+	New additions include:
+
+*/
 
 #include "SoundEffectsLibrary.hpp"
 #include <sndfile.h>
@@ -193,7 +196,10 @@ SoundEffectsLibrary::~SoundEffectsLibrary()
 
 bool SoundEffectsLibrary::retrive_buffer_of_loaded_sound_effect(std::string sound_to_retrive, ALuint* const &returned_buffer){
 	// retrives the buffer (where the sound 'lives') of a sound based on it's name
-	// name = filename + file extension, e.g. pestilence.ogg 
+	// name = filename + file extension, e.g. pestilence.ogg
+	// returns a reference to the buffer to the caller 
+
+	// Look trough map to find name
 	if (loadedSounds.find(sound_to_retrive) == loadedSounds.end() ) {
 		// not found, return false
 		return false;

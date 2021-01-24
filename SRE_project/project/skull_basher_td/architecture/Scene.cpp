@@ -513,6 +513,9 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
         //send the wave details to the Game Manager
         gameManager->addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
 
+
+    }
+    
         // ----------------- LOAD SOUNDS --------------------------
         int howManySounds = d["soundEffects"].GetArray().Size();
         auto mySoundEffectsLibrary = SoundEffectsLibrary::Get();
@@ -523,9 +526,6 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
             const char *soundChar = soundStr.c_str();
             mySoundEffectsLibrary->Load(soundChar);
         }       
-
-    }
-    
 
     //import model testing
     // std::vector<std::shared_ptr<sre::Material>> materials_unused;

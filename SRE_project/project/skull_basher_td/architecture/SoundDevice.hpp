@@ -1,6 +1,10 @@
-// Based on https://www.youtube.com/watch?v=fG2veGWNPJY
-// git repo: https://github.com/codetechandtutorials/openal-impl
-// Thanks Matthew Early for the OpenAL implementation
+/* 	Based on https://www.youtube.com/watch?v=fG2veGWNPJY
+ 	git repo: https://github.com/codetechandtutorials/openal-impl
+ 	Thanks Matthew Early for the OpenAL implementation
+
+	New additions include:
+
+*/
 
 #pragma once
 
@@ -12,8 +16,9 @@
 /// us to change our listener values.
 /// </summary>
 
+//sets up the sound device as a singleton, to use multiple devices (or multiple contexts) we will need to change the design pattern
 #define SD_INIT SoundDevice::Init();
-#define LISTENER SoundDevice::Get() //sets up the sound device as a singleton, to use multiple devices we will need to change the design pattern
+#define LISTENER SoundDevice::Get() 
 
 class SoundDevice
 {

@@ -49,8 +49,6 @@ Main::Main()
     //new way - MusicBuffer is now a singleton
     MusicBuffer * myMusicBuffer = MusicBuffer::Get(); // Initialise music buffer 
     myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)"); // Start playing a music track. First music track played should use "Load()"
-    // Start Playing music
-    myMusicBuffer->Play(); 
     
 
     //handshaking
@@ -73,6 +71,8 @@ Main::Main()
     currentScene->gameManager->setInitialWaveStats();
     currentScene->scheduleManager->fetchInitialWaveSchedule();
 
+    // Start Playing music - lives here because the buffers run out before things load
+    myMusicBuffer->Play(); 
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);

@@ -1,6 +1,12 @@
-// Based on https://www.youtube.com/watch?v=fG2veGWNPJY
-// git repo: https://github.com/codetechandtutorials/openal-impl
-// Thanks Matthew Early for the OpenAL implementation
+/* Based on https://www.youtube.com/watch?v=fG2veGWNPJY
+ git repo: https://github.com/codetechandtutorials/openal-impl
+ Thanks Matthew Early for the OpenAL implementation
+
+	New additions include
+	- Singleton implementaton
+	- changing tracks
+	- fading music out
+*/
 
 #pragma once
 #include <AL\al.h>
@@ -31,6 +37,8 @@ private:
 	// MusicBuffer(const char* filename);
 	MusicBuffer();
 	~MusicBuffer();
+
+	// Stuff for opening decoder
 	ALuint p_Source;
 	static const int BUFFER_SAMPLES = 8192;
 	static const int NUM_BUFFERS = 4;
@@ -41,15 +49,15 @@ private:
 	ALenum p_Format;
 
 	const char* m_filename;
-
+	
+	// stuff for changing tracks
 	const char* m_filename_to_be;
 	bool changingTracks = false;
 	std::chrono::steady_clock::time_point start_time;
-	// std::chrono::steady_clock::time_point fade_out_Time;
 	int fade_out_time = 1;
 	int elapsedTimeInSec = 0;
 	void fadeOutMusic();
-	float originalGain = 1.0f;
+	float originalGain = 0.2f;
 
 	//MusicBuffer() = delete;
 

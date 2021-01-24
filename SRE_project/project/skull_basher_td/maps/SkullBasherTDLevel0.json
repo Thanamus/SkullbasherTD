@@ -495,8 +495,8 @@
                 "location": ".\\assets\\soundEffects\\spells\\pestilence.wav"
             },
             {
-                "name": "monstergrunt1.wav",
-                "location": ".\\assets\\soundEffects\\monstergrunt1.wav"  
+                "name": "mnstr1.wav",
+                "location": ".\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav"  
             }
         ]
 }

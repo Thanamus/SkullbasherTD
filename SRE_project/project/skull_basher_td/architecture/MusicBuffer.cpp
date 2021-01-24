@@ -244,9 +244,12 @@ void MusicBuffer::OpenDecoder(){
 		throw("Unsupported channel count from file");
 	}
 
-	/* Sllocate memory for the Music*/
+	/* Allocate memory for the Music*/
 	frame_size = ((size_t)BUFFER_SAMPLES * (size_t)p_Sfinfo.channels) * sizeof(short);
 	p_Membuf = static_cast<short*>(malloc(frame_size));
+
+	// set Gain on source
+	alSourcef(p_Source, AL_GAIN, originalGain);
 }
 
 void MusicBuffer::CloseDecoder(){

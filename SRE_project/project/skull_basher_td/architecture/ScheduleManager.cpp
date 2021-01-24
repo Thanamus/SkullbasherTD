@@ -68,15 +68,16 @@ void ScheduleManager::update(float deltaTime){
 
                                 //play sound
                                     SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
-                                    // mySourceManager->playMyJam_global("pestilence.wav");
+                                    mySourceManager->playMyJam_global("pestilence.wav");
                                     glm::vec3 testPosition(0,0,0);
                                     float testSoundDist = 30.0f;
                                     // mySourceManager->playMyJam("pestilence.ogg", testPosition, testSoundDist);
-                                    mySourceManager->playMyJam("pestilence.wav", testPosition, testSoundDist);
+                                    // mySourceManager->playMyJam("pestilence.wav", testPosition, testSoundDist);
                                     // mySourceManager->playSource((ALuint)1);
 
-                                    MusicBuffer * myMusicBuffer = MusicBuffer::Get();
-                                    myMusicBuffer->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
+                                    // Only for testing the fade out, can be removed
+                                    // MusicBuffer * myMusicBuffer = MusicBuffer::Get();
+                                    // myMusicBuffer->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
 
                                 //make Game Manager Update the enemy and wave
                                 currentScene->gameManager->updateAllWaveStats();

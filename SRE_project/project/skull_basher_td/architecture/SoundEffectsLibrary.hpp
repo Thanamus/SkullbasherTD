@@ -1,6 +1,11 @@
-// Based on https://www.youtube.com/watch?v=fG2veGWNPJY
-// git repo: https://github.com/codetechandtutorials/openal-impl
-// Thanks Matthew Early for the OpenAL implementation
+/* 	Based on https://www.youtube.com/watch?v=fG2veGWNPJY
+ 	git repo: https://github.com/codetechandtutorials/openal-impl
+ 	Thanks Matthew Early for the OpenAL implementation
+
+	New additions include:
+	- retrive_buffer_of_loaded_sound_effect()
+	- Map of the loaded sounds
+*/
 
 #pragma once
 #include <AL\al.h>
@@ -37,10 +42,8 @@ private:
 	SoundEffectsLibrary();
 	~SoundEffectsLibrary();
 
-	std::vector<ALuint> p_SoundEffectBuffers; //TODO change this to a map
+	std::vector<ALuint> p_SoundEffectBuffers; 
 
-	std::map<std::string, ALuint> loadedSounds;
-
-	//add a load sound effects function in scene
+	std::map<std::string, ALuint> loadedSounds; // map of the loaded sounds, string corresponds to name and ALuint to the buffer the sound lives in
 };
 
