@@ -166,7 +166,7 @@ std::shared_ptr<Scene> Main::createScene(){
     auto tower = res->createGameObject("Tower");
     tower->getComponent<Transform>()->position = {0,0,0};
     tower->getComponent<Transform>()->rotation = {0,0,0};
-    tower->getComponent<Transform>()->scale = {0.5f,0.5f,0.5f};
+    tower->getComponent<Transform>()->scale = {0.2f,0.2f,0.2f};
     auto towerMR = tower->addComponent<ModelRenderer>();
     towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
 
