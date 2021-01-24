@@ -87,7 +87,8 @@ void MusicBuffer::UpdateBufferStream()
 	ALint processed, state;
 
 	// clear error 
-	//alGetError();
+	alGetError();
+
 	/* Get relevant source info */
 	alGetSourcei(p_Source, AL_SOURCE_STATE, &state);
 	alGetSourcei(p_Source, AL_BUFFERS_PROCESSED, &processed);
@@ -127,10 +128,12 @@ void MusicBuffer::UpdateBufferStream()
 		alGetSourcei(p_Source, AL_BUFFERS_QUEUED, &queued);
 		AL_CheckAndThrow();
 		if (queued == 0) {
-			std::cout << "attempting to restart" << std::endl;
-			ResetDecoders();
-			Play();
-			return;
+			// If Queue is empty, the sound file has reached the end
+			// Restart music
+			std::cout << "attempting to restart music" << std::endl;
+			ResetDecoders(); // To restart means to reload the music file from the start - i.e. start from scratch
+			Play(); // Gets the music to start playing again after being re-queued
+			return; // return
 		}
 		// if (queued == 0)
 		// 	return;
@@ -141,7 +144,8 @@ void MusicBuffer::UpdateBufferStream()
 	}
 	if (changingTracks == true)
 	{
-		/* code */
+		/* 	If music is in the process of changing tracks
+			smoothly fade out the first track */
 		fadeOutMusic();
 	}
 	
@@ -150,11 +154,13 @@ void MusicBuffer::UpdateBufferStream()
 
 ALint MusicBuffer::getSource()
 {
+	// returns the id of the source used by OpenAL for the music
 	return p_Source;
 }
 
 bool MusicBuffer::isPlaying()
 {
+	// Queries the playing state of the source (i.e. the music)
 	ALint state;
 	alGetSourcei(p_Source, AL_SOURCE_STATE, &state);
 	AL_CheckAndThrow();
@@ -163,6 +169,8 @@ bool MusicBuffer::isPlaying()
 
 void MusicBuffer::SetGain(const float& val)
 {
+	// sets the gain of the music, but does not ovverride the original gain
+	// meaning only the current music is affected 
 	float newval = val;
 	if (newval < 0)
 		newval = 0;
@@ -173,69 +181,37 @@ void MusicBuffer::SetGain(const float& val)
 // MusicBuffer::MusicBuffer(const char* filename)
 MusicBuffer::MusicBuffer()
 {
+	// Empyty now, as the Init() takes care of opening the decoder and saving the filename
 	// m_filename = filename;
 	// OpenDecoder();
-	// alGenSources(1, &p_Source);
-	// alGenBuffers(NUM_BUFFERS, p_Buffers);
-
-	// std::size_t frame_size;
-
-	// p_SndFile = sf_open(filename, SFM_READ, &p_Sfinfo);
-	// if (!p_SndFile)
-	// {
-	// 	throw("could not open provided music file -- check path");
-	// }
-
-	// /* Get the sound format, and figure out the OpenAL format */
-	// if (p_Sfinfo.channels == 1)
-	// 	p_Format = AL_FORMAT_MONO16;
-	// else if (p_Sfinfo.channels == 2)
-	// 	p_Format = AL_FORMAT_STEREO16;
-	// else if (p_Sfinfo.channels == 3)
-	// {
-	// 	if (sf_command(p_SndFile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
-	// 		p_Format = AL_FORMAT_BFORMAT2D_16;
-	// }
-	// else if (p_Sfinfo.channels == 4)
-	// {
-	// 	if (sf_command(p_SndFile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
-	// 		p_Format = AL_FORMAT_BFORMAT3D_16;
-	// }
-	// if (!p_Format)
-	// {
-	// 	sf_close(p_SndFile);
-	// 	p_SndFile = NULL;
-	// 	throw("Unsupported channel count from file");
-	// }
-
-	// frame_size = ((size_t)BUFFER_SAMPLES * (size_t)p_Sfinfo.channels) * sizeof(short);
-	// p_Membuf = static_cast<short*>(malloc(frame_size));
 }
 
 MusicBuffer::~MusicBuffer()
 {
-	CloseDecoder();
-	// alDeleteSources(1, &p_Source);
-	// if (p_SndFile)
-	// 	sf_close(p_SndFile);
-	// p_SndFile = nullptr;
-	// free(p_Membuf);
-	// alDeleteBuffers(NUM_BUFFERS, p_Buffers);
+	CloseDecoder(); // close out the MusicBuffers sourcem unload stuff from memory etc.
 }
 
 
 void MusicBuffer::OpenDecoder(){
-	alGenSources(1, &p_Source);
-	alGenBuffers(NUM_BUFFERS, p_Buffers);
+	// Open decoder sets up the source (i.e. the 'thing' that plays music)
+	// it generates the buffers to play on.
+
+	alGenSources(1, &p_Source); // Open the source (one source), and return the source ID used by OpenAL into p_Source
+	alGenBuffers(NUM_BUFFERS, p_Buffers); // Generate buffers that the music will be streamed into -> NUM_BUFFERS determines how many buffers are in rotation
+	// If we're desperate for memory, we could try out different numbers of NUM_BUFFERS, to make sure we don't have any under-runs
 
 	std::size_t frame_size;
+
 	/* Open the audio file and check that it's usable. */
-	p_SndFile = sf_open(m_filename, SFM_READ, &p_Sfinfo);
+	p_SndFile = sf_open(m_filename, SFM_READ, &p_Sfinfo); // Filename, read the file and extract the sound related information.
 	if (!p_SndFile)
 	{
+		// Error check that the audio file could be opened and read correctly
 		fprintf(stderr, "Could not open audio in %s: %s\n", m_filename, sf_strerror(p_SndFile));
 		return;
 	}
+
+	/* Checks that the audio file is usable */
 	if (p_Sfinfo.frames < 1 || p_Sfinfo.frames >(sf_count_t)(INT_MAX / sizeof(short)) / p_Sfinfo.channels)
 	{
 		fprintf(stderr, "Bad sample count in %s (%" PRId64 ")\n", m_filename, p_Sfinfo.frames);
@@ -243,16 +219,8 @@ void MusicBuffer::OpenDecoder(){
 		return;
 	}
 
-	/* Get the sound format, and figure out the OpenAL format */
-	p_Format = AL_NONE;
-
-	// p_SndFile = sf_open(m_filename, SFM_READ, &p_Sfinfo);
-	// if (!p_SndFile)
-	// {
-	// 	throw("could not open provided music file -- check path");
-	// }
-
-	/* Get the sound format, and figure out the OpenAL format */
+	/* Get the sound format (MONO, STERO, number of channels etc), and figure out the OpenAL format */
+	p_Format = AL_NONE; // Reset format
 	if (p_Sfinfo.channels == 1)
 		p_Format = AL_FORMAT_MONO16;
 	else if (p_Sfinfo.channels == 2)
@@ -267,80 +235,95 @@ void MusicBuffer::OpenDecoder(){
 		if (sf_command(p_SndFile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
 			p_Format = AL_FORMAT_BFORMAT3D_16;
 	}
+
 	if (!p_Format)
 	{
+		// Error checking for the channel count
 		sf_close(p_SndFile);
 		p_SndFile = NULL;
 		throw("Unsupported channel count from file");
 	}
 
+	/* Sllocate memory for the Music*/
 	frame_size = ((size_t)BUFFER_SAMPLES * (size_t)p_Sfinfo.channels) * sizeof(short);
 	p_Membuf = static_cast<short*>(malloc(frame_size));
 }
 
 void MusicBuffer::CloseDecoder(){
+	/* Clean up sources, close the file, free the memory buffers*/
+	// Clean up sources
 	alDeleteSources(1, &p_Source);
+
+	// Close the audio file
 	if (p_SndFile)
 		sf_close(p_SndFile);
 	p_SndFile = nullptr;
+
+	// Free memory and buffers
 	free(p_Membuf);
 	alDeleteBuffers(NUM_BUFFERS, p_Buffers);
 }
 
 void MusicBuffer::ResetDecoders(){
+	/* Close everything, then re-open from scratch*/
 	CloseDecoder();
 	OpenDecoder();
 }
 
 void MusicBuffer::changeTracks(const char* filename){
+	/* Triggers a change of tracks */
+
 	// set changing tracks to true
 	changingTracks = true; // sets the flag to true so the update function can fade out
 
 	// set music track to be
 	m_filename_to_be = filename;
 
+	// Set the start time for checking in fadeOutMusic()
 	start_time = std::chrono::steady_clock::now();
 	// fade out float t = now - stopTime;
-	// float d = 10
-	// if(t > d)
-	//    //Stop sound and delete source
-	// else 
-	//     alSourcef(source, AL_GAIN, originalGain * (1F - t / d)) 
-
-
-
-
-
-	//Open decoder
-
-
 }
 
 void MusicBuffer::fadeOutMusic() {
-	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-	elapsedTimeInSec = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
-	float elapsedTimeInMillisec = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time).count();
-	float fade_out_time_milli = fade_out_time * 1000;
+	/* 	Gracefully fades out music over a predetermined time
+		Fade out is set in the header file, but in future we could make a function
+		that accepts fade time as a prameter (eg, fast change on dramatic movement, slow on scenery change)
+		
+		- fadeOutMusic() could also be optimised in terms of the calculation for fading
+		- we could also fade in the new music too if desired, but this would require a second OpenAL source to be instanced
+	*/
+	
 
-	std::cout << "elapsed time of fade out: " << elapsedTimeInSec << std::endl;
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now(); // Get the current time point
+	elapsedTimeInSec = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count(); // Convert time point into elapsed seconds form start time
+
+	float elapsedTimeInMillisec = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time).count(); // Convert to float milliseconds for calcs later
+	float fade_out_time_milli = fade_out_time * 1000; // Convert fade out to millisecs for calcs
+
+	// std::cout << "elapsed time of fade out: " << elapsedTimeInSec << std::endl;
 
 	if (elapsedTimeInMillisec > fade_out_time_milli)
 	{
+		// time's up, fade completed.
+
 		// close Decoder
 		CloseDecoder();
+		// Swap to be track to current track
+
 		m_filename = m_filename_to_be;
-		// change to be track to m_music (or whatever)
-		// m_filename = m_filename_to_be;
+
+		// reopen decoder
 		OpenDecoder();
+		
+		// reset changing tracks state
 		changingTracks = false;
-		std::cout << "tracks changed" << std::endl;
+		// std::cout << "tracks changed" << std::endl;
 	} else{
+		// Continue fading out the sound
+
+		/* reduce the gain on the current music by the amount of time remaining */
 		alSourcef(p_Source, AL_GAIN, originalGain*std::fabs(1.0f - (elapsedTimeInMillisec / fade_out_time_milli)));
-		std::cout << "fading out: " << originalGain*std::fabs(1.0f - (elapsedTimeInMillisec / fade_out_time_milli)) << std::endl;
-		// alSourcef(p_Source, AL_GAIN, originalGain*(1.0f - ((float)elapsedTimeInSec / (float)fade_out_time)));
-		// std::cout << "fading out: " << originalGain*(1.0f - ((float)elapsedTimeInSec / (float)fade_out_time)) << std::endl;
-		float test = 1.0f;
-		std::cout << "test: " << test << std::endl;
+		// std::cout << "fading out: " << originalGain*std::fabs(1.0f - (elapsedTimeInMillisec / fade_out_time_milli)) << std::endl;
 		
 	}
 	

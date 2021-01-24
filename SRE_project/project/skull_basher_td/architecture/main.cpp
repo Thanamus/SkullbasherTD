@@ -41,38 +41,17 @@ Main::Main()
 
     // myNewSpeaker = mySpeaker;
     //setup sound
-    SoundDevice * mySoundDevice = SoundDevice::Get();
-    // mySoundDevice->SetAttunation(3);
-    // uint32_t /*ALuint*/ sound1 = SoundEffectsLibrary::Get()->Load(".\\assets\\soundEffects\\spells\\pestilence.ogg");
-    // soundA = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
-    // uint32_t soundB = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.ogg)");
-    // uint32_t soundC = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
-    // uint32_t soundH = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\spells\pestilence.wav)");
-    // uint32_t soundD = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\SoundPack1\Alarm.aif)");
-    // uint32_t soundE = SoundEffectsLibrary::Get()->Load(R"(.\assets\soundEffects\NPC\gutteral_beast\mnstr1.wav)");
-    // uint32_t soundF = SoundEffectsLibrary::Get()->Load("SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav");
-    // uint32_t soundG = SoundEffectsLibrary::Get()->Load("C:\\Users\\nfgol\\ITU_GProg\\SkullBasherTD\\SRE_project\\project\\skull_basher_td\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr2.wav");
-    
-    // \\project\\skull_basher_td\\Debug\\assets
-    // SRE_project\project\skull_basher_td\assets\soundEffects\NPC\gutteral beast\mnstr1.wav
+    SoundDevice * mySoundDevice = SoundDevice::Get(); // Initialise sound device
 
-    SourceManager * mySourceManager = SourceManager::Get();
-    // mySourceManager->playSource((ALuint)1);
-        // SoundEffectsPlayer mySpeaker;
-        // SoundEffectsPlayer myOtherSpeaker;
-        // // alSourcePlay(0);
-        // mySpeaker.Play(soundG);
-        // myOtherSpeaker.Play(soundA);
-    
-    // Old way
-    // MusicBuffer music(R"(.\assets\music\68-Gerudo_Valley.wav)");
+    SourceManager * mySourceManager = SourceManager::Get(); // Initialise Source manager
+
 
     //new way - MusicBuffer is now a singleton
-    MusicBuffer * myMusicBuffer = MusicBuffer::Get(); 
-    myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)");
-    // MusicBuffer music("..\\..\\project\\skull_basher_td\\assets\\Debug\\music\\The-Precipice-of-Victory-MP3.wav"); 
-
-    // SoundNode musicThing;
+    MusicBuffer * myMusicBuffer = MusicBuffer::Get(); // Initialise music buffer 
+    myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)"); // Start playing a music track. First music track played should use "Load()"
+    // Start Playing music
+    myMusicBuffer->Play(); 
+    
 
     //handshaking
     gameManager = std::make_shared<GameManager>();
@@ -94,29 +73,15 @@ Main::Main()
     currentScene->gameManager->setInitialWaveStats();
     currentScene->scheduleManager->fetchInitialWaveSchedule();
 
-    //Playing Sounds //TODO remove as these are tests
-
-
-    myMusicBuffer->Play();
 
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
 
-        mySourceManager->CheckAndReleaseOALSource();
-        //Update Music buffer (pkeep playing music)
-        myMusicBuffer->UpdateBufferStream();
+        mySourceManager->CheckAndReleaseOALSource(); // Checks for any sources that are finished playing their sound, and releases the source
+        
+        //Update Music buffer (keep playing music - stream in the next few bytes of sound)
+        myMusicBuffer->UpdateBufferStream(); // Updates the music buffer so music keeps playing. Note: doesn't need to be called every frame, so we could optimise here
 
-        // if (mySpeaker.isPlaying() == false){
-        //     mySpeaker.Play(soundA);
-
-        // }
-        // if (!music.isPlaying())
-        // {
-        //     std::cout << "Music is: " << music.isPlaying() << std::endl;
-        //     // music.Play();
-        //     // music.Stop();
-        //     // music.Resume();
-        // }
         
     };
     r.frameRender = [&]{
