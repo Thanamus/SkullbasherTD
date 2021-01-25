@@ -13,11 +13,13 @@ class RigidBody : public Component {
 public:
     explicit RigidBody(GameObject* gameObject);
     ~RigidBody() final;
-    void initRigidBodyWithSphere(float radius, float mass = 1.0);
+    void initRigidBodyWithSphere(float radius, float mass = 0);
     void initRigidBodyWithBox(glm::vec3 halfExtend, float mass = 1.0);
     void initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeDist);
     void initRigidBody(btRigidBody::btRigidBodyConstructionInfo info);
     btRigidBody* getRigidBody();
+
+    void setLinearVelocityOnRigidBody(btVector3 linear_velocity);
 
 private:
     int collisionStartFrameId;

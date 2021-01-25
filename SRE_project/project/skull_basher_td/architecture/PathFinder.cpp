@@ -4,6 +4,8 @@
 #include "Scene.hpp"
 #include <cmath>
 
+#include "RigidBody.hpp"
+
 PathFinder::PathFinder(GameObject* gameObject)
  : Component(gameObject)
 {
@@ -42,9 +44,23 @@ void PathFinder::update(float deltaTime){
     if (moving)
     { //only if the skull has been set to moving should it move
         //get current position
-        auto currentTransform = gameObject->getComponent<Transform>();
+        bool rigidBodyCheck = false;
+        btRigidBody* hasRigidBody = nullptr;
 
-        currentPosition = currentTransform->position;
+        if (hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody())
+        {
+            rigidBodyCheck = true;
+            // std::cout << "object has rigid body \n";
+            btTransform currentTransform = hasRigidBody->getWorldTransform();
+            auto & origin = currentTransform.getOrigin();
+            currentPosition = {origin.x(), origin.y(), origin.z()};
+            
+        } else if(auto currentTransform = gameObject->getComponent<Transform>()) {
+
+            currentPosition = currentTransform->position;
+        }
+        
+
         // std::cout << "I am a skull, my current position is: " << currentPosition.x << "\n";
 
         //get nextposition
@@ -66,7 +82,18 @@ void PathFinder::update(float deltaTime){
         // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
 
         //update transform
-        currentTransform->position = nextPosition;
+        if (rigidBodyCheck)
+        {
+            btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};
+            btTransform transform = hasRigidBody->getWorldTransform();
+            transform.setOrigin(nextBtPosition);
+            hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
+            // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
+        }
+        
+        gameObject->getComponent<Transform>()->position = nextPosition;
+
+        //currentTransform->position = nextPosition;
         
     }
     

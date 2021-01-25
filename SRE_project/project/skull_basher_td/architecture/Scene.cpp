@@ -484,17 +484,18 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 enemy->getComponent<Transform>()->rotation.y = rotationHolder;
                 enemy->getComponent<Transform>()->scale = scaleHolder;
                 auto bounds = enemyMR->getMesh()->getBoundsMinMax();
-                
-                float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/4;
-                float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/4;
-                float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/4;
 
+                float length = (fabs(bounds[0].z) + fabs(bounds[1].z));
+                float width = (fabs(bounds[0].x) + fabs(bounds[1].x));
+                float height = (fabs(bounds[0].y) + fabs(bounds[1].y));
+
+                length = (length * scaleHolder.z)*0.8;
                 // std::cout << "length: " << length << "\n";
                 // std::cout << "width: " << width << "\n";
                 // std::cout << "height: " << height << "\n";
                 
                 //Add Physics to skull
-                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1);      
+                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0);      
 
                 // std::cout << "anEnemy is: " << anEnemy << "\n";
 

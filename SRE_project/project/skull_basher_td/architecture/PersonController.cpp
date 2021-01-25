@@ -9,6 +9,11 @@
 
 #include "SoundDevice.hpp"
 
+// btKinematicCharacterController includes
+#include "btKinematicCharacterController.h"
+// #include "btGhostObject.h" // Aparrently doesn't exist
+
+
 //using namespace sre;
 using namespace glm;
 
@@ -22,6 +27,18 @@ PersonController::PersonController(GameObject* gameObject)
     // camera_front = vec3(0, 0, -1);                         // set initial target of the camera on the negative Z axis (default)
     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
+
+// -- Trying to add btKinematicCharacterController
+    // btGhostObject ghostObject = btGhostObject();
+    // btPairCachingGhostObject * thing = ghostObject;
+    // btKinematicCharacterController kinematicPlayerController = btKinematicCharacterController(ghostObject, btSphereShape);
+
+//     btKinematicCharacterController::btKinematicCharacterController	(	btPairCachingGhostObject * 	ghostObject,
+// btConvexShape * 	convexShape,
+// btScalar 	stepHeight,
+// const btVector3 & 	up = btVector3(1.0,0.0,0.0) 
+// )	
+
 }
 // FirstPersonController::FirstPersonController(sre::Camera *camera)
 //     : camera(camera)

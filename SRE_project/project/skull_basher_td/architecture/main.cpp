@@ -127,13 +127,22 @@ std::shared_ptr<Scene> Main::createScene(){
     // cameraObj->addComponent<RigidBody>();
     
 
+
+    // -------------- trying to implment btKinematicCharacterController --------------
+
+        
+
+    // --------------- end btKinematicCharacterController -------------------
     
     auto sphereObj = res->createGameObject("Sphere");
     auto sphereMR = sphereObj->addComponent<ModelRenderer>();
     sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
     sphereObj->getComponent<Transform>()->position = {10,1.0,10};
     sphereObj->getComponent<Transform>()->position = {10,1.0,10};
-    sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0);
+    sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0.0f);
+    btVector3 test ={10,100,10};
+    auto thingy = sphereObj->getComponent<RigidBody>();
+    thingy->setLinearVelocityOnRigidBody(test);
 
     // auto planeObj = res->createGameObject("Plane");
     // auto plameMR = planeObj->addComponent<ModelRenderer>();
@@ -151,6 +160,7 @@ std::shared_ptr<Scene> Main::createScene(){
     cube->getComponent<Transform>()->rotation = {30,30,10};
     auto cubeRigidBody = cube->addComponent<RigidBody>();
     cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
+    // cubeRigidBody->setLinearVelocityOnRigidBody(test);
 
     auto cubeMR = cube->addComponent<ModelRenderer>();
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
