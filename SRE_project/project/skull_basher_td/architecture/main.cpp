@@ -123,7 +123,8 @@ std::shared_ptr<Scene> Main::createScene(){
     cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
     // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.5f, 0); // Kinematic physics object
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
+    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithBox({0.6,0.6,0.6}, 1); // Dynamic physics object
     
     //---- setting cameras?
     glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
