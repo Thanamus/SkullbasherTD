@@ -91,7 +91,8 @@ void PathFinder::update(float deltaTime){
             // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
         }
         
-        gameObject->getComponent<Transform>()->position = nextPosition;
+        /* I think position gets updated from RigidBody already*/
+        // gameObject->getComponent<Transform>()->position = nextPosition; 
 
         //currentTransform->position = nextPosition;
         

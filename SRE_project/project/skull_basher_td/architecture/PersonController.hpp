@@ -39,8 +39,14 @@ private:
     glm::vec3 camera_dir;
     glm::vec3 camera_right;
 
-    float movespeed = 8.f;
+    glm::vec3 original_camera_dir;
+
+    // float movespeed = 8.f;
+    float movespeed = 20.f;
+    // float sensitivity = 1.7f;
     float sensitivity = 1.7f;
+
+    float jumpHeight = 1.f;
 
     // input stuff
     bool key_fwd = false;
@@ -51,6 +57,8 @@ private:
     //turn these off for the real game
     bool key_flyUp = false;
     bool key_flyDown = false;
+
+    bool key_jump = false;
 
     float mouse_offset = 0.f;
 };

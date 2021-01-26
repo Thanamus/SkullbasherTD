@@ -11,8 +11,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
+
 RigidBody::RigidBody(GameObject *gameObject) : Component(gameObject) {
     transform = gameObject->getComponent<Transform>().get();
+
 }
 
 RigidBody::~RigidBody() {
@@ -57,9 +59,9 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info){
         isDynamic = true;
         rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | CF_CUSTOM_MATERIAL_CALLBACK); // original Call
     } else {
-        std::cout << "trying to make Kinematic" << std::endl;
+        // std::cout << "trying to make Kinematic" << std::endl;
         // rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
-        rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT);
+        rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
         rigidBody->forceActivationState(DISABLE_DEACTIVATION);
     }
 

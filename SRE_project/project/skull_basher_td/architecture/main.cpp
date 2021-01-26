@@ -120,11 +120,12 @@ std::shared_ptr<Scene> Main::createScene(){
     auto res = std::make_shared<Scene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = {20,1.0f,11};
+    cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
-    cameraObj->addComponent<PersonController>(); // adding the controller to the camera (the player)
-    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.1f, 0);
+    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.5f, 0); // Kinematic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.5f, 1); // Dynamic physics object
     // cameraObj->addComponent<RigidBody>();
+    cameraObj->addComponent<PersonController>(); // adding the controller to the camera (the player)
     
 
 
@@ -134,15 +135,15 @@ std::shared_ptr<Scene> Main::createScene(){
 
     // --------------- end btKinematicCharacterController -------------------
     
-    auto sphereObj = res->createGameObject("Sphere");
-    auto sphereMR = sphereObj->addComponent<ModelRenderer>();
-    sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
-    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
-    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
-    sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0.0f);
-    btVector3 test ={10,100,10};
-    auto thingy = sphereObj->getComponent<RigidBody>();
-    thingy->setLinearVelocityOnRigidBody(test);
+    // auto sphereObj = res->createGameObject("Sphere");
+    // auto sphereMR = sphereObj->addComponent<ModelRenderer>();
+    // sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
+    // sphereObj->getComponent<Transform>()->position = {10,1.0,10};
+    // sphereObj->getComponent<Transform>()->position = {10,1.0,10};
+    // sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0.0f);
+    // btVector3 test ={10,100,10};
+    // auto thingy = sphereObj->getComponent<RigidBody>();
+    // thingy->setLinearVelocityOnRigidBody(test);
 
     // auto planeObj = res->createGameObject("Plane");
     // auto plameMR = planeObj->addComponent<ModelRenderer>();
@@ -155,23 +156,23 @@ std::shared_ptr<Scene> Main::createScene(){
     lightObj->getComponent<Transform>()->rotation = {30,30,0};
     lightObj->addComponent<Light>();
 
-    auto cube = res->createGameObject("Cube");
-    cube->getComponent<Transform>()->position = {10,4,10};
-    cube->getComponent<Transform>()->rotation = {30,30,10};
-    auto cubeRigidBody = cube->addComponent<RigidBody>();
-    cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
-    // cubeRigidBody->setLinearVelocityOnRigidBody(test);
+    // auto cube = res->createGameObject("Cube");
+    // cube->getComponent<Transform>()->position = {10,4,10};
+    // cube->getComponent<Transform>()->rotation = {30,30,10};
+    // auto cubeRigidBody = cube->addComponent<RigidBody>();
+    // cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
+    // // cubeRigidBody->setLinearVelocityOnRigidBody(test);
 
-    auto cubeMR = cube->addComponent<ModelRenderer>();
-    cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    cube->addComponent<CustomCollisionHandler>();
-    auto cubeAN = cube->addComponent<Animator>();
-    cubeMR->setAnimator(cubeAN.get());
-    auto rotate = std::make_shared<Animation>(true);
-    rotate->addFrame(glm::vec3( 0), glm::vec3(1.25), glm::vec3(0), 2.f);
-    rotate->addFrame(glm::vec3( 0), glm::vec3(0.8), glm::vec3(0), 2.f);
-    cubeAN->addAnimation("rotate", rotate);
-    cubeAN->setAnimationState("rotate");
+    // auto cubeMR = cube->addComponent<ModelRenderer>();
+    // cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    // cube->addComponent<CustomCollisionHandler>();
+    // auto cubeAN = cube->addComponent<Animator>();
+    // cubeMR->setAnimator(cubeAN.get());
+    // auto rotate = std::make_shared<Animation>(true);
+    // rotate->addFrame(glm::vec3( 0), glm::vec3(1.25), glm::vec3(0), 2.f);
+    // rotate->addFrame(glm::vec3( 0), glm::vec3(0.8), glm::vec3(0), 2.f);
+    // cubeAN->addAnimation("rotate", rotate);
+    // cubeAN->setAnimationState("rotate");
 
     auto tower = res->createGameObject("Tower");
     tower->getComponent<Transform>()->position = {0,0,0};

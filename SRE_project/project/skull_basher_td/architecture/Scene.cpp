@@ -489,13 +489,13 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 float width = (fabs(bounds[0].x) + fabs(bounds[1].x));
                 float height = (fabs(bounds[0].y) + fabs(bounds[1].y));
 
-                length = (length * scaleHolder.z)*0.8;
+                length = (length * scaleHolder.z)*0.7; // scaling the collision box for a tighter fit
                 // std::cout << "length: " << length << "\n";
                 // std::cout << "width: " << width << "\n";
                 // std::cout << "height: " << height << "\n";
                 
                 //Add Physics to skull
-                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0);      
+                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)     
 
                 // std::cout << "anEnemy is: " << anEnemy << "\n";
 

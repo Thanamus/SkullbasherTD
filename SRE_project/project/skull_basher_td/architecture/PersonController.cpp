@@ -12,7 +12,7 @@
 // btKinematicCharacterController includes
 #include "btKinematicCharacterController.h"
 // #include "btGhostObject.h" // Aparrently doesn't exist
-
+#include "RigidBody.hpp"
 
 //using namespace sre;
 using namespace glm;
@@ -21,12 +21,18 @@ PersonController::PersonController(GameObject* gameObject)
  : Component(gameObject)
 {
     camera = gameObject->getComponent<Camera>();
+    btRigidBody* myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    myBody->setAngularFactor({0,0,0});
+    myBody->setActivationState(DISABLE_DEACTIVATION);
     // camera->setPerspectiveProjection(45, 0.1f, 1000);
     // position = vec3(0, 0, 0);
-    camera_front = gameObject->getComponent<Transform>()->rotation;                         // set initial target of the camera on the negative Z axis (default)
+    camera_front = gameObject->getComponent<Transform>()->rotation;  // set initial target of the camera on the negative Z axis (default)
+    // btVector3  camera_front_bt = myBody->getOrientation().setRotation();
     // camera_front = vec3(0, 0, -1);                         // set initial target of the camera on the negative Z axis (default)
     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
+
+
 
 // -- Trying to add btKinematicCharacterController
     // btGhostObject ghostObject = btGhostObject();
@@ -61,8 +67,8 @@ void PersonController::debugGUI() {
 
 void PersonController::update(float deltaTime)
 {
-    updateInput(deltaTime);
     updateVectors();
+    updateInput(deltaTime);
 
     camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
     camera->moveHandCursor(camera_front, this->hand);
@@ -95,11 +101,40 @@ void PersonController::updateVectors()
 void PersonController::updateInput(float deltaTime)
 {
     float velocity = movespeed * deltaTime;
+    
+    bool rigidBodyCheck = false;
+    
+    // btRigidBody* hasRigidBody = this->getGameObject()->getComponent<RigidBody>()->getRigidBody();
+    // btRigidBody* hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    btRigidBody* hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    // btTransform transform = hasRigidBody->getWorldTransform();
 
-    auto thing = this->getGameObject()->getComponent<Transform>();
+    btTransform transform;
+    hasRigidBody->getMotionState()->getWorldTransform(transform);
+
+    btVector3& origin = transform.getOrigin();
+    position = {origin.x(), origin.y(), origin.z()};
+    
+    btVector3 force = {0,0,0};
+
+    // auto thing = this->getGameObject()->getComponent<Transform>();
     // thing->rotation = 
     // update rotation
+    float oldRotation = rotation;
     rotation += mouse_offset;
+    // std::cout << "mouse offset: " << mouse_offset << std::endl;
+    
+    btVector3 angular_force_bt = {0,0,0};
+
+    if (mouse_offset > 0)
+    {
+        angular_force_bt = {0,sensitivity,0};
+        // std::cout << "mouse_offset positive" << std::endl;
+    } else if (mouse_offset < 0) {
+        angular_force_bt = {0,-sensitivity,0};
+    }
+    
+
     // keep rotation in 360 degree range
     if (rotation > 360.f)
         rotation -= 360.f;
@@ -107,24 +142,100 @@ void PersonController::updateInput(float deltaTime)
         rotation += 360.f;
     mouse_offset = 0; // reset offset
 
+
     // update position based on current keypresses
     // using the camerafront vector allows to keep account of rotation automatically
-    position = thing->position;
+    // position = thing->position;
+    btVector3 camera_front_bt = {camera_front.x, 0, camera_front.z};
 
-    if (key_fwd)
+    // btVector3 oldPosition = {position.x,0,position.z};
+    // btVector3 newPostion = {position.x,0,position.z};
+
+    glm::vec3 oldPosition = position;
+
+    if (key_fwd){
+
         position += velocity * camera_front;
-    if (key_bwd)
+        // force += velocity * camera_front_bt;
+    }
+
+    if (key_bwd){
+
         position -= velocity * camera_front;
-    if (key_left)
+        // force -= velocity * camera_front_bt;
+    }
+    if (key_left) {
         position -= velocity * cross(camera_front, world_up);
-    if (key_right)
+        // force -= velocity * cross(camera_front_bt, world_up);
+
+    }
+    if (key_right){
         position += velocity * cross(camera_front, world_up);
-    if (key_flyUp)
+        // force += velocity * cross(camera_front, world_up);
+
+    }
+    if (key_flyUp){
         position += velocity * world_up; //works! fly's up
-    if (key_flyDown)
+
+    }
+    if (key_flyDown){
         position -= velocity * world_up; //flys down!
+
+    }
+
+
+    glm::vec3 positionDifference = oldPosition - position;
+    force = {positionDifference.x, positionDifference.y, positionDifference.z};
     
-    thing->position = position;
+    // glm::vec3 thingy = original_camera_dir - camera_dir;
+    
+
+    // thing->position = position;
+    origin = {position.x, position.y, position.z};
+    transform.setOrigin(origin);
+    // transform.setRotation();
+    // hasRigidBody->getMotionState(); // Uses Motion State
+    // hasRigidBody->getMotionState()->setWorldTransform(transform); // Uses Motion State
+    // hasRigidBody->setWorldTransform(transform); // skips motion state - kinda works
+    // hasRigidBody->setLinearVelocity(origin);
+    // origin = origin /10;
+    // std::cout << "force is :" << force.x() << ", " << force.y() << " " << force.z() << std::endl;
+    btScalar totalForce = hasRigidBody->getLinearVelocity().length();
+    // std::cout << "total Force is: " << totalForce << std::endl;
+    if(totalForce <= 7) hasRigidBody->applyCentralImpulse(-force); //kinda works
+    
+    btVector3 currentVelocity = hasRigidBody->getLinearVelocity();
+
+    if ((force.x() == 0 && force.z() == 0) 
+    && (currentVelocity.x() != 0 && currentVelocity.y() != 0)
+    && hasRigidBody->getFriction() != 5)
+    {
+        // hasRigidBody->applyDamping(0.2, 0.0);
+        hasRigidBody->setFriction(5);
+        // hasRigidBody->setDamping
+        // std::cout << "applying dampening" << std::endl;
+    } else if (hasRigidBody->getFriction() != 2) {
+        hasRigidBody->setFriction(2);
+    }
+    
+    // xform.setRotation (btQuaternion (btVector3(0.0, 1.0, 0.0), m_turnAngle));
+    // transform.setRotation(btQuaternion (btVector3(0.0, 1.0, 0.0), rotation));
+    // hasRigidBody->setWorldTransform(transform);
+    // std::cout << "angularforce is :" << angular_velocity_bt.x() << ", " << angular_velocity_bt.y() << " " << angular_velocity_bt.z() << std::endl;
+    
+    
+    // hasRigidBody->applyTorque(angular_force_bt);
+    hasRigidBody->setAngularVelocity(-angular_force_bt); // Kinda works
+    
+    if (key_jump)
+    {
+        hasRigidBody->applyCentralImpulse({0,jumpHeight,0});
+    }
+    
+    
+    // btQuaternion currentOrintation = hasRigidBody->getOrientation();
+    // hasRigidBody->getMotionState()->getOrientation().setRotation(btVector3{0,1,0}, radians(rotation));
+    // hasRigidBody->
 }
 
 void PersonController::onKey(SDL_Event &event)
@@ -150,6 +261,9 @@ void PersonController::onKey(SDL_Event &event)
     case SDLK_f:
         key_flyDown = event.type == SDL_KEYDOWN;
         break;                
+    case SDLK_SPACE:
+        key_jump = event.type == SDL_KEYDOWN;
+        break;
     case SDLK_ESCAPE:
         quit = event.type == SDL_KEYDOWN;
         break;
