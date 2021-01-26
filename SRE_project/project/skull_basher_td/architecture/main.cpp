@@ -123,8 +123,24 @@ std::shared_ptr<Scene> Main::createScene(){
     cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
     // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.5f, 0); // Kinematic physics object
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.5f, 1); // Dynamic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
+    
+    //---- setting cameras?
+    glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
+    btTransform transform;
+    btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z}; 
+    transform.setOrigin(btCameraPosition);
+
+    // glm::quat myquaternion = glm::quat(glm::vec3(angle.x, angle.y, angle.z));
+
+    glm::quat inputQuat = glm::quat(cameraObj->getComponent<Transform>()->rotation);
+    btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,}; 
+    transform.setRotation(btInputQuat);
+
+    cameraObj->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
     // cameraObj->addComponent<RigidBody>();
+
+    //--- end setting cameras
     cameraObj->addComponent<PersonController>(); // adding the controller to the camera (the player)
     
 

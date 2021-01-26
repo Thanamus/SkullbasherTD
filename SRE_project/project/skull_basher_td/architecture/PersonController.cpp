@@ -5,6 +5,9 @@
 #include "PersonController.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtc/quaternion.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 #include <iostream>
 
 #include "SoundDevice.hpp"
@@ -27,7 +30,26 @@ PersonController::PersonController(GameObject* gameObject)
     // camera->setPerspectiveProjection(45, 0.1f, 1000);
     // position = vec3(0, 0, 0);
     camera_front = gameObject->getComponent<Transform>()->rotation;  // set initial target of the camera on the negative Z axis (default)
-    // btVector3  camera_front_bt = myBody->getOrientation().setRotation();
+    
+    // glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
+    // btTransform transform;
+    // btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z}; 
+    // transform.setOrigin(btCameraPosition);
+
+    // glm::quat myquaternion = glm::quat(glm::vec3(angle.x, angle.y, angle.z));
+
+    // glm::quat inputQuat = glm::quat(cameraObj->getComponent<Transform>()->rotation);
+    // glm::quat inputQuat = glm::quat(camera_front);
+    // btQuaternion btInputQuat = {inputQuat.w, inputQuat.x, -inputQuat.y,inputQuat.z }; 
+    // transform.setRotation(-btInputQuat);
+
+    // myBody->setWorldTransform(transform);
+    // cameraObj->addComponent<RigidBody>();
+    
+    // btVector3 camera_front_bt = {camera_front.x, camera_front.y, camera_front.z};
+    // myBody->getOrientation().setRotation({0,1,0}, radians(rotation));
+    // btQuaternion cameraOrientation = myBody->getOrientation();
+    // btVector3  camera_front_bt = cameraOrientation.setRotation();
     // camera_front = vec3(0, 0, -1);                         // set initial target of the camera on the negative Z axis (default)
     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
@@ -126,13 +148,16 @@ void PersonController::updateInput(float deltaTime)
     
     btVector3 angular_force_bt = {0,0,0};
 
-    if (mouse_offset > 0)
-    {
-        angular_force_bt = {0,sensitivity,0};
-        // std::cout << "mouse_offset positive" << std::endl;
-    } else if (mouse_offset < 0) {
-        angular_force_bt = {0,-sensitivity,0};
-    }
+    angular_force_bt = {0,mouse_offset,0};
+    // if (mouse_offset > 0){
+
+    //     angular_force_bt = {0,sensitivity,0};
+    //     // std::cout << "mouse_offset positive" << std::endl;
+    // } else if (mouse_offset < 0) {
+
+    //     angular_force_bt = {0,-sensitivity,0};
+
+    // }
     
 
     // keep rotation in 360 degree range
@@ -145,11 +170,6 @@ void PersonController::updateInput(float deltaTime)
 
     // update position based on current keypresses
     // using the camerafront vector allows to keep account of rotation automatically
-    // position = thing->position;
-    btVector3 camera_front_bt = {camera_front.x, 0, camera_front.z};
-
-    // btVector3 oldPosition = {position.x,0,position.z};
-    // btVector3 newPostion = {position.x,0,position.z};
 
     glm::vec3 oldPosition = position;
 
@@ -183,11 +203,10 @@ void PersonController::updateInput(float deltaTime)
 
     }
 
-
+    // Calculate the force to apply to the character
     glm::vec3 positionDifference = oldPosition - position;
     force = {positionDifference.x, positionDifference.y, positionDifference.z};
     
-    // glm::vec3 thingy = original_camera_dir - camera_dir;
     
 
     // thing->position = position;
@@ -206,6 +225,7 @@ void PersonController::updateInput(float deltaTime)
     
     btVector3 currentVelocity = hasRigidBody->getLinearVelocity();
 
+    // If force (i.e. walking) is not being applied, artificially change friction to slow down quickly
     if ((force.x() == 0 && force.z() == 0) 
     && (currentVelocity.x() != 0 && currentVelocity.y() != 0)
     && hasRigidBody->getFriction() != 5)
@@ -215,6 +235,7 @@ void PersonController::updateInput(float deltaTime)
         // hasRigidBody->setDamping
         // std::cout << "applying dampening" << std::endl;
     } else if (hasRigidBody->getFriction() != 2) {
+        // otherwise set a baselinie friction
         hasRigidBody->setFriction(2);
     }
     
@@ -227,8 +248,10 @@ void PersonController::updateInput(float deltaTime)
     // hasRigidBody->applyTorque(angular_force_bt);
     hasRigidBody->setAngularVelocity(-angular_force_bt); // Kinda works
     
+    // if jump key is pressed, jump!
     if (key_jump)
     {
+        // Todo put in a vertical velocity check here, so there is no mid-air jumping
         hasRigidBody->applyCentralImpulse({0,jumpHeight,0});
     }
     
