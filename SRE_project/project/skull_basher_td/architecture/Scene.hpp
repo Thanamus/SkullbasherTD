@@ -22,14 +22,17 @@ class Light;
 class BulletPhysics;
 class RigidBody;
 class ScheduleManager;
+class SceneManager;
 class GameManager;
 
 class Scene {
 public:
     explicit Scene(std::string name = "MainScene");
     ~Scene();
-    void render();
-    void update(float deltaTime);
+    virtual void render();
+    virtual void update(float deltaTime);
+    virtual void onKey(SDL_Event &event);
+    virtual void onMouse(SDL_Event &event);
 
     std::shared_ptr<GameObject> createGameObject(std::string name = "Scene");
 
@@ -44,18 +47,16 @@ public:
     std::vector<std::shared_ptr<GameObject>> getGameObjects();
 
     //World Map stuff
-    void loadMap(std::string filename, std::shared_ptr<Scene> res);
+    //void loadMap(std::string filename, std::shared_ptr<Scene> res);
     // load map()
     // add stuff we need for load map
 
     std::vector<Camera*> cameras;
-
-    void onKey(SDL_Event &event);
-    void onMouse(SDL_Event &event);
     std::shared_ptr<GuiManager> guiManager;
     std::shared_ptr<GameManager> gameManager;
+    std::shared_ptr<SceneManager> sceneManager;
     std::shared_ptr<ScheduleManager> scheduleManager;
-private:
+protected:
     std::string name;
     bool debugPhysics = true;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
@@ -71,15 +72,12 @@ private:
 
     BulletPhysics* bulletPhysics;
 
-    friend class GameObject;
-    friend class RigidBody;
-
-    //World Map stuff
-    // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
     std::string mapAssetFolderLoc = ".\\assets\\worldMapAssets"; // apparently does work
     std::string enemiesAssetFolderLoc = ".\\assets\\enemies";
     double tileHeightOffset = -1;
     double tilePosOffset = 1;
-
+private:
+    friend class GameObject;
+    friend class RigidBody;
 };
 

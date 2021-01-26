@@ -32,6 +32,7 @@ private:
 
     friend class BulletPhysics;
     friend class Scene;
+    friend class LevelScene;
 };
 
 
