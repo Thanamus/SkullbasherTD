@@ -5,7 +5,10 @@
 #include "Camera.hpp"
 #include "ModelRenderer.hpp"
 #include "Light.hpp"
+
 #include "RigidBody.hpp"
+#include "CustomerCollisionHandler.hpp"
+
 #include "PersonController.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
@@ -40,18 +43,16 @@ Main::Main()
     tempCam->getComponent<PersonController>()->currentScene = currentScene;
 
     // myNewSpeaker = mySpeaker;
-    //setup sound
+//--------- setup sound
     SoundDevice * mySoundDevice = SoundDevice::Get(); // Initialise sound device
-
     SourceManager * mySourceManager = SourceManager::Get(); // Initialise Source manager
-
 
     //new way - MusicBuffer is now a singleton
     MusicBuffer * myMusicBuffer = MusicBuffer::Get(); // Initialise music buffer 
     myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)"); // Start playing a music track. First music track played should use "Load()"
     
 
-    //handshaking
+//-------------- handshaking
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
     guiManager = std::make_shared<GuiManager>(gameManager);
@@ -62,7 +63,7 @@ Main::Main()
     gameManager->currentScene = currentScene;
     gameManager->ToggleLockMouse();
 
-    //load map
+// ------------- load map
     currentScene->loadMap(R"(.\maps\SkullBasherTDLevel0.json)", currentScene);
 
     scheduleManager->currentScene = currentScene; //not sure about this pattern, here the two managers 'know' each other
@@ -71,9 +72,10 @@ Main::Main()
     currentScene->gameManager->setInitialWaveStats();
     currentScene->scheduleManager->fetchInitialWaveSchedule();
 
-    // Start Playing music - lives here because the buffers run out before things load
+//--------------- Start Playing music - lives here because the buffers run out before things load
     myMusicBuffer->Play(); 
 
+// --------- start update cycles
     r.frameUpdate = [&](float deltaTime){
         currentScene->update(deltaTime);
 
@@ -102,19 +104,19 @@ Main::Main()
 }
 #include "Animator.hpp"
 
-class CustomCollisionHandler : public Component, public CollisionHandler {
-public:
-    explicit CustomCollisionHandler(GameObject *gameObject) : Component(gameObject) {}
+// class CustomCollisionHandler : public Component, public CollisionHandler {
+// public:
+//     explicit CustomCollisionHandler(GameObject *gameObject) : Component(gameObject) {}
 
-    void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin) override {
-        if (begin){
-            std::cout << "Collision "<< collisionId <<" on "<<other->getGameObject()->getName()<< " at "<<glm::to_string(position)<<std::endl;
-        }
-    }
-    void onCollisionEnd(size_t collisionId) override {
-        std::cout << "Collision end "<<collisionId<<std::endl;
-    }
-};
+//     void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin) override {
+//         if (begin){
+//             std::cout << "Collision "<< collisionId <<" on "<<other->getGameObject()->getName()<< " at "<<glm::to_string(position)<<std::endl;
+//         }
+//     }
+//     void onCollisionEnd(size_t collisionId) override {
+//         std::cout << "Collision end "<<collisionId<<std::endl;
+//     }
+// };
 
 std::shared_ptr<Scene> Main::createScene(){
     auto res = std::make_shared<Scene>();
@@ -123,10 +125,10 @@ std::shared_ptr<Scene> Main::createScene(){
     cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
     // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.5f, 0); // Kinematic physics object
-    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithBox({0.6,0.6,0.6}, 1); // Dynamic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
+    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithBox({0.6,0.6,0.6}, 1); // Dynamic physics object
     
-    //---- setting cameras?
+//---- setting cameras? // kinda syncs the physics world and the transform
     glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
     btTransform transform;
     btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z}; 
@@ -141,17 +143,13 @@ std::shared_ptr<Scene> Main::createScene(){
     cameraObj->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
     // cameraObj->addComponent<RigidBody>();
 
-    //--- end setting cameras
+//--- end setting cameras
+
     cameraObj->addComponent<PersonController>(); // adding the controller to the camera (the player)
-    
+    // cameraObj->addComponent<CustomCollisionHandler>(); // no longer needed, Collision override integrated to PersonController
 
 
-    // -------------- trying to implment btKinematicCharacterController --------------
-
-        
-
-    // --------------- end btKinematicCharacterController -------------------
-    
+//------------- Add a Sphere (for testing)   
     // auto sphereObj = res->createGameObject("Sphere");
     // auto sphereMR = sphereObj->addComponent<ModelRenderer>();
     // sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
@@ -169,10 +167,15 @@ std::shared_ptr<Scene> Main::createScene(){
     // auto planePhysObj = res->createGameObject("PlanePhys");
     // planePhysObj->addComponent<RigidBody>()->initRigidBodyWithStaticPlane({0,1,0}, 0);
 
+//----------- end Add a sphere (for testing)
+
+//-------- Add a light source
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<Transform>()->rotation = {30,30,0};
     lightObj->addComponent<Light>();
+//-------- End Add a light source
 
+//--------------- add a cube to scence (for testing)
     // auto cube = res->createGameObject("Cube");
     // cube->getComponent<Transform>()->position = {10,4,10};
     // cube->getComponent<Transform>()->rotation = {30,30,10};
@@ -190,6 +193,8 @@ std::shared_ptr<Scene> Main::createScene(){
     // rotate->addFrame(glm::vec3( 0), glm::vec3(0.8), glm::vec3(0), 2.f);
     // cubeAN->addAnimation("rotate", rotate);
     // cubeAN->setAnimationState("rotate");
+
+//-------------- end add a cube
 
     auto tower = res->createGameObject("Tower");
     tower->getComponent<Transform>()->position = {0,0,0};

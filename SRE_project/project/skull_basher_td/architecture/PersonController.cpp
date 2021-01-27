@@ -11,11 +11,16 @@
 #include <iostream>
 
 #include "SoundDevice.hpp"
+#include "SourceManager.hpp"
 
 // btKinematicCharacterController includes
 #include "btKinematicCharacterController.h"
 // #include "btGhostObject.h" // Aparrently doesn't exist
 #include "RigidBody.hpp"
+
+// #include "CollisionHandler.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/string_cast.hpp"
 
 //using namespace sre;
 using namespace glm;
@@ -77,6 +82,10 @@ PersonController::PersonController(GameObject* gameObject)
 //     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
 //     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
 // }
+
+PersonController::~PersonController(){
+
+}
 
 void PersonController::debugGUI() {
     ImGui::PushID(this);
@@ -187,20 +196,16 @@ void PersonController::updateInput(float deltaTime)
     if (key_left) {
         position -= velocity * cross(camera_front, world_up);
         // force -= velocity * cross(camera_front_bt, world_up);
-
     }
     if (key_right){
         position += velocity * cross(camera_front, world_up);
         // force += velocity * cross(camera_front, world_up);
-
     }
     if (key_flyUp){
         position += velocity * world_up; //works! fly's up
-
     }
     if (key_flyDown){
         position -= velocity * world_up; //flys down!
-
     }
 
     // Calculate the force to apply to the character
@@ -221,7 +226,12 @@ void PersonController::updateInput(float deltaTime)
     // std::cout << "force is :" << force.x() << ", " << force.y() << " " << force.z() << std::endl;
     btScalar totalForce = hasRigidBody->getLinearVelocity().length();
     // std::cout << "total Force is: " << totalForce << std::endl;
-    if(totalForce <= 7) hasRigidBody->applyCentralImpulse(-force); //kinda works
+
+    if(totalForce <= 7) {
+        // if speed (total force) is less than 'some value', apply force (speed up)
+        hasRigidBody->applyCentralImpulse(-force); //kinda works
+
+    } 
     
     btVector3 currentVelocity = hasRigidBody->getLinearVelocity();
 
@@ -310,4 +320,33 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
 {
     this->position = glm::vec3(position.x, 0, position.y);
     this->rotation = rotation;
+}
+
+
+void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin){
+    if (begin){
+        std::string otherObjectName = other->getGameObject()->getName();
+        std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(position)<<std::endl;
+    
+        SourceManager * mySource = SourceManager::Get();
+        //----- if colliding with ground, play ground sounds
+        // works, but the sounds quickly pile up, maybe make a timer?
+        if (otherObjectName == "GrassBlock01D.obj")
+        {
+            mySource->playMyJam_global("gassy-footstep1.wav");
+            // std::cout << "playing grassy footstep" << std::endl;
+        } else if (otherObjectName == "Floor01.obj"){
+            mySource->playMyJam_global("stepwood_2.wav");
+        } else if (otherObjectName == "PathBlock01D.obj"){
+            
+        } else if (otherObjectName == "Bridge01D.obj"){
+            
+        }
+        
+    }
+}
+
+
+void PersonController::onCollisionEnd(size_t collisionId) {
+    std::cout << "Collision end "<<collisionId<<std::endl;
 }

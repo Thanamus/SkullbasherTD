@@ -9,9 +9,12 @@
 #include "Transform.hpp"
 #include "GameObject.hpp"
 
-class PersonController : public Component {
+#include "CollisionHandler.hpp"
+
+class PersonController : public Component, public CollisionHandler {
 public:
     explicit PersonController(GameObject* GameObject);
+    virtual ~PersonController();
 
     void debugGUI() override ;
 
@@ -32,6 +35,14 @@ public:
     std::shared_ptr<GameObject> targetBlock;
     std::shared_ptr<Scene> currentScene;
     bool allowedToBuild = false;
+
+    //------ customCollision Component Override
+
+    void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override;
+    // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
+    // void onCollisionEnd(size_t collisionId); 
+    void onCollisionEnd(size_t collisionId) override; 
+
 private:
 
     glm::vec3 world_up = glm::vec3(0, 1, 0);

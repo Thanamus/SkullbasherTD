@@ -19,6 +19,9 @@ Transform::Transform(GameObject* gameObject)
     if(gameObject->getParent() && gameObject->getComponent<Transform>().get()) {
         setParent(gameObject->getComponent<Transform>().get());
     }
+
+    // add shared pointer to rigid body component?
+
 }
 
 glm::mat4 Transform::localTransform() {
