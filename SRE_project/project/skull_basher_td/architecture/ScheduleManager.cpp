@@ -67,10 +67,11 @@ void ScheduleManager::update(float deltaTime){
                                 objectWithPathFinder->setMovingStatus(true);
 
                                 //play sound
-                                    SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
-                                    mySourceManager->playMyJam_global("pestilence.wav");
-                                    glm::vec3 testPosition(0,0,0);
-                                    float testSoundDist = 30.0f;
+                                    // Moved to setMovingStatus
+                                    // SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
+                                    // mySourceManager->playMyJam_global("pestilence.wav");
+                                    // glm::vec3 testPosition(0,0,0);
+                                    // float testSoundDist = 30.0f;
                                     // mySourceManager->playMyJam("pestilence.ogg", testPosition, testSoundDist);
                                     // mySourceManager->playMyJam("pestilence.wav", testPosition, testSoundDist);
                                     // mySourceManager->playSource((ALuint)1);

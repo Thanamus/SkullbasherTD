@@ -5,6 +5,7 @@
 #include <cmath>
 
 #include "RigidBody.hpp"
+#include "SourceManager.hpp"
 
 PathFinder::PathFinder(GameObject* gameObject)
  : Component(gameObject)
@@ -14,6 +15,7 @@ PathFinder::PathFinder(GameObject* gameObject)
     currentPathIndex = gameObject->getScene()->gameManager->getFirstPathIndex();
     // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
     fetchNextPathPoint();
+    currentPosition = gameObject->getComponent<Transform>()->position;
 }
 
 PathFinder::~PathFinder()
@@ -121,6 +123,14 @@ void PathFinder::update(float deltaTime){
 
     void PathFinder::setMovingStatus(bool incomingMovingStatus){
         moving = incomingMovingStatus;
+        if (moving == true)
+        {
+            /* play sound */
+            SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
+            mySourceManager->playMyJam("pestilence.wav", currentPosition, 40.f);
+        }
+        
+        //play sound
     }
 
     bool PathFinder::getMovingStatus(){
