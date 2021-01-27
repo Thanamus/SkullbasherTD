@@ -9,6 +9,7 @@ class LevelGuiManager : public GuiManager
 {
 public:
     explicit LevelGuiManager(std::shared_ptr<GameManager> gameManager);
+    ~LevelGuiManager() override;
     void onGui() override;
 private:
     void guiGameInfo();

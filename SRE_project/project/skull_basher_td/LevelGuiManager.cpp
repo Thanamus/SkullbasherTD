@@ -32,8 +32,8 @@ LevelGuiManager::LevelGuiManager(std::shared_ptr<GameManager> gameManager) : Gui
     selectedBorderColor = ImVec4(36.0f/255.0f,250.0f/255.0f,0,1);
 
     // setup font
-    auto fonts = ImGui::GetIO().Fonts;
-    fonts->AddFontDefault();
+    //auto fonts = ImGui::GetIO().Fonts;
+    //fonts->AddFontDefault();
 }
 
 void LevelGuiManager::guiGameInfo() {
@@ -297,3 +297,5 @@ void LevelGuiManager::onGui() {
     guiWaveInfo();
 
 }
+
+LevelGuiManager::~LevelGuiManager() = default;

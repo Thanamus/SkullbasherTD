@@ -35,5 +35,6 @@ public:
     void onMouse(SDL_Event &event) override;
 private:
     friend class GameObject;
+    friend class SceneManager;
 };
 

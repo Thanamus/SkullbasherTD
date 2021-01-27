@@ -33,9 +33,13 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
 
+#include <windows.h>
+
+
 
 SceneManager::SceneManager()
 {
+    loadLevelsData();
 }
 
 SceneManager::~SceneManager(){
@@ -367,15 +371,15 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 }
 
 void SceneManager::changeScene(std::string levelName) {
-    //sceneManager.
-    auto scene = createScene(".\\maps\\" + levelName + ".json");
-    auto sm = getCurrentScene()->sceneManager;
+    std::string path = ".\\maps\\";
+    path.append(levelName);
+    auto scene = createScene(path);
     setCurrentScene(scene);
     getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>(gameManager);
     getCurrentScene()->gameManager = gameManager;
-    getCurrentScene()->sceneManager = sm;
+    getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
     gameManager->currentScene = getCurrentScene();
-    loadMap(R"(.\maps\SkullBasherTDLevel0.json)", getCurrentScene());
+    loadMap(path, getCurrentScene());
 
     auto scheduleManager = std::make_shared<ScheduleManager>();
     scheduleManager->currentScene = getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
@@ -383,6 +387,38 @@ void SceneManager::changeScene(std::string levelName) {
 
     gameManager->setInitialWaveStats();
     scheduleManager->fetchInitialWaveSchedule();
+}
+
+const std::vector<std::shared_ptr<LevelData>> &SceneManager::getLevelsData() const {
+    return levelsData;
+}
+
+void SceneManager::loadLevelsData() {
+
+    std::string pattern(".\\maps\\*.json*");
+    WIN32_FIND_DATA data;
+    HANDLE hFind;
+    std::cout << "--Reading Level Files--" << std::endl;
+    if ((hFind = FindFirstFile(pattern.c_str(), &data)) != INVALID_HANDLE_VALUE) {
+        do {
+            std::cout << "Reading: " << data.cFileName << std::endl;
+            using namespace rapidjson;
+            std::string wholePath = ".\\maps\\";
+            wholePath.append(data.cFileName);
+            std::ifstream fis(wholePath);
+            IStreamWrapper isw(fis);
+            Document d;
+            d.ParseStream(isw);
+
+            auto levelId = d["levelId"].GetFloat(); //inner array is the number of positions in the current row
+            auto levelName = d["levelName"].GetString(); //inner array is the number of positions in the current row
+            auto levelDifficulty = d["levelDifficulty"].GetInt(); //inner array is the number of positions in the current row
+            auto difficultyEnum = static_cast<DifficultyEnum>(levelDifficulty);
+
+            levelsData.push_back(std::make_shared<LevelData>(levelId,levelName, data.cFileName, difficultyEnum));
+        } while (FindNextFile(hFind, &data) != 0);
+        FindClose(hFind);
+    }
 }
 
 #pragma clang diagnostic pop

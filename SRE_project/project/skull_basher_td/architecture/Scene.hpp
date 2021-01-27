@@ -59,6 +59,7 @@ public:
 protected:
     std::string name;
     bool debugPhysics = true;
+    bool debugPerformance = false;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     glm::vec3 ambientColor = {0.5f,0.5f,0.5f};
     std::vector<Renderable*> renderables;

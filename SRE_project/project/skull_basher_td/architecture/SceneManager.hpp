@@ -13,6 +13,7 @@
 #include "LevelScene.hpp"
 #include "MainMenuScene.hpp"
 
+#include <utility>
 #include <vector>
 #include <string>
 
@@ -26,10 +27,30 @@ class RigidBody;
 class ScheduleManager;
 class GameManager;
 
+class GuiManager;
+class MainMenuGuiManager;
+
+enum DifficultyEnum { EASY = 0, MEDIUM = 1, HARD = 2 };
+
+struct LevelData {
+    int id;
+    std::string levelName;
+    std::string fileName;
+    DifficultyEnum difficulty;
+
+    LevelData(int id, std::string levelName, std::string fileName, DifficultyEnum difficulty)
+    {
+        this->id = id;
+        this->levelName = std::move(levelName);
+        this->fileName = std::move(fileName);
+        this->difficulty = difficulty;
+    }
+};
+
 class SceneManager {
 public:
     explicit SceneManager();
-    ~SceneManager();
+    virtual ~SceneManager();
 
     std::shared_ptr<Scene> createScene(std::string levelName);
     void changeScene(std::string levelName);
@@ -41,7 +62,10 @@ public:
     std::string getMapsFolderLoc();
 
     std::shared_ptr<GameManager> gameManager;
+    const std::vector<std::shared_ptr<LevelData>> &getLevelsData() const;
 private:
+    std::vector<std::shared_ptr<LevelData>> levelsData;
+    void loadLevelsData();
     //World Map stuff
     // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
     std::string mapsFolderLoc = ".\\maps\\"; // apparently does work
@@ -51,6 +75,8 @@ private:
     double tileHeightOffset = -1;
     double tilePosOffset = 1;
     friend GameManager;
+    friend MainMenuScene;
     friend MainMenuGuiManager;
+    friend GuiManager;
 };
 

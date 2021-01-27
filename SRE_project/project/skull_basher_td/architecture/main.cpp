@@ -50,15 +50,19 @@ Main::Main()
     //scheduleManager = std::make_shared<ScheduleManager>();
     guiManager->gameManager = gameManager;
 
+
     //gameManager->ToggleLockMouse();
 
     sceneManager = std::make_shared<SceneManager>();
     sceneManager->gameManager = gameManager;
+    guiManager->sceneManager = sceneManager;
 
     //make scene
     //auto scene = sceneManager->createScene(".\\maps\\SkullBasherTDLevel0.json");
     auto scene = sceneManager->createMainMenuScene();
+    scene->sceneManager = sceneManager;
     sceneManager->setCurrentScene(scene);
+
     sceneManager->getCurrentScene()->guiManager = guiManager;
     sceneManager->getCurrentScene()->gameManager = gameManager;
     sceneManager->getCurrentScene()->sceneManager = sceneManager;

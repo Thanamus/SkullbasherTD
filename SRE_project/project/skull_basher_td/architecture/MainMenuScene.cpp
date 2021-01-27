@@ -30,6 +30,7 @@
 //rapidjson imports
 #include <iostream>
 #include "MainMenuScene.hpp"
+#include "../LevelGuiManager.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -85,8 +86,15 @@ void MainMenuScene::render(){
         }
         if (c->debugGui){
             guiManager->onGui();
+
+            static sre::Inspector inspector;
+            inspector.update();
+            if(debugPerformance)
+                inspector.gui();
+
             ImGui::Begin(name.c_str());
             ImGui::Checkbox("Debug Physics", &debugPhysics);
+            ImGui::Checkbox("Debug Performance", &debugPerformance);
             ImGui::ColorEdit3("Ambient light", &(ambientColor.x));
             if (ImGui::CollapsingHeader("GameObjects")){
                 for (auto& go : gameObjects){

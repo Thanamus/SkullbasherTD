@@ -5,12 +5,9 @@
 #include <sre/Renderer.hpp>
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
-#include "GameManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
-#include <sstream>
-#include <iomanip>
 
 using namespace sre;
 using namespace glm;
@@ -34,8 +31,8 @@ GuiManager::GuiManager(std::shared_ptr<GameManager> gameManager)
     selectedBorderColor = ImVec4(36.0f/255.0f,250.0f/255.0f,0,1);
 */
     // setup font
-    auto fonts = ImGui::GetIO().Fonts;
-    fonts->AddFontDefault();
+    //auto fonts = ImGui::GetIO().Fonts;
+    //fonts->AddFontDefault();
 }
 
 /*void GuiManager::guiGameInfo() {
@@ -303,5 +300,9 @@ void GuiManager::onGui() {
     guiGameInfo();
     guiTowers();
     guiWaveInfo();*/
+
+}
+
+GuiManager::~GuiManager() {
 
 }
