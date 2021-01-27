@@ -121,7 +121,8 @@ std::shared_ptr<Scene> Main::createScene(){
     cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     cube->addComponent<CustomCollisionHandler>();
     auto cubeAN = cube->addComponent<Animator>();
-    cubeMR->setAnimator(cubeAN.get());
+    cube->getComponent<Transform>()->setAnimator(cubeAN);
+    cube->getComponent<Transform>()->setModelRenderer(cubeMR);
     auto rotate = std::make_shared<Animation>(true);
     rotate->addFrame(glm::vec3( 0), glm::vec3(1.25), glm::vec3(0), 2.f);
     rotate->addFrame(glm::vec3( 0), glm::vec3(0.8), glm::vec3(0), 2.f);

@@ -156,6 +156,11 @@ void Scene::addComponent(Component *component) {
     if (updatable) {
         updatables.push_back(updatable);
     }
+    auto scriptable = dynamic_cast<Scriptable*>(component);
+    if (scriptable) {
+        scriptables.push_back(scriptable);
+    }
+
     auto light = dynamic_cast<Light*>(component);
     if (light) {
         lights.push_back(light);
@@ -475,9 +480,21 @@ void Scene::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 auto enemyMR = enemy->addComponent<ModelRenderer>();
                 enemyMR->setModel(modelHolder);
 
-                enemy->getComponent<Transform>()->position = positionHolder;
-                enemy->getComponent<Transform>()->rotation.y = rotationHolder;
-                enemy->getComponent<Transform>()->scale = scaleHolder;
+                // TODO: tidy up
+                auto enemyAN = enemy->addComponent<Animator>();
+                auto idleAnimation = std::make_shared<Animation>(true);
+                idleAnimation->addFrame(glm::vec3(0, 0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
+                idleAnimation->addFrame(glm::vec3(0, -0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
+                enemyAN->addAnimation("idle", idleAnimation);
+                enemyAN->setAnimationState("idle");
+
+                auto enemyTransform =  enemy->getComponent<Transform>();
+                enemyTransform->position = positionHolder;
+                enemyTransform->rotation.y = rotationHolder;
+                enemyTransform->scale = scaleHolder;
+                enemyTransform->setModelRenderer(enemyMR);
+                enemyTransform->setAnimator(enemyAN);
+
                 auto bounds = enemyMR->getMesh()->getBoundsMinMax();
                 
                 float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/4;

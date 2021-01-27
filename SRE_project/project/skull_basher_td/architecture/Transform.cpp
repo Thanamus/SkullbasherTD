@@ -19,20 +19,48 @@ Transform::Transform(GameObject* gameObject)
     if(gameObject->getParent() && gameObject->getComponent<Transform>().get()) {
         setParent(gameObject->getComponent<Transform>().get());
     }
+    
+    // sets animator and renderer pointers (if found)
+    setAnimator(gameObject->getComponent<Animator>());
+    setModelRenderer(gameObject->getComponent<ModelRenderer>());
 }
+
+std::shared_ptr<ModelRenderer> Transform::getModelRenderer() const {
+    return modelRenderer;
+}
+
+void Transform::setModelRenderer(std::shared_ptr<ModelRenderer> modelRenderer) {
+    Transform::modelRenderer = modelRenderer;
+}
+
+std::shared_ptr<Animator> Transform::getAnimator() const {
+    return animator;
+}
+
+void Transform::setAnimator(std::shared_ptr<Animator> animator) {
+    Transform::animator = animator;
+}
+
 
 glm::mat4 Transform::localTransform() {
     glm::mat4 translateMat = glm::translate(glm::mat4(1), position);
 
     glm::mat4 scaleMat = glm::scale(glm::mat4(1), scale);
 
-    return translateMat*localRotation()*scaleMat;
+    auto compositeTransform = translateMat*localRotation()*scaleMat;
+    if(modelRenderer && modelRenderer->getModel())
+        compositeTransform *= modelRenderer->getModel()->getTransform();
+    if(animator)
+        compositeTransform *= animator->getSQTMatrix();
+
+    return compositeTransform;
 }
 
 glm::mat4 Transform::globalTransform() {
     if (parent){
         return parent->globalTransform() * localTransform() ;
     }
+
     return localTransform();
 }
 

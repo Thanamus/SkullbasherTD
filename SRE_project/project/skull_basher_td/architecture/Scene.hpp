@@ -10,6 +10,7 @@
 // #include "../GameManager.hpp"
 #include "../GuiManager.hpp"
 #include "ScheduleManager.hpp"
+#include "Scriptable.hpp"
 
 #include <vector>
 #include <string>
@@ -62,6 +63,7 @@ private:
     glm::vec3 ambientColor = {0.5f,0.5f,0.5f};
     std::vector<Renderable*> renderables;
     std::vector<Updatable*> updatables;
+    std::vector<Scriptable*> scriptables;
     std::vector<RigidBody*> rigidBodies;
     std::vector<Light*> lights;
     sre::WorldLights worldLights;

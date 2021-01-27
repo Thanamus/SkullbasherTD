@@ -11,6 +11,7 @@
 Animator::Animator(GameObject* gameObject)
 : Component(gameObject), currentAnimation("none", new Animation())
 {
+    animations.insert(currentAnimation);
 }
 
 void Animator::addAnimation(std::string state, std::shared_ptr<Animation> animation) {

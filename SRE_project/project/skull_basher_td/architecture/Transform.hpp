@@ -8,10 +8,12 @@
 #include <vector>
 #include "Component.hpp"
 #include "GameObject.hpp"
+#include "Animator.hpp"
+#include "ModelRenderer.hpp"
 
 class Transform : public Component {
 public:
-    Transform(GameObject* gameObject);
+    explicit Transform(GameObject* gameObject);
 
     std::string name;
 
@@ -24,6 +26,13 @@ public:
     glm::mat4 localTransform();
     glm::mat4 globalTransform();
 
+    std::shared_ptr<Animator> getAnimator() const;
+    void setAnimator(std::shared_ptr<Animator> animator);
+
+    std::shared_ptr<ModelRenderer> getModelRenderer() const;
+    void setModelRenderer(std::shared_ptr<ModelRenderer> modelRenderer);
+
+
     void debugGUI() override;
 
     Transform *getParent() const;
@@ -33,9 +42,12 @@ public:
 
     void lookAt(glm::vec3 at,glm::vec3 up);
     void lookAt(Transform* at,glm::vec3 up);
+
 private:
     Transform * parent = nullptr;
     std::vector<Transform*> children;
+    std::shared_ptr<ModelRenderer> modelRenderer;
+    std::shared_ptr<Animator> animator;
 };
 
 

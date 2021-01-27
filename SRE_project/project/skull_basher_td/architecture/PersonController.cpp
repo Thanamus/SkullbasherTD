@@ -51,8 +51,6 @@ void PersonController::update(float deltaTime)
         camera->moveTowerCursor(camera_front, this->tower);
         camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());
     }
-
-
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
 }

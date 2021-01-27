@@ -52,8 +52,8 @@ void PathFinder::update(float deltaTime){
         if ((currentPosition.x <= nextPathPoint.x+0.5f && currentPosition.x >= nextPathPoint.x-0.5f)  && (currentPosition.z <= nextPathPoint.z+0.5f && currentPosition.z >= nextPathPoint.z-0.5f))
         {
             fetchNextPathPoint();
-        } 
-        
+        }
+
         // std::cout << "I am a skull, I should be moving to: " << nextPathPoint.x << "\n";
         //move skull
         //mix currentposition with next path point and delta time
