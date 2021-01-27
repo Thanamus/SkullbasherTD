@@ -11,6 +11,8 @@
 
 #include "CollisionHandler.hpp"
 
+#include <chrono>
+
 class PersonController : public Component, public CollisionHandler {
 public:
     explicit PersonController(GameObject* GameObject);
@@ -57,7 +59,11 @@ private:
     // float sensitivity = 1.7f;
     float sensitivity = 1.7f;
 
-    float jumpHeight = 1.f;
+    float jumpHeight = 5.f;
+
+    // Footstep sound timing
+    std::chrono::steady_clock::time_point start_footstep_lockout;
+    int footstep_lockout_millisec = 200;
 
     // input stuff
     bool key_fwd = false;

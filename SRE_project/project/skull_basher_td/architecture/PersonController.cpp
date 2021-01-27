@@ -13,8 +13,10 @@
 #include "SoundDevice.hpp"
 #include "SourceManager.hpp"
 
+#include "Transform.hpp"
+
 // btKinematicCharacterController includes
-#include "btKinematicCharacterController.h"
+// #include "btKinematicCharacterController.h"
 // #include "btGhostObject.h" // Aparrently doesn't exist
 #include "RigidBody.hpp"
 
@@ -59,7 +61,7 @@ PersonController::PersonController(GameObject* gameObject)
     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
 
-
+    start_footstep_lockout = std::chrono::steady_clock::now();
 
 // -- Trying to add btKinematicCharacterController
     // btGhostObject ghostObject = btGhostObject();
@@ -101,7 +103,18 @@ void PersonController::update(float deltaTime)
     updateVectors();
     updateInput(deltaTime);
 
+    // // change to use transform instead of RigidBody 
+    // auto myTransform = gameObject->getComponent<Transform>();
+    
+    // auto myPosition = myTransform->position;
+    // auto myRotation = myTransform->rotation;
+
     camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
+    // camera_front = glm::normalize(vec3(myRotation.x, 0.f, myRotation.z)); // nope!
+    // camera_front = glm::normalize(vec3(myRotation.x, myRotation.y, myRotation.z)); // nope!
+    // camera_front = {myRotation.x, 0.f, myRotation.z}; // Nope!
+    // camera_front = glm::eulerAngles(myRotation); // Nope!
+    
     camera->moveHandCursor(camera_front, this->hand);
     if(currentScene->gameManager->buildModeActive)
     {
@@ -109,10 +122,12 @@ void PersonController::update(float deltaTime)
         camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());
     }
 
+    
 
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
-
+    
+    
     // update Listener
     // TODO make this into a helper function instead
     SoundDevice::Get()->SetLocation(position.x, position.y, position.z);
@@ -135,6 +150,8 @@ void PersonController::updateInput(float deltaTime)
     
     bool rigidBodyCheck = false;
     
+
+
     // btRigidBody* hasRigidBody = this->getGameObject()->getComponent<RigidBody>()->getRigidBody();
     // btRigidBody* hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
     btRigidBody* hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
@@ -144,7 +161,7 @@ void PersonController::updateInput(float deltaTime)
     hasRigidBody->getMotionState()->getWorldTransform(transform);
 
     btVector3& origin = transform.getOrigin();
-    position = {origin.x(), origin.y(), origin.z()};
+    position = {origin.x(), origin.y(), origin.z()}; // links origin and position
     
     btVector3 force = {0,0,0};
 
@@ -156,7 +173,6 @@ void PersonController::updateInput(float deltaTime)
     // std::cout << "mouse offset: " << mouse_offset << std::endl;
     
     btVector3 angular_force_bt = {0,0,0};
-
     angular_force_bt = {0,mouse_offset,0};
     // if (mouse_offset > 0){
 
@@ -168,6 +184,22 @@ void PersonController::updateInput(float deltaTime)
 
     // }
     
+    // btQuaternion thing = transform.getRotation();
+    // auto thingyy = thing.getY();
+    // // btVector3 * thing_euler;
+    // btScalar z;
+    // btScalar y;
+    // btScalar x;
+    // thing.getEulerZYX(z,y,x); 
+
+    // // btScalar test = radians(-rotation-180)/2;
+    // btScalar test = radians(-rotation);
+    // // xform.setRotation (btQuaternion (btVector3(0.0, 1.0, 0.0), m_turnAngle));
+    // transform.setRotation(btQuaternion(btVector3(0.0, 1.0, 0.0), test));
+    
+
+    // std::cout << "thingyyy is: " << thingyy << std::endl;
+    // std::cout << "y: " << y << std::endl;
 
     // keep rotation in 360 degree range
     if (rotation > 360.f)
@@ -201,12 +233,12 @@ void PersonController::updateInput(float deltaTime)
         position += velocity * cross(camera_front, world_up);
         // force += velocity * cross(camera_front, world_up);
     }
-    if (key_flyUp){
-        position += velocity * world_up; //works! fly's up
-    }
-    if (key_flyDown){
-        position -= velocity * world_up; //flys down!
-    }
+    // if (key_flyUp){
+    //     position += velocity * world_up; //works! fly's up
+    // }
+    // if (key_flyDown){
+    //     position -= velocity * world_up; //flys down!
+    // }
 
     // Calculate the force to apply to the character
     glm::vec3 positionDifference = oldPosition - position;
@@ -215,22 +247,25 @@ void PersonController::updateInput(float deltaTime)
     
 
     // thing->position = position;
-    origin = {position.x, position.y, position.z};
-    transform.setOrigin(origin);
+    origin = {position.x, position.y, position.z}; // actually sets the origin
+
+    // transform.setOrigin(origin);
     // transform.setRotation();
     // hasRigidBody->getMotionState(); // Uses Motion State
     // hasRigidBody->getMotionState()->setWorldTransform(transform); // Uses Motion State
     // hasRigidBody->setWorldTransform(transform); // skips motion state - kinda works
     // hasRigidBody->setLinearVelocity(origin);
     // origin = origin /10;
+   
+   
+   
     // std::cout << "force is :" << force.x() << ", " << force.y() << " " << force.z() << std::endl;
     btScalar totalForce = hasRigidBody->getLinearVelocity().length();
     // std::cout << "total Force is: " << totalForce << std::endl;
 
     if(totalForce <= 7) {
         // if speed (total force) is less than 'some value', apply force (speed up)
-        hasRigidBody->applyCentralImpulse(-force); //kinda works
-
+        hasRigidBody->applyCentralImpulse(-force); //kinda works, have to set both origin and force
     } 
     
     btVector3 currentVelocity = hasRigidBody->getLinearVelocity();
@@ -256,19 +291,26 @@ void PersonController::updateInput(float deltaTime)
     
     
     // hasRigidBody->applyTorque(angular_force_bt);
-    hasRigidBody->setAngularVelocity(-angular_force_bt); // Kinda works
-    
+    // hasRigidBody->setAngularVelocity(-angular_force_bt); // Kinda works
+    hasRigidBody->setAngularVelocity(-angular_force_bt*1.049); // It's a hack, but it works - might still be slightly off
+    // hasRigidBody->setSpinningFriction(0);
+
+    // std::cout << "vertical velocity is: " << currentVelocity.y() << std::endl;
     // if jump key is pressed, jump!
     if (key_jump)
     {
+        if (currentVelocity.y() < 0.5) //helps a little
+        {
+            hasRigidBody->applyCentralImpulse({0,jumpHeight,0});
+        }
+        
         // Todo put in a vertical velocity check here, so there is no mid-air jumping
-        hasRigidBody->applyCentralImpulse({0,jumpHeight,0});
     }
     
     
     // btQuaternion currentOrintation = hasRigidBody->getOrientation();
     // hasRigidBody->getMotionState()->getOrientation().setRotation(btVector3{0,1,0}, radians(rotation));
-    // hasRigidBody->
+    // hasRigidBody->getMotionState()->setWorldTransform(transform);
 }
 
 void PersonController::onKey(SDL_Event &event)
@@ -327,21 +369,32 @@ void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::ve
     if (begin){
         std::string otherObjectName = other->getGameObject()->getName();
         std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(position)<<std::endl;
-    
+
+        std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
+        int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - start_footstep_lockout).count();
+
+        std::cout << "time_elapsed :" << time_elapsed_milli << std::endl;        
+
         SourceManager * mySource = SourceManager::Get();
         //----- if colliding with ground, play ground sounds
         // works, but the sounds quickly pile up, maybe make a timer?
-        if (otherObjectName == "GrassBlock01D.obj")
+        if (time_elapsed_milli > footstep_lockout_millisec)
         {
-            mySource->playMyJam_global("gassy-footstep1.wav");
-            // std::cout << "playing grassy footstep" << std::endl;
-        } else if (otherObjectName == "Floor01.obj"){
-            mySource->playMyJam_global("stepwood_2.wav");
-        } else if (otherObjectName == "PathBlock01D.obj"){
-            
-        } else if (otherObjectName == "Bridge01D.obj"){
-            
+            if (otherObjectName == "GrassBlock01D.obj")
+            {
+                mySource->playMyJam_global("gassy-footstep1.wav");
+                // std::cout << "playing grassy footstep" << std::endl;
+            } else if (otherObjectName == "Floor01.obj"){
+                mySource->playMyJam_global("stepwood_2.wav");
+            } else if (otherObjectName == "PathBlock01D.obj"){
+                
+            } else if (otherObjectName == "Bridge01D.obj"){
+                
+            }
+            /* code */
+            start_footstep_lockout = std::chrono::steady_clock::now();
         }
+        
         
     }
 }
