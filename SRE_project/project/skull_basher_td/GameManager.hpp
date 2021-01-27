@@ -81,7 +81,7 @@ private:
     //path
     std::vector<glm::vec3> path;
 
-    // Wave stats
+//-------------- Wave stats -------------------
     int currentWave = 0;
     int totalWavesInLevel = 0;
 

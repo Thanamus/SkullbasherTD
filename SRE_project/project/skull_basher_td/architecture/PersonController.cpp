@@ -284,7 +284,7 @@ void PersonController::updateInput(float deltaTime)
         hasRigidBody->setFriction(2);
     }
     
-    // xform.setRotation (btQuaternion (btVector3(0.0, 1.0, 0.0), m_turnAngle));
+    // xform.setRotation (btQuaternion (btVector3(0.0, 1.0, 0.0), m_turnAngle)); // Original from Dynamic Contoller Demo
     // transform.setRotation(btQuaternion (btVector3(0.0, 1.0, 0.0), rotation));
     // hasRigidBody->setWorldTransform(transform);
     // std::cout << "angularforce is :" << angular_velocity_bt.x() << ", " << angular_velocity_bt.y() << " " << angular_velocity_bt.z() << std::endl;
@@ -391,7 +391,6 @@ void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::ve
             } else if (otherObjectName == "Bridge01D.obj"){
                 
             }
-            /* code */
             start_footstep_lockout = std::chrono::steady_clock::now();
         }
         
