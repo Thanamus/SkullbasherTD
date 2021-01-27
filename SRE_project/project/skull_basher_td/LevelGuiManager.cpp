@@ -5,7 +5,7 @@
 #include <sre/Renderer.hpp>
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
-#include "GameManager.hpp"
+#include "LevelGuiManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
@@ -19,11 +19,9 @@ const int heartEmpty = 0;
 const int heartHalf = 1;
 const int heartFull = 2;
 
-GuiManager::GuiManager(std::shared_ptr<GameManager> gameManager)
+LevelGuiManager::LevelGuiManager(std::shared_ptr<GameManager> gameManager) : GuiManager(gameManager)
 {
-    this->gameManager = gameManager;
-
-    /*heartIcons[heartEmpty] = Texture::create().withFile("assets/hud_heartEmpty.png").withFilterSampling(false).build();
+    heartIcons[heartEmpty] = Texture::create().withFile("assets/hud_heartEmpty.png").withFilterSampling(false).build();
     heartIcons[heartHalf] = Texture::create().withFile("assets/hud_heartHalf.png").withFilterSampling(false).build();
     heartIcons[heartFull] = Texture::create().withFile("assets/hud_heartFull.png").withFilterSampling(false).build();
     heartSize = {heartIcons[heartFull]->getWidth()*0.5f, heartIcons[heartFull]->getHeight()*0.5f};
@@ -32,13 +30,13 @@ GuiManager::GuiManager(std::shared_ptr<GameManager> gameManager)
     powerbarSize = {heartSize.x*3,heartSize.y};
 
     selectedBorderColor = ImVec4(36.0f/255.0f,250.0f/255.0f,0,1);
-*/
+
     // setup font
     auto fonts = ImGui::GetIO().Fonts;
     fonts->AddFontDefault();
 }
 
-/*void GuiManager::guiGameInfo() {
+void LevelGuiManager::guiGameInfo() {
     auto r = Renderer::instance;
     auto winsize = r->getWindowSize();
     ImVec2 size = {180, 107};
@@ -92,7 +90,7 @@ GuiManager::GuiManager(std::shared_ptr<GameManager> gameManager)
     ImGui::End();
 }
 
-void GuiManager::guiCrosshair() {
+void LevelGuiManager::guiCrosshair() {
     auto r = Renderer::instance;
     auto winsize = r->getWindowSize();
     ImVec2 size = {64, 64};
@@ -126,7 +124,7 @@ void GuiManager::guiCrosshair() {
     ImGui::PopStyleColor();
 }
 
-void GuiManager::guiTowers() {
+void LevelGuiManager::guiTowers() {
     auto r = Renderer::instance;
     auto winsize = r->getWindowSize();
     auto cond = ImGuiCond_Always;
@@ -166,7 +164,7 @@ void GuiManager::guiTowers() {
         guiBuildPopUp(size);
 }
 
-void GuiManager::guiBuildPopUp(ImVec2 towerWindowSize) {
+void LevelGuiManager::guiBuildPopUp(ImVec2 towerWindowSize) {
     auto r = Renderer::instance;
     auto winsize = r->getWindowSize();
     auto cond = ImGuiCond_Always;
@@ -203,7 +201,7 @@ void GuiManager::guiBuildPopUp(ImVec2 towerWindowSize) {
     ImGui::End();
 }
 
-void GuiManager::guiWaveInfo()
+void LevelGuiManager::guiWaveInfo()
 {
     ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 100, .0f), ImGuiSetCond_Always);
     ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
@@ -231,7 +229,7 @@ void GuiManager::guiWaveInfo()
     ImGui::End();
 }
 
-void GuiManager::guiQuitScreen()
+void LevelGuiManager::guiQuitScreen()
 {
     ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 150, Renderer::instance->getWindowSize().y / 2), ImGuiSetCond_Always);
     ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiSetCond_Always);
@@ -258,7 +256,7 @@ void GuiManager::guiQuitScreen()
     ImGui::End();
 }
 
-void GuiManager::guiWinLooseScreen()
+void LevelGuiManager::guiWinLooseScreen()
 {
     ImGui::SetNextWindowPos(ImVec2(Renderer::instance->getWindowSize().x / 2 - 150, Renderer::instance->getWindowSize().y / 2), ImGuiSetCond_Always);
     ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiSetCond_Always);
@@ -279,16 +277,10 @@ void GuiManager::guiWinLooseScreen()
     }
 
     ImGui::End();
-}*/
-
-float GuiManager::centerText(ImVec2 window, std::string text)
-{
-    float font_size = ImGui::GetFontSize() * text.size() / 2;
-    return window.x / 2 - font_size + (font_size / 2);
 }
 
-void GuiManager::onGui() {
-    /*if(!gameManager->levelRunning)
+void LevelGuiManager::onGui() {
+    if(!gameManager->levelRunning)
     {
         guiWinLooseScreen();
         return;
@@ -302,6 +294,6 @@ void GuiManager::onGui() {
     guiCrosshair();
     guiGameInfo();
     guiTowers();
-    guiWaveInfo();*/
+    guiWaveInfo();
 
 }

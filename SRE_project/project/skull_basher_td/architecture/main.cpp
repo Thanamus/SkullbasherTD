@@ -22,6 +22,8 @@
 #include "MusicBuffer.hpp"
 
 #include "SourceManager.hpp"
+#include "../LevelGuiManager.hpp"
+#include "../MainMenuGuiManager.hpp"
 
 // #include "SoundNode.h"
 // #include "Sound.h"
@@ -44,9 +46,10 @@ Main::Main()
     //handshaking
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
-    guiManager = std::make_shared<GuiManager>(gameManager);
+    guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
     //scheduleManager = std::make_shared<ScheduleManager>();
     guiManager->gameManager = gameManager;
+
     //gameManager->ToggleLockMouse();
 
     sceneManager = std::make_shared<SceneManager>();

@@ -4,15 +4,10 @@
 
 #include "Scene.hpp"
 #include <algorithm>
-#include <sre/Renderer.hpp>
 #include "Camera.hpp"
-#include "GameObject.hpp"
 #include "RigidBody.hpp"
-#include "ModelRenderer.hpp"
 #include "Light.hpp"
 #include "BulletPhysics.hpp"
-#include "sre/RenderPass.hpp"
-#include "../GameManager.hpp"
 
 //fps camera stuff
 #include "PersonController.hpp"
@@ -21,20 +16,11 @@
     //WorldObject
 #include "WorldObject.hpp"
 
-#include "PathFinder.hpp"
-
-#include <AL/al.h>
-#include "SoundEffectsPlayer.hpp"
 #include "SoundEffectsLibrary.hpp"
 #include "SourceManager.hpp"
 
 //rapidjson imports
 #include "rapidjson/rapidjson.h"
-#include "rapidjson/document.h"
-#include "rapidjson/istreamwrapper.h"
-
-#include <fstream>
-#include <iostream>
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -83,6 +69,10 @@ void Scene::addComponent(Component *component) {
     if (renderable) {
         renderables.push_back(renderable);
     }
+    auto renderableGui = dynamic_cast<RenderableGui*>(component);
+    if (renderableGui) {
+        renderablesGui.push_back(renderableGui);
+    }
     auto updatable = dynamic_cast<Updatable*>(component);
     if (updatable) {
         updatables.push_back(updatable);
@@ -95,7 +85,6 @@ void Scene::addComponent(Component *component) {
     if (rigidBody) {
         rigidBodies.push_back(rigidBody);
     }
-
 }
 
 void Scene::removeComponent(Component *component) {
@@ -106,6 +95,10 @@ void Scene::removeComponent(Component *component) {
     auto renderable = dynamic_cast<Renderable*>(component);
     if (renderable) {
         renderables.erase(std::find(renderables.begin(), renderables.end(), renderable));
+    }
+    auto renderableGui = dynamic_cast<RenderableGui*>(component);
+    if (renderableGui) {
+        renderablesGui.erase(std::find(renderablesGui.begin(), renderablesGui.end(), renderableGui));
     }
     auto updatable = dynamic_cast<Updatable*>(component);
     if (updatable) {

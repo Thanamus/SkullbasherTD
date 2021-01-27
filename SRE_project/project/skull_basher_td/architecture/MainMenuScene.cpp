@@ -28,14 +28,8 @@
 #include "SourceManager.hpp"
 
 //rapidjson imports
-#include "rapidjson/rapidjson.h"
-#include "rapidjson/document.h"
-#include "rapidjson/istreamwrapper.h"
-
-#include <fstream>
 #include <iostream>
 #include "MainMenuScene.hpp"
-#include "SceneManager.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -57,30 +51,7 @@ void MainMenuScene::update(float deltaTime){
 }
 
 void MainMenuScene::onKey(SDL_Event &event){
-    if (event.type != SDL_KEYDOWN)
-        return;
 
-    switch (event.key.keysym.sym)
-    {
-        case SDLK_p:
-            //sceneManager.
-            auto scene = sceneManager->createScene(".\\maps\\SkullBasherTDLevel0.json");
-            sceneManager->setCurrentScene(scene);
-            sceneManager->getCurrentScene()->guiManager = guiManager;
-            sceneManager->getCurrentScene()->gameManager = gameManager;
-            sceneManager->getCurrentScene()->sceneManager = sceneManager;
-            gameManager->currentScene = sceneManager->getCurrentScene();
-            sceneManager->loadMap(R"(.\maps\SkullBasherTDLevel0.json)", sceneManager->getCurrentScene());
-
-            auto scheduleManager = std::make_shared<ScheduleManager>();
-            scheduleManager->currentScene = sceneManager->getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
-            sceneManager->getCurrentScene()->scheduleManager = scheduleManager;
-
-            gameManager->setInitialWaveStats();
-            scheduleManager->fetchInitialWaveSchedule();
-
-            break;
-    }
 }
 
 void MainMenuScene::onMouse(SDL_Event &event){

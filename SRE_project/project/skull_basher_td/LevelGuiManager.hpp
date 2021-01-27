@@ -3,26 +3,23 @@
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
 #include "GameManager.hpp"
+#include "GuiManager.hpp"
 
-class GuiManager
+class LevelGuiManager : public GuiManager
 {
 public:
-    explicit GuiManager(std::shared_ptr<GameManager> gameManager);
-    virtual void onGui();
-    std::shared_ptr<GameManager> gameManager;
-    //std::shared_ptr<SceneManager> sceneManager;
-
-    static float centerText(ImVec2 window, std::string text);
+    explicit LevelGuiManager(std::shared_ptr<GameManager> gameManager);
+    void onGui() override;
 private:
-    /*void guiGameInfo();
+    void guiGameInfo();
     void guiCrosshair();
     void guiTowers();
     void guiBuildPopUp(ImVec2 size);
     void guiQuitScreen();
     void guiWinLooseScreen();
-    void guiWaveInfo();*/
+    void guiWaveInfo();
 
-   /* std::shared_ptr<sre::Texture> powerbar;
+    std::shared_ptr<sre::Texture> powerbar;
     std::shared_ptr<sre::Texture> crosshair;
     glm::vec2 powerbarSize;
     std::shared_ptr<sre::Texture> heartIcons[3];
@@ -36,5 +33,5 @@ private:
 
     ImVec4 selectedBorderColor;
 
-    float totalTime = 0.0f;*/
+    float totalTime = 0.0f;
 };

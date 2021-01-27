@@ -48,6 +48,7 @@ public:
 
     void updateTowerIndicator();
     std::shared_ptr<class Scene> currentScene;
+    std::shared_ptr<class SceneManager> sceneManager;
 
     void setPath(std::vector<glm::vec3> pathToBe);
     std::vector<glm::vec3> getPath();

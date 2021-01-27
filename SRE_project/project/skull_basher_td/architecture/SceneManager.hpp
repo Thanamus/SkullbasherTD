@@ -31,9 +31,10 @@ public:
     explicit SceneManager();
     ~SceneManager();
 
-    std::shared_ptr<LevelScene> createScene(std::string levelName);
+    std::shared_ptr<Scene> createScene(std::string levelName);
+    void changeScene(std::string levelName);
     void loadMap(std::string filename, std::shared_ptr<Scene> res);
-    std::shared_ptr<MainMenuScene> createMainMenuScene();
+    std::shared_ptr<Scene> createMainMenuScene();
 
     void setCurrentScene(std::shared_ptr<Scene> res);
     std::shared_ptr<Scene> getCurrentScene();
@@ -49,5 +50,7 @@ private:
     std::shared_ptr<Scene> currentScene;
     double tileHeightOffset = -1;
     double tilePosOffset = 1;
+    friend GameManager;
+    friend MainMenuGuiManager;
 };
 

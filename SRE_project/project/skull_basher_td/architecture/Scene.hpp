@@ -7,9 +7,9 @@
 #include "Renderable.hpp"
 #include "Updatable.hpp"
 #include "glm/glm.hpp"
-// #include "../GameManager.hpp"
 #include "../GuiManager.hpp"
 #include "ScheduleManager.hpp"
+#include "RenderableGui.hpp"
 
 #include <vector>
 #include <string>
@@ -62,6 +62,7 @@ protected:
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     glm::vec3 ambientColor = {0.5f,0.5f,0.5f};
     std::vector<Renderable*> renderables;
+    std::vector<RenderableGui*> renderablesGui;
     std::vector<Updatable*> updatables;
     std::vector<RigidBody*> rigidBodies;
     std::vector<Light*> lights;
@@ -79,5 +80,6 @@ protected:
 private:
     friend class GameObject;
     friend class RigidBody;
+    friend class MainMenuGuiManager;
 };
 

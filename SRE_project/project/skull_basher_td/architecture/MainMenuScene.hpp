@@ -7,7 +7,7 @@
 #include "Renderable.hpp"
 #include "Updatable.hpp"
 #include "glm/glm.hpp"
-#include "../GuiManager.hpp"
+#include "../MainMenuGuiManager.hpp"
 #include "ScheduleManager.hpp"
 #include "Scene.hpp"
 

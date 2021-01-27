@@ -25,6 +25,8 @@
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
+#include "GuiCrosshair.hpp"
+#include "../LevelGuiManager.hpp"
 
 #include <iostream>
 
@@ -53,7 +55,7 @@ public:
     }
 };
 
-std::shared_ptr<LevelScene> SceneManager::createScene(std::string levelName){
+std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     auto res = std::make_shared<LevelScene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
@@ -115,7 +117,7 @@ std::shared_ptr<LevelScene> SceneManager::createScene(std::string levelName){
     return res;
 };
 
-std::shared_ptr<MainMenuScene> SceneManager::createMainMenuScene(){
+std::shared_ptr<Scene> SceneManager::createMainMenuScene(){
     auto res = std::make_shared<MainMenuScene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
@@ -125,6 +127,9 @@ std::shared_ptr<MainMenuScene> SceneManager::createMainMenuScene(){
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<Transform>()->rotation = {30,30,0};
     lightObj->addComponent<Light>();
+
+    auto crossHairObj = res->createGameObject("Crosshair");
+    crossHairObj->addComponent<GuiCrosshair>();
 
     return res;
 };
@@ -359,6 +364,25 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
         const char *soundChar = soundStr.c_str();
         mySoundEffectsLibrary->Load(soundChar);
     }
+}
+
+void SceneManager::changeScene(std::string levelName) {
+    //sceneManager.
+    auto scene = createScene(".\\maps\\" + levelName + ".json");
+    auto sm = getCurrentScene()->sceneManager;
+    setCurrentScene(scene);
+    getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>(gameManager);
+    getCurrentScene()->gameManager = gameManager;
+    getCurrentScene()->sceneManager = sm;
+    gameManager->currentScene = getCurrentScene();
+    loadMap(R"(.\maps\SkullBasherTDLevel0.json)", getCurrentScene());
+
+    auto scheduleManager = std::make_shared<ScheduleManager>();
+    scheduleManager->currentScene = getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
+    getCurrentScene()->scheduleManager = scheduleManager;
+
+    gameManager->setInitialWaveStats();
+    scheduleManager->fetchInitialWaveSchedule();
 }
 
 #pragma clang diagnostic pop
