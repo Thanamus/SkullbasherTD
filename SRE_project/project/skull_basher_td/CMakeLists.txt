@@ -17,6 +17,9 @@ file(GLOB SkullBasherTD
         "./architecture/*.hpp"
         "./architecture/*.h"
         "./architecture/*.cpp"
+        "./architecture/scenes/*.hpp"
+        "./architecture/scenes/*.h"
+        "./architecture/scenes/*.cpp"
         )
 
 #    ExternalProject_Get_Property(LibSndFile install_dir)

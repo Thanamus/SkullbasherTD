@@ -6,7 +6,7 @@
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
 #include "MainMenuGuiManager.hpp"
-#include "./architecture/SceneManager.hpp"
+#include "architecture/scenes/SceneManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
@@ -62,8 +62,7 @@ void MainMenuGuiManager::guiLevelGrid() {
         ImVec2 uv1(1,0);
         ImVec2 s(64,64);
         ImVec4 currentBorder = ImVec4(0,0,0,1);
-        //ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), levels->levelName)); // align center
-        //ImGui::Text(levels->levelName.c_str());
+
         if (ImGui::Button(level->levelName.c_str(), ImVec2(100, 50))){
             sceneManager->changeScene(level->fileName);
         }

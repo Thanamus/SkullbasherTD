@@ -3,37 +3,36 @@
 //
 
 #include "SceneManager.hpp"
-#include "Camera.hpp"
-#include "RigidBody.hpp"
-#include "ModelRenderer.hpp"
-#include "Light.hpp"
-#include "BulletPhysics.hpp"
+#include "../Camera.hpp"
+#include "../RigidBody.hpp"
+#include "../ModelRenderer.hpp"
+#include "../Light.hpp"
+#include "../BulletPhysics.hpp"
 
 //fps camera stuff
-#include "PersonController.hpp"
+#include "../PersonController.hpp"
 
 //WorldMap Imports
 //WorldObject
-#include "WorldObject.hpp"
+#include "../WorldObject.hpp"
 
-#include "PathFinder.hpp"
+#include "../PathFinder.hpp"
 
-#include "SoundEffectsLibrary.hpp"
-#include "SourceManager.hpp"
+#include "../SoundEffectsLibrary.hpp"
+#include "../SourceManager.hpp"
 
 //rapidjson imports
-#include "rapidjson/rapidjson.h"
-#include "rapidjson/document.h"
-#include "rapidjson/istreamwrapper.h"
-#include "GuiCrosshair.hpp"
-#include "../LevelGuiManager.hpp"
+#include "../rapidjson/rapidjson.h"
+#include "../rapidjson/document.h"
+#include "../rapidjson/istreamwrapper.h"
+#include "../../LevelGuiManager.hpp"
 
 #include <iostream>
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
 
-#include <windows.h>
+#include <Windows.h>
 
 
 
@@ -131,9 +130,6 @@ std::shared_ptr<Scene> SceneManager::createMainMenuScene(){
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<Transform>()->rotation = {30,30,0};
     lightObj->addComponent<Light>();
-
-    auto crossHairObj = res->createGameObject("Crosshair");
-    crossHairObj->addComponent<GuiCrosshair>();
 
     return res;
 };

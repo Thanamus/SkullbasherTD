@@ -1,88 +1,52 @@
 //
 // Created by Morten Nobel Jørgensen on 2018-11-08.
 //
-
-#include <algorithm>
 #include <sre/Renderer.hpp>
-#include "Camera.hpp"
-#include "GameObject.hpp"
-#include "RigidBody.hpp"
-#include "ModelRenderer.hpp"
-#include "Light.hpp"
-#include "BulletPhysics.hpp"
-#include "sre/RenderPass.hpp"
-#include "../GameManager.hpp"
+#include "../Camera.hpp"
+#include "../RigidBody.hpp"
+#include "../Light.hpp"
+#include "../BulletPhysics.hpp"
 
 //fps camera stuff
-#include "PersonController.hpp"
+#include "../PersonController.hpp"
 
 //WorldMap Imports
-    //WorldObject
-#include "WorldObject.hpp"
-
-#include "PathFinder.hpp"
-
-#include <AL/al.h>
-#include "SoundEffectsPlayer.hpp"
-#include "SoundEffectsLibrary.hpp"
-#include "SourceManager.hpp"
+//WorldObject
+#include "../WorldObject.hpp"
+#include "../SoundEffectsLibrary.hpp"
 
 //rapidjson imports
-#include "rapidjson/rapidjson.h"
-#include "rapidjson/document.h"
-#include "rapidjson/istreamwrapper.h"
-
-#include <fstream>
 #include <iostream>
-#include "LevelScene.hpp"
+#include "MainMenuScene.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
 
 
-LevelScene::LevelScene(std::string name)
+MainMenuScene::MainMenuScene(std::string name)
 : Scene()
 {
     this->name = name;
-    bulletPhysics = new BulletPhysics();
 }
 
-LevelScene::~LevelScene(){
-    delete bulletPhysics;
-	bulletPhysics = nullptr;
+MainMenuScene::~MainMenuScene(){
 }
 
-void LevelScene::update(float deltaTime){
-    bulletPhysics->step(this);
-    auto tempCam = this->cameras[0]->getGameObject();
-    tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
-    
-
-    for (auto& p : this->rigidBodies){
-        p->updateTransformFromPhysicsWorld();
-    }
+void MainMenuScene::update(float deltaTime){
     for (auto& u : updatables){
         u->update(deltaTime);
     }
-    scheduleManager->update(deltaTime); //has to be updated separately from the rest
 }
 
-void LevelScene::onKey(SDL_Event &event){
-    auto tempCam = this->cameras[0]->getGameObject(); // gets the main camera object and gets the game object from that
-    tempCam->getComponent<PersonController>()->onKey(event); //camera game object has a PersonController
-    gameManager->onKey(event);
+void MainMenuScene::onKey(SDL_Event &event){
+
 }
 
-void LevelScene::onMouse(SDL_Event &event){
-    auto tempCam = this->cameras[0]->getGameObject(); //gets the main camera
-    tempCam->getComponent<PersonController>()->onMouse(event); //triggers the onMouse event handling in the Person controller
-    gameManager->onMouse(event);
+void MainMenuScene::onMouse(SDL_Event &event){
+
 }
 
-void LevelScene::render(){
-    if (debugPhysics){
-        bulletPhysics->debugDrawNewFrame();
-    }
+void MainMenuScene::render(){
     worldLights.clear();
     worldLights.setAmbientLight(ambientColor);
     if (lights.size() > sre::Renderer::instance->getMaxSceneLights()){
@@ -106,9 +70,6 @@ void LevelScene::render(){
 
         for (auto& comp : renderables){
             comp->draw(&rp);
-        }
-        if (debugPhysics){
-            bulletPhysics->debugDraw(rp);
         }
         if (c->debugGui){
             guiManager->onGui();

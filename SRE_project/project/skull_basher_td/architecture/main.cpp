@@ -1,7 +1,7 @@
 #include <iostream>
 #include "sre/SDLRenderer.hpp"
-#include "Scene.hpp"
-#include "SceneManager.hpp"
+#include "scenes/Scene.hpp"
+#include "scenes/SceneManager.hpp"
 #include "GameObject.hpp"
 #include "Camera.hpp"
 #include "ModelRenderer.hpp"

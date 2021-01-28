@@ -4,12 +4,11 @@
 
 #pragma once
 
-#include "Renderable.hpp"
-#include "Updatable.hpp"
+#include "../Renderable.hpp"
+#include "../Updatable.hpp"
 #include "glm/glm.hpp"
-// #include "../GameManager.hpp"
-#include "../GuiManager.hpp"
-#include "ScheduleManager.hpp"
+#include "../../GuiManager.hpp"
+#include "../ScheduleManager.hpp"
 #include "LevelScene.hpp"
 #include "MainMenuScene.hpp"
 

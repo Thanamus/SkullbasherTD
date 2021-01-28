@@ -30,10 +30,6 @@ LevelGuiManager::LevelGuiManager(std::shared_ptr<GameManager> gameManager) : Gui
     powerbarSize = {heartSize.x*3,heartSize.y};
 
     selectedBorderColor = ImVec4(36.0f/255.0f,250.0f/255.0f,0,1);
-
-    // setup font
-    //auto fonts = ImGui::GetIO().Fonts;
-    //fonts->AddFontDefault();
 }
 
 void LevelGuiManager::guiGameInfo() {

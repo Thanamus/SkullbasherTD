@@ -1,7 +1,7 @@
 
 #include "ScheduleManager.hpp"
 #include "../GameManager.hpp"
-#include "Scene.hpp"
+#include "scenes/Scene.hpp"
 #include "GameObject.hpp"
 #include "PathFinder.hpp"
 

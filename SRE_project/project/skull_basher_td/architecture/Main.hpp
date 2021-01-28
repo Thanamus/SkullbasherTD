@@ -5,9 +5,9 @@
 //#include "../WorldMap.hpp"
 #include "../GuiManager.hpp"
 #include "../GameManager.hpp"
-#include "./Scene.hpp"
+#include "scenes/Scene.hpp"
 #include "./ScheduleManager.hpp"
-#include "SceneManager.hpp"
+#include "scenes/SceneManager.hpp"
 
 class SoundEffectsPlayer;
 

@@ -27,7 +27,6 @@ private:
     glm::vec2 heartSize;
     glm::vec2 velocity;
 
-    float speachBubbleTimeOut = 10;
     std::string message = "Hi! AWSD to control.";
 
     glm::ivec2 heroSize;

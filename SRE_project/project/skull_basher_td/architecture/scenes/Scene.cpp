@@ -4,23 +4,23 @@
 
 #include "Scene.hpp"
 #include <algorithm>
-#include "Camera.hpp"
-#include "RigidBody.hpp"
-#include "Light.hpp"
-#include "BulletPhysics.hpp"
+#include "../Camera.hpp"
+#include "../RigidBody.hpp"
+#include "../Light.hpp"
+#include "../BulletPhysics.hpp"
 
 //fps camera stuff
-#include "PersonController.hpp"
+#include "../PersonController.hpp"
 
 //WorldMap Imports
     //WorldObject
-#include "WorldObject.hpp"
+#include "../WorldObject.hpp"
 
-#include "SoundEffectsLibrary.hpp"
-#include "SourceManager.hpp"
+#include "../SoundEffectsLibrary.hpp"
+#include "../SourceManager.hpp"
 
 //rapidjson imports
-#include "rapidjson/rapidjson.h"
+#include "../rapidjson/rapidjson.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"

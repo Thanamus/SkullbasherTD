@@ -1,7 +1,7 @@
 
 #include "PathFinder.hpp"
 #include "Transform.hpp"
-#include "Scene.hpp"
+#include "scenes/Scene.hpp"
 #include <cmath>
 
 PathFinder::PathFinder(GameObject* gameObject)
