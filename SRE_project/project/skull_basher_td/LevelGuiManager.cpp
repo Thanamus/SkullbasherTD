@@ -78,8 +78,8 @@ void LevelGuiManager::guiGameInfo() {
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + border); // move down
 
     // scale/clip inner bar
-    innerSize.x *= gameManager->getPower();
-    uv1.x *= gameManager->getPower();
+    innerSize.x *= gameManager->crystal->getHealth() / 100;
+    uv1.x *= gameManager->crystal->getHealth() / 100;
     ImVec4 tintColor(0,1,0,1);
     ImGui::Image(powerbar->getNativeTexturePtr(),{innerSize.x,innerSize.y}, uv0, uv1, tintColor);
 

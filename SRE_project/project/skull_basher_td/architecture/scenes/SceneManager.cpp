@@ -140,7 +140,7 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
 
     crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
 
-    gameManager->crystal = crystal;
+    gameManager->crystal = crystal->getComponent<CrystalHealth>();
 
     return res;
 };
