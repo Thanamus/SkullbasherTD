@@ -64,7 +64,7 @@ void MainMenuGuiManager::guiLevelGrid() {
         ImVec4 currentBorder = ImVec4(0,0,0,1);
 
         if (ImGui::Button(level->levelName.c_str(), ImVec2(100, 50))){
-            sceneManager->changeScene(level->fileName);
+            sceneManager->changeScene(level);
         }
 
         if (count == 0 || count %3 != 0)

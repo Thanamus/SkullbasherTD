@@ -2,6 +2,7 @@
     "levelId": 1,
     "levelName": "The Bad Level",
     "levelDifficulty": 2,
+    "sceneType": 0,
     "tileMap":[
         [
             [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10],

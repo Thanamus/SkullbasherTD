@@ -30,19 +30,22 @@ class GuiManager;
 class MainMenuGuiManager;
 
 enum DifficultyEnum { EASY = 0, MEDIUM = 1, HARD = 2 };
+enum SceneType { LEVEL = 0, MAINMENU = 1};
 
 struct LevelData {
     int id;
     std::string levelName;
     std::string fileName;
     DifficultyEnum difficulty;
+    SceneType sceneType;
 
-    LevelData(int id, std::string levelName, std::string fileName, DifficultyEnum difficulty)
+    LevelData(int id, std::string levelName, std::string fileName, DifficultyEnum difficulty, SceneType sceneType)
     {
         this->id = id;
         this->levelName = std::move(levelName);
         this->fileName = std::move(fileName);
         this->difficulty = difficulty;
+        this->sceneType = sceneType;
     }
 };
 
@@ -52,7 +55,7 @@ public:
     virtual ~SceneManager();
 
     std::shared_ptr<Scene> createScene(std::string levelName);
-    void changeScene(std::string levelName);
+    void changeScene(std::shared_ptr<LevelData> sceneData);
     void loadMap(std::string filename, std::shared_ptr<Scene> res);
     std::shared_ptr<Scene> createMainMenuScene();
 

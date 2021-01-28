@@ -26,6 +26,8 @@
 #include "../rapidjson/document.h"
 #include "../rapidjson/istreamwrapper.h"
 #include "../../LevelGuiManager.hpp"
+#include "../health/HealthComponent.hpp"
+#include "../health/CrystalHealth.hpp"
 
 #include <iostream>
 
@@ -116,6 +118,29 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     handMR->setModel(modelHolder);
 
     cameraObj->getComponent<PersonController>()->hand = hand;
+
+    auto crystal = res->createGameObject("Crystal");
+    crystal->getComponent<Transform>()->position = {2,0,4};
+    crystal->getComponent<Transform>()->rotation = {0,0,0};
+    crystal->getComponent<Transform>()->scale = {0.4f,0.4f,0.4f};
+    crystal->addComponent<CrystalHealth>();
+    crystal->getComponent<CrystalHealth>()->setHealth(100);
+    auto crystalMR = crystal->addComponent<ModelRenderer>();
+    auto crystalPath =  ".\\assets\\crystal.obj";
+    auto crystalAN = crystal->addComponent<Animator>();
+    crystalMR->setAnimator(crystalAN.get());
+    auto crystalRotate = std::make_shared<Animation>(true);
+    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(0), 5.f);
+    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(360), 5.f);
+    crystalAN->addAnimation("rotate", crystalRotate);
+    crystalAN->setAnimationState("rotate");
+
+    auto crystalRigidBody = crystal->addComponent<RigidBody>();
+    crystalRigidBody->initRigidBodyWithBox({0.5,1.5,0.5}, 0);
+
+    crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
+
+    gameManager->crystal = crystal;
 
     return res;
 };
@@ -366,23 +391,36 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
     }
 }
 
-void SceneManager::changeScene(std::string levelName) {
+void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
     std::string path = ".\\maps\\";
-    path.append(levelName);
-    auto scene = createScene(path);
-    setCurrentScene(scene);
-    getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>(gameManager);
-    getCurrentScene()->gameManager = gameManager;
-    getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
-    gameManager->currentScene = getCurrentScene();
-    loadMap(path, getCurrentScene());
+    path.append(sceneData->fileName);
 
-    auto scheduleManager = std::make_shared<ScheduleManager>();
-    scheduleManager->currentScene = getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
-    getCurrentScene()->scheduleManager = scheduleManager;
+    if(sceneData->sceneType == 0)
+    {
+        auto scene = createScene(path);
+        setCurrentScene(scene);
+        getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>(gameManager);
+        getCurrentScene()->gameManager = gameManager;
+        getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
+        gameManager->currentScene = getCurrentScene();
+        loadMap(path, getCurrentScene());
 
-    gameManager->setInitialWaveStats();
-    scheduleManager->fetchInitialWaveSchedule();
+        auto scheduleManager = std::make_shared<ScheduleManager>();
+        scheduleManager->currentScene = getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
+        getCurrentScene()->scheduleManager = scheduleManager;
+
+        gameManager->setInitialWaveStats();
+        scheduleManager->fetchInitialWaveSchedule();
+    }
+    else
+    {
+        auto scene = createMainMenuScene();
+        setCurrentScene(scene);
+        getCurrentScene()->guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
+        getCurrentScene()->gameManager = gameManager;
+        getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
+        gameManager->currentScene = getCurrentScene();
+    }
 }
 
 const std::vector<std::shared_ptr<LevelData>> &SceneManager::getLevelsData() const {
@@ -408,13 +446,39 @@ void SceneManager::loadLevelsData() {
 
             auto levelId = d["levelId"].GetFloat(); //inner array is the number of positions in the current row
             auto levelName = d["levelName"].GetString(); //inner array is the number of positions in the current row
+
             auto levelDifficulty = d["levelDifficulty"].GetInt(); //inner array is the number of positions in the current row
             auto difficultyEnum = static_cast<DifficultyEnum>(levelDifficulty);
 
-            levelsData.push_back(std::make_shared<LevelData>(levelId,levelName, data.cFileName, difficultyEnum));
+            auto sceneType = d["sceneType"].GetInt(); //inner array is the number of positions in the current row
+            auto sceneTypeEnum = static_cast<SceneType>(sceneType);
+
+            levelsData.push_back(std::make_shared<LevelData>(levelId,levelName, data.cFileName, difficultyEnum, sceneTypeEnum));
         } while (FindNextFile(hFind, &data) != 0);
         FindClose(hFind);
     }
 }
+
+/*std::string path = ".\\maps\\";
+    path.append(levelName);
+    auto scene = createScene(path);
+setCurrentScene(scene);
+if(type == "level")
+{
+getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>(gameManager);
+}
+else
+getCurrentScene()->guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
+getCurrentScene()->gameManager = gameManager;
+getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
+gameManager->currentScene = getCurrentScene();
+//loadMap(path, getCurrentScene());
+
+auto scheduleManager = std::make_shared<ScheduleManager>();
+scheduleManager->currentScene = getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
+getCurrentScene()->scheduleManager = scheduleManager;
+
+gameManager->setInitialWaveStats();
+scheduleManager->fetchInitialWaveSchedule();*/
 
 #pragma clang diagnostic pop
