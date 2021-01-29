@@ -63,7 +63,7 @@ private:
 
     // Footstep sound timing
     std::chrono::steady_clock::time_point start_footstep_lockout;
-    int footstep_lockout_millisec = 200;
+    int footstep_lockout_millisec = 300;
 
     // input stuff
     bool key_fwd = false;
@@ -77,5 +77,7 @@ private:
 
     bool key_jump = false;
 
-    float mouse_offset = 0.f;
+    // float mouse_offset = 0.f;
+    glm::vec2 mouse_offset = {0.0f, 0.0f};
+    float pitch = 0;
 };

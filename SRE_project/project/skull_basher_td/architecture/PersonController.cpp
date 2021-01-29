@@ -100,7 +100,7 @@ void PersonController::debugGUI() {
 
 void PersonController::update(float deltaTime)
 {
-    updateVectors();
+    // updateVectors();
     updateInput(deltaTime);
 
     // // change to use transform instead of RigidBody 
@@ -109,11 +109,19 @@ void PersonController::update(float deltaTime)
     // auto myPosition = myTransform->position;
     // auto myRotation = myTransform->rotation;
 
-    camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
+    // camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
+    glm::vec3 direction;  
+    direction.x = cos(glm::radians(rotation)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(rotation)) * cos(glm::radians(pitch));
+    
+    camera_front = glm::normalize(direction);
     // camera_front = glm::normalize(vec3(myRotation.x, 0.f, myRotation.z)); // nope!
     // camera_front = glm::normalize(vec3(myRotation.x, myRotation.y, myRotation.z)); // nope!
     // camera_front = {myRotation.x, 0.f, myRotation.z}; // Nope!
     // camera_front = glm::eulerAngles(myRotation); // Nope!
+
+
     
     camera->moveHandCursor(camera_front, this->hand);
     if(currentScene->gameManager->buildModeActive)
@@ -127,6 +135,36 @@ void PersonController::update(float deltaTime)
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
     
+    // auto myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+
+    // btTransform xform;
+    // myBody->getMotionState()->getWorldTransform(xform);
+
+    // // // glm::mat4 xformBasis;
+    // // glm::mat4 xformBasis;
+    // // btScalar matrix[16];
+    // // xform.getOpenGLMatrix(matrix);
+
+    // // xformBasis = {
+    // //     matrix[0],matrix[1],matrix[2],matrix[3],
+    // //     matrix[4],matrix[5],matrix[6],matrix[7],
+    // //     matrix[8],matrix[9],matrix[10],matrix[11],
+    // //     matrix[12],matrix[13],matrix[14],matrix[15],
+    // // };
+
+    // // glm::mat4 localTransformMatrix = gameObject->getComponent<Transform>()->localTransform();
+    // // btTransform newTransform;
+    // // glm::mat4 matrix = gameObject->getComponent<Transform>()->localTransform();
+
+    // xform.setRotation(btQuaternion(btVector3(camera_front.x, 0, camera_front.z), rotation));
+    // xform.setOrigin(btVector3(position.x,position.y, position.z));
+
+    // // glm::mat4 newTransform = xformBasis * localTransformMatrix;
+    // // btTransform newTransform = xformBasis * localTransformMatrix;
+    
+    // myBody->getMotionState()->setWorldTransform(xform);
+    
+
     
     // update Listener
     // TODO make this into a helper function instead
@@ -169,11 +207,13 @@ void PersonController::updateInput(float deltaTime)
     // thing->rotation = 
     // update rotation
     float oldRotation = rotation;
-    rotation += mouse_offset;
+    rotation += mouse_offset.x;
     // std::cout << "mouse offset: " << mouse_offset << std::endl;
+
+    pitch += mouse_offset.y;
     
     btVector3 angular_force_bt = {0,0,0};
-    angular_force_bt = {0,mouse_offset,0};
+    angular_force_bt = {0,mouse_offset.x,0};
     // if (mouse_offset > 0){
 
     //     angular_force_bt = {0,sensitivity,0};
@@ -206,8 +246,18 @@ void PersonController::updateInput(float deltaTime)
         rotation -= 360.f;
     else if (rotation < -0.f)
         rotation += 360.f;
-    mouse_offset = 0; // reset offset
+    mouse_offset.x = 0.f; // reset offset
 
+    // keep pitch in +- 89 degree range
+    if (pitch > 89.f)
+    {
+        pitch = 89.f;
+    } else if (pitch < -89.f){
+        pitch = -89.f;
+    }
+    mouse_offset.y = 0.f;
+    
+    std::cout << "Pitch is: " << pitch << std::endl;
 
     // update position based on current keypresses
     // using the camerafront vector allows to keep account of rotation automatically
@@ -242,7 +292,8 @@ void PersonController::updateInput(float deltaTime)
 
     // Calculate the force to apply to the character
     glm::vec3 positionDifference = oldPosition - position;
-    force = {positionDifference.x, positionDifference.y, positionDifference.z};
+    // force = {positionDifference.x, positionDifference.y, positionDifference.z};
+    force = {positionDifference.x, 0, positionDifference.z};
     
     
 
@@ -263,6 +314,7 @@ void PersonController::updateInput(float deltaTime)
     btScalar totalForce = hasRigidBody->getLinearVelocity().length();
     // std::cout << "total Force is: " << totalForce << std::endl;
 
+//''''''''
     if(totalForce <= 7) {
         // if speed (total force) is less than 'some value', apply force (speed up)
         hasRigidBody->applyCentralImpulse(-force); //kinda works, have to set both origin and force
@@ -283,7 +335,8 @@ void PersonController::updateInput(float deltaTime)
         // otherwise set a baselinie friction
         hasRigidBody->setFriction(2);
     }
-    
+
+  // ''''''''''''''''
     // xform.setRotation (btQuaternion (btVector3(0.0, 1.0, 0.0), m_turnAngle)); // Original from Dynamic Contoller Demo
     // transform.setRotation(btQuaternion (btVector3(0.0, 1.0, 0.0), rotation));
     // hasRigidBody->setWorldTransform(transform);
@@ -294,6 +347,7 @@ void PersonController::updateInput(float deltaTime)
     // hasRigidBody->setAngularVelocity(-angular_force_bt); // Kinda works
     hasRigidBody->setAngularVelocity(-angular_force_bt*1.049); // It's a hack, but it works - might still be slightly off
     // hasRigidBody->setSpinningFriction(0);
+
 
     // std::cout << "vertical velocity is: " << currentVelocity.y() << std::endl;
     // if jump key is pressed, jump!
@@ -352,7 +406,8 @@ void PersonController::onMouse(SDL_Event &event)
     if (event.type == SDL_MOUSEMOTION)
     {
         // std::cout << "mouse event recorded \n";
-        mouse_offset = event.motion.xrel * sensitivity;
+        mouse_offset.x = event.motion.xrel * sensitivity;
+        mouse_offset.y = event.motion.yrel * sensitivity;
         /*if(currentScene->gameManager->buildModeActive)
             camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());*/
     }
