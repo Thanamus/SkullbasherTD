@@ -207,13 +207,13 @@ void PersonController::updateInput(float deltaTime)
     // thing->rotation = 
     // update rotation
     float oldRotation = rotation;
-    rotation += mouse_offset.x;
+    rotation += mouse_offset.x * deltaTime;
     // std::cout << "mouse offset: " << mouse_offset << std::endl;
 
-    pitch += mouse_offset.y;
+    pitch += mouse_offset.y*deltaTime;
     
     btVector3 angular_force_bt = {0,0,0};
-    angular_force_bt = {0,mouse_offset.x,0};
+    angular_force_bt = {0,mouse_offset.x * deltaTime,0};
     // if (mouse_offset > 0){
 
     //     angular_force_bt = {0,sensitivity,0};
@@ -249,11 +249,11 @@ void PersonController::updateInput(float deltaTime)
     mouse_offset.x = 0.f; // reset offset
 
     // keep pitch in +- 89 degree range
-    if (pitch > 89.f)
+    if (pitch > 15.f)
     {
-        pitch = 89.f;
-    } else if (pitch < -89.f){
-        pitch = -89.f;
+        pitch = 15.f;
+    } else if (pitch < -10.f){
+        pitch = -10.f;
     }
     mouse_offset.y = 0.f;
     
@@ -407,7 +407,7 @@ void PersonController::onMouse(SDL_Event &event)
     {
         // std::cout << "mouse event recorded \n";
         mouse_offset.x = event.motion.xrel * sensitivity;
-        mouse_offset.y = event.motion.yrel * sensitivity;
+        mouse_offset.y = -event.motion.yrel * sensitivity; //flipped direction
         /*if(currentScene->gameManager->buildModeActive)
             camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());*/
     }

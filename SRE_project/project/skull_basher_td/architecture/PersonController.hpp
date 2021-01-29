@@ -57,7 +57,7 @@ private:
     // float movespeed = 8.f;
     float movespeed = 20.f;
     // float sensitivity = 1.7f;
-    float sensitivity = 1.7f;
+    float sensitivity = 100.7f;
 
     float jumpHeight = 5.f;
 
