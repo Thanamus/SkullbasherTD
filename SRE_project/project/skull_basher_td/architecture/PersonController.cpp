@@ -131,14 +131,65 @@ void PersonController::update(float deltaTime)
     }
 
     
+    auto myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    btTransform xform;
+    btQuaternion thing = xform.getRotation();
+    // xform.setRotation()
+    btScalar btYaw;
+    btScalar btPitch;
+    btScalar btRoll;
+    auto thingy = gameObject->getComponent<Transform>();
+    btYaw = glm::radians(thingy->rotation.z);
+    btPitch = glm::radians(thingy->rotation.y);
+    btRoll = glm::radians(thingy->rotation.z);
+
+    xform.getRotation().getEulerZYX(btYaw, btPitch, btRoll);
+
+    btQuaternion afd;
+    btQuaternion af;
+    afd.setRotation(btVector3(0,-1,0), radians(rotation+90));
+    // afd.setRotation(btVector3(0,-1,0), btYaw); // nope
+    // xform.setRotation(afd);
+    af.setRotation(btVector3(1,0,0), radians(pitch));
+
+    btQuaternion final = afd * af;
+    xform.setRotation(final);
+
+    xform.setOrigin({position.x, position.y, position.z});
+    myBody->getMotionState()->setWorldTransform(xform);
+
+
+    std::cout << "rotation is: " << rotation << std::endl;
 
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
     
-    // auto myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
 
-    // btTransform xform;
+
     // myBody->getMotionState()->getWorldTransform(xform);
+    // xform.setRotation();
+    // myBody->getMotionState()->setWorldTransform(xform);
+
+//     // Convert from Euler Angles void Quaternion::FromEuler(float pitch, float yaw, float roll) { // Basically we create 3 Quaternions, one for pitch, one for yaw, one for roll // and multiply those together. // the calculation below does the same, just shorter
+
+//     float p = pitch * PIOVER180 / 2.0;
+//     float y = yaw * PIOVER180 / 2.0;
+//     float r = roll * PIOVER180 / 2.0;
+
+//     float sinp = sin(p);
+//     float siny = sin(y);
+//     float sinr = sin(r);
+//     float cosp = cos(p);
+//     float cosy = cos(y);
+//     float cosr = cos(r);
+
+//     x = sinr * cosp * cosy - cosr * sinp * siny;
+//     y = cosr * sinp * cosy + sinr * cosp * siny;
+//     z = cosr * cosp * siny - sinr * sinp * cosy;
+//     w = cosr * cosp * cosy + sinr * sinp * siny;
+
+//     normalise();
+// }
 
     // // // glm::mat4 xformBasis;
     // // glm::mat4 xformBasis;
@@ -164,7 +215,7 @@ void PersonController::update(float deltaTime)
     
     // myBody->getMotionState()->setWorldTransform(xform);
     
-
+    
     
     // update Listener
     // TODO make this into a helper function instead

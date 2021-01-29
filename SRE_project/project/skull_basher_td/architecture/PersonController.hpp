@@ -28,7 +28,8 @@ public:
 
     void setInitialPosition(glm::vec2 position, float rotation);
 
-    float rotation = 0.f;
+    // float rotation = 0.f;
+    float rotation = -90.f;
     glm::vec3 position;
     bool quit = false;
     std::shared_ptr<Camera> camera;
