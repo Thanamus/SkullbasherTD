@@ -103,6 +103,7 @@ void Camera::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, s
     bool foundIntersect = false;
     double currentDistance = 90000.0f;
     shared_ptr<GameObject> block = nullptr;
+
     /*vector<shared_ptr<GameObject>> closeBlocks;
 
     for(auto gameObject : gameObjects)
@@ -136,10 +137,19 @@ void Camera::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, s
 
         double distance = calcDistance(this->transform->position, blockPosition);
 
+        if(block == nullptr)
+        {
+            currentDistance = distance;
+            block = gameObject;
+            cout << "assigned block: " << endl;
+            continue;
+        }
+
         if(distance < currentDistance)
         {
             currentDistance = distance;
             block = gameObject;
+            cout << "assigned block: " << endl;
         }
     }
 
