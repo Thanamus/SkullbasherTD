@@ -52,7 +52,7 @@ Scene::~Scene(){
 }
 
 void Scene::update(float deltaTime){
-    // bulletPhysics->step(this);
+    bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
     // tempCam->getComponent<Camera>()->update(deltaTime);
     tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
