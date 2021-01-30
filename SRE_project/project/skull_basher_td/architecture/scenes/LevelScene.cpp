@@ -40,6 +40,8 @@ LevelScene::~LevelScene(){
 }
 
 void LevelScene::update(float deltaTime){
+    if(gameManager->paused || !gameManager->levelRunning)
+        return;
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
     tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable

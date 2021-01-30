@@ -208,7 +208,7 @@ void LevelGuiManager::guiWaveInfo()
     ImGui::Text(title.c_str());
 
     //Wave
-    std::string waveText = std::to_string(gameManager->getCurrentWave()) + "/" + std::to_string(gameManager->getCurrentWave());
+    std::string waveText = std::to_string(gameManager->getCurrentWave()) + "/" + std::to_string(gameManager->getTotalWavesInLevel());
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), waveText)); // align center
     ImGui::Text(waveText.c_str());
 
@@ -218,6 +218,7 @@ void LevelGuiManager::guiWaveInfo()
     std::string enemies = "Enemies";
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enemies)); // align center
     ImGui::Text(enemies.c_str());
+    
     std::string enermyText = std::to_string(gameManager->getCurrentEnemy()) + "/" + std::to_string(gameManager->getTotalEnemiesInCurrentSet());
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enermyText)); // align center
     ImGui::Text(enermyText.c_str());

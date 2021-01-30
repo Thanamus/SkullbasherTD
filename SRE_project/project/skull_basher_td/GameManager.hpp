@@ -62,6 +62,7 @@ public:
     int getCurrentEnemy();
     int getCurrentEnemySet();
     int getCurrentWave();
+    int getTotalWavesInLevel();
 
     int getEnemyAmountWave();
     waveScheduleDetails getCurrentTimeBetweenWaves();

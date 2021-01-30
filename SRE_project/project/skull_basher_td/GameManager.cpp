@@ -223,6 +223,10 @@ int GameManager::getCurrentEnemy(){
     return currentEnemy;
 }
 
+int GameManager::getTotalWavesInLevel(){
+    return totalWavesInLevel;
+}
+
 int GameManager::getCurrentEnemySet(){
     return currentEnemySet;
 }
