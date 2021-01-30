@@ -56,7 +56,7 @@ private:
     glm::vec3 original_camera_dir;
 
     // float movespeed = 8.f;
-    float movespeed = 20.f;
+    float movespeed = 8.f;
     // float sensitivity = 1.7f;
     float sensitivity = 100.7f;
 

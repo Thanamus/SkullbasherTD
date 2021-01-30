@@ -147,17 +147,18 @@ void PersonController::update(float deltaTime)
 
     btQuaternion afd;
     btQuaternion af;
-    afd.setRotation(btVector3(0,-1,0), radians(rotation+90));
+    afd.setRotation(btVector3(0,-1,0), radians(rotation+90)); // rotate aroudn y (yaw)
     // afd.setRotation(btVector3(0,-1,0), btYaw); // nope
     // xform.setRotation(afd);
-    af.setRotation(btVector3(1,0,0), radians(pitch));
+    af.setRotation(btVector3(1,0,0), radians(pitch)); // rotate around z (pitch)
 
     btQuaternion final = afd * af;
     xform.setRotation(final);
 
     xform.setOrigin({position.x, position.y, position.z});
-    myBody->getMotionState()->setWorldTransform(xform);
-
+    // myBody->getMotionState()->setWorldTransform(xform);
+    // myBody->setWorldTransform(xform);
+    myBody->setCenterOfMassTransform(xform);
 
     std::cout << "rotation is: " << rotation << std::endl;
 
@@ -247,10 +248,18 @@ void PersonController::updateInput(float deltaTime)
     // btTransform transform = hasRigidBody->getWorldTransform();
 
     btTransform transform;
-    hasRigidBody->getMotionState()->getWorldTransform(transform);
+    // hasRigidBody->getMotionState()->getWorldTransform(transform);
+    // hasRigidBody->getWorldTransform(transform);
+    transform = hasRigidBody->getWorldTransform();
 
     btVector3& origin = transform.getOrigin();
     position = {origin.x(), origin.y(), origin.z()}; // links origin and position
+    // float oX;
+    // float oY;
+    // float oZ;
+
+
+    // position = {origin.getX(), origin.getY(), origin.getZ()}; // links origin and position
     
     btVector3 force = {0,0,0};
 
@@ -368,7 +377,7 @@ void PersonController::updateInput(float deltaTime)
 //''''''''
     if(totalForce <= 7) {
         // if speed (total force) is less than 'some value', apply force (speed up)
-        hasRigidBody->applyCentralImpulse(-force); //kinda works, have to set both origin and force
+        // hasRigidBody->applyCentralImpulse(-force); //kinda works, have to set both origin and force
     } 
     
     btVector3 currentVelocity = hasRigidBody->getLinearVelocity();
@@ -396,7 +405,7 @@ void PersonController::updateInput(float deltaTime)
     
     // hasRigidBody->applyTorque(angular_force_bt);
     // hasRigidBody->setAngularVelocity(-angular_force_bt); // Kinda works
-    hasRigidBody->setAngularVelocity(-angular_force_bt*1.049); // It's a hack, but it works - might still be slightly off
+    // hasRigidBody->setAngularVelocity(-angular_force_bt*1.049); // It's a hack, but it works - might still be slightly off
     // hasRigidBody->setSpinningFriction(0);
 
 
