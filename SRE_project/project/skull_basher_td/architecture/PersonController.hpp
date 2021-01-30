@@ -57,7 +57,7 @@ private:
     glm::vec3 original_camera_dir;
 
     // float movespeed = 8.f;
-    float movespeed = 8.f;
+    float movespeed = 5.f;
     // float sensitivity = 1.7f;
     float sensitivity = 100.7f;
 
@@ -82,4 +82,5 @@ private:
     // float mouse_offset = 0.f;
     glm::vec2 mouse_offset = {0.0f, 0.0f};
     float pitch = 0;
+    float pitch_limit = 30.f;
 };

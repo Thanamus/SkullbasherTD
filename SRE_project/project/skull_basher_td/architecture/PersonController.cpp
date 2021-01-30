@@ -156,8 +156,8 @@ void PersonController::update(float deltaTime)
     xform.setRotation(final);
 
     xform.setOrigin({position.x, position.y, position.z});
-    myBody->getMotionState()->setWorldTransform(xform);
-    // myBody->setWorldTransform(xform);
+    // myBody->getMotionState()->setWorldTransform(xform);
+    myBody->setWorldTransform(xform);
     myBody->setCenterOfMassTransform(xform);
 
     std::cout << "rotation is: " << rotation << std::endl;
@@ -250,9 +250,9 @@ void PersonController::updateInput(float deltaTime)
     // btTransform transform = hasRigidBody->getWorldTransform();
 
     btTransform transform;
-    hasRigidBody->getMotionState()->getWorldTransform(transform);
+    // hasRigidBody->getMotionState()->getWorldTransform(transform);
     // hasRigidBody->getWorldTransform(transform);
-    // transform = hasRigidBody->getWorldTransform();
+    transform = hasRigidBody->getWorldTransform();
 
     btVector3& origin = transform.getOrigin();
     position = {origin.x(), origin.y(), origin.z()}; // links origin and position
@@ -311,15 +311,15 @@ void PersonController::updateInput(float deltaTime)
     mouse_offset.x = 0.f; // reset offset
 
     // keep pitch in +- 89 degree range
-    if (pitch > 15.f)
+    if (pitch > pitch_limit)
     {
-        pitch = 15.f;
-    } else if (pitch < -10.f){
-        pitch = -10.f;
+        pitch = pitch_limit;
+    } else if (pitch < -pitch_limit-5){
+        pitch = -pitch_limit-5;
     }
     mouse_offset.y = 0.f;
     
-    std::cout << "Pitch is: " << pitch << std::endl;
+    // std::cout << "Pitch is: " << pitch << std::endl;
 
     // update position based on current keypresses
     // using the camerafront vector allows to keep account of rotation automatically
@@ -397,9 +397,9 @@ void PersonController::updateInput(float deltaTime)
         hasRigidBody->setFriction(5);
         // hasRigidBody->setDamping
         // std::cout << "applying dampening" << std::endl;
-    } else if (hasRigidBody->getFriction() != 2) {
+    } else if (hasRigidBody->getFriction() != 1) {
         // otherwise set a baselinie friction
-        hasRigidBody->setFriction(2);
+        hasRigidBody->setFriction(1);
     }
 
   // ''''''''''''''''

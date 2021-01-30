@@ -56,7 +56,7 @@ void Scene::update(float deltaTime){
     auto tempCam = this->cameras[0]->getGameObject();
     // tempCam->getComponent<Camera>()->update(deltaTime);
     tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
-    bulletPhysics->step(this);
+    bulletPhysics->step(this); // stepping physics multiple times helps with clipping
     
 
     for (auto& p : this->rigidBodies){
@@ -65,6 +65,7 @@ void Scene::update(float deltaTime){
     for (auto& u : updatables){
         u->update(deltaTime);
     }
+    bulletPhysics->step(this); // stepping physics multiple times helps with clipping
     scheduleManager->update(deltaTime); //has to be updated separately from the rest
 
    // if(gameManager != nullptr)
