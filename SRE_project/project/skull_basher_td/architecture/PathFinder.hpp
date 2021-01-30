@@ -33,12 +33,14 @@ private:
     glm::vec3 PathFinder::nextPathPoint = glm::vec3(0, 0, 0);
     glm::vec3 PathFinder::currentPosition = glm::vec3(0, 0, 0);
     glm::vec3 PathFinder::nextPosition = glm::vec3(0, 0, 0);
-    float PathFinder::moveSpeed = 0.1f;
+    float PathFinder::moveSpeed = 0.1f; // I think one of these is redundant
     float pfMoveSpeed = 0.1f;
 
     //Wave and enemy
     int PathFinder::waveNumber = 0;
     int PathFinder::enemyNumber = 0;
     int PathFinder::enemySetNumber = 0;
+
+
     bool PathFinder::moving = false;
 };

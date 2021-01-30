@@ -6,7 +6,10 @@
 #include "Camera.hpp"
 #include "ModelRenderer.hpp"
 #include "Light.hpp"
+
 #include "RigidBody.hpp"
+#include "CustomerCollisionHandler.hpp"
+
 #include "PersonController.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
@@ -35,21 +38,22 @@ Main::Main()
     r.init();
 
     //setup sound
-    SoundDevice * mySoundDevice = SoundDevice::Get(); // Initialise sound device
 
+    // myNewSpeaker = mySpeaker;
+    //--------- setup sound
+    SoundDevice * mySoundDevice = SoundDevice::Get(); // Initialise sound device
     SourceManager * mySourceManager = SourceManager::Get(); // Initialise Source manager
 
     //new way - MusicBuffer is now a singleton
     MusicBuffer * myMusicBuffer = MusicBuffer::Get(); // Initialise music buffer 
     myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)"); // Start playing a music track. First music track played should use "Load()"
 
-    //handshaking
+    //-------------- handshaking
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
     guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
     //scheduleManager = std::make_shared<ScheduleManager>();
     guiManager->gameManager = gameManager;
-
 
     //gameManager->ToggleLockMouse();
 
@@ -75,9 +79,10 @@ Main::Main()
     //gameManager->setInitialWaveStats();
     //scheduleManager->fetchInitialWaveSchedule();
 
-    // Start Playing music - lives here because the buffers run out before things load
+//--------------- Start Playing music - lives here because the buffers run out before things load
     myMusicBuffer->Play(); 
 
+// --------- start update cycles
     r.frameUpdate = [&](float deltaTime){
         sceneManager->getCurrentScene()->update(deltaTime);
 
@@ -97,6 +102,8 @@ Main::Main()
     };
     r.startEventLoop();
 }
+
+#include "Animator.hpp"
 
 const sre::SDLRenderer &Main::getR() const {
     return r;

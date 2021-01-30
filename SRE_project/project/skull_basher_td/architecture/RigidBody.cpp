@@ -11,8 +11,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
+
 RigidBody::RigidBody(GameObject *gameObject) : Component(gameObject) {
     transform = gameObject->getComponent<Transform>().get();
+
 }
 
 RigidBody::~RigidBody() {
@@ -49,7 +51,21 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info){
     rigidBody = new btRigidBody(info);
     rigidBody->setUserPointer(this);
     const int CF_CUSTOM_MATERIAL_CALLBACK = 8;
-    rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | CF_CUSTOM_MATERIAL_CALLBACK);
+
+    // --- new stuff for trying to implement kinematic physics
+    bool isDynamic = false;
+    if (info.m_mass != 0)
+    {
+        isDynamic = true;
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | CF_CUSTOM_MATERIAL_CALLBACK); // original Call
+    } else {
+        // std::cout << "trying to make Kinematic" << std::endl;
+        // rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
+        rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
+        rigidBody->forceActivationState(DISABLE_DEACTIVATION);
+    }
+
+    // ---------- end
 
     physicsWorld->addRigidBody(rigidBody);
 }
@@ -65,10 +81,26 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
     fallMotionState =
             new btDefaultMotionState(btTransform(btQuaternion(rotQ.x, rotQ.y, rotQ.z, rotQ.w), btVector3(pos.x, pos.y, pos.z)));
 
+//-----------
+    bool isDynamic = false;
+    if (mass != 0)
+    {
+        isDynamic = true;
+    }
+//----------
+if (isDynamic)
+{
+    /* code */
     btVector3 fallInertia(0, 0, 0);
     shape->calculateLocalInertia(mass, fallInertia);
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
     initRigidBody(fallRigidBodyCI);
+} else {
+    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape);
+    initRigidBody(fallRigidBodyCI);
+
+}
+
 }
 
 void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
@@ -102,4 +134,16 @@ void RigidBody::initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeD
 
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(0, fallMotionState, shape);
     initRigidBody(fallRigidBodyCI);
+}
+
+
+// additions
+
+void RigidBody::setLinearVelocityOnRigidBody(btVector3 linear_velocity){
+    rigidBody->setLinearVelocity(linear_velocity);
+    btVector3 test = rigidBody->getLinearVelocity();
+
+    // btScalar &thing;
+    // test.y(thing);
+    std::cout << "linear velocity set, is: " << test.y() << " should be " << linear_velocity.y() << std::endl;
 }

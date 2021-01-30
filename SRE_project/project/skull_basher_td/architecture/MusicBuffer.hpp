@@ -57,7 +57,7 @@ private:
 	int fade_out_time = 1;
 	int elapsedTimeInSec = 0;
 	void fadeOutMusic();
-	float originalGain = 0.2f;
+	float originalGain = 0.1f;
 
 	//MusicBuffer() = delete;
 

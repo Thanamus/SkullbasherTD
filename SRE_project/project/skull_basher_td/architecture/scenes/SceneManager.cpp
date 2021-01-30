@@ -28,6 +28,7 @@
 #include "../../LevelGuiManager.hpp"
 #include "../health/HealthComponent.hpp"
 #include "../health/CrystalHealth.hpp"
+#include "../CustomerCollisionHandler.hpp"
 
 #include <iostream>
 
@@ -46,56 +47,34 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager(){
 }
 
-class CustomCollisionHandler : public Component, public CollisionHandler {
-public:
-    explicit CustomCollisionHandler(GameObject *gameObject) : Component(gameObject) {}
-
-    void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin) override {
-        if (begin){
-            std::cout << "Collision "<< collisionId <<" on "<<other->getGameObject()->getName()<< " at "<<glm::to_string(position)<<std::endl;
-        }
-    }
-    void onCollisionEnd(size_t collisionId) override {
-        std::cout << "Collision end "<<collisionId<<std::endl;
-    }
-};
-
 std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     auto res = std::make_shared<LevelScene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = {20,1.0f,11};
+    cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
-    cameraObj->addComponent<PersonController>(); // adding the controller to the camera (the player)
-    cameraObj->getComponent<PersonController>()->currentScene = res;
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
 
-    auto sphereObj = res->createGameObject("Sphere");
-    auto sphereMR = sphereObj->addComponent<ModelRenderer>();
-    sphereMR->setMesh(sre::Mesh::create().withSphere(16,32,0.99f).build());
-    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
-    sphereObj->getComponent<Transform>()->position = {10,1.0,10};
-    sphereObj->addComponent<RigidBody>()->initRigidBodyWithSphere(1, 0);
+    //---- setting cameras? // kinda syncs the physics world and the transform
+    glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
+    btTransform transform;
+    btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
+    transform.setOrigin(btCameraPosition);
+
+    glm::quat inputQuat = glm::quat(cameraObj->getComponent<Transform>()->rotation);
+    btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
+    transform.setRotation(btInputQuat);
+
+    cameraObj->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
+
+    //--- end setting cameras
+
+    cameraObj->addComponent<PersonController>();
+    cameraObj->getComponent<PersonController>()->currentScene = res;
 
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<Transform>()->rotation = {30,30,0};
     lightObj->addComponent<Light>();
-
-    auto cube = res->createGameObject("Cube");
-    cube->getComponent<Transform>()->position = {10,4,10};
-    cube->getComponent<Transform>()->rotation = {30,30,10};
-    auto cubeRigidBody = cube->addComponent<RigidBody>();
-    cubeRigidBody->initRigidBodyWithBox({1,1,1}, 1);
-
-    auto cubeMR = cube->addComponent<ModelRenderer>();
-    cubeMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    cube->addComponent<CustomCollisionHandler>();
-    auto cubeAN = cube->addComponent<Animator>();
-    cubeMR->setAnimator(cubeAN.get());
-    auto rotate = std::make_shared<Animation>(true);
-    rotate->addFrame(glm::vec3( 0), glm::vec3(1.25), glm::vec3(0), 2.f);
-    rotate->addFrame(glm::vec3( 0), glm::vec3(0.8), glm::vec3(0), 2.f);
-    cubeAN->addAnimation("rotate", rotate);
-    cubeAN->setAnimationState("rotate");
 
     auto tower = res->createGameObject("Tower");
     tower->getComponent<Transform>()->position = {0,0,0};
@@ -172,20 +151,48 @@ std::string SceneManager::getMapsFolderLoc(){
 };
 
 void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
+    // original
+    // push back one row of tiles (a vector)
+    // adding another vector (to make a vector of vectors), adds another whole row of field values
+
+    // values.push_back( {0, 0, 0,0} ); // -------> x
+    // values.push_back( {0,-1,-1,2} ); // |
+    // values.push_back( {0,-1,-1,9} ); // |
+    // values.push_back( {0, 0, 0,0} ); // v z
+
+    // std::cout << "trying to load json: " << filename << "\n";
+
     using namespace rapidjson;
     std::ifstream fis(filename);
     IStreamWrapper isw(fis);
     Document d;
     d.ParseStream(isw);
 
+    //Hardcoded start position // Original
+    // startingPosition.x = 1.5;
+    // startingPosition.y = 1.5;
+    // startingRotation = 22.5;
+
+    //JSON start position
+    // startingPosition.x = d["spawn"]["x"].GetFloat();
+    // startingPosition.y = d["spawn"]["y"].GetFloat();
+    // startingRotation = d["spawn"]["angle"].GetFloat();
+
     //init a map row to temporarily hold the map row
     std::vector<int> mapRow;
 
+    // ifstream fis2("SkullBasherTDLevel0.json");
+    // IStreamWrapper isw2(fis2);
+    // Document d2;
+    // d2.ParseStream(isw2);
+
+    // std::vector<int> mapRow;
     mapRow.clear(); //because mapRow is used in the original
 
     std::vector<glm::vec3> pathHolder;
 
     int rowArrayCount = d["tileMap"].GetArray().Size(); //get the tile map key, the array size is the outset loop's size
+    // std::cout << "rowArrayCount: " << rowArrayCount << "\n";
     int tileTypeInt;
     std::string tileTypeStr;
     float rotationHolder;
@@ -206,17 +213,20 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
     for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
     {
- 
+
         mapRow.clear(); //clear the temporary buffer
         int heightArrayCount = d["tileMap"][row].GetArray().Size(); //inner array is the number of positions in the current row
+        // std::cout << "inner array count:" << innerArrayCount << "\n";
         pathBuffer.clear();
         // push each field's value into the buffer
         for (size_t heightFactor = 0; heightFactor < heightArrayCount; heightFactor++)
         {
+
+
             double tileHeight = tileHeightOffset + heightFactor;
 
             //variables defined here, attempting to save processing power
-            
+
             int columnArrayCount = d["tileMap"][row].GetArray()[heightFactor].GetArray().Size();
             for (size_t column = 0; column < columnArrayCount; column++)
             {
@@ -225,7 +235,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 if (tileTypeInt != 0)
                 {
                     tileTypeStr = std::to_string(tileTypeInt);
-                    const char *c = tileTypeStr.c_str(); 
+                    const char *c = tileTypeStr.c_str();
 
                     //get position and rotation of the block
                     rotationHolder = d["MapLookup"][c]["rotation"].GetFloat();
@@ -239,18 +249,33 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                     isPathHolder = d["MapLookup"][c]["isPath"].GetBool();
 
                     modelName = d["MapLookup"][c]["object"].GetString();
-                    
+
+
                     //Load the mesh from file
+                    // meshHolder = sre::ModelImporter::importObj(".\\Assets\\WorldMapAssets", "Floor01.obj", materialsLoaded);
+                    // OLD: meshHolder = sre::ModelImporter::importObj(mapAssetFolderLoc, modelName, materialsLoaded);
+                    // NEW
                     auto filePath = mapAssetFolderLoc + "\\" + modelName;
                     modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
+                    // std::cout << "Asset folder: " << mapAssetFolderLoc << "\n";
+
+                    // //create the world object map tile
+                    // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder);
 
                     //create game object
                     auto mapTile = res->createGameObject(modelName);
+                    // std::cout << "mesh Name: " << modelName << "\n";
                     auto mapTileMR = mapTile->addComponent<ModelRenderer>();
                     mapTile->addComponent<WorldObject>();
                     mapTile->getComponent<WorldObject>()->setBuildable(isbuildableHolder);
                     mapTile->getComponent<WorldObject>()->setIsPath(isPathHolder);
 
+                    // bool test = mapTile->getComponent<WorldObject>()->getBuildableStatus();
+                    // std::cout << "is buildable test: " << test  << "\n";
+                    // OLD
+//                    mapTileMR->setMesh(meshHolder);
+//                    mapTileMR->setMaterials(materialsLoaded);
+                    // NEW
                     mapTileMR->setModel(modelHolder);
                     float xOffset = d["MapLookup"][c]["posOffset"]["x"].GetFloat();
                     float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();;
@@ -262,28 +287,43 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                     mapTile->getComponent<Transform>()->position = positionHolder;
                     mapTile->getComponent<Transform>()->rotation.y = rotationHolder;
+                    // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
+                    // std::cout << "positionHolder.y:" << positionHolder.y << "\n";
 
                     mapTile->getComponent<Transform>()->scale = scaleHolder;
                     auto bounds = mapTileMR->getMesh()->getBoundsMinMax();
-                    
+
                     float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/4;
                     float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/4;
                     float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/4;
 
+                    // std::cout << "length: " << length << "\n";
+                    // std::cout << "width: " << width << "\n";
+                    // std::cout << "height: " << height << "\n";
+
+                    // std::cout << "bounds: " << bounds[0].x << " " << bounds[0].y << bounds[0].z << "\n";
+
+
+                    // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({0.5f,0.4f,0.5f}, 0);
+
                     mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0);
+                    // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
+                    // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
+                    // gameObjects.push_back(mapTile);
 
                     if (isPathHolder)
                     {
+                        // pathHolder.push_back(positionHolder);
                         pathBuffer.push_back(positionHolder);
 
                         //check if reverseBuffer should be set
                         reversePathBuffer = d["MapLookup"][c]["reversePathBuffer"].GetBool(); //a 'reverseBuffer' parameter tells the game that the path section needs to be loaded in reverse
                     }
-                    
-                    
+
+
                 }
             }
-            
+
         }
 
         //if the path is running from 'right to left' in the map, then it needs to be loaded into the path in reverse
@@ -303,10 +343,14 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
     }
     gameManager->setPath(pathHolder);
 
+
     //-----------------Load enemies----------------------
     int howManyWaves = d["waves"].GetArray().Size();
+    // gameManager->setWaves(howManyWaves);
+    // gameManager->waveAmount = howManyWaves;
     int enemyTypeInt;
     std::string enemyTypeStr;
+
 
     for (size_t wave = 0; wave < howManyWaves; wave++)
     { //wave level
@@ -334,28 +378,38 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
             tempEnemySet.quantiy = howManyOfEnemyType;
             enemySetsHolder.push_back(tempEnemySet);
 
+
             std::vector<glm::vec3> path = gameManager->getPath();
             int endOfPath = path.size();
             positionHolder = path[endOfPath-1]; //sets where the enemy will spawn
             positionHolder.y += 1.0; //compensates for the fact that the path is well, the ground
+            // positionHolder = {3,3,3};
 
             scaleHolder.x = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["x"].GetFloat();// scale
             scaleHolder.y = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["y"].GetFloat();// scale
             scaleHolder.z = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["z"].GetFloat();// scale
 
+
             modelName = d["enemyLookup"][enemyTypeChar]["object"].GetString();
-            
+
             //Load the mesh from file
+            // meshHolder = sre::ModelImporter::importObj(".\\Assets\\WorldMapAssets", "Floor01.obj", materialsLoaded);
+            // OLD: meshHolder = sre::ModelImporter::importObj(mapAssetFolderLoc, modelName, materialsLoaded);
+            // NEW
             auto filePath = enemiesAssetFolderLoc + "\\" + modelName;
             modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
             std::cout << "Asset folder: " << filePath << "\n";
             std::cout << "Model Name: " << modelName << "\n";
 
             // //create the world object map tile
+            // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder);
+
             for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++)
             {
+                // gameManager->enermyAmountWave += 1;
                 //create game object
                 auto enemy = res->createGameObject(modelName);
+                // std::cout << "mesh Name: " << modelName << "\n";
                 auto enemyMR = enemy->addComponent<ModelRenderer>();
                 enemyMR->setModel(modelHolder);
 
@@ -364,21 +418,38 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 enemy->getComponent<Transform>()->scale = scaleHolder;
                 auto bounds = enemyMR->getMesh()->getBoundsMinMax();
 
+                float length = (fabs(bounds[0].z) + fabs(bounds[1].z));
+                float width = (fabs(bounds[0].x) + fabs(bounds[1].x));
+                float height = (fabs(bounds[0].y) + fabs(bounds[1].y));
+
+                length = (length * scaleHolder.z)*0.7; // scaling the collision box for a tighter fit
+                // std::cout << "length: " << length << "\n";
+                // std::cout << "width: " << width << "\n";
+                // std::cout << "height: " << height << "\n";
+
+                //Add Physics to skull
+                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
+
+                // std::cout << "anEnemy is: " << anEnemy << "\n";
+
                 //Add Path Finder to Skull
                 enemy->addComponent<PathFinder>();
                 enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
                 enemy->getComponent<PathFinder>()->setWave(wave);
                 enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);
-                std::cout << "created enemy with enemy number: " << anEnemy << std::endl; 
-                std::cout << "created enemy with set number: " << currentEnemySet << std::endl; 
-                std::cout << "created enemy with wave number: " << wave << std::endl; 
+                std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
+                std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
+                std::cout << "created enemy with wave number: " << wave << std::endl;
             }
+
         }
 
         //send the wave details to the Game Manager
         gameManager->addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
+
+
     }
-    
+
     // ----------------- LOAD SOUNDS --------------------------
     int howManySounds = d["soundEffects"].GetArray().Size();
     auto mySoundEffectsLibrary = SoundEffectsLibrary::Get();
@@ -389,6 +460,29 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
         const char *soundChar = soundStr.c_str();
         mySoundEffectsLibrary->Load(soundChar);
     }
+
+    //import model testing
+    // std::vector<std::shared_ptr<sre::Material>> materials_unused;
+    // mesh = sre::ModelImporter::importObj("./Floor_OBJ/", "Step01D.obj", materials_unused);
+    // meshBanner = sre::ModelImporter::importObj("./Floor_OBJ/", "Floating_Banner.obj", materials_unused);
+    // mat = sre::Shader::getStandardPBR()->createMaterial({{"S_SHADOW","true"}});
+    // mat->setName("PBR material");
+    // WorldObject test = WorldObject(mesh,mat, {0,-1.5,9},0,{1.0f,1.0f,1.0f});
+    // WorldObject test2 = WorldObject(mesh,mat, {0,-1.5,5},0,{1.0f,1.0f,1.0f});
+    // WorldObject test = WorldObject(mesh,materials_unused, {0,-1.5,9},0,{1.0f,1.0f,1.0f});
+    // WorldObject test2 = WorldObject(mesh,materials_unused, {0,-1.5,5},0,{1.0f,1.0f,1.0f});
+
+    // worldTiles.push_back(test);
+    // worldTiles.push_back(test2);
+
+    // std::cout << "ceilColor.x: " << ceilColor.x << "\n";
+    // SoundEffectsPlayer mySpeaker;
+    // SoundEffectsPlayer myOtherSpeaker;
+    // // alSourcePlay(0);
+    // mySpeaker.Play(soundA);
+    // myOtherSpeaker.Play(1);
+    // SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
+    // mySourceManager->playSource((ALuint)1);
 }
 
 void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
