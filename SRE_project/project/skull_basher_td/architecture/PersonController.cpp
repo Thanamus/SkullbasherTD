@@ -160,7 +160,7 @@ void PersonController::update(float deltaTime)
     myBody->setWorldTransform(xform);
     myBody->setCenterOfMassTransform(xform);
 
-    std::cout << "rotation is: " << rotation << std::endl;
+    // std::cout << "rotation is: " << rotation << std::endl;
 
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
@@ -417,11 +417,12 @@ void PersonController::updateInput(float deltaTime)
 
     // std::cout << "vertical velocity is: " << currentVelocity.y() << std::endl;
     // if jump key is pressed, jump!
-    if (key_jump)
+    if (key_jump && isGrounded == true)
     {
         if (currentVelocity.y() < 0.5) //helps a little
         {
             hasRigidBody->applyCentralImpulse({0,jumpHeight,0});
+            isGrounded = false;
         }
         
         // Todo put in a vertical velocity check here, so there is no mid-air jumping
@@ -486,11 +487,12 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
 }
 
 
-void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin){
+void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
     if (begin){
         std::string otherObjectName = other->getGameObject()->getName();
-        std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(position)<<std::endl;
+        std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;
 
+        std::cout << "player position is: " << position.x << " , " << position.y << " , " << position.z << std::endl;
         std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
         int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - start_footstep_lockout).count();
 
@@ -499,21 +501,31 @@ void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::ve
         SourceManager * mySource = SourceManager::Get();
         //----- if colliding with ground, play ground sounds
         // works, but the sounds quickly pile up, maybe make a timer?
-        if (time_elapsed_milli > footstep_lockout_millisec)
+        if (col_position.y < position.y-0.2f)
         {
-            if (otherObjectName == "GrassBlock01D.obj")
+            // collision happened below the player
+            isGrounded = true; //player just collided with something on it's feet
+            // so it could be considered grounded
+            
+            // TODO match offset to player colision size 
+            if (time_elapsed_milli > footstep_lockout_millisec)
             {
-                mySource->playMyJam_global("gassy-footstep1.wav");
-                // std::cout << "playing grassy footstep" << std::endl;
-            } else if (otherObjectName == "Floor01.obj"){
-                mySource->playMyJam_global("stepwood_2.wav");
-            } else if (otherObjectName == "PathBlock01D.obj"){
-                
-            } else if (otherObjectName == "Bridge01D.obj"){
-                
+                if (otherObjectName == "GrassBlock01D.obj")
+                {
+                    mySource->playMyJam_global("gassy-footstep1.wav");
+                    // std::cout << "playing grassy footstep" << std::endl;
+                } else if (otherObjectName == "Floor01.obj"){
+                    mySource->playMyJam_global("stepwood_2.wav");
+                } else if (otherObjectName == "PathBlock01D.obj"){
+                    
+                } else if (otherObjectName == "Bridge01D.obj"){
+                    
+                }
+                start_footstep_lockout = std::chrono::steady_clock::now();
             }
-            start_footstep_lockout = std::chrono::steady_clock::now();
+           
         }
+        
         
         
     }

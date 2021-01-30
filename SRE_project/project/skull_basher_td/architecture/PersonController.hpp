@@ -83,4 +83,6 @@ private:
     glm::vec2 mouse_offset = {0.0f, 0.0f};
     float pitch = 0;
     float pitch_limit = 30.f;
+
+    bool isGrounded = false;
 };
