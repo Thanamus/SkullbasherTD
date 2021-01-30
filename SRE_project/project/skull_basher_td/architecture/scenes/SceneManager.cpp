@@ -29,6 +29,7 @@
 #include "../health/HealthComponent.hpp"
 #include "../health/CrystalHealth.hpp"
 #include "../CustomerCollisionHandler.hpp"
+#include "../EnemyCollisionHandler.hpp"
 
 #include <iostream>
 
@@ -440,6 +441,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
+                enemy->addComponent<EnemyCollisionHandler>();
             }
 
         }
