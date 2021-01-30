@@ -100,7 +100,7 @@ void PersonController::debugGUI() {
 
 void PersonController::update(float deltaTime)
 {
-    // updateVectors();
+    updateVectors();
     updateInput(deltaTime);
 
     // // change to use transform instead of RigidBody 
@@ -156,7 +156,7 @@ void PersonController::update(float deltaTime)
     xform.setRotation(final);
 
     xform.setOrigin({position.x, position.y, position.z});
-    // myBody->getMotionState()->setWorldTransform(xform);
+    myBody->getMotionState()->setWorldTransform(xform);
     // myBody->setWorldTransform(xform);
     myBody->setCenterOfMassTransform(xform);
 
@@ -231,7 +231,9 @@ void PersonController::update(float deltaTime)
 void PersonController::updateVectors()
 {
     camera_dir = normalize(position - camera_front); // sets the camera direction with a positive Z axis
-    camera_right = normalize(cross(world_up, camera_dir));
+    // camera_right = normalize(cross(world_up, camera_dir));
+    camera_right = normalize(cross(world_up, camera_front));
+    camera_fwd = normalize(cross(camera_right,world_up));
 }
 
 void PersonController::updateInput(float deltaTime)
@@ -248,9 +250,9 @@ void PersonController::updateInput(float deltaTime)
     // btTransform transform = hasRigidBody->getWorldTransform();
 
     btTransform transform;
-    // hasRigidBody->getMotionState()->getWorldTransform(transform);
+    hasRigidBody->getMotionState()->getWorldTransform(transform);
     // hasRigidBody->getWorldTransform(transform);
-    transform = hasRigidBody->getWorldTransform();
+    // transform = hasRigidBody->getWorldTransform();
 
     btVector3& origin = transform.getOrigin();
     position = {origin.x(), origin.y(), origin.z()}; // links origin and position
@@ -326,13 +328,17 @@ void PersonController::updateInput(float deltaTime)
 
     if (key_fwd){
 
-        position += velocity * camera_front;
+        // position += velocity * camera_front;
+        // position += velocity * camera_dir;
+        position += velocity * camera_fwd;
         // force += velocity * camera_front_bt;
     }
 
     if (key_bwd){
 
-        position -= velocity * camera_front;
+        // position -= velocity * camera_front;
+        // position -= velocity * camera_dir;
+        position -= velocity * camera_fwd;
         // force -= velocity * camera_front_bt;
     }
     if (key_left) {
@@ -377,7 +383,7 @@ void PersonController::updateInput(float deltaTime)
 //''''''''
     if(totalForce <= 7) {
         // if speed (total force) is less than 'some value', apply force (speed up)
-        // hasRigidBody->applyCentralImpulse(-force); //kinda works, have to set both origin and force
+        hasRigidBody->applyCentralImpulse(-force); //kinda works, have to set both origin and force
     } 
     
     btVector3 currentVelocity = hasRigidBody->getLinearVelocity();

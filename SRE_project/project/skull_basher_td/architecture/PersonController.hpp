@@ -52,6 +52,7 @@ private:
     glm::vec3 camera_front;
     glm::vec3 camera_dir;
     glm::vec3 camera_right;
+    glm::vec3 camera_fwd;
 
     glm::vec3 original_camera_dir;
 
