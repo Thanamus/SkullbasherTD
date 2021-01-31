@@ -10,15 +10,15 @@
 #include <glm/gtx/quaternion.hpp>
 #include <iostream>
 
-#include "SoundDevice.hpp"
-#include "SourceManager.hpp"
+#include "./sound/SoundDevice.hpp"
+#include "./sound/SourceManager.hpp"
 
 #include "Transform.hpp"
 
 // btKinematicCharacterController includes
 // #include "btKinematicCharacterController.h"
 // #include "btGhostObject.h" // Aparrently doesn't exist
-#include "RigidBody.hpp"
+#include "./physics/RigidBody.hpp"
 
 // #include "CollisionHandler.hpp"
 #define GLM_ENABLE_EXPERIMENTAL

@@ -4,8 +4,8 @@
 
 #include "BulletPhysics.hpp"
 #include "RigidBody.hpp"
-#include "GameObject.hpp"
-#include "scenes/Scene.hpp"
+#include "../GameObject.hpp"
+#include "../scenes/Scene.hpp"
 
 struct CollisionId {
     size_t collisionId;

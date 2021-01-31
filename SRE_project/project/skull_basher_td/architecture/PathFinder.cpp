@@ -4,8 +4,8 @@
 #include "scenes/Scene.hpp"
 #include <cmath>
 
-#include "RigidBody.hpp"
-#include "SourceManager.hpp"
+#include "./physics/RigidBody.hpp"
+#include "./sound/SourceManager.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 
 using namespace glm;

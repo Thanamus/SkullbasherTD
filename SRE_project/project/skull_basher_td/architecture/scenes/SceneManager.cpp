@@ -4,10 +4,10 @@
 
 #include "SceneManager.hpp"
 #include "../Camera.hpp"
-#include "../RigidBody.hpp"
+#include "../physics/RigidBody.hpp"
 #include "../ModelRenderer.hpp"
 #include "../Light.hpp"
-#include "../BulletPhysics.hpp"
+#include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
 #include "../PersonController.hpp"
@@ -18,8 +18,8 @@
 
 #include "../PathFinder.hpp"
 
-#include "../SoundEffectsLibrary.hpp"
-#include "../SourceManager.hpp"
+#include "../sound/SoundEffectsLibrary.hpp"
+#include "../sound/SourceManager.hpp"
 
 //rapidjson imports
 #include "../rapidjson/rapidjson.h"
@@ -28,8 +28,8 @@
 #include "../../LevelGuiManager.hpp"
 #include "../health/HealthComponent.hpp"
 #include "../health/CrystalHealth.hpp"
-#include "../CustomerCollisionHandler.hpp"
-#include "../EnemyCollisionHandler.hpp"
+#include "../collisions/CustomCollisionHandler.hpp"
+#include "../collisions/EnemyCollisionHandler.hpp"
 
 #include <iostream>
 

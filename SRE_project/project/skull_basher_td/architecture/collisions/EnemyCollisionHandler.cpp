@@ -1,8 +1,8 @@
 
-#include "CustomerCollisionHandler.hpp"
+#include "CustomCollisionHandler.hpp"
 
-#include "GameObject.hpp"
-#include "RigidBody.hpp"
+#include "../GameObject.hpp"
+#include "../physics/RigidBody.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"

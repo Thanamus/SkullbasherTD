@@ -5,8 +5,8 @@
 #include "GameObject.hpp"
 #include "PathFinder.hpp"
 
-#include "SourceManager.hpp"
-#include "MusicBuffer.hpp"
+#include "./sound/SourceManager.hpp"
+#include "./music/MusicBuffer.hpp"
 
 class GameManager;
 

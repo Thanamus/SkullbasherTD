@@ -6,7 +6,7 @@
 #include <cstddef>
 #include <AL\alext.h>
 #include <malloc.h>
-#include "OpenALErrorCheck.hpp"
+#include "../sound/OpenALErrorCheck.hpp"
 #include <iostream> //for cout
 
 #include <inttypes.h>

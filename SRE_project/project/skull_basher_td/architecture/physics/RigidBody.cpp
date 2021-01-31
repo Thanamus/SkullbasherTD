@@ -3,8 +3,8 @@
 //
 
 #include "RigidBody.hpp"
-#include "GameObject.hpp"
-#include "Transform.hpp"
+#include "../GameObject.hpp"
+#include "../Transform.hpp"
 #include "BulletPhysics.hpp"
 #include "glm/glm.hpp"
 #include <glm/gtc/quaternion.hpp>

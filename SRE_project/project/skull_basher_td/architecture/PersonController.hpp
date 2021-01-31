@@ -9,7 +9,7 @@
 #include "Transform.hpp"
 #include "GameObject.hpp"
 
-#include "CollisionHandler.hpp"
+#include "./collisions/CollisionHandler.hpp"
 
 #include <chrono>
 

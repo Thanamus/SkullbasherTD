@@ -1,8 +1,9 @@
 
-#include "CustomerCollisionHandler.hpp"
+#include "CustomCollisionHandler.hpp"
 
-#include "GameObject.hpp"
-#include "RigidBody.hpp"
+
+#include "../GameObject.hpp"
+#include "../physics/RigidBody.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
@@ -27,3 +28,4 @@ void CustomCollisionHandler::onCollision(size_t collisionId, RigidBody* other, g
 void CustomCollisionHandler::onCollisionEnd(size_t collisionId) {
     std::cout << "Collision end "<<collisionId<<std::endl;
 }
+

@@ -5,9 +5,9 @@
 #include "Scene.hpp"
 #include <algorithm>
 #include "../Camera.hpp"
-#include "../RigidBody.hpp"
+#include "../physics/RigidBody.hpp"
 #include "../Light.hpp"
-#include "../BulletPhysics.hpp"
+#include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
 #include "../PersonController.hpp"
@@ -16,8 +16,8 @@
     //WorldObject
 #include "../WorldObject.hpp"
 
-#include "../SoundEffectsLibrary.hpp"
-#include "../SourceManager.hpp"
+#include "../sound/SoundEffectsLibrary.hpp"
+#include "../sound/SourceManager.hpp"
 
 //rapidjson imports
 #include "../rapidjson/rapidjson.h"

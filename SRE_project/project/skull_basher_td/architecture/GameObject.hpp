@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 #include "scenes/Scene.hpp"
-#include "CollisionHandler.hpp"
+#include "./collisions/CollisionHandler.hpp"
 
 class Component;
 
