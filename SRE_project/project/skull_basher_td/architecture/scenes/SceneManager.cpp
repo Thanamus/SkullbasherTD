@@ -52,21 +52,22 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     auto res = std::make_shared<LevelScene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
+    // cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
+    cameraObj->getComponent<Transform>()->position = playerSpawnPoint;
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
     cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
 
     //---- setting cameras? // kinda syncs the physics world and the transform
-    glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
-    btTransform transform;
-    btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
-    transform.setOrigin(btCameraPosition);
+    // glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
+    // btTransform transform;
+    // btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
+    // transform.setOrigin(btCameraPosition);
 
-    glm::quat inputQuat = glm::quat(cameraObj->getComponent<Transform>()->rotation);
-    btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
-    transform.setRotation(btInputQuat);
+    // glm::quat inputQuat = glm::quat(cameraObj->getComponent<Transform>()->rotation);
+    // btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
+    // transform.setRotation(btInputQuat);
 
-    cameraObj->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
+    // cameraObj->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
 
     //--- end setting cameras
 
@@ -168,6 +169,35 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
     IStreamWrapper isw(fis);
     Document d;
     d.ParseStream(isw);
+
+// --------------- set player spawn point
+    float spawnPointX = 0.f;
+    float spawnPointY = 0.f;
+    float spawnPointZ = 0.f;
+
+    spawnPointX = d["playerSpawnPoint"].GetArray()[0].GetFloat();
+    spawnPointY = d["playerSpawnPoint"].GetArray()[1].GetFloat();
+    spawnPointZ = d["playerSpawnPoint"].GetArray()[2].GetFloat();
+
+
+    playerSpawnPoint = {spawnPointX,spawnPointY,spawnPointZ};
+
+    auto tempCam = currentScene->cameras[0]->getGameObject();
+    tempCam->getComponent<Transform>()->position = playerSpawnPoint;
+
+    std::cout << " spawnPoint x should be: " << playerSpawnPoint.x << std::endl;
+// -------------------
+
+    glm::vec3 glmCameraPosition =  tempCam->getComponent<Transform>()->position;
+    btTransform transform;
+    btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
+    transform.setOrigin(btCameraPosition);
+
+    glm::quat inputQuat = glm::quat(tempCam->getComponent<Transform>()->rotation);
+    btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
+    transform.setRotation(btInputQuat);
+
+    tempCam->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
 
     //Hardcoded start position // Original
     // startingPosition.x = 1.5;
@@ -402,6 +432,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
             std::cout << "Asset folder: " << filePath << "\n";
             std::cout << "Model Name: " << modelName << "\n";
 
+            float moveSpeedToBe = d["enemyLookup"][enemyTypeChar]["moveSpeed"].GetFloat();
             // //create the world object map tile
             // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder);
 
@@ -438,6 +469,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
                 enemy->getComponent<PathFinder>()->setWave(wave);
                 enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);
+                enemy->getComponent<PathFinder>()->setMoveSpeed(moveSpeedToBe);
                 std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;

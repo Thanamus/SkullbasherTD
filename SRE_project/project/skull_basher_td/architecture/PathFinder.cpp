@@ -12,7 +12,7 @@ using namespace glm;
 PathFinder::PathFinder(GameObject* gameObject)
  : Component(gameObject)
 {
-    PathFinder::pfMoveSpeed = 0.1f; //not sure if the declaration in the .hpp file is working
+    // pfMoveSpeed = 0.1f; //not sure if the declaration in the .hpp file is working
 
     currentPathIndex = gameObject->getScene()->gameManager->getFirstPathIndex();
     // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
@@ -146,4 +146,12 @@ void PathFinder::update(float deltaTime){
 
     int PathFinder::getEnemySetNumber() {
         return enemySetNumber;
+    }
+
+    void PathFinder::setMoveSpeed(float incoming_move_speed){
+        pfMoveSpeed = incoming_move_speed;
+    }
+
+    float PathFinder::getMoveSpeed(){
+        return pfMoveSpeed;
     }
