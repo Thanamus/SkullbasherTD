@@ -83,6 +83,9 @@ void ScheduleManager::update(float deltaTime){
                                 //make Game Manager Update the enemy and wave
                                 currentScene->gameManager->updateAllWaveStats();
                                 waveGoGoGo = false; //just did stuff, reset wave go go go to false to wait for next elapsed time
+                                
+                                fetchInitialWaveSchedule(); // TODO change name, also might not need to happen every trigger
+                                
                                 break;
 
                             }

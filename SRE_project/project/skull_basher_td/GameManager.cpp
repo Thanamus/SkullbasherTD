@@ -267,7 +267,7 @@ void GameManager::updateAllWaveStats(){
             { // temp waves is higher than total waves
                 return; //Do nothing, the level is at the last wave anyway
             } else //update wave
-            { //temp wave is under total waves
+            { //temp wave is under total waves               
                 checkAndUpdateWaveNumber(tempCurrentEnemyWaveHolder);
                 return;
             }
