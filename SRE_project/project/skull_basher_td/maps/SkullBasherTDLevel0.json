@@ -4,6 +4,7 @@
     "levelDifficulty": 1,
     "sceneType": 0,
     "playerSpawnPoint": [20,3.0,11],
+    "playerSpawnRotation": 190,
     "tileMap":[
         [
             [10,10,10,10,10,10,10,10,10,10,10,0,0,0,0,0,0,0,0,0,0,0],

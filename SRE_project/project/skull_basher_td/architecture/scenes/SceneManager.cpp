@@ -178,27 +178,32 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
     spawnPointX = d["playerSpawnPoint"].GetArray()[0].GetFloat();
     spawnPointY = d["playerSpawnPoint"].GetArray()[1].GetFloat();
     spawnPointZ = d["playerSpawnPoint"].GetArray()[2].GetFloat();
-
-
     playerSpawnPoint = {spawnPointX,spawnPointY,spawnPointZ};
+    // std::cout << " spawnPoint x should be: " << playerSpawnPoint.x << std::endl;
+
+    playerSpawnRotation = d["playerSpawnRotation"].GetFloat();
+    std::cout << " spawnPointRotation should be: " << playerSpawnRotation << std::endl;
+
 
     auto tempCam = currentScene->cameras[0]->getGameObject();
     tempCam->getComponent<Transform>()->position = playerSpawnPoint;
+    tempCam->getComponent<Transform>()->rotation.y = playerSpawnRotation;
 
-    std::cout << " spawnPoint x should be: " << playerSpawnPoint.x << std::endl;
-// -------------------
 
     glm::vec3 glmCameraPosition =  tempCam->getComponent<Transform>()->position;
     btTransform transform;
     btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
     transform.setOrigin(btCameraPosition);
 
+    std::cout << " spawnPointRotation is actually:  " << tempCam->getComponent<Transform>()->rotation.y << std::endl;
+    
     glm::quat inputQuat = glm::quat(tempCam->getComponent<Transform>()->rotation);
     btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
     transform.setRotation(btInputQuat);
 
     tempCam->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
 
+// ------------------- end setting player Spawn point
     //Hardcoded start position // Original
     // startingPosition.x = 1.5;
     // startingPosition.y = 1.5;
