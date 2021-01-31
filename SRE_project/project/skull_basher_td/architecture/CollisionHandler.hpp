@@ -4,6 +4,11 @@
 
 #pragma once
 
+#include "glm/glm.hpp"
+
+class RigidBody;
+
+
 class CollisionHandler {
 public:
     virtual void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) = 0; // begin or update

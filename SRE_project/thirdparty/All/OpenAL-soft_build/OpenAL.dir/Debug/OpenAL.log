@@ -1,0 +1,87 @@
+﻿  Generating hrtf_default.h
+  Building Custom Rule C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft/CMakeLists.txt
+  auxeffectslot.cpp
+  buffer.cpp
+  effect.cpp
+  error.cpp
+  event.cpp
+  extension.cpp
+  filter.cpp
+  listener.cpp
+  source.cpp
+  state.cpp
+  alc.cpp
+  alconfig.cpp
+  alu.cpp
+  base.cpp
+  dsound.cpp
+  loopback.cpp
+  wasapi.cpp
+  wave.cpp
+  winmm.cpp
+  bformatdec.cpp
+  Generating Code...
+  Compiling...
+  buffer_storage.cpp
+  converter.cpp
+  effectslot.cpp
+  helpers.cpp
+  hrtf.cpp
+  panning.cpp
+  uiddefs.cpp
+  voice.cpp
+  ambdec.cpp
+  ambidefs.cpp
+  bs2b.cpp
+  bsinc_tables.cpp
+  cpu_caps.cpp
+  devformat.cpp
+  except.cpp
+  biquad.cpp
+  nfc.cpp
+  splitter.cpp
+  fmt_traits.cpp
+  fpu_ctrl.cpp
+  Generating Code...
+  Compiling...
+  logging.cpp
+  mastering.cpp
+  mixer_c.cpp
+  mixer_sse.cpp
+  mixer_sse2.cpp
+  mixer_sse3.cpp
+  mixer_sse41.cpp
+  uhjfilter.cpp
+  Generating Code...
+  autowah.cpp
+  chorus.cpp
+  compressor.cpp
+  convolution.cpp
+  dedicated.cpp
+  distortion.cpp
+  echo.cpp
+  equalizer.cpp
+  fshifter.cpp
+  modulator.cpp
+  null.cpp
+  pshifter.cpp
+  reverb.cpp
+  vmorpher.cpp
+  autowah.cpp
+  chorus.cpp
+  compressor.cpp
+  convolution.cpp
+  dedicated.cpp
+  distortion.cpp
+  echo.cpp
+  equalizer.cpp
+  fshifter.cpp
+  modulator.cpp
+  null.cpp
+  pshifter.cpp
+  reverb.cpp
+  vmorpher.cpp
+  null.cpp
+  LINK : C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\Debug\OpenAL32.dll not found or not built by the last incremental link; performing full link
+     Creating library C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/Debug/OpenAL32.lib and object C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/Debug/OpenAL32.exp
+  OpenAL.vcxproj -> C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\Debug\OpenAL32.dll

@@ -41,6 +41,7 @@ public:
     sre::Camera getCamera();
     void simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, std::vector<std::shared_ptr<GameObject>> gameObjects);
     void moveTowerCursor(glm::vec3 front, std::shared_ptr<GameObject> tower);
+    void moveHandCursor(glm::vec3 front, std::shared_ptr<GameObject> hand);
     int inline GetIntersection( float fDst1, float fDst2, glm::vec3 P1, glm::vec3 P2, glm::vec3 &Hit);
     int inline InBox( glm::vec3 Hit, glm::vec3 B1, glm::vec3 B2, const int Axis) ;
     int CheckLineBox( glm::vec3 B1, glm::vec3 B2, glm::vec3 L1, glm::vec3 L2, glm::vec3 &Hit);

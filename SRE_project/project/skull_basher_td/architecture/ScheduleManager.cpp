@@ -1,9 +1,12 @@
 
 #include "ScheduleManager.hpp"
 #include "../GameManager.hpp"
-#include "Scene.hpp"
+#include "scenes/Scene.hpp"
 #include "GameObject.hpp"
 #include "PathFinder.hpp"
+
+#include "SourceManager.hpp"
+#include "MusicBuffer.hpp"
 
 class GameManager;
 
@@ -62,6 +65,20 @@ void ScheduleManager::update(float deltaTime){
                                 /* code */
                                 //object was the right one, make it go
                                 objectWithPathFinder->setMovingStatus(true);
+
+                                //play sound
+                                    // Moved to setMovingStatus
+                                    // SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
+                                    // mySourceManager->playMyJam_global("pestilence.wav");
+                                    // glm::vec3 testPosition(0,0,0);
+                                    // float testSoundDist = 30.0f;
+                                    // mySourceManager->playMyJam("pestilence.ogg", testPosition, testSoundDist);
+                                    // mySourceManager->playMyJam("pestilence.wav", testPosition, testSoundDist);
+                                    // mySourceManager->playSource((ALuint)1);
+
+                                    // Only for testing the fade out, can be removed
+                                    // MusicBuffer * myMusicBuffer = MusicBuffer::Get();
+                                    // myMusicBuffer->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
 
                                 //make Game Manager Update the enemy and wave
                                 currentScene->gameManager->updateAllWaveStats();

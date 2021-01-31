@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "Scene.hpp"
+#include "scenes/Scene.hpp"
 #include "CollisionHandler.hpp"
 
 class Component;

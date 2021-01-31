@@ -3,6 +3,7 @@
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
 #include "Tower.hpp"
+#include "architecture/health/CrystalHealth.hpp"
 
 struct enemySetsInWave {
     int enemyType;
@@ -29,6 +30,7 @@ public:
     std::shared_ptr<Tower> selectedTower;
     void GameManager::onKey(SDL_Event &event);
     void GameManager::onMouse(SDL_Event &event);
+    void TogglePause();
     void ToggleLockMouse();
     bool quit = false;
     bool buildModeActive = false;
@@ -41,22 +43,26 @@ public:
 
     void setPower(float power);
 
+    bool levelRunning = true;
+    bool won = false;
     bool paused = false;
-    bool debugBricks = true;
-    bool lockRotation = false;
 
     void updateTowerIndicator();
     std::shared_ptr<class Scene> currentScene;
+    std::shared_ptr<class SceneManager> sceneManager;
 
     void setPath(std::vector<glm::vec3> pathToBe);
     std::vector<glm::vec3> getPath();
     int getFirstPathIndex();
     glm::vec3 getNextPathPoint(int currentPathIndex);
 
+    std::shared_ptr<CrystalHealth> crystal;
+
     //wave details
     int getCurrentEnemy();
     int getCurrentEnemySet();
     int getCurrentWave();
+    int getTotalWavesInLevel();
 
     int getEnemyAmountWave();
     waveScheduleDetails getCurrentTimeBetweenWaves();
@@ -66,7 +72,8 @@ public:
 
     void updateAllWaveStats();
     void setInitialWaveStats();
-
+    const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
+    int getTotalEnemiesInCurrentSet() const;
 private:
     void loadTowers(std::string filename);
     static std::map<std::string, std::shared_ptr<sre::Texture>> inventoryTexture;
@@ -79,7 +86,7 @@ private:
     //path
     std::vector<glm::vec3> path;
 
-    // Wave stats
+//-------------- Wave stats -------------------
     int currentWave = 0;
     int totalWavesInLevel = 0;
 
