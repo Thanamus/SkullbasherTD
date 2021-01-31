@@ -467,19 +467,20 @@
         }
     },
     "waves": [
-        {"enemies":[{"enemyType":1,"quantity":1}], "timeBetweenEnemy":5, "timeBetweenWaves":10},
-        {"enemies":[{"enemyType":2,"quantity":1}], "timeBetweenEnemy":5, "timeBetweenWaves":20},
-        {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":5, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":1,"quantity":1}], "timeBetweenEnemy":20, "timeBetweenWaves":10},
+        {"enemies":[{"enemyType":2,"quantity":1}], "timeBetweenEnemy":10, "timeBetweenWaves":30},
+        {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":10, "timeBetweenWaves":40},
 
-        {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":2,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":20},
-        {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":5, "timeBetweenWaves":10},
-        {"enemies":[{"enemyType":1,"quantity":5}], "timeBetweenEnemy":5, "timeBetweenWaves":20},
-        {"enemies":[{"enemyType":1,"quantity":2},{"enemyType":2,"quantity":1},{"enemyType":1,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":2,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":10, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":1,"quantity":5}], "timeBetweenEnemy":10, "timeBetweenWaves":40},
+        {"enemies":[{"enemyType":1,"quantity":2},{"enemyType":2,"quantity":1},{"enemyType":1,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":10},
         
-        {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":2,"quantity":2}], "timeBetweenEnemy":1, "timeBetweenWaves":30},
+        {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":2,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":30},
+        {"enemies":[{"enemyType":3,"quantity":2}, {"enemyType":1,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":30},
 
         {"enemies":[{"enemyType":3,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":5},
-        {"enemies":[{"enemyType":2,"quantity":10}], "timeBetweenEnemy":1, "timeBetweenWaves":20}
+        {"enemies":[{"enemyType":2,"quantity":10}], "timeBetweenEnemy":2, "timeBetweenWaves":20}
     ],
     "enemyLookup":{
         "1": {
@@ -500,7 +501,7 @@
                 "y": 0.1,
                 "z": 0.1
             },
-            "moveSpeed": 0.3
+            "moveSpeed": 0.25
         },
         "3": {
             "object": "Skull01.obj",
