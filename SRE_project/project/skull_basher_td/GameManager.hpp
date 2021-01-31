@@ -70,7 +70,7 @@ public:
     void setCurrentEnemy(int currentEnemy);
     void addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails);
 
-    void updateAllWaveStats();
+    bool updateAllWaveStats();
     void setInitialWaveStats();
     const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
     int getTotalEnemiesInCurrentSet() const;
@@ -113,4 +113,5 @@ private:
 
     std::map <int, std::vector<enemySetsInWave>> waveAndEnemys;
     std::map <int, waveScheduleDetails> waveAndTimeBetweens;
+    bool lastEnemy = false;
 };

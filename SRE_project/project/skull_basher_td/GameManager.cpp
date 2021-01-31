@@ -244,51 +244,60 @@ waveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
     return waveAndTimeBetweens[currentWave];
 }
 
-void GameManager::updateAllWaveStats(){
+bool GameManager::updateAllWaveStats(){
     int tempCurrentEnemyHolder = currentEnemy;
     int tempCurrentEnemySetHolder = currentEnemySet;
     int tempCurrentEnemyWaveHolder = currentWave;
 
-    //check enemy
-    tempCurrentEnemyHolder ++;
-    if (tempCurrentEnemyHolder > totalEnemiesInCurrentSet)
-    { //temp number is higher than in the set
+    if (!lastEnemy)
+    {
+        /* code */
+        //check enemy
+        tempCurrentEnemyHolder ++;
+        if (tempCurrentEnemyHolder > totalEnemiesInCurrentSet)
+        { //temp number is higher than in the set
 
-        //check set
-        tempCurrentEnemySetHolder ++;
-        if (tempCurrentEnemySetHolder >= totalEnemySetsInCurrentWave)
-        { // temp set is higher than the total
+            //check set
+            tempCurrentEnemySetHolder ++;
+            if (tempCurrentEnemySetHolder >= totalEnemySetsInCurrentWave)
+            { // temp set is higher than the total
 
-            //check wave
-            tempCurrentEnemyWaveHolder ++;
-            // std::cout << "waves in level" << totalWavesInLevel;
+                //check wave
+                tempCurrentEnemyWaveHolder ++;
+                // std::cout << "waves in level" << totalWavesInLevel;
 
-            if (tempCurrentEnemyWaveHolder >= totalWavesInLevel)
-            { // temp waves is higher than total waves
-                return; //Do nothing, the level is at the last wave anyway
-            } else //update wave
-            { //temp wave is under total waves               
-                checkAndUpdateWaveNumber(tempCurrentEnemyWaveHolder);
-                return;
+                if (tempCurrentEnemyWaveHolder >= totalWavesInLevel)
+                { // temp waves is higher than total waves
+                    // getting here should mean that the last enemy was triggered
+                    lastEnemy = true;
+                    return false; //Do nothing, the level is at the last wave anyway
+                } else //update wave
+                { //temp wave is under total waves               
+                    checkAndUpdateWaveNumber(tempCurrentEnemyWaveHolder);
+                    return true;
+                }
+
+
+            } else // update the set
+            {
+                currentEnemySet = tempCurrentEnemySetHolder;
+                //get total number of enemies in the current set
+                setTotalEnemiesInCurrentSet();
+
+                //reset enemy number
+                currentEnemy = 0;
+
+                return true;
             }
 
-
-        } else // update the set
-        {
-            currentEnemySet = tempCurrentEnemySetHolder;
-            //get total number of enemies in the current set
-            setTotalEnemiesInCurrentSet();
-
-            //reset enemy number
-            currentEnemy = 0;
-
-            return;
+        } else
+        { //temp enemy number wasn't too high, means there is another enemy in the set
+            currentEnemy = tempCurrentEnemyHolder;
+            return true;
         }
-
-    } else
-    { //temp enemy number wasn't too high, means there is another enemy in the set
-        currentEnemy = tempCurrentEnemyHolder;
     }
+    
+    return false; // Game is on the last enemy, so no update happened
 }
 
 
@@ -314,6 +323,7 @@ void GameManager::checkAndUpdateWaveNumber(int tempCurrentEnemyWaveHolder){
 }
 
 void GameManager::setInitialWaveStats(){
+    lastEnemy = false;
     //get wave 0 sets
     totalEnemySetsInCurrentWave = waveAndEnemys[0].size();
 
