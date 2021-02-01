@@ -28,8 +28,11 @@
 #include "../../LevelGuiManager.hpp"
 #include "../health/HealthComponent.hpp"
 #include "../health/CrystalHealth.hpp"
+
+// Collision imports
 #include "../collisions/CustomCollisionHandler.hpp"
 #include "../collisions/EnemyCollisionHandler.hpp"
+#include "../collisions/PlayerCollisionHandler.hpp"
 
 #include <iostream>
 
@@ -73,6 +76,7 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
 
     cameraObj->addComponent<PersonController>();
     cameraObj->getComponent<PersonController>()->currentScene = res;
+    cameraObj->addComponent<PlayerCollisionHandler>();
 
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<Transform>()->rotation = {30,30,0};

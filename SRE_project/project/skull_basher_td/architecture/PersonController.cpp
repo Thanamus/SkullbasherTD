@@ -43,7 +43,7 @@ PersonController::PersonController(GameObject* gameObject)
     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
 
-    start_footstep_lockout = std::chrono::steady_clock::now(); // initalise the first footstep lockout
+    // start_footstep_lockout = std::chrono::steady_clock::now(); // initalise the first footstep lockout
 
 }
 
@@ -316,56 +316,56 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
 }
 
 
-void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
-    if (begin){
-        std::string otherObjectName = other->getGameObject()->getName();
-        std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;
-        std::cout << "player position is: " << position.x << " , " << position.y << " , " << position.z << std::endl;
+// void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
+//     if (begin){
+//         std::string otherObjectName = other->getGameObject()->getName();
+//         std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;
+//         std::cout << "player position is: " << position.x << " , " << position.y << " , " << position.z << std::endl;
        
 
 
-        // std::cout << "time_elapsed :" << time_elapsed_milli << std::endl;        
+//         // std::cout << "time_elapsed :" << time_elapsed_milli << std::endl;        
 
-        SourceManager * mySource = SourceManager::Get();
-        //----- if colliding with ground, play ground sounds
-        if (col_position.y < position.y-0.2f)
-        {
-            // collision happened below the player
+//         SourceManager * mySource = SourceManager::Get();
+//         //----- if colliding with ground, play ground sounds
+//         if (col_position.y < position.y-0.2f)
+//         {
+//             // collision happened below the player
 
-            // check footstep time
-            std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
-            int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - start_footstep_lockout).count();
+//             // check footstep time
+//             std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
+//             int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - start_footstep_lockout).count();
             
-            isGrounded = true; //player just collided with something on it's feet
-            // so it could be considered grounded
+//             isGrounded = true; //player just collided with something on it's feet
+//             // so it could be considered grounded
             
-            // TODO match offset to player colision size 
-            if (time_elapsed_milli > footstep_lockout_millisec)
-            {
-                if (otherObjectName == "GrassBlock01D.obj")
-                {
-                    mySource->playMyJam_global("gassy-footstep1.wav");
-                    // std::cout << "playing grassy footstep" << std::endl;
-                } else if (otherObjectName == "Floor01.obj"){
-                    mySource->playMyJam_global("stepwood_2.wav");
-                } else if (otherObjectName == "PathBlock01D.obj"){
+//             // TODO match offset to player colision size 
+//             if (time_elapsed_milli > footstep_lockout_millisec)
+//             {
+//                 if (otherObjectName == "GrassBlock01D.obj")
+//                 {
+//                     mySource->playMyJam_global("gassy-footstep1.wav");
+//                     // std::cout << "playing grassy footstep" << std::endl;
+//                 } else if (otherObjectName == "Floor01.obj"){
+//                     mySource->playMyJam_global("stepwood_2.wav");
+//                 } else if (otherObjectName == "PathBlock01D.obj"){
                     
-                } else if (otherObjectName == "Bridge01D.obj"){
+//                 } else if (otherObjectName == "Bridge01D.obj"){
                     
-                }
+//                 }
 
-                // restart footstep lockout
-                start_footstep_lockout = std::chrono::steady_clock::now();
-            }
+//                 // restart footstep lockout
+//                 start_footstep_lockout = std::chrono::steady_clock::now();
+//             }
            
-        }
+//         }
         
         
         
-    }
-}
+//     }
+// }
 
 
-void PersonController::onCollisionEnd(size_t collisionId) {
-    std::cout << "Collision end "<<collisionId<<std::endl;
-}
+// void PersonController::onCollisionEnd(size_t collisionId) {
+//     std::cout << "Collision end "<<collisionId<<std::endl;
+// }
