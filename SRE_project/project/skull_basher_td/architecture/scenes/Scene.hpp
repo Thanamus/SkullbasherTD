@@ -46,7 +46,7 @@ public:
 
     void setAmbientColor(const glm::vec3 &ambientColor);
     std::vector<std::shared_ptr<GameObject>> getGameObjects();
-    std::vector<std::shared_ptr<GameObject>> getEnemyObjects();
+    std::vector<EnemyComponent*> getEnemies();
 
     //World Map stuff
     //void loadMap(std::string filename, std::shared_ptr<Scene> res);
@@ -64,13 +64,13 @@ protected:
     bool debugPhysics = true;
     bool debugPerformance = false;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
-    std::vector<std::shared_ptr<GameObject>> enemyObjects;
     glm::vec3 ambientColor = {0.5f,0.5f,0.5f};
     std::vector<Renderable*> renderables;
     std::vector<RenderableGui*> renderablesGui;
     std::vector<Updatable*> updatables;
     std::vector<Scriptable*> scriptables;
     std::vector<RigidBody*> rigidBodies;
+    std::vector<EnemyComponent*> enemies;
     std::vector<Light*> lights;
     sre::WorldLights worldLights;
 

@@ -75,8 +75,8 @@ public:
     const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
     int getTotalEnemiesInCurrentSet() const;
 
-    void addEnemy(const std::shared_ptr<GameObject>& enemy);
-    void removeEnemy(const std::shared_ptr<GameObject>& enemy);
+//    void addEnemy(const std::shared_ptr<GameObject>& enemy);
+//    void removeEnemy(const std::shared_ptr<GameObject>& enemy);
 private:
     void loadTowers(std::string filename);
     static std::map<std::string, std::shared_ptr<sre::Texture>> inventoryTexture;
@@ -92,10 +92,7 @@ private:
 //-------------- Wave stats -------------------
 
     std::vector<std::shared_ptr<GameObject>> enemies;
-public:
-    const std::vector<std::shared_ptr<GameObject>> &getEnemies() const;
-
-private:
+//    const std::vector<std::shared_ptr<GameObject>> &getEnemies() const;
     int currentWave = 0;
     int totalWavesInLevel = 0;
 

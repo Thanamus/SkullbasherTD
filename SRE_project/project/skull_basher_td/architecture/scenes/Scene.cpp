@@ -81,6 +81,10 @@ void Scene::addComponent(Component *component) {
     if (scriptable) {
         scriptables.push_back(scriptable);
     }
+    auto enemy = dynamic_cast<EnemyComponent*>(component);
+    if (enemy) {
+        enemies.push_back(enemy);
+    }
     auto light = dynamic_cast<Light*>(component);
     if (light) {
         lights.push_back(light);
@@ -113,6 +117,10 @@ void Scene::removeComponent(Component *component) {
     if (scriptable) {
         scriptables.erase(std::find(scriptables.begin(), scriptables.end(), scriptable), scriptables.end());
     }
+    auto enemy = dynamic_cast<EnemyComponent*>(component);
+    if (enemy) {
+        enemies.erase(std::find(enemies.begin(), enemies.end(), enemy), enemies.end());
+    }
     auto light = dynamic_cast<Light*>(component);
     if (light) {
         lights.erase(std::find(lights.begin(), lights.end(), light), lights.end());
@@ -141,6 +149,10 @@ void Scene::setAmbientColor(const glm::vec3 &ambientColor) {
 
 std::vector<std::shared_ptr<GameObject>> Scene::getGameObjects() {
     return gameObjects;
+}
+
+std::vector<EnemyComponent *> Scene::getEnemies() {
+    return enemies;
 }
 
 #pragma clang diagnostic pop

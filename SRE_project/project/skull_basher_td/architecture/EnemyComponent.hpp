@@ -7,6 +7,7 @@
 
 #include "Component.hpp"
 #include "Updatable.hpp"
+#include "glm/glm.hpp"
 #include "health/HealthComponent.hpp"
 
 class Pathfinder;
@@ -24,6 +25,8 @@ public:
 
     void setEnemySetNumber(int incomingEnemySet);
     int getEnemySetNumber() const;
+
+    glm::vec3 getPosition();
 
     Pathfinder *getPathfinder() const;
 

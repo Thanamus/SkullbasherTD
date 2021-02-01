@@ -46,7 +46,6 @@ public:
     bool targetInRange() const;
 
 private:
-    std::shared_ptr<GameManager> gameManager;
     glm::vec3 aimPos = glm::vec3(-1);
 
     // simply maps enum actions to strings

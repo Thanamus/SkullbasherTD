@@ -345,15 +345,15 @@ int GameManager::getTotalEnemiesInCurrentSet() const {
 void GameManager::setCurrentEnemy(int currentEnemy) {
 
 }
+//
+//void GameManager::addEnemy(const std::shared_ptr<GameObject>& enemy) {
+//    enemies.push_back(enemy);
+//}
 
-void GameManager::addEnemy(const std::shared_ptr<GameObject>& enemy) {
-    enemies.push_back(enemy);
-}
+//void GameManager::removeEnemy(const std::shared_ptr<GameObject>& enemy) {
+//    enemies.erase(std::find(enemies.begin(), enemies.end(), enemy), enemies.end());
+//}
 
-void GameManager::removeEnemy(const std::shared_ptr<GameObject>& enemy) {
-    enemies.erase(std::find(enemies.begin(), enemies.end(), enemy), enemies.end());
-}
-
-const std::vector<std::shared_ptr<GameObject>> &GameManager::getEnemies() const {
-    return enemies;
-}
+//const std::vector<std::shared_ptr<GameObject>> &GameManager::getEnemies() const {
+//    return enemies;
+//}

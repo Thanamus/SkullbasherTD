@@ -10,8 +10,6 @@
 
 TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         : Component(gameObject) {
-
-    gameManager = gameObject->getScene()->gameManager;
     lua.set_function("getGameObject", [&]()->GameObject* {
         return gameObject;
     });
@@ -38,7 +36,8 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
     );
 
     auto enemyComponent_type =lua.new_usertype<EnemyComponent>("EnemyComponent",
-                                     "getPathfinder", &EnemyComponent::getPathfinder);
+                                     "getPathfinder", &EnemyComponent::getPathfinder,
+                                     "getPosition", &EnemyComponent::getPosition);
 
     auto pathfinder_type = lua.new_usertype<Pathfinder>("Pathfinder",
                                  "getCurrentPathIndex", &Pathfinder::getCurrentPathIndex);
@@ -87,8 +86,8 @@ void TowerBehaviourComponent::update() {
         std::cout << actions[TB_RELOADING] << std::endl;
     // if tower doesn't have a live target, get a new one
     else if(target == nullptr) {
-        std::cout << "targeting... " << scripts.find("targeting")->second->function.valid() << std::endl;
-        run(actions[TB_TARGETING], gameManager->getEnemies()); //
+        std::cout << "targeting... " << std::endl;
+        run(actions[TB_TARGETING], gameObject->getScene()->getEnemies()); //
     }
     // if the tower is ready to shoot and has a target, but hasn't aimed yet, then calc where to shoot
     else if (aimPos == glm::vec3(-1))

@@ -4,6 +4,7 @@
 
 #include "EnemyComponent.hpp"
 #include "Pathfinder.hpp"
+#include "Transform.hpp"
 
 EnemyComponent::EnemyComponent(GameObject *gameObject) : HealthComponent(gameObject) {
     pathfinder = new Pathfinder(gameObject);
@@ -44,4 +45,8 @@ int EnemyComponent::getEnemySetNumber() const {
 
 Pathfinder *EnemyComponent::getPathfinder() const {
     return pathfinder;
+}
+
+glm::vec3 EnemyComponent::getPosition() {
+    return getGameObject()->getComponent<Transform>()->globalPosition();
 }

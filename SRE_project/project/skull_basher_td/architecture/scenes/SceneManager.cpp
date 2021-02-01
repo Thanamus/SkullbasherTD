@@ -423,8 +423,6 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 enemyTR->setModelRenderer(enemyMR);
                 enemyTR->setAnimator(enemyAN);
 
-                gameManager->addEnemy(enemy);
-
                 auto idleAnimation = std::make_shared<Animation>(true);
                 idleAnimation->addFrame(glm::vec3(0, 0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
                 idleAnimation->addFrame(glm::vec3(0, -0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
