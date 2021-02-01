@@ -5,6 +5,8 @@
 #include "SceneManager.hpp"
 #include "../Camera.hpp"
 #include "../physics/RigidBody.hpp"
+#include "../physics/GhostObject.hpp"
+
 #include "../ModelRenderer.hpp"
 #include "../Light.hpp"
 #include "../physics/BulletPhysics.hpp"
@@ -78,6 +80,8 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     cameraObj->getComponent<PersonController>()->currentScene = res;
     cameraObj->addComponent<PlayerCollisionHandler>();
 
+
+
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<Transform>()->rotation = {30,30,0};
     lightObj->addComponent<Light>();
@@ -120,12 +124,18 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     crystalAN->addAnimation("rotate", crystalRotate);
     crystalAN->setAnimationState("rotate");
 
-    auto crystalRigidBody = crystal->addComponent<RigidBody>();
-    crystalRigidBody->initRigidBodyWithBox({0.5,1.5,0.5}, 0);
+    // auto crystalRigidBody = crystal->addComponent<RigidBody>();
+    //----------- figuring out ghostObjects
+    // crystalRigidBody->initRigidBodyWithBox({0.5,1.5,0.5}, 0);
+    crystal->addComponent<GhostObject>()->initGhostObjectWithSphere(0.01f);
+    // crystal->addComponent<RigidBody>()->initGhostObjectWithSphere(0.9f);
+
+    // ---------- end figuring out ghostobjects
+    gameManager->crystal = crystal->getComponent<CrystalHealth>();
+    // crystal->addComponent<EnemyCollisionHandler>();
 
     crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
 
-    gameManager->crystal = crystal->getComponent<CrystalHealth>();
 
     return res;
 };
@@ -470,6 +480,9 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                 //Add Physics to skull
                 enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
+                // enemy->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags(btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK); // nope
+                // enemy->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT); // nope
+                
 
                 // std::cout << "anEnemy is: " << anEnemy << "\n";
 
@@ -483,6 +496,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
                 enemy->addComponent<EnemyCollisionHandler>();
+                // enemy->addComponent<GhostObject>()->initGhostObjectWithSphere(0.1f);
             }
 
         }

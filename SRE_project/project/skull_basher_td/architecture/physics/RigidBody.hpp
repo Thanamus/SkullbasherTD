@@ -6,6 +6,9 @@
 #include "btBulletDynamicsCommon.h"
 #include "glm/glm.hpp"
 
+// #include "BulletCollision/CollisionDispatch/btGhostObject.h"
+
+
 class Transform;
 
 
@@ -14,6 +17,8 @@ public:
     explicit RigidBody(GameObject* gameObject);
     ~RigidBody() final;
     void initRigidBodyWithSphere(float radius, float mass = 0);
+    void initGhostObjectWithSphere(float radius);
+
     void initRigidBodyWithBox(glm::vec3 halfExtend, float mass = 1.0);
     void initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeDist);
     void initRigidBody(btRigidBody::btRigidBodyConstructionInfo info);

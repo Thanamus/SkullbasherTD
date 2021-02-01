@@ -25,7 +25,8 @@ public:
     // void onCollisionEnd(size_t collisionId) override {
     //     std::cout << "Collision end "<<collisionId<<std::endl;
     // }
-    void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override;
+    // void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override;
+    void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
     // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
     // void onCollisionEnd(size_t collisionId); 
     void onCollisionEnd(size_t collisionId) override; 

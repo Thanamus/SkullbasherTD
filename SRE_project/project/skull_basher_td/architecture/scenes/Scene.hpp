@@ -81,6 +81,7 @@ protected:
 private:
     friend class GameObject;
     friend class RigidBody;
+    friend class GhostObject;
     friend class MainMenuGuiManager;
 };
 

@@ -12,6 +12,9 @@
 #include <glm/gtx/quaternion.hpp>
 
 
+#include "BulletCollision/CollisionDispatch/btGhostObject.h"
+
+
 RigidBody::RigidBody(GameObject *gameObject) : Component(gameObject) {
     transform = gameObject->getComponent<Transform>().get();
 
@@ -88,19 +91,47 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
         isDynamic = true;
     }
 //----------
-if (isDynamic)
-{
-    /* code */
-    btVector3 fallInertia(0, 0, 0);
-    shape->calculateLocalInertia(mass, fallInertia);
-    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
-    initRigidBody(fallRigidBodyCI);
-} else {
-    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape);
-    initRigidBody(fallRigidBodyCI);
+    if (isDynamic)
+    {
+        /* code */
+        btVector3 fallInertia(0, 0, 0);
+        shape->calculateLocalInertia(mass, fallInertia);
+        btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
+        initRigidBody(fallRigidBodyCI);
+    } else {
+        btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape);
+        initRigidBody(fallRigidBodyCI);
+
+    }
 
 }
 
+void RigidBody::initGhostObjectWithSphere(float radius){
+    auto ghostObject = new btGhostObject();
+		ghostObject->setCollisionShape(new btBoxShape(btVector3(btScalar(50.),btScalar(50.),btScalar(50.))));
+		
+        // adding transform for ghost object
+        auto pos = transform->position;
+        auto rot = transform->localRotation();
+        glm::quat rotQ = glm::quat_cast(rot);
+
+        btTransform initialTransform =
+            btTransform(btQuaternion(rotQ.x, rotQ.y, rotQ.z, rotQ.w), btVector3(pos.x, pos.y, pos.z));
+        ghostObject->setWorldTransform(initialTransform);
+        auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
+		// m_dynamicsWorld->addCollisionObject(ghostObject);
+		physicsWorld->addCollisionObject(ghostObject);
+		physicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());	
+
+//    if (rigidBody){
+//         physicsWorld->removeRigidBody(rigidBody);
+//         delete rigidBody;
+//     }
+//     rigidBody = new btRigidBody(info);
+//     rigidBody->setUserPointer(this);
+
+    // physicsWorld->addRigidBody(rigidBody);
+    // physicsWorld->addRigidBody(ghostObject);
 }
 
 void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {

@@ -31,9 +31,11 @@ PlayerCollisionHandler::~PlayerCollisionHandler(){
 }
 
 
-void PlayerCollisionHandler::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
+void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 col_position, bool begin){
+// void PlayerCollisionHandler::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
     if (begin){
-        std::string otherObjectName = other->getGameObject()->getName();
+        // std::string otherObjectName = other->getGameObject()->getName();
+        std::string otherObjectName = other->getName();
         // auto thing = gameObject->getComponent<Transform>();
         glm::vec3 playerPosition = gameObject->getComponent<Transform>()->position;
         bool& isGrounded = gameObject->getComponent<PersonController>()->isGrounded; // shold link PersonController and isGrounded
