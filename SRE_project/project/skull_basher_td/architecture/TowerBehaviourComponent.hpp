@@ -7,9 +7,11 @@
 
 #include "Scriptable.hpp"
 #include "Component.hpp"
+#include "GameObject.hpp"
 #include "glm/glm.hpp"
 
-class TowerBehaviourComponent : public Component, Scriptable {
+class TowerBehaviourComponent : public Component, public Scriptable {
+    using Scriptable::Scriptable;
 public:
     enum TowerAction {
         TB_TARGETING,
@@ -19,40 +21,48 @@ public:
     };
 
     explicit TowerBehaviourComponent(GameObject* gameObject);
-    void update();
+    void update() override;
 
     static std::vector<std::shared_ptr<GameObject>> getEnemyList;
 
+    float getRange() const;
+    void setRange(float _range);
+
+    bool isReadyToShoot() const;
+    void setReadyToShoot(bool readyToShoot);
+
+    float getProjectileSpeed() const;
+    void setProjectileSpeed(float _projectileSpeed);
+
+    float getReloadSpeed() const;
+    void setReloadSpeed(float _reloadSpeed);
+
+    GameObject *getTarget() const;
+    void setTarget(GameObject *_target);
+
+    const glm::vec3 &getAimPos() const;
+    void setAimPos(const glm::vec3 &_aimPos);
+
+    bool targetInRange() const;
+
 private:
-    TowerAction action;
+    std::shared_ptr<GameManager> gameManager;
+    glm::vec3 aimPos = glm::vec3(-1);
+
+    // simply maps enum actions to strings
+    std::map<TowerAction, std::string> actions;
 
     // attributes
     // TODO: shift to reading from json once it's all done
-    float range = 200f;
+    float range = 200.f;
     bool readyToShoot = true;
     float projectileSpeed = 2.f;
     float reloadSpeed = 3.f;
 
     // targeting stuff
     GameObject* target = nullptr;
-    glm::vec3 aimPos = -1;
 
-    // simple conversion from enum to string, done in this static method to ensure correspondence between action and
-    // script
-    static std::string getActionScriptName() {
-        switch(action) {
-            case TB_TARGETING:
-                return "targeting";
-            case TB_AIMING:
-                return "aiming";
-            case TB_SHOOTING:
-                return "shooting";
-            case TB_RELOADING:
-                return "reloading";
-            default:
-                break;
-        }
-    };
+    static bool inCircle(glm::vec2 point, glm::vec2 center, float radius) ;
 };
 
 

@@ -77,6 +77,10 @@ void Scene::addComponent(Component *component) {
     if (updatable) {
         updatables.push_back(updatable);
     }
+    auto scriptable = dynamic_cast<Scriptable*>(component);
+    if (scriptable) {
+        scriptables.push_back(scriptable);
+    }
     auto light = dynamic_cast<Light*>(component);
     if (light) {
         lights.push_back(light);
@@ -88,29 +92,34 @@ void Scene::addComponent(Component *component) {
 }
 
 void Scene::removeComponent(Component *component) {
+    //NOTE: updated to use the erase-remove idiom (https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Erase-Remove)
     auto camera = dynamic_cast<Camera*>(component);
     if (camera){
-        cameras.erase(std::find(cameras.begin(),cameras.end(), camera));
+        cameras.erase(std::remove(cameras.begin(),cameras.end(), camera), cameras.end());
     }
     auto renderable = dynamic_cast<Renderable*>(component);
     if (renderable) {
-        renderables.erase(std::find(renderables.begin(), renderables.end(), renderable));
+        renderables.erase(std::remove(renderables.begin(), renderables.end(), renderable), renderables.end());
     }
     auto renderableGui = dynamic_cast<RenderableGui*>(component);
     if (renderableGui) {
-        renderablesGui.erase(std::find(renderablesGui.begin(), renderablesGui.end(), renderableGui));
+        renderablesGui.erase(std::remove(renderablesGui.begin(), renderablesGui.end(), renderableGui), renderablesGui.end());
     }
     auto updatable = dynamic_cast<Updatable*>(component);
     if (updatable) {
-        updatables.erase(std::find(updatables.begin(), updatables.end(), updatable));
+        updatables.erase(std::find(updatables.begin(), updatables.end(), updatable), updatables.end());
+    }
+    auto scriptable = dynamic_cast<Scriptable*>(component);
+    if (scriptable) {
+        scriptables.erase(std::find(scriptables.begin(), scriptables.end(), scriptable), scriptables.end());
     }
     auto light = dynamic_cast<Light*>(component);
     if (light) {
-        lights.erase(std::find(lights.begin(), lights.end(), light));
+        lights.erase(std::find(lights.begin(), lights.end(), light), lights.end());
     }
     auto rigidBody = dynamic_cast<RigidBody*>(component);
     if (rigidBody) {
-        rigidBodies.erase(std::find(rigidBodies.begin(), rigidBodies.end(), rigidBody));
+        rigidBodies.erase(std::find(rigidBodies.begin(), rigidBodies.end(), rigidBody), rigidBodies.end());
     }
 }
 

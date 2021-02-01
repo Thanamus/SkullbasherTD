@@ -6,6 +6,8 @@
 #include "Camera.hpp"
 #include "ModelRenderer.hpp"
 #include "Light.hpp"
+#include <string>
+#include <sre/Resource.hpp>
 
 #include "RigidBody.hpp"
 #include "CustomerCollisionHandler.hpp"
@@ -25,6 +27,7 @@
 #include "MusicBuffer.hpp"
 
 #include "SourceManager.hpp"
+#include "sol.hpp"
 #include "../LevelGuiManager.hpp"
 #include "../MainMenuGuiManager.hpp"
 
@@ -102,8 +105,6 @@ Main::Main()
     };
     r.startEventLoop();
 }
-
-#include "Animator.hpp"
 
 const sre::SDLRenderer &Main::getR() const {
     return r;

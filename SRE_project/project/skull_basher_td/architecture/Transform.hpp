@@ -23,8 +23,10 @@ public:
     glm::vec3 scale = glm::vec3(1,1,1);
 
     glm::mat4 localRotation() const;
-    glm::mat4 localTransform();
-    glm::mat4 globalTransform();
+    glm::mat4 localTransform() const;
+
+    glm::vec3 globalPosition() const;
+    glm::mat4 globalTransform() const;
 
     std::shared_ptr<Animator> getAnimator() const;
     void setAnimator(std::shared_ptr<Animator> _animator);

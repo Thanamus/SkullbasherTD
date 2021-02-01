@@ -55,7 +55,7 @@ public:
     virtual ~SceneManager();
 
     std::shared_ptr<Scene> createScene(std::string levelName);
-    void changeScene(std::shared_ptr<LevelData> sceneData);
+    void changeScene(const std::shared_ptr<LevelData>& sceneData);
     void loadMap(std::string filename, std::shared_ptr<Scene> res);
     std::shared_ptr<Scene> createMainMenuScene();
 

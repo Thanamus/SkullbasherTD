@@ -3,7 +3,7 @@
 #include "../GameManager.hpp"
 #include "scenes/Scene.hpp"
 #include "GameObject.hpp"
-#include "PathFinder.hpp"
+#include "Pathfinder.hpp"
 
 #include "SourceManager.hpp"
 #include "MusicBuffer.hpp"
@@ -46,12 +46,12 @@ void ScheduleManager::update(float deltaTime){
             for (size_t i = 0; i < gameObjectsList.size(); i++)
             {
                 auto tempGameObject = gameObjectsList[i];
-                if (auto objectWithPathFinder = tempGameObject->getComponent<PathFinder>())
-                { //get the GameObject with PathFinder
+                if (auto enemy = tempGameObject->getComponent<EnemyComponent>())
+                { //get the GameObject with Pathfinder
                     //get the wave number to compare with the next enemy to start moving
-                    int currentEnemyWaveNumber = objectWithPathFinder->getWave();
-                    int currentEnemyNumber = objectWithPathFinder->getEnemyNumber();
-                    int currentEnemySetNumber = objectWithPathFinder->getEnemySetNumber();
+                    int currentEnemyWaveNumber = enemy->getWave();
+                    int currentEnemyNumber = enemy->getEnemyNumber();
+                    int currentEnemySetNumber = enemy->getEnemySetNumber();
 
                     // std::cout << "current Enemy Set " << currentEnemySetNumber << std::endl;
                     // std::cout << "looking for: enemy:" << enemyToGoGoGo << ", set: " << enemySetToGoGoGo << " wave: " << enemyWaveToGoGoGo << std::endl;
@@ -64,10 +64,10 @@ void ScheduleManager::update(float deltaTime){
                             {
                                 /* code */
                                 //object was the right one, make it go
-                                objectWithPathFinder->setMovingStatus(true);
+                                enemy->getPathfinder()->setMoving(true);
 
                                 //play sound
-                                    // Moved to setMovingStatus
+                                    // Moved to setMoving
                                     // SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
                                     // mySourceManager->playMyJam_global("pestilence.wav");
                                     // glm::vec3 testPosition(0,0,0);

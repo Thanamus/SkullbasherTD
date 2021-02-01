@@ -10,6 +10,8 @@
 #include "../../GuiManager.hpp"
 #include "../ScheduleManager.hpp"
 #include "../RenderableGui.hpp"
+#include "../Scriptable.hpp"
+#include "../EnemyComponent.hpp"
 
 #include <vector>
 #include <string>
@@ -43,8 +45,8 @@ public:
     const glm::vec3 &getAmbientColor() const;
 
     void setAmbientColor(const glm::vec3 &ambientColor);
-
     std::vector<std::shared_ptr<GameObject>> getGameObjects();
+    std::vector<std::shared_ptr<GameObject>> getEnemyObjects();
 
     //World Map stuff
     //void loadMap(std::string filename, std::shared_ptr<Scene> res);
@@ -56,15 +58,18 @@ public:
     std::shared_ptr<GameManager> gameManager;
     std::shared_ptr<SceneManager> sceneManager;
     std::shared_ptr<ScheduleManager> scheduleManager;
+
 protected:
     std::string name;
     bool debugPhysics = true;
     bool debugPerformance = false;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
+    std::vector<std::shared_ptr<GameObject>> enemyObjects;
     glm::vec3 ambientColor = {0.5f,0.5f,0.5f};
     std::vector<Renderable*> renderables;
     std::vector<RenderableGui*> renderablesGui;
     std::vector<Updatable*> updatables;
+    std::vector<Scriptable*> scriptables;
     std::vector<RigidBody*> rigidBodies;
     std::vector<Light*> lights;
     sre::WorldLights worldLights;

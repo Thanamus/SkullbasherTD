@@ -17,7 +17,7 @@ public:
     float getHealth();
     void setHealth(float health);
     void addHealth(float health);
-    void decreasHealth(float health);
+    void decreaseHealth(float health);
     virtual void HandleHealthChange();
 
 protected:

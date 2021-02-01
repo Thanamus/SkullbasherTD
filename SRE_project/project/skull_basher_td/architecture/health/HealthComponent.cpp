@@ -28,7 +28,7 @@ void HealthComponent::addHealth(float health)
     HandleHealthChange();
 }
 
-void HealthComponent::decreasHealth(float health)
+void HealthComponent::decreaseHealth(float health)
 {
     this->health -= health;
     HandleHealthChange();

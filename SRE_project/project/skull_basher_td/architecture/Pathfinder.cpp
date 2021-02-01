@@ -1,35 +1,23 @@
 
-#include "PathFinder.hpp"
+#include "Pathfinder.hpp"
 #include "Transform.hpp"
-#include "scenes/Scene.hpp"
-#include <cmath>
-
 #include "RigidBody.hpp"
 #include "SourceManager.hpp"
-#include "glm/gtx/rotate_vector.hpp"
 
 using namespace glm;
-PathFinder::PathFinder(GameObject* gameObject)
- : Component(gameObject)
-{
-    PathFinder::pfMoveSpeed = 0.1f; //not sure if the declaration in the .hpp file is working
+Pathfinder::Pathfinder(GameObject* _gameObject)
+: gameObject(_gameObject) {
+    Pathfinder::pfMoveSpeed = 0.1f; //not sure if the declaration in the .hpp file is working
 
-    currentPathIndex = gameObject->getScene()->gameManager->getFirstPathIndex();
+    gameManager = gameObject->getScene()->gameManager;
+    currentPathIndex = gameManager->getFirstPathIndex();
     // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
     fetchNextPathPoint();
     currentPosition = gameObject->getComponent<Transform>()->position;
 }
 
-PathFinder::~PathFinder()
-{
-
-}
-
-void PathFinder::fetchNextPathPoint(){
-    //get the scene
-    auto currentScene = gameObject->getScene()->gameManager;
-    
-    nextPathPoint = currentScene->getNextPathPoint(currentPathIndex);
+void Pathfinder::fetchNextPathPoint(){
+    nextPathPoint = gameManager->getNextPathPoint(currentPathIndex);
 
     //update current path index
     if (currentPathIndex > 0)
@@ -39,31 +27,28 @@ void PathFinder::fetchNextPathPoint(){
     {
 
     }
-    
 }
 
-void PathFinder::update(float deltaTime){
+void Pathfinder::update(float deltaTime) {
     // std::cout << "delta time is: " << deltaTime << "\n";
     // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
-    if (moving)
-    { //only if the skull has been set to moving should it move
+    if (moving) {
+        //only if the skull has been set to moving it should move
         //get current position
         bool rigidBodyCheck = false;
-        btRigidBody* hasRigidBody = nullptr;
+        btRigidBody* rigidBody = nullptr;
 
-        if (hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody())
-        {
+        rigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+        if (rigidBody) {
             rigidBodyCheck = true;
             // std::cout << "object has rigid body \n";
-            btTransform currentTransform = hasRigidBody->getWorldTransform();
+            btTransform currentTransform = rigidBody->getWorldTransform();
             auto & origin = currentTransform.getOrigin();
             currentPosition = {origin.x(), origin.y(), origin.z()};
             
         } else if(auto currentTransform = gameObject->getComponent<Transform>()) {
-
             currentPosition = currentTransform->position;
         }
-        
 
         // std::cout << "I am a skull, my current position is: " << currentPosition.x << "\n";
 
@@ -84,15 +69,15 @@ void PathFinder::update(float deltaTime){
         // nextPosition = glm::mix(currentPosition, nextPathPoint, velocity);
         nextPosition.y = 0; // correction for the path being on the floor
         // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
-        getGameObject()->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
+        gameObject->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
 
         //update transform
         if (rigidBodyCheck)
         {
             btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};
-            btTransform transform = hasRigidBody->getWorldTransform();
+            btTransform transform = rigidBody->getWorldTransform();
             transform.setOrigin(nextBtPosition);
-            hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
+            rigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
             // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
         }
         
@@ -100,31 +85,10 @@ void PathFinder::update(float deltaTime){
         // gameObject->getComponent<Transform>()->position = nextPosition; 
 
         //currentTransform->position = nextPosition;
-        
     }
-    
-
-
 }
 
-
-    void PathFinder::setWave(int incomingWaveNumber){
-        waveNumber = incomingWaveNumber;
-    }
-
-    int PathFinder::getWave(){
-        return waveNumber;
-    }
-
-    void PathFinder::setEnemyNumber(int incomingEnemyNumber){
-        enemyNumber = incomingEnemyNumber;
-    }
-
-    int PathFinder::getEnemyNumber(){
-        return enemyNumber;
-    }
-
-    void PathFinder::setMovingStatus(bool incomingMovingStatus){
+    void Pathfinder::setMoving(bool incomingMovingStatus){
         moving = incomingMovingStatus;
         if (moving == true)
         {
@@ -136,14 +100,10 @@ void PathFinder::update(float deltaTime){
         //play sound
     }
 
-    bool PathFinder::getMovingStatus(){
+    bool Pathfinder::isMoving() const{
         return moving;
     }
 
-    void PathFinder::setEnemySetNumber(int incomingEnemySet){
-        enemySetNumber = incomingEnemySet;
-    }
-
-    int PathFinder::getEnemySetNumber() {
-        return enemySetNumber;
-    }
+int Pathfinder::getCurrentPathIndex() const {
+    return currentPathIndex;
+}

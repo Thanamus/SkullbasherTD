@@ -15,6 +15,7 @@
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
+#include "architecture/TowerBehaviourComponent.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -126,11 +127,19 @@ void GameManager::onMouse(SDL_Event &event)
         if(personController->allowedToBuild)
         {
             auto tower = currentScene->createGameObject(selectedTower->getName());
-            tower->getComponent<Transform>()->position = personController->tower->getComponent<Transform>()->position;
-            tower->getComponent<Transform>()->rotation = personController->tower->getComponent<Transform>()->rotation;
-            tower->getComponent<Transform>()->scale = {0.5f,0.5f,0.5f};
+            auto towerTR = tower->getComponent<Transform>();
+            towerTR->position = personController->tower->getComponent<Transform>()->position;
+            towerTR->rotation = personController->tower->getComponent<Transform>()->rotation;
+            towerTR->scale = {0.5f,0.5f,0.5f};
 
             auto towerMR = tower->addComponent<ModelRenderer>();
+            auto towerAN = tower->addComponent<Animator>();
+
+            towerTR->setModelRenderer(towerMR);
+            towerTR->setAnimator(towerAN);
+
+            auto towerTB = tower->addComponent<TowerBehaviourComponent>();
+            towerTB->setEnabled(true);
             auto path =  ".\\assets\\"+ selectedTower->getMesh();
             std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName(selectedTower->getMesh()).build();
             //towerMR->setMesh(personController->tower->getComponent<ModelRenderer>()->getMesh());
@@ -213,7 +222,7 @@ int GameManager::getFirstPathIndex(){
 }
 
 void GameManager::addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails){
-    waveAndEnemys[waveNumber]=enemySets;
+    waveAndEnemies[waveNumber]=enemySets;
     waveAndTimeBetweens[waveNumber]=waveDetails;
     enemyAmountWave += 1; //adds a wave amount every time add wave is called. 
     totalWavesInLevel += 1;
@@ -310,25 +319,41 @@ void GameManager::checkAndUpdateWaveNumber(int tempCurrentEnemyWaveHolder){
     setTotalEnemiesInCurrentSet();
 
     //get new total sets
-    totalEnemySetsInCurrentWave = waveAndEnemys[currentWave].size();
+    totalEnemySetsInCurrentWave = waveAndEnemies[currentWave].size();
 }
 
 void GameManager::setInitialWaveStats(){
     //get wave 0 sets
-    totalEnemySetsInCurrentWave = waveAndEnemys[0].size();
+    totalEnemySetsInCurrentWave = waveAndEnemies[0].size();
 
     //get wave 0 enemies
-    totalEnemiesInCurrentSet = waveAndEnemys[0][0].quantiy - 1; //minus one, because counting starts at 1, not 0
+    totalEnemiesInCurrentSet = waveAndEnemies[0][0].quantity - 1; //minus one, because counting starts at 1, not 0
 }
 
 void GameManager::setTotalEnemiesInCurrentSet() {
-    totalEnemiesInCurrentSet = waveAndEnemys[currentWave][currentEnemySet].quantiy - 1; //minus one, because counting starts at 1, not 0
+    totalEnemiesInCurrentSet = waveAndEnemies[currentWave][currentEnemySet].quantity - 1; //minus one, because counting starts at 1, not 0
 }
 
 const std::map<int, std::vector<enemySetsInWave>> &GameManager::getWaveAndEnemys() const {
-    return waveAndEnemys;
+    return waveAndEnemies;
 }
 
 int GameManager::getTotalEnemiesInCurrentSet() const {
     return totalEnemiesInCurrentSet;
+}
+
+void GameManager::setCurrentEnemy(int currentEnemy) {
+
+}
+
+void GameManager::addEnemy(const std::shared_ptr<GameObject>& enemy) {
+    enemies.push_back(enemy);
+}
+
+void GameManager::removeEnemy(const std::shared_ptr<GameObject>& enemy) {
+    enemies.erase(std::find(enemies.begin(), enemies.end(), enemy), enemies.end());
+}
+
+const std::vector<std::shared_ptr<GameObject>> &GameManager::getEnemies() const {
+    return enemies;
 }

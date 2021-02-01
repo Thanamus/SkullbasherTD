@@ -24,10 +24,10 @@ void EnemyCollisionHandler::onCollision(size_t collisionId, RigidBody* other, gl
     if (begin){
         auto crystal = other->getGameObject()->getComponent<CrystalHealth>();
         std::cout << "crystal " << crystal <<std::endl;
-        if(crystal != nullptr)
-        {
+        if(crystal) {
             std::cout << "hit crystal "<<std::endl;
-            crystal->decreasHealth(25);
+            // TODO: move/link this class to EnemyComponent? So it can be read from a json file with other stats!
+            crystal->decreaseHealth(25);
         }
     }
 }

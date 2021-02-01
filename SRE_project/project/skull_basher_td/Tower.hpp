@@ -8,12 +8,12 @@ class Tower
 public:
     explicit Tower(
             int id,
-    std::string name,
-    std::string icon,
-    std::string mesh,
-    float buildCost,
-    float constructionTime,
-    float delay
+            std::string name,
+            std::string icon,
+            std::string mesh,
+            int buildCost,
+            float constructionTime,
+            float delay
     );
 
     int getId() const;
@@ -24,7 +24,7 @@ public:
 
     const std::string &getMesh() const;
 
-    float getBuildCost() const;
+    int getBuildCost() const;
 
     float getConstructionTime() const;
 
@@ -35,7 +35,7 @@ private:
     std::string name;
     std::shared_ptr<sre::Texture> icon;
     std::string mesh;
-    float buildCost;
+    int buildCost;
     float constructionTime;
     float delay;
 };

@@ -16,7 +16,7 @@
 //WorldObject
 #include "../WorldObject.hpp"
 
-#include "../PathFinder.hpp"
+#include "../Pathfinder.hpp"
 
 #include "../SoundEffectsLibrary.hpp"
 #include "../SourceManager.hpp"
@@ -26,12 +26,14 @@
 #include "../rapidjson/document.h"
 #include "../rapidjson/istreamwrapper.h"
 #include "../../LevelGuiManager.hpp"
+#include "../TowerBehaviourComponent.hpp"
 #include "../health/HealthComponent.hpp"
 #include "../health/CrystalHealth.hpp"
 #include "../CustomerCollisionHandler.hpp"
 #include "../EnemyCollisionHandler.hpp"
 
 #include <iostream>
+#include <utility>
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -83,6 +85,8 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     tower->getComponent<Transform>()->scale = {0.2f,0.2f,0.2f};
     auto towerMR = tower->addComponent<ModelRenderer>();
     towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    auto towerTB = tower->addComponent<TowerBehaviourComponent>();
+    towerTB->setEnabled(false);
 
     cameraObj->getComponent<PersonController>()->tower = tower;
 
@@ -108,7 +112,8 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     auto crystalMR = crystal->addComponent<ModelRenderer>();
     auto crystalPath =  ".\\assets\\crystal.obj";
     auto crystalAN = crystal->addComponent<Animator>();
-    crystalMR->setAnimator(crystalAN.get());
+    crystal->getComponent<Transform>()->setAnimator(crystalAN);
+    crystal->getComponent<Transform>()->setModelRenderer(crystalMR);
     auto crystalRotate = std::make_shared<Animation>(true);
     crystalRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(0), 5.f);
     crystalRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(360), 5.f);
@@ -140,7 +145,7 @@ std::shared_ptr<Scene> SceneManager::createMainMenuScene(){
 };
 
 void SceneManager::setCurrentScene(std::shared_ptr<Scene> res){
-    this->currentScene = res;
+    this->currentScene = std::move(res);
 };
 
 std::shared_ptr<Scene> SceneManager::getCurrentScene(){
@@ -203,7 +208,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
     bool isbuildableHolder = false;
     bool isPathHolder = false;
 
-    std::string modelName = "";
+    std::string modelName;
     std::shared_ptr<Model> modelHolder;
     std::shared_ptr<sre::Mesh> meshHolder;
     std::shared_ptr<sre::Material> matHolder;
@@ -358,10 +363,10 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
         //get the number of enemyTypes and quantities in order
         int numberOfEnemySets = d["waves"][wave]["enemies"].GetArray().Size();
         std::vector<enemySetsInWave> enemySetsHolder;
-        enemySetsInWave tempEnemySet;
+        enemySetsInWave tempEnemySet{};
 
         //wave schedule parameters per this current wave
-        waveScheduleDetails waveScheduleDetailHolder;
+        waveScheduleDetails waveScheduleDetailHolder{};
         waveScheduleDetailHolder.timeBetweenWaves = d["waves"][wave]["timeBetweenWaves"].GetInt();
         waveScheduleDetailHolder.timeBetweenEnemies = d["waves"][wave]["timeBetweenEnemy"].GetInt();
 
@@ -376,7 +381,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
             //put the set into the enemySetHolder to be sent to GameManager later
             tempEnemySet.enemyType = enemyTypeInt;
-            tempEnemySet.quantiy = howManyOfEnemyType;
+            tempEnemySet.quantity = howManyOfEnemyType;
             enemySetsHolder.push_back(tempEnemySet);
 
 
@@ -410,9 +415,21 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 // gameManager->enermyAmountWave += 1;
                 //create game object
                 auto enemy = res->createGameObject(modelName);
+                auto enemyTR = enemy->getComponent<Transform>();
                 // std::cout << "mesh Name: " << modelName << "\n";
                 auto enemyMR = enemy->addComponent<ModelRenderer>();
+                auto enemyAN = enemy->addComponent<Animator>();
                 enemyMR->setModel(modelHolder);
+                enemyTR->setModelRenderer(enemyMR);
+                enemyTR->setAnimator(enemyAN);
+
+                gameManager->addEnemy(enemy);
+
+                auto idleAnimation = std::make_shared<Animation>(true);
+                idleAnimation->addFrame(glm::vec3(0, 0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
+                idleAnimation->addFrame(glm::vec3(0, -0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
+                enemyAN->addAnimation("idle", idleAnimation);
+                enemyAN->setAnimationState("idle");
 
                 enemy->getComponent<Transform>()->position = positionHolder;
                 enemy->getComponent<Transform>()->rotation.y = rotationHolder;
@@ -434,10 +451,10 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 // std::cout << "anEnemy is: " << anEnemy << "\n";
 
                 //Add Path Finder to Skull
-                enemy->addComponent<PathFinder>();
-                enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
-                enemy->getComponent<PathFinder>()->setWave(wave);
-                enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);
+                auto enemyEC = enemy->addComponent<EnemyComponent>();
+                enemyEC->setEnemyNumber(anEnemy);
+                enemyEC->setWave(wave);
+                enemyEC->setEnemySetNumber(currentEnemySet);
                 std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
@@ -487,7 +504,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
     // mySourceManager->playSource((ALuint)1);
 }
 
-void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
+void SceneManager::changeScene(const std::shared_ptr<LevelData>& sceneData) {
     std::string path = ".\\maps\\";
     path.append(sceneData->fileName);
 
