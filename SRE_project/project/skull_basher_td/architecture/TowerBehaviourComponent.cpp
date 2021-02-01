@@ -37,7 +37,8 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
 
     auto enemyComponent_type =lua.new_usertype<EnemyComponent>("EnemyComponent",
                                      "getPathfinder", &EnemyComponent::getPathfinder,
-                                     "getPosition", &EnemyComponent::getPosition);
+                                     "getPosition", &EnemyComponent::getPosition,
+                                     "getGameObject", &EnemyComponent::getGameObject); // must be bound again
 
     auto pathfinder_type = lua.new_usertype<Pathfinder>("Pathfinder",
                                  "getCurrentPathIndex", &Pathfinder::getCurrentPathIndex);
@@ -57,6 +58,10 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
 
     lua.set_function("setTarget", [&](GameObject* _target) -> void {
         return setTarget(_target);
+    });
+
+    lua.set_function("targetInRange", [&]() -> bool {
+        return targetInRange();
     });
 
     lua.set_function("inCircle", [&](glm::vec2 point, glm::vec2 center, float radius) -> bool {
@@ -84,8 +89,8 @@ void TowerBehaviourComponent::update() {
     if (!readyToShoot)
 //        run(actions[TB_RELOADING]);
         std::cout << actions[TB_RELOADING] << std::endl;
-    // if tower doesn't have a live target, get a new one
-    else if(target == nullptr) {
+    // if tower doesn't have a live target in range, get a new one
+    else if(!targetInRange()) {
         std::cout << "targeting... " << std::endl;
         run(actions[TB_TARGETING], gameObject->getScene()->getEnemies()); //
     }

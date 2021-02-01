@@ -53,7 +53,7 @@ private:
 
     // attributes
     // TODO: shift to reading from json once it's all done
-    float range = 200.f;
+    float range = 5.f;
     bool readyToShoot = true;
     float projectileSpeed = 2.f;
     float reloadSpeed = 3.f;

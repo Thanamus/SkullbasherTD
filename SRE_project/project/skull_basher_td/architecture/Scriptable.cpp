@@ -28,8 +28,8 @@ Scriptable::Scriptable(bool enabled)
                                                          "getChildren", &GameObject::getChildren
     );
 
-//    auto component_type = lua.new_usertype<Component>("Component",
-//                                                      "getGameObject", &Component::getGameObject);
+    auto component_type = lua.new_usertype<Component>("Component",
+                                                      "getGameObject", &Component::getGameObject);
 
     auto vec3_type = lua.new_usertype<glm::vec3> ("vec3",
                                                   sol::constructors<glm::vec3(float, float, float)>(),
