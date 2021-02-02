@@ -65,7 +65,7 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info){
         // std::cout << "trying to make Kinematic" << std::endl;
         // rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
         rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
-        rigidBody->forceActivationState(DISABLE_DEACTIVATION);
+        // rigidBody->forceActivationState(DISABLE_DEACTIVATION);
     }
 
     // ---------- end

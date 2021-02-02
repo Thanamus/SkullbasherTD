@@ -51,6 +51,14 @@ void PathFinder::update(float deltaTime){
         bool rigidBodyCheck = false;
         btRigidBody* hasRigidBody = nullptr;
 
+        bool hasTransform = false;
+        if (gameObject->getComponent<Transform>() != nullptr)
+        {
+            hasTransform = true;
+        }
+        
+
+
         if (hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody())
         {
             rigidBodyCheck = true;
@@ -94,8 +102,24 @@ void PathFinder::update(float deltaTime){
             transform.setOrigin(nextBtPosition);
             hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
             // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
+            if (hasTransform)
+            {
+                btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};
+                btTransform transform = hasRigidBody->getWorldTransform();
+                transform.setOrigin(nextBtPosition);
+
+                // Set orientation
+                float newRotation = getGameObject()->getComponent<Transform>()->rotation.y;
+                btQuaternion aroundX;
+                aroundX.setRotation(btVector3(0,-1,0), radians(newRotation-180)); // works, but the objects face the wrong way?
+                transform.setRotation(aroundX);
+                // hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
+                hasRigidBody->setWorldTransform(transform); // it works!!!!
+                // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
+                /* code */
+            }
+            
         }
-        
         /* I think position gets updated from RigidBody already*/
         // gameObject->getComponent<Transform>()->position = nextPosition; 
 

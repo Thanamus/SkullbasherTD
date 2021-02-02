@@ -20,7 +20,7 @@ EnemyCollisionHandler::~EnemyCollisionHandler(){
 
 
 void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
-    std::cout << "EnemyCollisionHandler "  <<std::endl;
+    // std::cout << "EnemyCollisionHandler "  <<std::endl;
     
     if (begin){
         auto crystal = other->getComponent<CrystalHealth>();
