@@ -222,139 +222,139 @@ BulletPhysics::BulletPhysics() {
     m_ghostPairCallback = new btGhostPairCallback(); 
 	world->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(m_ghostPairCallback);	
     // based on https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=7468
-    world->setInternalTickCallback(motorPreTickCallback,this,true);
+    // world->setInternalTickCallback(motorPreTickCallback,this,true);
 
 }
 
 
-void motorPreTickCallback (btDynamicsWorld *world, btScalar timeStep)
-{
-    // if(world){
+// void motorPreTickCallback (btDynamicsWorld *world, btScalar timeStep)
+// {
+//     // if(world){
 
-    //     auto thing = world->getPairCache();
-    // }
+//     //     auto thing = world->getPairCache();
+//     // }
 
-    // from: https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=6195
-    if (world)
-	{
-		btAlignedObjectArray < btCollisionObject* > objsInsidePairCachingGhostObject;	// We might want this to be a member variable...							
-		btAlignedObjectArray < btCollisionObject* >* pObjsInsideGhostObject = NULL;		// We will store a reference of the current array in this pointer
-		const btAlignedObjectArray < btCollisionObject* >& objs = world->getCollisionObjectArray();
+//     // from: https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=6195
+//     if (world)
+// 	{
+// 		btAlignedObjectArray < btCollisionObject* > objsInsidePairCachingGhostObject;	// We might want this to be a member variable...							
+// 		btAlignedObjectArray < btCollisionObject* >* pObjsInsideGhostObject = NULL;		// We will store a reference of the current array in this pointer
+// 		const btAlignedObjectArray < btCollisionObject* >& objs = world->getCollisionObjectArray();
 		
-        for (int i=0,sz=objs.size();i<sz;i++)	{
-			btCollisionObject* o = objs[i];
-			btGhostObject* go = btGhostObject::upcast(o);
+//         for (int i=0,sz=objs.size();i<sz;i++)	{
+// 			btCollisionObject* o = objs[i];
+// 			btGhostObject* go = btGhostObject::upcast(o);
 
-			if (go)	{
-                // go - Ghost Object is a ghost object
-				objsInsidePairCachingGhostObject.resize(0);
-				btPairCachingGhostObject* pgo = dynamic_cast < btPairCachingGhostObject* > (go);	// No upcast functionality...
-				if (pgo)	{
-					GetCollidingObjectsInsidePairCachingGhostObject(static_cast < btDiscreteDynamicsWorld* > (world),pgo,objsInsidePairCachingGhostObject);
-					pObjsInsideGhostObject = &objsInsidePairCachingGhostObject;
+// 			if (go)	{
+//                 // go - Ghost Object is a ghost object
+// 				objsInsidePairCachingGhostObject.resize(0);
+// 				btPairCachingGhostObject* pgo = dynamic_cast < btPairCachingGhostObject* > (go);	// No upcast functionality...
+// 				if (pgo)	{
+// 					GetCollidingObjectsInsidePairCachingGhostObject(static_cast < btDiscreteDynamicsWorld* > (world),pgo,objsInsidePairCachingGhostObject);
+// 					pObjsInsideGhostObject = &objsInsidePairCachingGhostObject;
 
                     
-                    // // for (int i = 0; i < pObjsInsideGhostObject->getNumOverlappingObjects(); i++)
-                    // for (int i = 0; i < pObjsInsideGhostObject->size(); i++)
-                    // {
-                    //     // btRigidBody *pRigidBody = dynamic_cast<btRigidBody *>(ghostObject->getOverlappingObject(i));
+//                     // // for (int i = 0; i < pObjsInsideGhostObject->getNumOverlappingObjects(); i++)
+//                     // for (int i = 0; i < pObjsInsideGhostObject->size(); i++)
+//                     // {
+//                     //     // btRigidBody *pRigidBody = dynamic_cast<btRigidBody *>(ghostObject->getOverlappingObject(i));
                         
-                    //     auto rigidBody0 = static_cast<RigidBody *>(pObjsInsideGhostObject[i]->getUserPointer());
-                    //     // auto rigidBody1 = static_cast<RigidBody *>(btRigidBody1->getUserPointer());
-                    //     // do whatever you want to do with these pairs of colliding objects
-                    //     std::cout << "ghost object triggered";
-                    // }
-                    std::cout << "inside pgo" << std::endl;
-				}
-				else {
-					pObjsInsideGhostObject = &go->getOverlappingPairs();	// It's better not to try and copy the whole array, but to keep a reference to it!
-					// Side Note: btAlignedObjectArray < btCollisionObject* > objs = go->getOverlappingPairs(); (at the moment) makes my program crash on my system...
-					// Nevermind, that was the wrong way of doing it: btAlignedObjectArray < btCollisionObject* >& objs = go->getOverlappingPairs(); is much better.
-				    std::cout << "getting overlapping pairs" << std::endl;
-                }	
-				// Here pObjsInsideGhostObject should be valid.
+//                     //     auto rigidBody0 = static_cast<RigidBody *>(pObjsInsideGhostObject[i]->getUserPointer());
+//                     //     // auto rigidBody1 = static_cast<RigidBody *>(btRigidBody1->getUserPointer());
+//                     //     // do whatever you want to do with these pairs of colliding objects
+//                     //     std::cout << "ghost object triggered";
+//                     // }
+//                     // std::cout << "inside pgo" << std::endl;
+// 				}
+// 				else {
+// 					pObjsInsideGhostObject = &go->getOverlappingPairs();	// It's better not to try and copy the whole array, but to keep a reference to it!
+// 					// Side Note: btAlignedObjectArray < btCollisionObject* > objs = go->getOverlappingPairs(); (at the moment) makes my program crash on my system...
+// 					// Nevermind, that was the wrong way of doing it: btAlignedObjectArray < btCollisionObject* >& objs = go->getOverlappingPairs(); is much better.
+// 				    // std::cout << "getting overlapping pairs" << std::endl;
+//                 }	
+// 				// Here pObjsInsideGhostObject should be valid.
 				
-				// ProcessObectsInsideGhostObjects(*pObjsInsideGhostObject,pgo);
-			}
+// 				// ProcessObectsInsideGhostObjects(*pObjsInsideGhostObject,pgo);
+// 			}
 		
-		}	
-	}
+// 		}	
+// 	}
 
-  	// for(int i = 0; i < ghostObject->getNumOverlappingObjects(); i++)
- 	// {
-    //             btRigidBody *pRigidBody = dynamic_cast<btRigidBody *>(ghostObject->getOverlappingObject(i));
-    //            // do whatever you want to do with these pairs of colliding objects
-    //            std::cout << "ghost object triggered";
-    //  }
-}
+//   	// for(int i = 0; i < ghostObject->getNumOverlappingObjects(); i++)
+//  	// {
+//     //             btRigidBody *pRigidBody = dynamic_cast<btRigidBody *>(ghostObject->getOverlappingObject(i));
+//     //            // do whatever you want to do with these pairs of colliding objects
+//     //            std::cout << "ghost object triggered";
+//     //  }
+// }
 
-// Portable static method: prerequisite call: m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback()); 
-void GetCollidingObjectsInsidePairCachingGhostObject(btDiscreteDynamicsWorld* m_dynamicsWorld,btPairCachingGhostObject* m_pairCachingGhostObject,btAlignedObjectArray < btCollisionObject* >& collisionArrayOut)	{
-	collisionArrayOut.resize(0);
-	if (!m_pairCachingGhostObject || !m_dynamicsWorld) return;
-	const bool addOnlyObjectsWithNegativeDistance(true);	// With "false" things don't change much, and the code is a bit faster and cleaner...
+// // Portable static method: prerequisite call: m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback()); 
+// void GetCollidingObjectsInsidePairCachingGhostObject(btDiscreteDynamicsWorld* m_dynamicsWorld,btPairCachingGhostObject* m_pairCachingGhostObject,btAlignedObjectArray < btCollisionObject* >& collisionArrayOut)	{
+// 	collisionArrayOut.resize(0);
+// 	if (!m_pairCachingGhostObject || !m_dynamicsWorld) return;
+// 	const bool addOnlyObjectsWithNegativeDistance(true);	// With "false" things don't change much, and the code is a bit faster and cleaner...
 
-	//#define USE_PLAIN_COLLISION_WORLD // We dispatch all collision pairs of the ghost object every step (slow)
-	#ifdef USE_PLAIN_COLLISION_WORLD
-	//======================================================================================================
-	// I thought this line was no longer needed, but it seems to be necessary (and I believe it's an expensive call):
-	m_dynamicsWorld->getDispatcher()->dispatchAllCollisionPairs(m_pairCachingGhostObject->getOverlappingPairCache(), m_dynamicsWorld->getDispatchInfo(), m_dynamicsWorld->getDispatcher());
-	// Maybe the call can be automatically triggered by some other Bullet call (I'm almost sure I could comment it out in another demo I made long ago...)
-	// So by now the general rule is: in real projects, simply comment it out and see if it works!
-	//======================================================================================================
-	// UPDATE: in dynamic worlds, the line above can be commented out and the broadphase pair can be retrieved through the call to findPair(...) below.
-	// In collision worlds probably the above line is needed only if collision detection for all the bodies hasn't been made... This is something
-	// I'm still not sure of... the general rule is to try to comment out the line above and try to use findPair(...) and see if it works whenever possible....
-	//======================================================================================================
-	#endif //USE_PLAIN_COLLISION_WORLD
+// 	//#define USE_PLAIN_COLLISION_WORLD // We dispatch all collision pairs of the ghost object every step (slow)
+// 	#ifdef USE_PLAIN_COLLISION_WORLD
+// 	//======================================================================================================
+// 	// I thought this line was no longer needed, but it seems to be necessary (and I believe it's an expensive call):
+// 	m_dynamicsWorld->getDispatcher()->dispatchAllCollisionPairs(m_pairCachingGhostObject->getOverlappingPairCache(), m_dynamicsWorld->getDispatchInfo(), m_dynamicsWorld->getDispatcher());
+// 	// Maybe the call can be automatically triggered by some other Bullet call (I'm almost sure I could comment it out in another demo I made long ago...)
+// 	// So by now the general rule is: in real projects, simply comment it out and see if it works!
+// 	//======================================================================================================
+// 	// UPDATE: in dynamic worlds, the line above can be commented out and the broadphase pair can be retrieved through the call to findPair(...) below.
+// 	// In collision worlds probably the above line is needed only if collision detection for all the bodies hasn't been made... This is something
+// 	// I'm still not sure of... the general rule is to try to comment out the line above and try to use findPair(...) and see if it works whenever possible....
+// 	//======================================================================================================
+// 	#endif //USE_PLAIN_COLLISION_WORLD
 	
-	btBroadphasePairArray& collisionPairs = m_pairCachingGhostObject->getOverlappingPairCache()->getOverlappingPairArray();
-  	const int	numObjects=collisionPairs.size();	
-	static btManifoldArray	m_manifoldArray;
-	bool added;
-	for(int i=0;i<numObjects;i++)	{
-    	m_manifoldArray.resize(0);
+// 	btBroadphasePairArray& collisionPairs = m_pairCachingGhostObject->getOverlappingPairCache()->getOverlappingPairArray();
+//   	const int	numObjects=collisionPairs.size();	
+// 	static btManifoldArray	m_manifoldArray;
+// 	bool added;
+// 	for(int i=0;i<numObjects;i++)	{
+//     	m_manifoldArray.resize(0);
     	
-		#ifdef USE_PLAIN_COLLISION_WORLD
-		const btBroadphasePair& collisionPair = collisionPairs[i];
-		if (collisionPair.m_algorithm) collisionPair.m_algorithm->getAllContactManifolds(m_manifoldArray);
-		else {	// THIS SHOULD NEVER HAPPEN, AND IF IT DOES, PLEASE RE-ENABLE the "call" a few lines above...
-			printf("No collisionPair.m_algorithm - probably m_dynamicsWorld->getDispatcher()->dispatchAllCollisionPairs(...) must be missing.\n");	
-		}	
-		#else // USE_PLAIN_COLLISION_WORLD	
-		const btBroadphasePair& cPair = collisionPairs[i];
-		//unless we manually perform collision detection on this pair, the contacts are in the dynamics world paircache:
-    	const btBroadphasePair* collisionPair = m_dynamicsWorld->getPairCache()->findPair(cPair.m_pProxy0,cPair.m_pProxy1);
-    	if (!collisionPair) continue;		
-		if (collisionPair->m_algorithm) collisionPair->m_algorithm->getAllContactManifolds(m_manifoldArray);
-		else {	// THIS SHOULD NEVER HAPPEN, AND IF IT DOES, PLEASE RE-ENABLE the "call" a few lines above...
-			printf("No collisionPair.m_algorithm - probably m_dynamicsWorld->getDispatcher()->dispatchAllCollisionPairs(...) must be missing.\n");	
-		}
-		#endif //USE_PLAIN_COLLISION_WORLD
+// 		#ifdef USE_PLAIN_COLLISION_WORLD
+// 		const btBroadphasePair& collisionPair = collisionPairs[i];
+// 		if (collisionPair.m_algorithm) collisionPair.m_algorithm->getAllContactManifolds(m_manifoldArray);
+// 		else {	// THIS SHOULD NEVER HAPPEN, AND IF IT DOES, PLEASE RE-ENABLE the "call" a few lines above...
+// 			printf("No collisionPair.m_algorithm - probably m_dynamicsWorld->getDispatcher()->dispatchAllCollisionPairs(...) must be missing.\n");	
+// 		}	
+// 		#else // USE_PLAIN_COLLISION_WORLD	
+// 		const btBroadphasePair& cPair = collisionPairs[i];
+// 		//unless we manually perform collision detection on this pair, the contacts are in the dynamics world paircache:
+//     	const btBroadphasePair* collisionPair = m_dynamicsWorld->getPairCache()->findPair(cPair.m_pProxy0,cPair.m_pProxy1);
+//     	if (!collisionPair) continue;		
+// 		if (collisionPair->m_algorithm) collisionPair->m_algorithm->getAllContactManifolds(m_manifoldArray);
+// 		else {	// THIS SHOULD NEVER HAPPEN, AND IF IT DOES, PLEASE RE-ENABLE the "call" a few lines above...
+// 			printf("No collisionPair.m_algorithm - probably m_dynamicsWorld->getDispatcher()->dispatchAllCollisionPairs(...) must be missing.\n");	
+// 		}
+// 		#endif //USE_PLAIN_COLLISION_WORLD
 		
-		added = false;
-		for (int j=0;j<m_manifoldArray.size();j++)	{
-			btPersistentManifold* manifold = m_manifoldArray[j];
-			// Here we are in the narrowphase, but can happen that manifold->getNumContacts()==0:
-			if (addOnlyObjectsWithNegativeDistance)	{
-				for (int p=0,numContacts=manifold->getNumContacts();p<numContacts;p++)			{
-					const btManifoldPoint&pt = manifold->getContactPoint(p);
-					if (pt.getDistance() < 0.0) 	{
-						// How can I be sure that the colObjs are all distinct ? I use the "added" flag.
-						collisionArrayOut.push_back((btCollisionObject*) (manifold->getBody0() == m_pairCachingGhostObject ? manifold->getBody1() : manifold->getBody0()));
-						added = true;
-						break;
-					}	
-				}
-			if (added) break;
-			}
-			else if (manifold->getNumContacts()>0) {
-				collisionArrayOut.push_back((btCollisionObject*) (manifold->getBody0() == m_pairCachingGhostObject ? manifold->getBody1() : manifold->getBody0()));
-				break;
-			}
-		}
-	}	
-}
+// 		added = false;
+// 		for (int j=0;j<m_manifoldArray.size();j++)	{
+// 			btPersistentManifold* manifold = m_manifoldArray[j];
+// 			// Here we are in the narrowphase, but can happen that manifold->getNumContacts()==0:
+// 			if (addOnlyObjectsWithNegativeDistance)	{
+// 				for (int p=0,numContacts=manifold->getNumContacts();p<numContacts;p++)			{
+// 					const btManifoldPoint&pt = manifold->getContactPoint(p);
+// 					if (pt.getDistance() < 0.0) 	{
+// 						// How can I be sure that the colObjs are all distinct ? I use the "added" flag.
+// 						collisionArrayOut.push_back((btCollisionObject*) (manifold->getBody0() == m_pairCachingGhostObject ? manifold->getBody1() : manifold->getBody0()));
+// 						added = true;
+// 						break;
+// 					}	
+// 				}
+// 			if (added) break;
+// 			}
+// 			else if (manifold->getNumContacts()>0) {
+// 				collisionArrayOut.push_back((btCollisionObject*) (manifold->getBody0() == m_pairCachingGhostObject ? manifold->getBody1() : manifold->getBody0()));
+// 				break;
+// 			}
+// 		}
+// 	}	
+// }
 
 
 BulletPhysics::~BulletPhysics() {
