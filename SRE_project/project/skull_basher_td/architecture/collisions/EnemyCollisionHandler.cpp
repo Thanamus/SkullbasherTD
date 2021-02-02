@@ -29,8 +29,18 @@ void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
         {
             std::cout << "hit crystal "<<std::endl;
             crystal->decreasHealth(25);
+
+            // auto collisionComponent = gameObject->getComponent<EnemyCollisionHandler>();
+            // gameObject->removeComponent(collisionComponent);
+
+            gameObject->deleteMe = true;
+            
+            // auto rigidBodyComponent = gameObject->getComponent<RigidBody>();
+            // gameObject->removeComponent(rigidBodyComponent);
+            // gameObject->getComponent<RigidBody>()->~RigidBody();
+            // gameObject->~GameObject();
         }
-        // gameObject->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags()
+        // gameObject->removeComponent<Component>();
     }
 }
 // void EnemyCollisionHandler::onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) {

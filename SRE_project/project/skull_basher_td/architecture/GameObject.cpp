@@ -13,6 +13,11 @@ GameObject::GameObject(std::string name_, Scene* scene_)
 }
 
 GameObject::~GameObject() {
+    // // from bird game
+    //     for (auto& c : components){
+    //     c->gameObject = nullptr;
+    // }
+   std::cout << "Game object destroyed" << std::endl; 
 }
 
 void GameObject::setName(const std::string &name) {
@@ -29,18 +34,34 @@ const std::vector<CollisionHandler*>& GameObject::getCollisionHandlers(){
 }
 
 bool GameObject::removeComponent(std::shared_ptr<Component> ptr) {
-    for (auto iter = components.begin();iter != components.end(); iter++){
-        if (*iter == ptr){
+    for (auto c : components){
+        if (c == ptr){
             auto ch = dynamic_cast<CollisionHandler*>(ptr.get());
             if (ch) {
                 collisionHandlers.erase(std::find(collisionHandlers.begin(), collisionHandlers.end(), ch));
             }
-            components.erase(iter);
+            scene->removeComponent(c.get());
+            components.erase(std::remove(components.begin(),components.end(), c), components.end());
             return true;
         }
     }
     return false;
 }
+
+// bool GameObject::removeComponent(std::shared_ptr<Component> ptr) {
+//     for (auto iter = components.begin();iter != components.end(); iter++){
+//         if (*iter == ptr){
+//             auto ch = dynamic_cast<CollisionHandler*>(ptr.get());
+//             if (ch) {
+//                 collisionHandlers.erase(std::find(collisionHandlers.begin(), collisionHandlers.end(), ch));
+//             }
+//             scene->removeComponent((iter).get());
+//             components.erase(iter);
+//             return true;
+//         }
+//     }
+//     return false;
+// }
 
 const std::vector<std::shared_ptr<Component>> &GameObject::getComponents() {
     return components;

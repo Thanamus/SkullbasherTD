@@ -57,10 +57,16 @@ void PathFinder::update(float deltaTime){
             hasTransform = true;
         }
         
-
-
-        if (hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody())
+        bool hasRigidComponent = false;
+        if (gameObject->getComponent<RigidBody>() != nullptr)
         {
+            hasRigidComponent = true;
+        }
+        
+
+        if (hasRigidComponent)
+        {
+            hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
             rigidBodyCheck = true;
             // std::cout << "object has rigid body \n";
             btTransform currentTransform = hasRigidBody->getWorldTransform();

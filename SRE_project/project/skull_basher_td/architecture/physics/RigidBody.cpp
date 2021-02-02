@@ -36,13 +36,20 @@ btRigidBody* RigidBody::getRigidBody(){
 }
 
 void RigidBody::updateTransformFromPhysicsWorld(){
-    btTransform pTransform;
-    rigidBody->getMotionState()->getWorldTransform(pTransform);
-    auto & origin = pTransform.getOrigin();
-    transform->position = {origin.x(), origin.y(), origin.z()};
-    auto pRot = pTransform.getRotation();
-    glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
-    transform->rotation = glm::degrees(glm::eulerAngles(inputQuat));
+    bool transformCheck = false;
+
+    if(gameObject->getComponent<Transform>() != nullptr) transformCheck = true;
+
+    if( transformCheck){
+
+        btTransform pTransform;
+        rigidBody->getMotionState()->getWorldTransform(pTransform);
+        auto & origin = pTransform.getOrigin();
+        transform->position = {origin.x(), origin.y(), origin.z()};
+        auto pRot = pTransform.getRotation();
+        glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
+        transform->rotation = glm::degrees(glm::eulerAngles(inputQuat));
+    }
 }
 
 void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info){
