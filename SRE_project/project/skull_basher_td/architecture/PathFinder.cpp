@@ -108,6 +108,7 @@ void PathFinder::update(float deltaTime){
             transform.setOrigin(nextBtPosition);
             hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
             // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
+            
             if (hasTransform)
             {
                 btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};

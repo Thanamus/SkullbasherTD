@@ -60,7 +60,8 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     // cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
     cameraObj->getComponent<Transform>()->position = playerSpawnPoint;
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
+    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES); // Dynamic physics object
 
     //---- setting cameras? // kinda syncs the physics world and the transform
     // glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
@@ -124,10 +125,14 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     crystalAN->addAnimation("rotate", crystalRotate);
     crystalAN->setAnimationState("rotate");
 
-    // auto crystalRigidBody = crystal->addComponent<RigidBody>();
+    auto crystalRigidBody = crystal->addComponent<RigidBody>();
     //----------- figuring out ghostObjects
-    // crystalRigidBody->initRigidBodyWithBox({0.5,1.5,0.5}, 0);
-    crystal->addComponent<GhostObject>()->initGhostObjectWithSphere(0.01f);
+    crystalRigidBody->initRigidBodyWithBox({0.5,0.5,0.5}, 1, CRYSTAL, ENEMIES);
+    crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
+    crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
+
+
+    // crystal->addComponent<GhostObject>()->initGhostObjectWithSphere(0.01f);
     // crystal->addComponent<RigidBody>()->initGhostObjectWithSphere(0.9f);
 
     // ---------- end figuring out ghostobjects
@@ -356,7 +361,9 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                     // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({0.5f,0.4f,0.5f}, 0);
 
-                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0);
+                    // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0);
+                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER);
+                    
                     // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
                     // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
                     // gameObjects.push_back(mapTile);
@@ -480,12 +487,21 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                 //Add Physics to skull
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
-                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1); // mass of 0 sets the rigidbody as kinematic (or static)
+                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1, ENEMIES, PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1); // mass of 0 sets the rigidbody as kinematic (or static)
+                
+                
                 auto thing =  enemy->getComponent<RigidBody>()->getRigidBody();
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); 
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CO_GHOST_OBJECT); 
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE); //
-                thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); //
+                
+                
+                // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); //Kinda works
+                thing->setCollisionFlags(thing->getCollisionFlags() | PLAYER | CRYSTAL); //
+                
+                
+                
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE | btCollisionObject::CF_CHARACTER_OBJECT); //
                 thing->setGravity({0,0,0}); 
                 // enemy->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags(btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK); // nope
