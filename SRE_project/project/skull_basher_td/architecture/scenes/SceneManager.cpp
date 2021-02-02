@@ -480,11 +480,12 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                 //Add Physics to skull
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
-                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0.1); // mass of 0 sets the rigidbody as kinematic (or static)
+                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1); // mass of 0 sets the rigidbody as kinematic (or static)
                 auto thing =  enemy->getComponent<RigidBody>()->getRigidBody();
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); 
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CO_GHOST_OBJECT); 
-                thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE); //
+                // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE); //
+                thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); //
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE | btCollisionObject::CF_CHARACTER_OBJECT); //
                 thing->setGravity({0,0,0}); 
                 // enemy->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags(btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK); // nope

@@ -30,6 +30,7 @@ void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
             std::cout << "hit crystal "<<std::endl;
             crystal->decreasHealth(25);
         }
+        // gameObject->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags()
     }
 }
 // void EnemyCollisionHandler::onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) {
