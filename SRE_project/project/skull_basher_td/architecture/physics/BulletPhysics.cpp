@@ -127,17 +127,20 @@ bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
     //         }
     //     }
     // }
-
     //--------- end from:
     // TODO: check if these can be made shared pointers
-    GameObject* body0GameObject;
-    GameObject* body1GameObject;
+    // GameObject* body0GameObject;
+    // GameObject* body1GameObject;
 
     if (collisionBegin){
         static size_t collisionId = 0;
         collisionId++;
+        auto name0 = rigidBody0->getGameObject()->getName();
+        std::cout << "colision on: " << name0 << std::endl;
+        auto name1 = rigidBody1->getGameObject()->getName();
+        std::cout << "colision on: " << name1 << std::endl;
 
-        std::cout << "attempting to check collision" << std::endl;
+        // std::cout << "attempting to check collision" << std::endl;
 
         // if (body0isGhost)
         // {

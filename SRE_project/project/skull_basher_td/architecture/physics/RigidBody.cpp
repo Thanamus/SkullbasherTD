@@ -209,6 +209,34 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, s
 
     }
 
+    // fallMotionState =
+    //         new btDefaultMotionState(btTransform(btQuaternion(rotQ.x, rotQ.y, rotQ.z, rotQ.w), btVector3(pos.x, pos.y, pos.z)));
+
+    // btVector3 fallInertia(0, 0, 0);
+    // shape->calculateLocalInertia(mass, fallInertia);
+    // btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
+    // initRigidBody(fallRigidBodyCI, group, mask);
+
+//-----------
+//     bool isDynamic = false;
+//     if (mass != 0)
+//     {
+//         isDynamic = true;
+//     }
+// //----------
+//     if (isDynamic)
+//     {
+// //         /* code */
+//         btVector3 fallInertia(0, 0, 0);
+//         shape->calculateLocalInertia(mass, fallInertia);
+//         btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
+//         initRigidBody(fallRigidBodyCI, group, mask);
+//     } else {
+//         btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape);
+//         initRigidBody(fallRigidBodyCI, group, mask);
+
+//     }
+
 }
 
 void RigidBody::initGhostObjectWithSphere(float radius){

@@ -127,12 +127,13 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
 
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     //----------- figuring out ghostObjects
-    crystalRigidBody->initRigidBodyWithBox({0.5,0.5,0.5}, 1, CRYSTAL, ENEMIES);
+    // crystalRigidBody->initRigidBodyWithBox({0.5,0.5,0.5}, 1, CRYSTAL, ENEMIES);
+    crystalRigidBody->initRigidBodyWithSphere(0.5f, 1, CRYSTAL, ENEMIES);
     // crystalRigidBody->initRigidBodyWithBox({0.5,0.5,0.5}, 1, CRYSTAL, ENEMIES);
     crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
     crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
 
-    crystalRigidBody->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
+    // crystalRigidBody->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
 
     // crystal->addComponent<GhostObject>()->initGhostObjectWithSphere(0.01f);
     // crystal->addComponent<RigidBody>()->initGhostObjectWithSphere(0.9f);
@@ -489,7 +490,8 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                 //Add Physics to skull
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
-                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length/2,width/2,height/2}, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1, ENEMIES, PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1); // mass of 0 sets the rigidbody as kinematic (or static)
                 

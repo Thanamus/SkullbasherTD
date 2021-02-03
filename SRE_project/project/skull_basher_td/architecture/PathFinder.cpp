@@ -133,6 +133,7 @@ void PathFinder::update(float deltaTime){
                 // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
                 /* code */
             }
+            hasRigidBody->activate(true);
             // hasRigidBody->setActivationState(DISABLE_DEACTIVATION);
         }
         /* I think position gets updated from RigidBody already*/
