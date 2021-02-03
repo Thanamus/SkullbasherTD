@@ -80,7 +80,7 @@ void PersonController::update(float deltaTime)
     if(GameManager::getInstance().buildModeActive)
     {
         camera->moveTowerCursor(camera_front, this->tower);
-        camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());
+        camera->simpleRayCast(camera_front, this->tower, GameManager::getInstance().getSceneManager()->getCurrentScene()->getGameObjects());
     }
 
 // ----------------- Update the rigid body -------------------

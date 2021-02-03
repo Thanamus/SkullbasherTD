@@ -40,7 +40,7 @@ void ScheduleManager::update(float deltaTime){
             if ( elapsedTimeInSec >= goGoTimeSec)
             {
                 goGoTimeSec = elapsedTimeInSec + timeBetweenEnemies;
-                auto gameObjectsList = currentScene->getGameObjects();
+                auto gameObjectsList = GameManager::getInstance().getSceneManager()->getCurrentScene()->getGameObjects();
                 int enemyToGoGoGo = GameManager::getInstance().getCurrentEnemy();
                 int enemySetToGoGoGo = GameManager::getInstance().getCurrentEnemySet();
                 int enemyWaveToGoGoGo = GameManager::getInstance().getCurrentWave();

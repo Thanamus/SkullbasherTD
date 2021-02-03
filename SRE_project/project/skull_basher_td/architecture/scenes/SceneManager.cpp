@@ -78,7 +78,6 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     //--- end setting cameras
 
     cameraObj->addComponent<PersonController>();
-    cameraObj->getComponent<PersonController>()->currentScene = res;
     cameraObj->addComponent<PlayerCollisionHandler>();
 
 
@@ -589,7 +588,6 @@ void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
         loadMap(path, getCurrentScene());
 
         auto scheduleManager = std::make_shared<ScheduleManager>();
-        scheduleManager->currentScene = getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
         getCurrentScene()->scheduleManager = scheduleManager;
 
         GameManager::getInstance().setInitialWaveStats();

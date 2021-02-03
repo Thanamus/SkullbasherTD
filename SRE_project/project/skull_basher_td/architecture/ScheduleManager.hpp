@@ -15,7 +15,6 @@ class ScheduleManager {
 
         void update(float deltaTime); //Note, can't inherit from Updateable, since Updateable is private to scene.
 
-        std::shared_ptr<Scene> currentScene;
         void fetchInitialWaveSchedule();
     private:
 
