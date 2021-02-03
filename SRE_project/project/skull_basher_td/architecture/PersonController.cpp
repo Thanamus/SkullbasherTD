@@ -328,9 +328,14 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
 
 void PersonController::fire_projectile(){
     std::cout << "firing projectile" << std::endl;
+
+    
     auto arrow = gameObject->getScene()->createGameObject("arrow");
     arrow->getComponent<Transform>()->position = position;
-    arrow->getComponent<Transform>()->rotation = camera_front;
+
+    arrow->getComponent<Transform>()->lookAt(arrow->getComponent<Transform>()->position + camera_front, glm::vec3(0, 1, 0));
+
+    // arrow->getComponent<Transform>()->rotation = camera_front;
 
     auto arrowMR = arrow->addComponent<ModelRenderer>();
     auto path = ".\\assets\\crossbow_bolt.obj";
@@ -340,12 +345,24 @@ void PersonController::fire_projectile(){
     arrowMR->setModel(modelHolder);
 
     auto arrowBody = arrow->addComponent<RigidBody>();
-    arrowBody->initRigidBodyWithBox({0.01,0.01,0.01}, 1, PLAYER, BUILDINGS | ENEMIES);
+    arrowBody->initRigidBodyWithBox({0.01,0.01,0.1}, 0.1, PLAYER, BUILDINGS | ENEMIES);
     // arrow->getComponent<RigidBody>()->getRigidBody()->applyCentralImpulse({10,0,0});
     auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();
-    arrowRigidBody->setGravity({0,0,0});
-    arrowRigidBody->applyForce({10,0,0}, btVector3{position.x, position.y, position.z});
-    arrowRigidBody->setAngularFactor({0,0,0});
+    arrowRigidBody->setGravity({0,-0.5,0});
+
+    btVector3 arrowForce = {camera_front.x, camera_front.y, camera_front.z};
+    // arrowForce *= 12; // good setting for linear velocity
+    arrowForce *= 2;
+
+    // arrowRigidBody->setLinearVelocity(arrowForce);
+    arrowRigidBody->applyCentralImpulse(arrowForce);
+
+    // arrowRigidBody->applyCentralForce(btVector3{camera_front.x+10,camera_front.y+10, camera_front.z+10});
+    // arrowRigidBody->applyCentralForce(btVector3{camera_front.x,camera_front.y, camera_front.z});
+    // arrowRigidBody->applyForce(btVector3{camera_front.x, camera_front.y, camera_front.z}, btVector3{position.x, position.y, position.z});
+    // arrowRigidBody->setAngularFactor({0,0,0});
+    arrowRigidBody->setAngularVelocity({0,0,0});
+    // arrowRigidBody->setLinearFactor({0,0,0});
 }
 
 // void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
