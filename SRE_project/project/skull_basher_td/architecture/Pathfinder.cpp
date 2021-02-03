@@ -52,7 +52,7 @@ void Pathfinder::update(float deltaTime) {
 
         // std::cout << "I am a skull, my current position is: " << currentPosition.x << "\n";
 
-        //get nextposition
+        // get nextposition
         // if (currentPosition.x == nextPathPoint.x && currentPosition.z == nextPathPoint.z)
         if ((currentPosition.x <= nextPathPoint.x+0.5f && currentPosition.x >= nextPathPoint.x-0.5f)  && (currentPosition.z <= nextPathPoint.z+0.5f && currentPosition.z >= nextPathPoint.z-0.5f))
         {
@@ -60,11 +60,11 @@ void Pathfinder::update(float deltaTime) {
         }
 
         // std::cout << "I am a skull, I should be moving to: " << nextPathPoint.x << "\n";
-        //move skull
-        //mix currentposition with next path point and delta time
-        nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, pfMoveSpeed); //speed is controlled with the float
+        // move skull
+        // mix currentposition with next path point and delta time
+        nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, pfMoveSpeed*deltaTime); //speed is controlled with the float
         // nextPosition.y = glm::mix(currentPosition.y, nextPathPoint.y, 0.01f);
-        nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, pfMoveSpeed);
+        nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, pfMoveSpeed*deltaTime);
 
         // nextPosition = glm::mix(currentPosition, nextPathPoint, velocity);
         nextPosition.y = 0; // correction for the path being on the floor

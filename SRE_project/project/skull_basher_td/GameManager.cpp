@@ -204,14 +204,9 @@ std::vector<glm::vec3> GameManager::getPath() {
 
 glm::vec3 GameManager::getNextPathPoint(int currentPathIndex){
     //path should count down from end of vector to 0
-     if (currentPathIndex == 0)
-    {
-        return path[0];
-    } else if (currentPathIndex <= (path.size()-1))
-    {
+    if (currentPathIndex != 0 && currentPathIndex <= (path.size()-1)) {
         return path[currentPathIndex-1];
-    } else  
-    {
+    } else {
         return path[0];
     }
 }

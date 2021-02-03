@@ -29,13 +29,14 @@ const std::vector<CollisionHandler*>& GameObject::getCollisionHandlers(){
 }
 
 bool GameObject::removeComponent(std::shared_ptr<Component> ptr) {
-    for (auto iter = components.begin();iter != components.end(); iter++){
-        if (*iter == ptr){
+    for (auto c : components){
+        if (c == ptr){
             auto ch = dynamic_cast<CollisionHandler*>(ptr.get());
             if (ch) {
                 collisionHandlers.erase(std::find(collisionHandlers.begin(), collisionHandlers.end(), ch));
             }
-            components.erase(iter);
+            scene->removeComponent(c.get());
+            components.erase(std::remove(components.begin(),components.end(), c), components.end());
             return true;
         }
     }

@@ -414,7 +414,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
             {
                 // gameManager->enermyAmountWave += 1;
                 //create game object
-                auto enemy = res->createGameObject(modelName);
+                auto enemy = res->createGameObject(modelName); // todo: incremental to tell skulls apart
                 auto enemyTR = enemy->getComponent<Transform>();
                 // std::cout << "mesh Name: " << modelName << "\n";
                 auto enemyMR = enemy->addComponent<ModelRenderer>();

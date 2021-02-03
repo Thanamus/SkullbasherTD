@@ -50,6 +50,7 @@ private:
 };
 
 // function templates has to defined in header files
+// TODO: take a look at this, make everything shared_ptr rather than random raw ptrs? depends whether we have memory leaks
 template<typename T>
 std::shared_ptr<T> GameObject::addComponent() {
     auto obj = new T(this);

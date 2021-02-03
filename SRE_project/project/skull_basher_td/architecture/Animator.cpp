@@ -35,18 +35,19 @@ void Animator::update(float deltaTime) {
         return;
 
     if(currentAnimation.second->hasEnded(deltaTime)) {
-        resetVectors();
         // end if the animation should only play once
         if(!currentAnimation.second->isLooping()) {
             setAnimationState("none");
             return;
+        } else {
+            resetVectors();
         }
     }
 
     if(currentAnimation.second->updateFrame(deltaTime)) {
         // get keyframe
         auto keyframe = currentAnimation.second->getCurrentKeyframe();
-        if(currentAnimation.second->getCurrentKeyframeTime() == 0) {
+        if(currentAnimation.second->getCurrentKeyframeTime() == 0 + deltaTime) {
             // at start of frame, compute new target vectors
             targetTransform = initTransformData(currentTransform.position + keyframe->translate,
                                                 currentTransform.scale * keyframe->scale,
@@ -54,10 +55,15 @@ void Animator::update(float deltaTime) {
         }
 
         auto t = glm::smoothstep(0.0f, keyframe->timeDuration, currentAnimation.second->getCurrentKeyframeTime());
+//        auto t = currentAnimation.second->getCurrentKeyframeTime();
+        auto oldRot = currentTransform.rotation;
         currentTransform = initTransformData(
-                glm::mix(currentTransform.position, targetTransform.position, t),
-                glm::mix(currentTransform.scale, targetTransform.scale, t),
-                glm::mix(currentTransform.rotation, targetTransform.rotation, t));
+                glm::mix(startTransform.position, targetTransform.position, t),
+                glm::mix(startTransform.scale, targetTransform.scale, t),
+                glm::mix(startTransform.rotation, targetTransform.rotation, t));
+        std::cout << "cur_rot " << currentTransform.rotation.x << std::endl;
+        std::cout << "t " << t << std::endl;
+        std::cout << "time " << currentAnimation.second->getCurrentKeyframeTime() << std::endl;
         updateSQTMatrix();
     }
 }
@@ -85,7 +91,8 @@ void Animator::updateSQTMatrix() {
 }
 
 void Animator::resetVectors() {
-    currentTransform = initTransformData(glm::vec3(0), glm::vec3(1), glm::vec3(0));
+    startTransform = initTransformData(glm::vec3(0), glm::vec3(1), glm::vec3(0));
+    currentTransform = startTransform;
     targetTransform = initTransformData(glm::vec3(0), glm::vec3(1), glm::vec3(0));
 }
 
