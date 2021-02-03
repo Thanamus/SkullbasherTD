@@ -63,8 +63,8 @@ void LevelScene::update(float deltaTime){
 
             if (g->deleteMe == true) // looks for deleteMe flag on the game object, if true, then remove the gameObject
             {
-                // TODO cleanup shared_ptrs
-                std::cout << "g count 1: " << g.use_count() << std::endl;
+                // TODO find and cleanup dangling shared_ptrs
+                // std::cout << "g count 1: " << g.use_count() << std::endl;
                 // auto camera = gameObjects[i]->getComponent<Camera>();
                 auto components = g->getComponents();
 
@@ -78,14 +78,14 @@ void LevelScene::update(float deltaTime){
                 }
 
                 // std::make_unique<GameObject>(g); 
-                std::cout << "g count 2: " << g.use_count() << std::endl;
+                // std::cout << "g count 2: " << g.use_count() << std::endl;
                 g.reset();
 
                 
                 gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), g), gameObjects.end()); // maintains the sceneObjects list
                 // std::cout << "game Object destroyed";
                 // TODO: something not quite right here
-                std::cout << "g count 3: " << g.use_count() << std::endl;
+                // std::cout << "g count 3: " << g.use_count() << std::endl;
             }
 
  
