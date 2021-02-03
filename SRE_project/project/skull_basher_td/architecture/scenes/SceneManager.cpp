@@ -582,12 +582,10 @@ void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
 
     if(sceneData->sceneType == 0)
     {
+        GameManager::getInstance().init();
         auto scene = createScene(path);
-        scene->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
         setCurrentScene(scene);
         getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>();
-        getCurrentScene()->guiManager->sceneManager = getCurrentScene()->sceneManager;
-        GameManager::getInstance().currentScene = getCurrentScene();
         loadMap(path, getCurrentScene());
 
         auto scheduleManager = std::make_shared<ScheduleManager>();
@@ -600,13 +598,10 @@ void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
     }
     else
     {
+        GameManager::getInstance().init();
         auto scene = createMainMenuScene();
-        scene->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
         setCurrentScene(scene);
         getCurrentScene()->guiManager = std::make_shared<MainMenuGuiManager>();
-
-        getCurrentScene()->guiManager->sceneManager = getCurrentScene()->sceneManager;
-        GameManager::getInstance().currentScene = getCurrentScene();
     }
 }
 

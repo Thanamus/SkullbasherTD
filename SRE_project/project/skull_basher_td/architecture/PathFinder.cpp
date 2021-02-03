@@ -6,6 +6,7 @@
 
 #include "./physics/RigidBody.hpp"
 #include "./sound/SourceManager.hpp"
+#include "../GameManager.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 
 using namespace glm;

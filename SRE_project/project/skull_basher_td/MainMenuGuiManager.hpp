@@ -4,6 +4,7 @@
 #include "sre/Material.hpp"
 #include "GuiManager.hpp"
 
+
 class MainMenuGuiManager : public GuiManager
 {
 public:
@@ -16,6 +17,4 @@ private:
     void guiLevelGrid();
 
     bool pickLevel = false;
-
-    friend SceneManager;
 };

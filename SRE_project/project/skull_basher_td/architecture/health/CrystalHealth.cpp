@@ -1,6 +1,7 @@
 
 #include "CrystalHealth.hpp"
 #include "../GameObject.hpp"
+#include "../../GameManager.hpp"
 
 CrystalHealth::CrystalHealth(GameObject* gameObject) : HealthComponent(gameObject)
 {

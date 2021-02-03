@@ -10,6 +10,7 @@
 #include "WorldObject.hpp"
 #include "ModelRenderer.hpp"
 #include "PersonController.hpp"
+#include "../GameManager.hpp"
 
 
 using namespace std;

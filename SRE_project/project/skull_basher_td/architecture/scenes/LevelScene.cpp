@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include "LevelScene.hpp"
+#include "../../GameManager.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"

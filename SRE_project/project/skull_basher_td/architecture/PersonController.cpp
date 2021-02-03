@@ -23,6 +23,7 @@
 // #include "CollisionHandler.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
+#include "../GameManager.hpp"
 
 //using namespace sre;
 using namespace glm;

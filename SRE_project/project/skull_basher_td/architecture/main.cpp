@@ -53,26 +53,21 @@ Main::Main()
     fonts->AddFontDefault();
     //-------------- handshaking
     GameManager::getInstance().init();
-    guiManager = std::make_shared<MainMenuGuiManager>();
+    for (const auto& levelData : GameManager::getInstance().getSceneManager()->getLevelsData())
+    {
+        if(levelData->sceneType != 1)
+            continue;
 
-    sceneManager = std::make_shared<SceneManager>();
-    guiManager->sceneManager = sceneManager;
-
-    //make scene
-    auto scene = sceneManager->createMainMenuScene();
-    scene->sceneManager = sceneManager;
-    sceneManager->setCurrentScene(scene);
-
-    sceneManager->getCurrentScene()->guiManager = guiManager;
-    sceneManager->getCurrentScene()->sceneManager = sceneManager;
-    GameManager::getInstance().currentScene = sceneManager->getCurrentScene();
+        GameManager::getInstance().getSceneManager()->changeScene(levelData);
+        break;
+    }
 
 //--------------- Start Playing music - lives here because the buffers run out before things load
     myMusicBuffer->Play(); 
 
 // --------- start update cycles
     r.frameUpdate = [&](float deltaTime){
-        sceneManager->getCurrentScene()->update(deltaTime);
+        GameManager::getInstance().getSceneManager()->getCurrentScene()->update(deltaTime);
 
         mySourceManager->CheckAndReleaseOALSource(); // Checks for any sources that are finished playing their sound, and releases the source
         
@@ -80,13 +75,13 @@ Main::Main()
         myMusicBuffer->UpdateBufferStream(); // Updates the music buffer so music keeps playing. Note: doesn't need to be called every frame, so we could optimise here
     };
     r.frameRender = [&]{
-        sceneManager->getCurrentScene()->render();
+        GameManager::getInstance().getSceneManager()->getCurrentScene()->render();
     };
     r.keyEvent = [&](SDL_Event &e) {
-        sceneManager->getCurrentScene()->onKey(e); //worked! // asks scene to manage the onKey
+        GameManager::getInstance().getSceneManager()->getCurrentScene()->onKey(e); //worked! // asks scene to manage the onKey
     };
     r.mouseEvent = [&](SDL_Event &e) {
-        sceneManager->getCurrentScene()->onMouse(e); // asks scene to manage the mouse thing
+        GameManager::getInstance().getSceneManager()->getCurrentScene()->onMouse(e); // asks scene to manage the mouse thing
     };
     r.startEventLoop();
 }

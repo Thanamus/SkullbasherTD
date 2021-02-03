@@ -6,7 +6,6 @@
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
 #include "LevelGuiManager.hpp"
-#include "architecture/scenes/SceneManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
@@ -247,12 +246,12 @@ void LevelGuiManager::guiQuitScreen()
 
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
     if (ImGui::Button("Back to Menu", ImVec2(100, 50))){
-        for (const auto& levelData : sceneManager->levelsData)
+        for (const auto& levelData : GameManager::getInstance().getSceneManager()->levelsData)
         {
             if(levelData->sceneType != 1)
                 continue;
 
-            sceneManager->changeScene(levelData);
+            GameManager::getInstance().getSceneManager()->changeScene(levelData);
             break;
         }
     }
@@ -285,12 +284,12 @@ void LevelGuiManager::guiWinLooseScreen()
     //Back To Game
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
     if (ImGui::Button("Back to Main Menu", ImVec2(100, 50))){
-        for (const auto& levelData : sceneManager->levelsData)
+        for (const auto& levelData : GameManager::getInstance().getSceneManager()->levelsData)
         {
             if(levelData->sceneType != 1)
                 continue;
 
-            sceneManager->changeScene(levelData);
+            GameManager::getInstance().getSceneManager()->changeScene(levelData);
             break;
         }
     }

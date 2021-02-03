@@ -7,7 +7,6 @@
 
 //std::shared_ptr<Scene> currentScene;
 class Scene;
-class GameManager;
 
 class ScheduleManager {
     public:

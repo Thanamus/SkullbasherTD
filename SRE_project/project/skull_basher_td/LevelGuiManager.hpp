@@ -34,6 +34,4 @@ private:
     ImVec4 selectedBorderColor;
 
     float totalTime = 0.0f;
-
-    friend SceneManager;
 };

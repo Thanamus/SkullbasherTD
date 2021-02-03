@@ -1,14 +1,10 @@
 
 #include "ScheduleManager.hpp"
 #include "../GameManager.hpp"
-#include "scenes/Scene.hpp"
 #include "GameObject.hpp"
 #include "PathFinder.hpp"
 
-#include "./sound/SourceManager.hpp"
 #include "./music/MusicBuffer.hpp"
-
-class GameManager;
 
 ScheduleManager::ScheduleManager(){
     startTime = std::chrono::steady_clock::now();

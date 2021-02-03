@@ -5,8 +5,8 @@
 #include <sre/Renderer.hpp>
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
+#include "GameManager.hpp"
 #include "MainMenuGuiManager.hpp"
-#include "architecture/scenes/SceneManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
@@ -55,7 +55,7 @@ void MainMenuGuiManager::guiMainMenu() {
 void MainMenuGuiManager::guiLevelGrid() {
     int count = 0;
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 150);
-    for (auto& level : sceneManager->getLevelsData()){
+    for (auto& level : GameManager::getInstance().getSceneManager()->getLevelsData()){
         if(level->sceneType == 1)
             continue;
         ImVec2 uv0(0,1); // flip y axis coordinates
@@ -64,7 +64,7 @@ void MainMenuGuiManager::guiLevelGrid() {
         ImVec4 currentBorder = ImVec4(0,0,0,1);
 
         if (ImGui::Button(level->levelName.c_str(), ImVec2(100, 50))){
-            sceneManager->changeScene(level);
+            GameManager::getInstance().getSceneManager()->changeScene(level);
         }
 
         if (count == 0 || count %2 != 0)

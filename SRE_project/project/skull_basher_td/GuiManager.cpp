@@ -3,18 +3,12 @@
 //
 
 #include <sre/Renderer.hpp>
-#include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
-
 #define GLM_ENABLE_EXPERIMENTAL
-#include <iostream>
+
 
 using namespace sre;
 using namespace glm;
-
-const int heartEmpty = 0;
-const int heartHalf = 1;
-const int heartFull = 2;
 
 GuiManager::GuiManager()
 {
