@@ -1,6 +1,7 @@
 
 #include "CrystalHealth.hpp"
 #include "../GameObject.hpp"
+#include "../../GameManager.hpp"
 
 CrystalHealth::CrystalHealth(GameObject* gameObject) : HealthComponent(gameObject)
 {
@@ -12,10 +13,14 @@ CrystalHealth::~CrystalHealth()
 }
 
 void CrystalHealth::HandleHealthChange() {
+    if (!GameManager::getInstance().levelRunning)
+        return;
+
     if(this->getHealth() <= 0)
     {
-        getGameObject()->getScene()->gameManager->levelRunning = false;
-        getGameObject()->getScene()->gameManager->won = false;
+        GameManager::getInstance().levelRunning = false;
+        GameManager::getInstance().won = false;
+        GameManager::getInstance().ToggleLockMouse();
     }
     else
     {

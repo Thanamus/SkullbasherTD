@@ -1,14 +1,10 @@
 
 #include "ScheduleManager.hpp"
 #include "../GameManager.hpp"
-#include "scenes/Scene.hpp"
 #include "GameObject.hpp"
 #include "PathFinder.hpp"
 
-#include "./sound/SourceManager.hpp"
 #include "./music/MusicBuffer.hpp"
-
-class GameManager;
 
 ScheduleManager::ScheduleManager(){
     startTime = std::chrono::steady_clock::now();
@@ -44,10 +40,10 @@ void ScheduleManager::update(float deltaTime){
             if ( elapsedTimeInSec >= goGoTimeSec)
             {
                 goGoTimeSec = elapsedTimeInSec + timeBetweenEnemies;
-                auto gameObjectsList = currentScene->getGameObjects();
-                int enemyToGoGoGo = currentScene->gameManager->getCurrentEnemy();
-                int enemySetToGoGoGo = currentScene->gameManager->getCurrentEnemySet();
-                int enemyWaveToGoGoGo = currentScene->gameManager->getCurrentWave();
+                auto gameObjectsList = GameManager::getInstance().getSceneManager()->getCurrentScene()->getGameObjects();
+                int enemyToGoGoGo = GameManager::getInstance().getCurrentEnemy();
+                int enemySetToGoGoGo = GameManager::getInstance().getCurrentEnemySet();
+                int enemyWaveToGoGoGo = GameManager::getInstance().getCurrentWave();
 
                 for (size_t i = 0; i < gameObjectsList.size(); i++)
                 {
@@ -87,7 +83,7 @@ void ScheduleManager::update(float deltaTime){
                                         // myMusicBuffer->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
 
                                     //make Game Manager Update the enemy and wave
-                                    bool updateHappened = currentScene->gameManager->updateAllWaveStats();
+                                    bool updateHappened = GameManager::getInstance().updateAllWaveStats();
                                     if (!updateHappened)
                                     {
                                         lastEnemy = true;
@@ -120,7 +116,7 @@ void ScheduleManager::update(float deltaTime){
 
 void ScheduleManager::fetchInitialWaveSchedule(){
         //set inital timeBetweenWaves
-    waveScheduleDetails initialTimeBetweens = currentScene->gameManager->getCurrentTimeBetweenWaves();
+    waveScheduleDetails initialTimeBetweens = GameManager::getInstance().getCurrentTimeBetweenWaves();
     timeBetweenWaves = initialTimeBetweens.timeBetweenWaves;
     timeBetweenEnemies = initialTimeBetweens.timeBetweenEnemies;
 }

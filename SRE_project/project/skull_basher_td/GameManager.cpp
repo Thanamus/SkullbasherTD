@@ -22,12 +22,38 @@
 using namespace sre;
 using namespace glm;
 
-GameManager::GameManager() {
-}
-
 void GameManager::init() {
+    if(sceneManager == nullptr)
+        sceneManager = std::make_unique<SceneManager>();
+    towers.clear();
     loadTowers("data/towers.json");
     selectedTower = towers[0];
+    quit = false;
+    buildModeActive = false;
+
+
+    levelRunning = true;
+    won = false;
+    paused = false;
+    score = 40;
+    path.clear();
+    currentWave = 0;
+    totalWavesInLevel = 0;
+
+    enemySetsAmount = 0; //assuming this means how many waves
+
+
+    currentEnemySet = 0;
+    totalEnemySetsInCurrentWave = 0;
+    // int currentEnemyInset = 0;
+
+    currentEnemy = 0;
+    totalEnemiesInCurrentSet = 0;
+
+    enemyAmountWave = 0;
+    waveAndEnemys.clear();
+    waveAndTimeBetweens.clear();
+    lastEnemy = false;
 }
 
 void GameManager::loadTowers(std::string filename) {
@@ -112,7 +138,7 @@ void GameManager::onKey(SDL_Event &event)
             updateTowerIndicator();
         }
         else {
-            auto towerIndicator = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
+            auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
             towerIndicator->getComponent<ModelRenderer>()->active = false;
         }
     }
@@ -122,10 +148,10 @@ void GameManager::onMouse(SDL_Event &event)
 {
     if(event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
     {
-        auto personController = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
+        auto personController = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
         if(personController->allowedToBuild)
         {
-            auto tower = currentScene->createGameObject(selectedTower->getName());
+            auto tower = sceneManager->currentScene->createGameObject(selectedTower->getName());
             tower->getComponent<Transform>()->position = personController->tower->getComponent<Transform>()->position;
             tower->getComponent<Transform>()->rotation = personController->tower->getComponent<Transform>()->rotation;
             tower->getComponent<Transform>()->scale = {0.5f,0.5f,0.5f};
@@ -149,20 +175,12 @@ void GameManager::setScore(int score) {
     GameManager::score = score;
 }
 
-float GameManager::getPower() const {
-    return power;
-}
-
-void GameManager::setPower(float power) {
-    GameManager::power = power;
-}
-
 void GameManager::updateTowerIndicator()
 {
-    if(currentScene == nullptr)
+    if(sceneManager->currentScene == nullptr)
         return;
 
-    auto towerIndicator = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
+    auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
 
     auto path =  ".\\assets\\"+ selectedTower->getMesh();
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName(selectedTower->getMesh()).build();
@@ -341,4 +359,8 @@ const std::map<int, std::vector<enemySetsInWave>> &GameManager::getWaveAndEnemys
 
 int GameManager::getTotalEnemiesInCurrentSet() const {
     return totalEnemiesInCurrentSet;
+}
+
+const std::unique_ptr<SceneManager> &GameManager::getSceneManager() const {
+    return sceneManager;
 }

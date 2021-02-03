@@ -48,43 +48,26 @@ Main::Main()
     MusicBuffer * myMusicBuffer = MusicBuffer::Get(); // Initialise music buffer 
     myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)"); // Start playing a music track. First music track played should use "Load()"
 
+
+    auto fonts = ImGui::GetIO().Fonts;
+    fonts->AddFontDefault();
     //-------------- handshaking
-    gameManager = std::make_shared<GameManager>();
-    gameManager->init();
-    guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
-    //scheduleManager = std::make_shared<ScheduleManager>();
-    guiManager->gameManager = gameManager;
+    GameManager::getInstance().init();
+    for (const auto& levelData : GameManager::getInstance().getSceneManager()->getLevelsData())
+    {
+        if(levelData->sceneType != 1)
+            continue;
 
-    //gameManager->ToggleLockMouse();
-
-    sceneManager = std::make_shared<SceneManager>();
-    sceneManager->gameManager = gameManager;
-    guiManager->sceneManager = sceneManager;
-
-    //make scene
-    //auto scene = sceneManager->createScene(".\\maps\\SkullBasherTDLevel0.json");
-    auto scene = sceneManager->createMainMenuScene();
-    scene->sceneManager = sceneManager;
-    sceneManager->setCurrentScene(scene);
-
-    sceneManager->getCurrentScene()->guiManager = guiManager;
-    sceneManager->getCurrentScene()->gameManager = gameManager;
-    sceneManager->getCurrentScene()->sceneManager = sceneManager;
-    gameManager->currentScene = sceneManager->getCurrentScene();
-    //sceneManager->loadMap(R"(.\maps\SkullBasherTDLevel0.json)", sceneManager->getCurrentScene());
-
-    //scheduleManager->currentScene = sceneManager->getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
-    //sceneManager->getCurrentScene()->scheduleManager = scheduleManager;
-
-    //gameManager->setInitialWaveStats();
-    //scheduleManager->fetchInitialWaveSchedule();
+        GameManager::getInstance().getSceneManager()->changeScene(levelData);
+        break;
+    }
 
 //--------------- Start Playing music - lives here because the buffers run out before things load
     myMusicBuffer->Play(); 
 
 // --------- start update cycles
     r.frameUpdate = [&](float deltaTime){
-        sceneManager->getCurrentScene()->update(deltaTime);
+        GameManager::getInstance().getSceneManager()->getCurrentScene()->update(deltaTime);
 
         mySourceManager->CheckAndReleaseOALSource(); // Checks for any sources that are finished playing their sound, and releases the source
         
@@ -92,13 +75,13 @@ Main::Main()
         myMusicBuffer->UpdateBufferStream(); // Updates the music buffer so music keeps playing. Note: doesn't need to be called every frame, so we could optimise here
     };
     r.frameRender = [&]{
-        sceneManager->getCurrentScene()->render();
+        GameManager::getInstance().getSceneManager()->getCurrentScene()->render();
     };
     r.keyEvent = [&](SDL_Event &e) {
-        sceneManager->getCurrentScene()->onKey(e); //worked! // asks scene to manage the onKey
+        GameManager::getInstance().getSceneManager()->getCurrentScene()->onKey(e); //worked! // asks scene to manage the onKey
     };
     r.mouseEvent = [&](SDL_Event &e) {
-        sceneManager->getCurrentScene()->onMouse(e); // asks scene to manage the mouse thing
+        GameManager::getInstance().getSceneManager()->getCurrentScene()->onMouse(e); // asks scene to manage the mouse thing
     };
     r.startEventLoop();
 }

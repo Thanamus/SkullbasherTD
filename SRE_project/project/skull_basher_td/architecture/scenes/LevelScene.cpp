@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include "LevelScene.hpp"
+#include "../../GameManager.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -40,7 +41,7 @@ LevelScene::~LevelScene(){
 }
 
 void LevelScene::update(float deltaTime){
-    if(gameManager->paused || !gameManager->levelRunning)
+    if(GameManager::getInstance().paused || !GameManager::getInstance().levelRunning)
         return;
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
@@ -97,13 +98,13 @@ void LevelScene::update(float deltaTime){
 void LevelScene::onKey(SDL_Event &event){
     auto tempCam = this->cameras[0]->getGameObject(); // gets the main camera object and gets the game object from that
     tempCam->getComponent<PersonController>()->onKey(event); //camera game object has a PersonController
-    gameManager->onKey(event);
+    GameManager::getInstance().onKey(event);
 }
 
 void LevelScene::onMouse(SDL_Event &event){
     auto tempCam = this->cameras[0]->getGameObject(); //gets the main camera
     tempCam->getComponent<PersonController>()->onMouse(event); //triggers the onMouse event handling in the Person controller
-    gameManager->onMouse(event);
+    GameManager::getInstance().onMouse(event);
 }
 
 void LevelScene::render(){

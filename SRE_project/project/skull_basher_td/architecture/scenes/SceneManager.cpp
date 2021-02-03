@@ -78,7 +78,6 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     //--- end setting cameras
 
     cameraObj->addComponent<PersonController>();
-    cameraObj->getComponent<PersonController>()->currentScene = res;
     cameraObj->addComponent<PlayerCollisionHandler>();
 
 
@@ -133,7 +132,7 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
     crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
 
-    gameManager->crystal = crystal->getComponent<CrystalHealth>();
+    GameManager::getInstance().crystal = crystal->getComponent<CrystalHealth>();
     // crystal->addComponent<EnemyCollisionHandler>();
 
     crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
@@ -395,7 +394,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
         }
         reversePathBuffer = false;
     }
-    gameManager->setPath(pathHolder);
+    GameManager::getInstance().setPath(pathHolder);
 
 
     //-----------------Load enemies----------------------
@@ -433,7 +432,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
             enemySetsHolder.push_back(tempEnemySet);
 
 
-            std::vector<glm::vec3> path = gameManager->getPath();
+            std::vector<glm::vec3> path = GameManager::getInstance().getPath();
             int endOfPath = path.size();
             positionHolder = path[endOfPath-1]; //sets where the enemy will spawn
             positionHolder.y += 1.0; //compensates for the fact that the path is well, the ground
@@ -536,7 +535,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
         }
 
         //send the wave details to the Game Manager
-        gameManager->addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
+        GameManager::getInstance().addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
 
 
     }
@@ -582,29 +581,25 @@ void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
 
     if(sceneData->sceneType == 0)
     {
+        GameManager::getInstance().init();
         auto scene = createScene(path);
         setCurrentScene(scene);
-        getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>(gameManager);
-        getCurrentScene()->gameManager = gameManager;
-        getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
-        gameManager->currentScene = getCurrentScene();
+        getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>();
         loadMap(path, getCurrentScene());
 
         auto scheduleManager = std::make_shared<ScheduleManager>();
-        scheduleManager->currentScene = getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
         getCurrentScene()->scheduleManager = scheduleManager;
 
-        gameManager->setInitialWaveStats();
+        GameManager::getInstance().setInitialWaveStats();
         scheduleManager->fetchInitialWaveSchedule();
+        GameManager::getInstance().ToggleLockMouse();
     }
     else
     {
+        GameManager::getInstance().init();
         auto scene = createMainMenuScene();
         setCurrentScene(scene);
-        getCurrentScene()->guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
-        getCurrentScene()->gameManager = gameManager;
-        getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
-        gameManager->currentScene = getCurrentScene();
+        getCurrentScene()->guiManager = std::make_shared<MainMenuGuiManager>();
     }
 }
 

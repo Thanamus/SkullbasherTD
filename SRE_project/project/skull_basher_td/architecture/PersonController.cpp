@@ -23,6 +23,7 @@
 // #include "CollisionHandler.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
+#include "../GameManager.hpp"
 
 #include "./ModelRenderer.hpp"
 
@@ -79,10 +80,10 @@ void PersonController::update(float deltaTime)
     camera_front = glm::normalize(direction);
 
     camera->moveHandCursor(camera_front, this->hand);
-    if(currentScene->gameManager->buildModeActive)
+    if(GameManager::getInstance().buildModeActive)
     {
         camera->moveTowerCursor(camera_front, this->tower);
-        camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());
+        camera->simpleRayCast(camera_front, this->tower, GameManager::getInstance().getSceneManager()->getCurrentScene()->getGameObjects());
     }
 
 // ----------------- Update the rigid body -------------------

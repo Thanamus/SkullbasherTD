@@ -39,7 +39,6 @@ public:
     std::shared_ptr<GameObject> hand;
     std::shared_ptr<GameObject> tower;
     std::shared_ptr<GameObject> targetBlock;
-    std::shared_ptr<Scene> currentScene;
     bool allowedToBuild = false;
 
     //------ customCollision Component Override

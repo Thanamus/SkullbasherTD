@@ -4,6 +4,7 @@
 #include "sre/Material.hpp"
 #include "Tower.hpp"
 #include "architecture/health/CrystalHealth.hpp"
+#include "architecture/scenes/SceneManager.hpp"
 
 struct enemySetsInWave {
     int enemyType;
@@ -22,7 +23,15 @@ struct waveScheduleDetails {
 class GameManager
 {
 public:
-    explicit GameManager();
+    static GameManager& getInstance()
+    {
+        static GameManager instance; // Guaranteed to be destroyed.
+        // Instantiated on first use.
+        return instance;
+    }
+
+    GameManager(GameManager const&)               = delete;
+    void operator=(GameManager const&)  = delete;
 
     void init();
 
@@ -48,8 +57,6 @@ public:
     bool paused = false;
 
     void updateTowerIndicator();
-    std::shared_ptr<class Scene> currentScene;
-    std::shared_ptr<class SceneManager> sceneManager;
 
     void setPath(std::vector<glm::vec3> pathToBe);
     std::vector<glm::vec3> getPath();
@@ -75,13 +82,19 @@ public:
     const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
     int getTotalEnemiesInCurrentSet() const;
 private:
+    GameManager() {}
+
+    std::unique_ptr<SceneManager> sceneManager;
+public:
+    const std::unique_ptr<SceneManager> &getSceneManager() const;
+
+private:
+
     void loadTowers(std::string filename);
-    static std::map<std::string, std::shared_ptr<sre::Texture>> inventoryTexture;
     std::vector<std::shared_ptr<Tower>> towers;
 
     // Player stats
-    int score = 42;
-    float power = 0.7; // between 0.0 and 1.0
+    int score = 40;
 
     //path
     std::vector<glm::vec3> path;

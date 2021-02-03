@@ -6,6 +6,7 @@
 
 #include "./physics/RigidBody.hpp"
 #include "./sound/SourceManager.hpp"
+#include "../GameManager.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 
 using namespace glm;
@@ -14,7 +15,7 @@ PathFinder::PathFinder(GameObject* gameObject)
 {
     // pfMoveSpeed = 0.1f; //not sure if the declaration in the .hpp file is working
 
-    currentPathIndex = gameObject->getScene()->gameManager->getFirstPathIndex();
+    currentPathIndex = GameManager::getInstance().getFirstPathIndex();
     // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
     fetchNextPathPoint();
     currentPosition = gameObject->getComponent<Transform>()->position;
@@ -26,10 +27,7 @@ PathFinder::~PathFinder()
 }
 
 void PathFinder::fetchNextPathPoint(){
-    //get the scene
-    auto currentScene = gameObject->getScene()->gameManager;
-    
-    nextPathPoint = currentScene->getNextPathPoint(currentPathIndex);
+    nextPathPoint = GameManager::getInstance().getNextPathPoint(currentPathIndex);
 
     //update current path index
     if (currentPathIndex > 0)

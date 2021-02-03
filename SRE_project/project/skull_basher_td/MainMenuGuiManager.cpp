@@ -5,8 +5,8 @@
 #include <sre/Renderer.hpp>
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
+#include "GameManager.hpp"
 #include "MainMenuGuiManager.hpp"
-#include "architecture/scenes/SceneManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
@@ -21,11 +21,9 @@ const int heartEmpty = 0;
 const int heartHalf = 1;
 const int heartFull = 2;
 
-MainMenuGuiManager::MainMenuGuiManager(std::shared_ptr<GameManager> gameManager) : GuiManager(std::move(gameManager))
+MainMenuGuiManager::MainMenuGuiManager() : GuiManager()
 {
-    // setup font
-    auto fonts = ImGui::GetIO().Fonts;
-    fonts->AddFontDefault();
+
 }
 
 void MainMenuGuiManager::guiMainMenu() {
@@ -57,18 +55,22 @@ void MainMenuGuiManager::guiMainMenu() {
 void MainMenuGuiManager::guiLevelGrid() {
     int count = 0;
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 150);
-    for (auto& level : sceneManager->getLevelsData()){
+    for (auto& level : GameManager::getInstance().getSceneManager()->getLevelsData()){
+        if(level->sceneType == 1)
+            continue;
         ImVec2 uv0(0,1); // flip y axis coordinates
         ImVec2 uv1(1,0);
         ImVec2 s(64,64);
         ImVec4 currentBorder = ImVec4(0,0,0,1);
 
         if (ImGui::Button(level->levelName.c_str(), ImVec2(100, 50))){
-            sceneManager->changeScene(level);
+            GameManager::getInstance().getSceneManager()->changeScene(level);
         }
 
-        if (count == 0 || count %3 != 0)
+        if (count == 0 || count %2 != 0)
             ImGui::SameLine();
+        else
+            ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 150);
         count ++;
     }
 }

@@ -13,11 +13,7 @@ GameObject::GameObject(std::string name_, Scene* scene_)
 }
 
 GameObject::~GameObject() {
-    // // from bird game
-    //     for (auto& c : components){
-    //     c->gameObject = nullptr;
-    // }
-   std::cout << "Game object destroyed" << std::endl; 
+   std::cout << "Game object destroyed" << std::endl;
 }
 
 void GameObject::setName(const std::string &name) {

@@ -22,7 +22,6 @@ class Light;
 class BulletPhysics;
 class RigidBody;
 class ScheduleManager;
-class GameManager;
 
 class MainMenuScene: public Scene {
 public:
