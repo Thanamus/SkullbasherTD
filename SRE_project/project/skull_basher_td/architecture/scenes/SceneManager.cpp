@@ -61,7 +61,7 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     cameraObj->getComponent<Transform>()->position = playerSpawnPoint;
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
     // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES); // Dynamic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | CRYSTAL); // Dynamic physics object
 
     //---- setting cameras? // kinda syncs the physics world and the transform
     // glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
@@ -128,9 +128,11 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     //----------- figuring out ghostObjects
     crystalRigidBody->initRigidBodyWithBox({0.5,0.5,0.5}, 1, CRYSTAL, ENEMIES);
+    // crystalRigidBody->initRigidBodyWithBox({0.5,0.5,0.5}, 1, CRYSTAL, ENEMIES);
     crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
     crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
 
+    crystalRigidBody->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
 
     // crystal->addComponent<GhostObject>()->initGhostObjectWithSphere(0.01f);
     // crystal->addComponent<RigidBody>()->initGhostObjectWithSphere(0.9f);
@@ -487,7 +489,8 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                 //Add Physics to skull
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
-                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1, ENEMIES, PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1, ENEMIES, PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1); // mass of 0 sets the rigidbody as kinematic (or static)
                 
                 
@@ -498,7 +501,8 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 
                 
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); //Kinda works
-                thing->setCollisionFlags(thing->getCollisionFlags() | PLAYER | CRYSTAL); //
+                // thing->setCollisionFlags(thing->getCollisionFlags() | PLAYER | CRYSTAL); //
+                // thing->setCollisionFlags( PLAYER | CRYSTAL); //
                 
                 
                 

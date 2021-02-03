@@ -97,8 +97,11 @@ void PathFinder::update(float deltaTime){
 
         // nextPosition = glm::mix(currentPosition, nextPathPoint, velocity);
         nextPosition.y = 0; // correction for the path being on the floor
+
+
+
         // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
-        getGameObject()->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
+        // getGameObject()->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
 
         //update transform
         if (rigidBodyCheck)
@@ -120,12 +123,17 @@ void PathFinder::update(float deltaTime){
                 btQuaternion aroundX;
                 aroundX.setRotation(btVector3(0,-1,0), radians(newRotation-180)); // works, but the objects face the wrong way?
                 transform.setRotation(aroundX);
-                // hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
-                hasRigidBody->setWorldTransform(transform); // it works!!!!
+                hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
+
+                // hasRigidBody->applyCentralImpulse(btVector3{0.01, 0.01, 0.01});
+                // hasRigidBody->setWorldTransform(transform); // it works!!!!
+                hasRigidBody->setCenterOfMassTransform(transform);
+                // btScalar totalForce = hasRigidBody->getLinearVelocity().length();
+                // std::cout << "force on skull is: " << totalForce << std::endl;
                 // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
                 /* code */
             }
-            
+            // hasRigidBody->setActivationState(DISABLE_DEACTIVATION);
         }
         /* I think position gets updated from RigidBody already*/
         // gameObject->getComponent<Transform>()->position = nextPosition; 
