@@ -355,6 +355,18 @@
     {
         "name": "deathd.wav",
         "location": ".\\assets\\soundEffects\\monster\\deathd.wav"
+    },
+    {
+        "name": "metal-small1.wav",
+        "location": ".\\assets\\soundEffects\\inventory\\metal-small1.wav"
+    },
+    {
+        "name": "Bow.wav",
+        "location": ".\\assets\\soundEffects\\battle\\Bow.wav"
+    },
+    {
+        "name": "crossbow_reload.wav",
+        "location": ".\\assets\\soundEffects\\battle\\crossbow_reload.wav"
     }
   ]
 }

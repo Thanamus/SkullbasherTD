@@ -10,25 +10,29 @@
 #include <glm/gtx/quaternion.hpp>
 #include <iostream>
 
+// sound includes
 #include "./sound/SoundDevice.hpp"
 #include "./sound/SourceManager.hpp"
 
+// transform include
 #include "Transform.hpp"
 
-// btKinematicCharacterController includes
-// #include "btKinematicCharacterController.h"
-// #include "btGhostObject.h" // Aparrently doesn't exist
+
+// physics indludes
 #include "./physics/RigidBody.hpp"
 
 // #include "CollisionHandler.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
-#include "../GameManager.hpp"
 
+// collision handler include
 #include "./ModelRenderer.hpp"
 
 // Arrow Collision Hanlder include
 #include "./collisions/ArrowCollisionHandler.hpp"
+
+// game manager include
+#include "../GameManager.hpp"
 
 
 //using namespace sre;
@@ -317,8 +321,16 @@ void PersonController::onMouse(SDL_Event &event)
 
     if (event.type == SDL_MOUSEBUTTONDOWN)
     {
-        std::cout << "mouse clicked" << std::endl;
-        fire_projectile();
+        
+        // TODO get paused and isRunning states from GameManager before shooting
+        if (GameManager::getInstance().levelRunning && !GameManager::getInstance().paused
+        )
+        {
+            std::cout << "mouse clicked" << std::endl;
+            fire_projectile();
+        }
+
+
     }
     
 }
@@ -330,32 +342,39 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
 }
 
 void PersonController::fire_projectile(){
-    std::cout << "firing projectile" << std::endl;
+    // std::cout << "firing projectile" << std::endl;
 
-    
+    // make the arrow game object
     auto arrow = gameObject->getScene()->createGameObject("arrow");
-    arrow->getComponent<Transform>()->position = position;
+    arrow->getComponent<Transform>()->position = hand->getComponent<Transform>()->position; // set the arrow position to the crossbow
+    // arrow->getComponent<Transform>()->position = position; // get the location to shoot from
 
+    // set the direction for the arrow to travel in
     arrow->getComponent<Transform>()->lookAt(arrow->getComponent<Transform>()->position + camera_front, glm::vec3(0, 1, 0));
 
     // arrow->getComponent<Transform>()->rotation = camera_front;
 
+    // add a model and mesh to the arrow
     auto arrowMR = arrow->addComponent<ModelRenderer>();
     auto path = ".\\assets\\crossbow_bolt.obj";
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("arrow").build();
-
     arrowMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     arrowMR->setModel(modelHolder);
 
+    // add a rigid body to the arrow
     auto arrowBody = arrow->addComponent<RigidBody>();
-    arrowBody->initRigidBodyWithBox({0.01,0.01,0.1}, 0.1, PLAYER, BUILDINGS | ENEMIES);
-    // arrow->getComponent<RigidBody>()->getRigidBody()->applyCentralImpulse({10,0,0});
+    // set the arrow to collide with buildings and enemies
+    // box appears to be the right size but could use bounds for a better fit
+    arrowBody->initRigidBodyWithBox({0.01,0.01,0.2}, 0.1, PLAYER, BUILDINGS | ENEMIES);
+    
+    // get the body and set a few factors
     auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();
-    arrowRigidBody->setGravity({0,-0.5,0});
+    arrowRigidBody->setGravity({0,-0.5,0}); // not 'realistic' gravity, but more fun
 
+    // set the force vector, so the physics engine does the work
     btVector3 arrowForce = {camera_front.x, camera_front.y, camera_front.z};
     // arrowForce *= 12; // good setting for linear velocity
-    arrowForce *= 2;
+    arrowForce *= 2; // good for central impulse
 
     // arrowRigidBody->setLinearVelocity(arrowForce);
     arrowRigidBody->applyCentralImpulse(arrowForce);
@@ -364,11 +383,25 @@ void PersonController::fire_projectile(){
     // arrowRigidBody->applyCentralForce(btVector3{camera_front.x,camera_front.y, camera_front.z});
     // arrowRigidBody->applyForce(btVector3{camera_front.x, camera_front.y, camera_front.z}, btVector3{position.x, position.y, position.z});
     // arrowRigidBody->setAngularFactor({0,0,0});
-    arrowRigidBody->setAngularVelocity({0,0,0});
+
+    arrowRigidBody->setAngularVelocity({0,0,0}); // to make sure the arrow doesn't spin in the air
     // arrowRigidBody->setLinearFactor({0,0,0});
+
+    //------ use these to slow arrow bouncing
+    // arrowRigidBody->setRollingFriction(6);
+    // arrowRigidBody->setFriction(3);
+    // arrowRigidBody->setSpinningFriction(5);
+    // arrowRigidBody->setAngularFactor(5);
+    // -------- end arrow bouncing
+
+    // add the collision handler for the arrow
     arrow->addComponent<ArrowCollisionHandler>();
+
+    SourceManager::Get()->playMyJam_global("Bow.wav");
 }
 
+
+// Moved to PlayerCollisionHandler 
 // void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
 //     if (begin){
 //         std::string otherObjectName = other->getGameObject()->getName();
