@@ -52,35 +52,20 @@ Main::Main()
     auto fonts = ImGui::GetIO().Fonts;
     fonts->AddFontDefault();
     //-------------- handshaking
-    gameManager = std::make_shared<GameManager>();
-    gameManager->init();
-    guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
-    //scheduleManager = std::make_shared<ScheduleManager>();
-    guiManager->gameManager = gameManager;
-
-    //gameManager->ToggleLockMouse();
+    GameManager::getInstance().init();
+    guiManager = std::make_shared<MainMenuGuiManager>();
 
     sceneManager = std::make_shared<SceneManager>();
-    sceneManager->gameManager = gameManager;
     guiManager->sceneManager = sceneManager;
 
     //make scene
-    //auto scene = sceneManager->createScene(".\\maps\\SkullBasherTDLevel0.json");
     auto scene = sceneManager->createMainMenuScene();
     scene->sceneManager = sceneManager;
     sceneManager->setCurrentScene(scene);
 
     sceneManager->getCurrentScene()->guiManager = guiManager;
-    sceneManager->getCurrentScene()->gameManager = gameManager;
     sceneManager->getCurrentScene()->sceneManager = sceneManager;
-    gameManager->currentScene = sceneManager->getCurrentScene();
-    //sceneManager->loadMap(R"(.\maps\SkullBasherTDLevel0.json)", sceneManager->getCurrentScene());
-
-    //scheduleManager->currentScene = sceneManager->getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
-    //sceneManager->getCurrentScene()->scheduleManager = scheduleManager;
-
-    //gameManager->setInitialWaveStats();
-    //scheduleManager->fetchInitialWaveSchedule();
+    GameManager::getInstance().currentScene = sceneManager->getCurrentScene();
 
 //--------------- Start Playing music - lives here because the buffers run out before things load
     myMusicBuffer->Play(); 

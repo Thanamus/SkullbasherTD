@@ -256,8 +256,7 @@ bool Camera::checkBuildableStatus(shared_ptr<GameObject> block) {
     if(!block->getComponent<WorldObject>()->getBuildableStatus())
         return false;
 
-    auto gameManager = this->getGameObject()->getComponent<PersonController>()->currentScene->gameManager;
-    bool canAfford = gameManager->getScore() >= gameManager->selectedTower->getBuildCost();
+    bool canAfford = GameManager::getInstance().getScore() >= GameManager::getInstance().selectedTower->getBuildCost();
     if(!canAfford)
         return false;
 

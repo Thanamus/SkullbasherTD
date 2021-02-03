@@ -12,14 +12,14 @@ CrystalHealth::~CrystalHealth()
 }
 
 void CrystalHealth::HandleHealthChange() {
-    if (getGameObject()->getScene()->gameManager == nullptr || !getGameObject()->getScene()->gameManager->levelRunning)
+    if (!GameManager::getInstance().levelRunning)
         return;
 
     if(this->getHealth() <= 0)
     {
-        getGameObject()->getScene()->gameManager->levelRunning = false;
-        getGameObject()->getScene()->gameManager->won = false;
-        getGameObject()->getScene()->gameManager->ToggleLockMouse();
+        GameManager::getInstance().levelRunning = false;
+        GameManager::getInstance().won = false;
+        GameManager::getInstance().ToggleLockMouse();
     }
     else
     {

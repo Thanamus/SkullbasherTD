@@ -22,9 +22,6 @@
 using namespace sre;
 using namespace glm;
 
-GameManager::GameManager() {
-}
-
 void GameManager::init() {
     loadTowers("data/towers.json");
     selectedTower = towers[0];

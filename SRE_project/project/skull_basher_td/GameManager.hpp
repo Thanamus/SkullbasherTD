@@ -22,7 +22,16 @@ struct waveScheduleDetails {
 class GameManager
 {
 public:
-    explicit GameManager();
+    static GameManager& getInstance()
+    {
+        static GameManager instance; // Guaranteed to be destroyed.
+        // Instantiated on first use.
+        return instance;
+    }
+    //explicit GameManager();
+
+    GameManager(GameManager const&)               = delete;
+    void operator=(GameManager const&)  = delete;
 
     void init();
 
@@ -75,6 +84,8 @@ public:
     const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
     int getTotalEnemiesInCurrentSet() const;
 private:
+    GameManager() {}
+
     void loadTowers(std::string filename);
     static std::map<std::string, std::shared_ptr<sre::Texture>> inventoryTexture;
     std::vector<std::shared_ptr<Tower>> towers;

@@ -21,7 +21,7 @@ const int heartEmpty = 0;
 const int heartHalf = 1;
 const int heartFull = 2;
 
-MainMenuGuiManager::MainMenuGuiManager(std::shared_ptr<GameManager> gameManager) : GuiManager(std::move(gameManager))
+MainMenuGuiManager::MainMenuGuiManager() : GuiManager()
 {
 
 }

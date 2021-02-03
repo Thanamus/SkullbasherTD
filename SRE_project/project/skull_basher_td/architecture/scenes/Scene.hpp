@@ -53,7 +53,6 @@ public:
 
     std::vector<Camera*> cameras;
     std::shared_ptr<GuiManager> guiManager;
-    std::shared_ptr<GameManager> gameManager;
     std::shared_ptr<SceneManager> sceneManager;
     std::shared_ptr<ScheduleManager> scheduleManager;
 protected:

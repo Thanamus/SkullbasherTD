@@ -16,9 +16,8 @@ const int heartEmpty = 0;
 const int heartHalf = 1;
 const int heartFull = 2;
 
-GuiManager::GuiManager(std::shared_ptr<GameManager> gameManager)
+GuiManager::GuiManager()
 {
-    this->gameManager = gameManager;
 }
 
 float GuiManager::centerText(ImVec2 window, std::string text)

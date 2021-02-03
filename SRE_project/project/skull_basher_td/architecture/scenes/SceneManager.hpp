@@ -68,7 +68,6 @@ public:
     std::shared_ptr<Scene> getCurrentScene();
     std::string getMapsFolderLoc();
 
-    std::shared_ptr<GameManager> gameManager;
     const std::vector<std::shared_ptr<LevelData>> &getLevelsData() const;
 private:
     std::vector<std::shared_ptr<LevelData>> levelsData;

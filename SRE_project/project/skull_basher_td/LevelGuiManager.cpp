@@ -20,7 +20,7 @@ const int heartEmpty = 0;
 const int heartHalf = 1;
 const int heartFull = 2;
 
-LevelGuiManager::LevelGuiManager(std::shared_ptr<GameManager> gameManager) : GuiManager(gameManager)
+LevelGuiManager::LevelGuiManager() : GuiManager()
 {
     heartIcons[heartEmpty] = Texture::create().withFile("assets/hud_heartEmpty.png").withFilterSampling(false).build();
     heartIcons[heartHalf] = Texture::create().withFile("assets/hud_heartHalf.png").withFilterSampling(false).build();
@@ -59,7 +59,7 @@ void LevelGuiManager::guiGameInfo() {
 
     // draw Score
     ImGui::PushID(1);
-    auto scoreStr = std::to_string(gameManager->getScore());
+    auto scoreStr = std::to_string(GameManager::getInstance().getScore());
     ImGui::Text("Money"); ImGui::SameLine();
     width = ImGui::CalcTextSize(scoreStr.c_str()).x;
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), scoreStr)); // align center
@@ -79,8 +79,8 @@ void LevelGuiManager::guiGameInfo() {
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + border); // move down
 
     // scale/clip inner bar
-    innerSize.x *= gameManager->crystal->getHealth() / 100;
-    uv1.x *= gameManager->crystal->getHealth() / 100;
+    innerSize.x *= GameManager::getInstance().crystal->getHealth() / 100;
+    uv1.x *= GameManager::getInstance().crystal->getHealth() / 100;
     ImVec4 tintColor(0,1,0,1);
     ImGui::Image(powerbar->getNativeTexturePtr(),{innerSize.x,innerSize.y}, uv0, uv1, tintColor);
 
@@ -127,7 +127,7 @@ void LevelGuiManager::guiTowers() {
     auto cond = ImGuiCond_Always;
     ImVec2 pivot = {0,0};
 
-    ImVec2 size = {(gameManager.get()->GetTowers().size() * 64.0f) + 30.0f, 107};
+    ImVec2 size = {(GameManager::getInstance().GetTowers().size() * 64.0f) + 30.0f, 107};
     ImVec2 pos = {(winsize.x  / 2.0f) - (size.x / 2),winsize.y - size.y};
     ImGui::SetNextWindowPos(pos, cond, pivot);
     ImGui::SetNextWindowSize(size, cond);
@@ -143,13 +143,13 @@ void LevelGuiManager::guiTowers() {
     ImGui::Text("Towers");
 
     int count = 0;
-    int selectedTowerID = gameManager.get()->selectedTower.get()->getId();
-    for (auto& tower : gameManager.get()->GetTowers()){
+    int selectedTowerID = GameManager::getInstance().selectedTower.get()->getId();
+    for (auto& tower : GameManager::getInstance().GetTowers()){
         ImVec2 uv0(0,1); // flip y axis coordinates
         ImVec2 uv1(1,0);
         ImVec2 s(64,64);
         ImVec4 currentBorder = ImVec4(0,0,0,1);;
-        if(gameManager->buildModeActive)
+        if(GameManager::getInstance().buildModeActive)
             currentBorder = tower.get()->getId() == selectedTowerID ? selectedBorderColor : ImVec4(0,0,0,1);
 
         ImGui::Image(tower->getIcon()->getNativeTexturePtr(), s, uv0, uv1 , ImVec4(1,1,1,1),currentBorder);
@@ -157,7 +157,7 @@ void LevelGuiManager::guiTowers() {
     }
 
     ImGui::End();
-    if(gameManager->buildModeActive)
+    if(GameManager::getInstance().buildModeActive)
         guiBuildPopUp(size);
 }
 
@@ -179,12 +179,12 @@ void LevelGuiManager::guiBuildPopUp(ImVec2 towerWindowSize) {
     bool* open = nullptr;
     ImGui::Begin("#BuildPopUp", open, flags);
     //Title
-    std::string title = "Build: " + gameManager->selectedTower->getName();
+    std::string title = "Build: " + GameManager::getInstance().selectedTower->getName();
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
     ImGui::Text(title.c_str());
 
     std::stringstream stream;
-    stream << std::fixed << std::setprecision(2) << gameManager->selectedTower->getBuildCost();
+    stream << std::fixed << std::setprecision(2) << GameManager::getInstance().selectedTower->getBuildCost();
     std::string priceString = stream.str();
 
     std::string price = "cost: $" + priceString;
@@ -209,7 +209,7 @@ void LevelGuiManager::guiWaveInfo()
     ImGui::Text(title.c_str());
 
     //Wave
-    std::string waveText = std::to_string(gameManager->getCurrentWave()) + "/" + std::to_string(gameManager->getTotalWavesInLevel());
+    std::string waveText = std::to_string(GameManager::getInstance().getCurrentWave()) + "/" + std::to_string(GameManager::getInstance().getTotalWavesInLevel());
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), waveText)); // align center
     ImGui::Text(waveText.c_str());
 
@@ -220,7 +220,7 @@ void LevelGuiManager::guiWaveInfo()
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enemies)); // align center
     ImGui::Text(enemies.c_str());
 
-    std::string enermyText = std::to_string(gameManager->getCurrentEnemy()) + "/" + std::to_string(gameManager->getTotalEnemiesInCurrentSet());
+    std::string enermyText = std::to_string(GameManager::getInstance().getCurrentEnemy()) + "/" + std::to_string(GameManager::getInstance().getTotalEnemiesInCurrentSet());
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enermyText)); // align center
     ImGui::Text(enermyText.c_str());
 
@@ -240,7 +240,7 @@ void LevelGuiManager::guiQuitScreen()
     //Back To Game
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
     if (ImGui::Button("Continue", ImVec2(100, 50))){
-        gameManager->TogglePause();
+        GameManager::getInstance().TogglePause();
     }
 
     ImGui::Spacing();
@@ -262,7 +262,7 @@ void LevelGuiManager::guiQuitScreen()
     //Quit
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
     if (ImGui::Button("Quit Game", ImVec2(100, 50))){
-        gameManager->quit = true;
+        GameManager::getInstance().quit = true;
     }
 
     ImGui::End();
@@ -275,7 +275,7 @@ void LevelGuiManager::guiWinLooseScreen()
     //Title
     ImGui::Begin("#Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
     std::string title;
-    if(gameManager->won)
+    if(GameManager::getInstance().won)
         title = "You Won!";
     else
         title = "You Lost!";
@@ -300,19 +300,19 @@ void LevelGuiManager::guiWinLooseScreen()
     //Quit
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
     if (ImGui::Button("Quit Game", ImVec2(100, 50))){
-        gameManager->quit = true;
+        GameManager::getInstance().quit = true;
     }
 
     ImGui::End();
 }
 
 void LevelGuiManager::onGui() {
-    if(!gameManager->levelRunning)
+    if(!GameManager::getInstance().levelRunning)
     {
         guiWinLooseScreen();
         return;
     }
-    if(gameManager->paused)
+    if(GameManager::getInstance().paused)
     {
         guiQuitScreen();
         return;
