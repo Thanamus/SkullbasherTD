@@ -10,15 +10,15 @@
 #include <glm/gtx/quaternion.hpp>
 #include <iostream>
 
-#include "SoundDevice.hpp"
-#include "SourceManager.hpp"
+#include "./sound/SoundDevice.hpp"
+#include "./sound/SourceManager.hpp"
 
 #include "Transform.hpp"
 
 // btKinematicCharacterController includes
 // #include "btKinematicCharacterController.h"
 // #include "btGhostObject.h" // Aparrently doesn't exist
-#include "RigidBody.hpp"
+#include "./physics/RigidBody.hpp"
 
 // #include "CollisionHandler.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
@@ -31,59 +31,21 @@ PersonController::PersonController(GameObject* gameObject)
  : Component(gameObject)
 {
     camera = gameObject->getComponent<Camera>();
+
+    // get rigid body 
     btRigidBody* myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
-    myBody->setAngularFactor({0,0,0});
-    myBody->setActivationState(DISABLE_DEACTIVATION);
-    // camera->setPerspectiveProjection(45, 0.1f, 1000);
-    // position = vec3(0, 0, 0);
+    myBody->setAngularFactor({0,0,0}); // disable angular factor (otherwise player could tip over)
+    myBody->setActivationState(DISABLE_DEACTIVATION); // disable deactivation
+
     camera_front = gameObject->getComponent<Transform>()->rotation;  // set initial target of the camera on the negative Z axis (default)
     
-    // glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
-    // btTransform transform;
-    // btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z}; 
-    // transform.setOrigin(btCameraPosition);
-
-    // glm::quat myquaternion = glm::quat(glm::vec3(angle.x, angle.y, angle.z));
-
-    // glm::quat inputQuat = glm::quat(cameraObj->getComponent<Transform>()->rotation);
-    // glm::quat inputQuat = glm::quat(camera_front);
-    // btQuaternion btInputQuat = {inputQuat.w, inputQuat.x, -inputQuat.y,inputQuat.z }; 
-    // transform.setRotation(-btInputQuat);
-
-    // myBody->setWorldTransform(transform);
-    // cameraObj->addComponent<RigidBody>();
-    
-    // btVector3 camera_front_bt = {camera_front.x, camera_front.y, camera_front.z};
-    // myBody->getOrientation().setRotation({0,1,0}, radians(rotation));
-    // btQuaternion cameraOrientation = myBody->getOrientation();
-    // btVector3  camera_front_bt = cameraOrientation.setRotation();
-    // camera_front = vec3(0, 0, -1);                         // set initial target of the camera on the negative Z axis (default)
+    // set initial target of the camera on the negative Z axis (default)
     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
 
-    start_footstep_lockout = std::chrono::steady_clock::now();
-
-// -- Trying to add btKinematicCharacterController
-    // btGhostObject ghostObject = btGhostObject();
-    // btPairCachingGhostObject * thing = ghostObject;
-    // btKinematicCharacterController kinematicPlayerController = btKinematicCharacterController(ghostObject, btSphereShape);
-
-//     btKinematicCharacterController::btKinematicCharacterController	(	btPairCachingGhostObject * 	ghostObject,
-// btConvexShape * 	convexShape,
-// btScalar 	stepHeight,
-// const btVector3 & 	up = btVector3(1.0,0.0,0.0) 
-// )	
+    // start_footstep_lockout = std::chrono::steady_clock::now(); // initalise the first footstep lockout
 
 }
-// FirstPersonController::FirstPersonController(sre::Camera *camera)
-//     : camera(camera)
-// {
-//     camera->setPerspectiveProjection(45, 0.1f, 1000);
-//     position = vec3(0, 0, 0);
-//     camera_front = vec3(0, 0, -1);                         // set initial target of the camera on the negative Z axis (default)
-//     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
-//     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
-// }
 
 PersonController::~PersonController(){
 
@@ -100,29 +62,19 @@ void PersonController::debugGUI() {
 
 void PersonController::update(float deltaTime)
 {
-    updateVectors();
-    updateInput(deltaTime);
+    updateVectors(); // uupdates the camera vectors, camera_right, camera_fwd, camera_dir
+    updateInput(deltaTime); // Updates position and rotation based on inputs from mouse / keyboard
 
-    // // change to use transform instead of RigidBody 
-    // auto myTransform = gameObject->getComponent<Transform>();
-    
-    // auto myPosition = myTransform->position;
-    // auto myRotation = myTransform->rotation;
 
-    // camera_front = glm::normalize(vec3(cos(radians(rotation)), 0, sin(radians(rotation)))); // update camera "target" to match rotation
+    // update camera_front using latest inputs from rotation (yaw) and pitch
     glm::vec3 direction;  
     direction.x = cos(glm::radians(rotation)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));
     direction.z = sin(glm::radians(rotation)) * cos(glm::radians(pitch));
     
+    // normalise the camera front again
     camera_front = glm::normalize(direction);
-    // camera_front = glm::normalize(vec3(myRotation.x, 0.f, myRotation.z)); // nope!
-    // camera_front = glm::normalize(vec3(myRotation.x, myRotation.y, myRotation.z)); // nope!
-    // camera_front = {myRotation.x, 0.f, myRotation.z}; // Nope!
-    // camera_front = glm::eulerAngles(myRotation); // Nope!
 
-
-    
     camera->moveHandCursor(camera_front, this->hand);
     if(currentScene->gameManager->buildModeActive)
     {
@@ -130,102 +82,52 @@ void PersonController::update(float deltaTime)
         camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());
     }
 
-    
+// ----------------- Update the rigid body -------------------
+
+    // Get the person controllers rigid body
     auto myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    // init a transform that will update the rigid body at the end
     btTransform xform;
-    btQuaternion thing = xform.getRotation();
-    // xform.setRotation()
-    btScalar btYaw;
-    btScalar btPitch;
-    btScalar btRoll;
-    auto thingy = gameObject->getComponent<Transform>();
-    btYaw = glm::radians(thingy->rotation.z);
-    btPitch = glm::radians(thingy->rotation.y);
-    btRoll = glm::radians(thingy->rotation.z);
 
-    xform.getRotation().getEulerZYX(btYaw, btPitch, btRoll);
+    // init some quarternions
+    btQuaternion aroundY; // for setting the rotation around y
+    btQuaternion aroundZ; // for setting the rotation around z
 
-    btQuaternion afd;
-    btQuaternion af;
-    afd.setRotation(btVector3(0,-1,0), radians(rotation+90)); // rotate aroudn y (yaw)
-    // afd.setRotation(btVector3(0,-1,0), btYaw); // nope
-    // xform.setRotation(afd);
-    af.setRotation(btVector3(1,0,0), radians(pitch)); // rotate around z (pitch)
+    // vector (0, -1, 0) declares it is the y axis, -1 because otherwise rotation is inverted
+    aroundY.setRotation(btVector3(0,-1,0), radians(rotation+90)); // rotate aroudn y (yaw)
+    
+    // vector (1,0,0) declares rotation in the z axis (z,y,x)
+    aroundZ.setRotation(btVector3(1,0,0), radians(pitch)); // rotate around z (pitch)
+    
+    // multiply the two rotations to get the final quarternion rotation
+    btQuaternion final = aroundY * aroundZ; 
+    xform.setRotation(final); // set the transform's rotation to the new quarternion
 
-    btQuaternion final = afd * af;
-    xform.setRotation(final);
-
+    // sets the position of the transformation to match the players new position
     xform.setOrigin({position.x, position.y, position.z});
-    // myBody->getMotionState()->setWorldTransform(xform);
-    myBody->setWorldTransform(xform);
+
+    // set the new transform in the motion state, for physics to use
+    myBody->getMotionState()->setWorldTransform(xform);
+
+    // can also just set the transform - but I think this way skips physics current frame processing
+    // myBody->setWorldTransform(xform); //
+
+    // set the center of mass transform as well as the world transform - bullet is weird
     myBody->setCenterOfMassTransform(xform);
+
+// ------------- end Update the rigid body   
 
     // std::cout << "rotation is: " << rotation << std::endl;
 
     // camera->lookAt(position, position + camera_front, world_up);
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
     
-
-
-    // myBody->getMotionState()->getWorldTransform(xform);
-    // xform.setRotation();
-    // myBody->getMotionState()->setWorldTransform(xform);
-
-//     // Convert from Euler Angles void Quaternion::FromEuler(float pitch, float yaw, float roll) { // Basically we create 3 Quaternions, one for pitch, one for yaw, one for roll // and multiply those together. // the calculation below does the same, just shorter
-
-//     float p = pitch * PIOVER180 / 2.0;
-//     float y = yaw * PIOVER180 / 2.0;
-//     float r = roll * PIOVER180 / 2.0;
-
-//     float sinp = sin(p);
-//     float siny = sin(y);
-//     float sinr = sin(r);
-//     float cosp = cos(p);
-//     float cosy = cos(y);
-//     float cosr = cos(r);
-
-//     x = sinr * cosp * cosy - cosr * sinp * siny;
-//     y = cosr * sinp * cosy + sinr * cosp * siny;
-//     z = cosr * cosp * siny - sinr * sinp * cosy;
-//     w = cosr * cosp * cosy + sinr * sinp * siny;
-
-//     normalise();
-// }
-
-    // // // glm::mat4 xformBasis;
-    // // glm::mat4 xformBasis;
-    // // btScalar matrix[16];
-    // // xform.getOpenGLMatrix(matrix);
-
-    // // xformBasis = {
-    // //     matrix[0],matrix[1],matrix[2],matrix[3],
-    // //     matrix[4],matrix[5],matrix[6],matrix[7],
-    // //     matrix[8],matrix[9],matrix[10],matrix[11],
-    // //     matrix[12],matrix[13],matrix[14],matrix[15],
-    // // };
-
-    // // glm::mat4 localTransformMatrix = gameObject->getComponent<Transform>()->localTransform();
-    // // btTransform newTransform;
-    // // glm::mat4 matrix = gameObject->getComponent<Transform>()->localTransform();
-
-    // xform.setRotation(btQuaternion(btVector3(camera_front.x, 0, camera_front.z), rotation));
-    // xform.setOrigin(btVector3(position.x,position.y, position.z));
-
-    // // glm::mat4 newTransform = xformBasis * localTransformMatrix;
-    // // btTransform newTransform = xformBasis * localTransformMatrix;
-    
-    // myBody->getMotionState()->setWorldTransform(xform);
-    
-    
-    
-    // update Listener
+//--------------- update Listener
     // TODO make this into a helper function instead
     SoundDevice::Get()->SetLocation(position.x, position.y, position.z);
     SoundDevice::Get()->SetOrientation(camera_front.x, camera_front.y, camera_front.z,
                                         world_up.x, world_up.y, world_up.z);
-    // glm::vec3 testingPos;
-    // SoundDevice::Get()->GetLocation(testingPos.x, testingPos.y, testingPos.z);
-    // std::cout << "Listener is at: " << testingPos.x << std::endl;
+// --------------- end update Listener
 }
 
 void PersonController::updateVectors()
@@ -238,116 +140,77 @@ void PersonController::updateVectors()
 
 void PersonController::updateInput(float deltaTime)
 {
+    // updates the rotation, pitch and position variables of the player, based on inputs
     float velocity = movespeed * deltaTime;
     
-    bool rigidBodyCheck = false;
+    // bool rigidBodyCheck = false;
     
-
-
-    // btRigidBody* hasRigidBody = this->getGameObject()->getComponent<RigidBody>()->getRigidBody();
-    // btRigidBody* hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    // get the player's rigid body
     btRigidBody* hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
     // btTransform transform = hasRigidBody->getWorldTransform();
 
+    // init a transform
     btTransform transform;
-    // hasRigidBody->getMotionState()->getWorldTransform(transform);
-    // hasRigidBody->getWorldTransform(transform);
+
+    // assign transform to rigid body's current world transform
     transform = hasRigidBody->getWorldTransform();
 
+    // set a btVector to the transform's origin
     btVector3& origin = transform.getOrigin();
     position = {origin.x(), origin.y(), origin.z()}; // links origin and position
-    // float oX;
-    // float oY;
-    // float oZ;
-
-
-    // position = {origin.getX(), origin.getY(), origin.getZ()}; // links origin and position
-    
+  
+    // init some force to nothing - for use setting linear velocity later
     btVector3 force = {0,0,0};
 
-    // auto thing = this->getGameObject()->getComponent<Transform>();
-    // thing->rotation = 
-    // update rotation
-    float oldRotation = rotation;
+
+    // update the rotation and pitch based on the mouse movements recorded
+    // NB: rotation is yaw, could update variable name
     rotation += mouse_offset.x * deltaTime;
     // std::cout << "mouse offset: " << mouse_offset << std::endl;
-
     pitch += mouse_offset.y*deltaTime;
-    
-    btVector3 angular_force_bt = {0,0,0};
-    angular_force_bt = {0,mouse_offset.x * deltaTime,0};
-    // if (mouse_offset > 0){
-
-    //     angular_force_bt = {0,sensitivity,0};
-    //     // std::cout << "mouse_offset positive" << std::endl;
-    // } else if (mouse_offset < 0) {
-
-    //     angular_force_bt = {0,-sensitivity,0};
-
-    // }
-    
-    // btQuaternion thing = transform.getRotation();
-    // auto thingyy = thing.getY();
-    // // btVector3 * thing_euler;
-    // btScalar z;
-    // btScalar y;
-    // btScalar x;
-    // thing.getEulerZYX(z,y,x); 
-
-    // // btScalar test = radians(-rotation-180)/2;
-    // btScalar test = radians(-rotation);
-    // // xform.setRotation (btQuaternion (btVector3(0.0, 1.0, 0.0), m_turnAngle));
-    // transform.setRotation(btQuaternion(btVector3(0.0, 1.0, 0.0), test));
-    
-
-    // std::cout << "thingyyy is: " << thingyy << std::endl;
-    // std::cout << "y: " << y << std::endl;
-
+   
     // keep rotation in 360 degree range
     if (rotation > 360.f)
         rotation -= 360.f;
     else if (rotation < -0.f)
         rotation += 360.f;
-    mouse_offset.x = 0.f; // reset offset
+    mouse_offset.x = 0.f; // reset x offset
 
-    // keep pitch in +- 89 degree range
+    // keep pitch in +- limit degree range (set in header)
     if (pitch > pitch_limit)
     {
         pitch = pitch_limit;
     } else if (pitch < -pitch_limit-5){
         pitch = -pitch_limit-5;
     }
-    mouse_offset.y = 0.f;
+    mouse_offset.y = 0.f; // reset y offset
     
     // std::cout << "Pitch is: " << pitch << std::endl;
 
     // update position based on current keypresses
     // using the camerafront vector allows to keep account of rotation automatically
+    // NB, changed above to use camera_fwd, a cross between up and camera_right
+    // using camera_fwd keeps movement in the x-z axes only
 
+    // init old position, for calculating force later
     glm::vec3 oldPosition = position;
 
     if (key_fwd){
 
         // position += velocity * camera_front;
-        // position += velocity * camera_dir;
         position += velocity * camera_fwd;
-        // force += velocity * camera_front_bt;
     }
 
     if (key_bwd){
 
         // position -= velocity * camera_front;
-        // position -= velocity * camera_dir;
         position -= velocity * camera_fwd;
-        // force -= velocity * camera_front_bt;
     }
     if (key_left) {
         position -= velocity * cross(camera_front, world_up);
-        // force -= velocity * cross(camera_front_bt, world_up);
     }
     if (key_right){
         position += velocity * cross(camera_front, world_up);
-        // force += velocity * cross(camera_front, world_up);
     }
     // if (key_flyUp){
     //     position += velocity * world_up; //works! fly's up
@@ -358,32 +221,19 @@ void PersonController::updateInput(float deltaTime)
 
     // Calculate the force to apply to the character
     glm::vec3 positionDifference = oldPosition - position;
-    // force = {positionDifference.x, positionDifference.y, positionDifference.z};
+    
+    // assign force to btVector3
     force = {positionDifference.x, 0, positionDifference.z};
     
-    
-
-    // thing->position = position;
-    origin = {position.x, position.y, position.z}; // actually sets the origin
-
-    // transform.setOrigin(origin);
-    // transform.setRotation();
-    // hasRigidBody->getMotionState(); // Uses Motion State
-    // hasRigidBody->getMotionState()->setWorldTransform(transform); // Uses Motion State
-    // hasRigidBody->setWorldTransform(transform); // skips motion state - kinda works
-    // hasRigidBody->setLinearVelocity(origin);
-    // origin = origin /10;
-   
-   
-   
-    // std::cout << "force is :" << force.x() << ", " << force.y() << " " << force.z() << std::endl;
+    // get the current total force (i.e current speed of the player)
     btScalar totalForce = hasRigidBody->getLinearVelocity().length();
     // std::cout << "total Force is: " << totalForce << std::endl;
 
-//''''''''
+    // if speed (total force) is less than 'some value', apply force (speed up)
     if(totalForce <= 7) {
-        // if speed (total force) is less than 'some value', apply force (speed up)
-        hasRigidBody->applyCentralImpulse(-force); //kinda works, have to set both origin and force
+
+        //kinda works, NB: have to set both origin (done later) and force for physics to move
+        hasRigidBody->applyCentralImpulse(-force); 
     } 
     
     btVector3 currentVelocity = hasRigidBody->getLinearVelocity();
@@ -393,45 +243,24 @@ void PersonController::updateInput(float deltaTime)
     && (currentVelocity.x() != 0 && currentVelocity.y() != 0)
     && hasRigidBody->getFriction() != 5)
     {
-        // hasRigidBody->applyDamping(0.2, 0.0);
         hasRigidBody->setFriction(5);
-        // hasRigidBody->setDamping
-        // std::cout << "applying dampening" << std::endl;
     } else if (hasRigidBody->getFriction() != 1) {
         // otherwise set a baselinie friction
         hasRigidBody->setFriction(1);
     }
 
-  // ''''''''''''''''
-    // xform.setRotation (btQuaternion (btVector3(0.0, 1.0, 0.0), m_turnAngle)); // Original from Dynamic Contoller Demo
-    // transform.setRotation(btQuaternion (btVector3(0.0, 1.0, 0.0), rotation));
-    // hasRigidBody->setWorldTransform(transform);
-    // std::cout << "angularforce is :" << angular_velocity_bt.x() << ", " << angular_velocity_bt.y() << " " << angular_velocity_bt.z() << std::endl;
-    
-    
-    // hasRigidBody->applyTorque(angular_force_bt);
-    // hasRigidBody->setAngularVelocity(-angular_force_bt); // Kinda works
-    // hasRigidBody->setAngularVelocity(-angular_force_bt*1.049); // It's a hack, but it works - might still be slightly off
-    // hasRigidBody->setSpinningFriction(0);
-
-
-    // std::cout << "vertical velocity is: " << currentVelocity.y() << std::endl;
     // if jump key is pressed, jump!
     if (key_jump && isGrounded == true)
     {
         if (currentVelocity.y() < 0.5) //helps a little
         {
             hasRigidBody->applyCentralImpulse({0,jumpHeight,0});
-            isGrounded = false;
+            isGrounded = false; // poor mans isGrounded
         }
+        // TODO put in proper isGrounded check here, so there is no mid-air jumping
         
-        // Todo put in a vertical velocity check here, so there is no mid-air jumping
     }
     
-    
-    // btQuaternion currentOrintation = hasRigidBody->getOrientation();
-    // hasRigidBody->getMotionState()->getOrientation().setRotation(btVector3{0,1,0}, radians(rotation));
-    // hasRigidBody->getMotionState()->setWorldTransform(transform);
 }
 
 void PersonController::onKey(SDL_Event &event)
@@ -487,51 +316,56 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
 }
 
 
-void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
-    if (begin){
-        std::string otherObjectName = other->getGameObject()->getName();
-        std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;
+// void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
+//     if (begin){
+//         std::string otherObjectName = other->getGameObject()->getName();
+//         std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;
+//         std::cout << "player position is: " << position.x << " , " << position.y << " , " << position.z << std::endl;
+       
 
-        std::cout << "player position is: " << position.x << " , " << position.y << " , " << position.z << std::endl;
-        std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
-        int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - start_footstep_lockout).count();
 
-        std::cout << "time_elapsed :" << time_elapsed_milli << std::endl;        
+//         // std::cout << "time_elapsed :" << time_elapsed_milli << std::endl;        
 
-        SourceManager * mySource = SourceManager::Get();
-        //----- if colliding with ground, play ground sounds
-        // works, but the sounds quickly pile up, maybe make a timer?
-        if (col_position.y < position.y-0.2f)
-        {
-            // collision happened below the player
-            isGrounded = true; //player just collided with something on it's feet
-            // so it could be considered grounded
+//         SourceManager * mySource = SourceManager::Get();
+//         //----- if colliding with ground, play ground sounds
+//         if (col_position.y < position.y-0.2f)
+//         {
+//             // collision happened below the player
+
+//             // check footstep time
+//             std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
+//             int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - start_footstep_lockout).count();
             
-            // TODO match offset to player colision size 
-            if (time_elapsed_milli > footstep_lockout_millisec)
-            {
-                if (otherObjectName == "GrassBlock01D.obj")
-                {
-                    mySource->playMyJam_global("gassy-footstep1.wav");
-                    // std::cout << "playing grassy footstep" << std::endl;
-                } else if (otherObjectName == "Floor01.obj"){
-                    mySource->playMyJam_global("stepwood_2.wav");
-                } else if (otherObjectName == "PathBlock01D.obj"){
+//             isGrounded = true; //player just collided with something on it's feet
+//             // so it could be considered grounded
+            
+//             // TODO match offset to player colision size 
+//             if (time_elapsed_milli > footstep_lockout_millisec)
+//             {
+//                 if (otherObjectName == "GrassBlock01D.obj")
+//                 {
+//                     mySource->playMyJam_global("gassy-footstep1.wav");
+//                     // std::cout << "playing grassy footstep" << std::endl;
+//                 } else if (otherObjectName == "Floor01.obj"){
+//                     mySource->playMyJam_global("stepwood_2.wav");
+//                 } else if (otherObjectName == "PathBlock01D.obj"){
                     
-                } else if (otherObjectName == "Bridge01D.obj"){
+//                 } else if (otherObjectName == "Bridge01D.obj"){
                     
-                }
-                start_footstep_lockout = std::chrono::steady_clock::now();
-            }
+//                 }
+
+//                 // restart footstep lockout
+//                 start_footstep_lockout = std::chrono::steady_clock::now();
+//             }
            
-        }
+//         }
         
         
         
-    }
-}
+//     }
+// }
 
 
-void PersonController::onCollisionEnd(size_t collisionId) {
-    std::cout << "Collision end "<<collisionId<<std::endl;
-}
+// void PersonController::onCollisionEnd(size_t collisionId) {
+//     std::cout << "Collision end "<<collisionId<<std::endl;
+// }

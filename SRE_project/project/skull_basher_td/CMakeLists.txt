@@ -23,6 +23,18 @@ file(GLOB SkullBasherTD
         "./architecture/health/*.hpp"
         "./architecture/health/*.h"
         "./architecture/health/*.cpp"
+        "./architecture/physics/*.hpp"
+        "./architecture/physics/*.h"
+        "./architecture/physics/*.cpp"
+        "./architecture/sound/*.hpp"
+        "./architecture/sound/*.h"
+        "./architecture/sound/*.cpp"
+        "./architecture/music/*.hpp"
+        "./architecture/music/*.h"
+        "./architecture/music/*.cpp"
+        "./architecture/collisions/*.hpp"
+        "./architecture/collisions/*.h"
+        "./architecture/collisions/*.cpp"
         )
 
 #    ExternalProject_Get_Property(LibSndFile install_dir)

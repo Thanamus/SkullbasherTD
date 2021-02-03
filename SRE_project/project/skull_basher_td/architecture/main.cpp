@@ -7,24 +7,24 @@
 #include "ModelRenderer.hpp"
 #include "Light.hpp"
 
-#include "RigidBody.hpp"
-#include "CustomerCollisionHandler.hpp"
+#include "./physics/RigidBody.hpp"
+#include "./collisions/CustomCollisionHandler.hpp"
 
 #include "PersonController.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
-#include "BulletPhysics.hpp"
+#include "./physics/BulletPhysics.hpp"
 #include "Main.hpp"
 #include "sre/Material.hpp"
 
 
 //sound Device
-#include "SoundDevice.hpp" //i.e a device that is the "Listener"
-#include "SoundEffectsLibrary.hpp" //i.e. SoundBuffer
-#include "SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
-#include "MusicBuffer.hpp"
+#include "./sound/SoundDevice.hpp" //i.e a device that is the "Listener"
+#include "./sound/SoundEffectsLibrary.hpp" //i.e. SoundBuffer
+#include "./sound/SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
+#include "./music/MusicBuffer.hpp"
 
-#include "SourceManager.hpp"
+#include "./sound/SourceManager.hpp"
 #include "../LevelGuiManager.hpp"
 #include "../MainMenuGuiManager.hpp"
 

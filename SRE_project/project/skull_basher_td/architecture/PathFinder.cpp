@@ -4,15 +4,15 @@
 #include "scenes/Scene.hpp"
 #include <cmath>
 
-#include "RigidBody.hpp"
-#include "SourceManager.hpp"
+#include "./physics/RigidBody.hpp"
+#include "./sound/SourceManager.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 
 using namespace glm;
 PathFinder::PathFinder(GameObject* gameObject)
  : Component(gameObject)
 {
-    PathFinder::pfMoveSpeed = 0.1f; //not sure if the declaration in the .hpp file is working
+    // pfMoveSpeed = 0.1f; //not sure if the declaration in the .hpp file is working
 
     currentPathIndex = gameObject->getScene()->gameManager->getFirstPathIndex();
     // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
@@ -51,8 +51,22 @@ void PathFinder::update(float deltaTime){
         bool rigidBodyCheck = false;
         btRigidBody* hasRigidBody = nullptr;
 
-        if (hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody())
+        bool hasTransform = false;
+        if (gameObject->getComponent<Transform>() != nullptr)
         {
+            hasTransform = true;
+        }
+        
+        bool hasRigidComponent = false;
+        if (gameObject->getComponent<RigidBody>() != nullptr)
+        {
+            hasRigidComponent = true;
+        }
+        
+
+        if (hasRigidComponent)
+        {
+            hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
             rigidBodyCheck = true;
             // std::cout << "object has rigid body \n";
             btTransform currentTransform = hasRigidBody->getWorldTransform();
@@ -83,8 +97,11 @@ void PathFinder::update(float deltaTime){
 
         // nextPosition = glm::mix(currentPosition, nextPathPoint, velocity);
         nextPosition.y = 0; // correction for the path being on the floor
+
+
+
         // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
-        getGameObject()->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
+        // getGameObject()->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
 
         //update transform
         if (rigidBodyCheck)
@@ -94,8 +111,31 @@ void PathFinder::update(float deltaTime){
             transform.setOrigin(nextBtPosition);
             hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
             // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
+            
+            if (hasTransform)
+            {
+                btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};
+                btTransform transform = hasRigidBody->getWorldTransform();
+                transform.setOrigin(nextBtPosition);
+
+                // Set orientation
+                float newRotation = getGameObject()->getComponent<Transform>()->rotation.y;
+                btQuaternion aroundX;
+                aroundX.setRotation(btVector3(0,-1,0), radians(newRotation-180)); // works, but the objects face the wrong way?
+                transform.setRotation(aroundX);
+                hasRigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
+
+                // hasRigidBody->applyCentralImpulse(btVector3{0.01, 0.01, 0.01});
+                // hasRigidBody->setWorldTransform(transform); // it works!!!!
+                hasRigidBody->setCenterOfMassTransform(transform);
+                // btScalar totalForce = hasRigidBody->getLinearVelocity().length();
+                // std::cout << "force on skull is: " << totalForce << std::endl;
+                // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
+                /* code */
+            }
+            hasRigidBody->activate(true);
+            // hasRigidBody->setActivationState(DISABLE_DEACTIVATION);
         }
-        
         /* I think position gets updated from RigidBody already*/
         // gameObject->getComponent<Transform>()->position = nextPosition; 
 
@@ -146,4 +186,12 @@ void PathFinder::update(float deltaTime){
 
     int PathFinder::getEnemySetNumber() {
         return enemySetNumber;
+    }
+
+    void PathFinder::setMoveSpeed(float incoming_move_speed){
+        pfMoveSpeed = incoming_move_speed;
+    }
+
+    float PathFinder::getMoveSpeed(){
+        return pfMoveSpeed;
     }

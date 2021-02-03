@@ -285,7 +285,22 @@ void LevelGuiManager::guiWinLooseScreen()
     //Back To Game
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
     if (ImGui::Button("Back to Main Menu", ImVec2(100, 50))){
-        gameManager->TogglePause();
+        for (const auto& levelData : sceneManager->levelsData)
+        {
+            if(levelData->sceneType != 1)
+                continue;
+
+            sceneManager->changeScene(levelData);
+            break;
+        }
+    }
+
+    ImGui::Spacing();
+
+    //Quit
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
+    if (ImGui::Button("Quit Game", ImVec2(100, 50))){
+        gameManager->quit = true;
     }
 
     ImGui::End();

@@ -3,9 +3,9 @@
 //
 #include <sre/Renderer.hpp>
 #include "../Camera.hpp"
-#include "../RigidBody.hpp"
+#include "../physics/RigidBody.hpp"
 #include "../Light.hpp"
-#include "../BulletPhysics.hpp"
+#include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
 #include "../PersonController.hpp"
@@ -13,7 +13,7 @@
 //WorldMap Imports
 //WorldObject
 #include "../WorldObject.hpp"
-#include "../SoundEffectsLibrary.hpp"
+#include "../sound/SoundEffectsLibrary.hpp"
 
 //rapidjson imports
 #include <iostream>

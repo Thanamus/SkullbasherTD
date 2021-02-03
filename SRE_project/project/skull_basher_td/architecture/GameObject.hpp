@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 #include "scenes/Scene.hpp"
-#include "CollisionHandler.hpp"
+#include "./collisions/CollisionHandler.hpp"
 
 class Component;
 
@@ -38,6 +38,8 @@ public:
     void setParent(GameObject *parent);
     const std::vector<GameObject*> & getChildren();
     const GameObject* getChildByName(const std::string& childName);
+
+    bool deleteMe = false;
 private:
     Scene* scene;
     GameObject* parent = nullptr;

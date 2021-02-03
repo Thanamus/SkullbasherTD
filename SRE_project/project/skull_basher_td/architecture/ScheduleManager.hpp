@@ -25,6 +25,7 @@ class ScheduleManager {
         bool waveGoGoGo = false;
         bool enemyGoGoGo = false;
 
+        bool lastEnemy = false;
         int elapsedTimeInSec = 0;
         int goGoTimeSec = 0;
         std::chrono::steady_clock::time_point startTime;

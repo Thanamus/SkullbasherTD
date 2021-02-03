@@ -4,10 +4,12 @@
 
 #include "SceneManager.hpp"
 #include "../Camera.hpp"
-#include "../RigidBody.hpp"
+#include "../physics/RigidBody.hpp"
+#include "../physics/GhostObject.hpp"
+
 #include "../ModelRenderer.hpp"
 #include "../Light.hpp"
-#include "../BulletPhysics.hpp"
+#include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
 #include "../PersonController.hpp"
@@ -18,8 +20,8 @@
 
 #include "../PathFinder.hpp"
 
-#include "../SoundEffectsLibrary.hpp"
-#include "../SourceManager.hpp"
+#include "../sound/SoundEffectsLibrary.hpp"
+#include "../sound/SourceManager.hpp"
 
 //rapidjson imports
 #include "../rapidjson/rapidjson.h"
@@ -28,8 +30,11 @@
 #include "../../LevelGuiManager.hpp"
 #include "../health/HealthComponent.hpp"
 #include "../health/CrystalHealth.hpp"
-#include "../CustomerCollisionHandler.hpp"
-#include "../EnemyCollisionHandler.hpp"
+
+// Collision imports
+#include "../collisions/CustomCollisionHandler.hpp"
+#include "../collisions/EnemyCollisionHandler.hpp"
+#include "../collisions/PlayerCollisionHandler.hpp"
 
 #include <iostream>
 
@@ -52,26 +57,31 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     auto res = std::make_shared<LevelScene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
+    // cameraObj->getComponent<Transform>()->position = {20,3.0f,11};
+    cameraObj->getComponent<Transform>()->position = playerSpawnPoint;
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
+    // cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1); // Dynamic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | CRYSTAL); // Dynamic physics object
 
     //---- setting cameras? // kinda syncs the physics world and the transform
-    glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
-    btTransform transform;
-    btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
-    transform.setOrigin(btCameraPosition);
+    // glm::vec3 glmCameraPosition =  cameraObj->getComponent<Transform>()->position;
+    // btTransform transform;
+    // btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
+    // transform.setOrigin(btCameraPosition);
 
-    glm::quat inputQuat = glm::quat(cameraObj->getComponent<Transform>()->rotation);
-    btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
-    transform.setRotation(btInputQuat);
+    // glm::quat inputQuat = glm::quat(cameraObj->getComponent<Transform>()->rotation);
+    // btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
+    // transform.setRotation(btInputQuat);
 
-    cameraObj->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
+    // cameraObj->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
 
     //--- end setting cameras
 
     cameraObj->addComponent<PersonController>();
     cameraObj->getComponent<PersonController>()->currentScene = res;
+    cameraObj->addComponent<PlayerCollisionHandler>();
+
+
 
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<Transform>()->rotation = {30,30,0};
@@ -116,11 +126,18 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     crystalAN->setAnimationState("rotate");
 
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
-    crystalRigidBody->initRigidBodyWithBox({0.5,1.5,0.5}, 0);
+    // ---- set crystal collision group and flags
+    crystalRigidBody->initRigidBodyWithSphere(0.5f, 1, CRYSTAL, ENEMIES); // crystal needs to be sphere -> skull collision only works with box
+    
+    // ---- making sure that crystal can't move if hit
+    crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
+    crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
+
+    gameManager->crystal = crystal->getComponent<CrystalHealth>();
+    // crystal->addComponent<EnemyCollisionHandler>();
 
     crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
 
-    gameManager->crystal = crystal->getComponent<CrystalHealth>();
 
     return res;
 };
@@ -169,6 +186,40 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
     Document d;
     d.ParseStream(isw);
 
+// --------------- set player spawn point
+    float spawnPointX = 0.f;
+    float spawnPointY = 0.f;
+    float spawnPointZ = 0.f;
+
+    spawnPointX = d["playerSpawnPoint"].GetArray()[0].GetFloat();
+    spawnPointY = d["playerSpawnPoint"].GetArray()[1].GetFloat();
+    spawnPointZ = d["playerSpawnPoint"].GetArray()[2].GetFloat();
+    playerSpawnPoint = {spawnPointX,spawnPointY,spawnPointZ};
+    // std::cout << " spawnPoint x should be: " << playerSpawnPoint.x << std::endl;
+
+    playerSpawnRotation = d["playerSpawnRotation"].GetFloat();
+    std::cout << " spawnPointRotation should be: " << playerSpawnRotation << std::endl;
+
+
+    auto tempCam = currentScene->cameras[0]->getGameObject();
+    tempCam->getComponent<Transform>()->position = playerSpawnPoint;
+    tempCam->getComponent<Transform>()->rotation.y = playerSpawnRotation;
+
+
+    glm::vec3 glmCameraPosition =  tempCam->getComponent<Transform>()->position;
+    btTransform transform;
+    btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
+    transform.setOrigin(btCameraPosition);
+
+    std::cout << " spawnPointRotation is actually:  " << tempCam->getComponent<Transform>()->rotation.y << std::endl;
+    
+    glm::quat inputQuat = glm::quat(tempCam->getComponent<Transform>()->rotation);
+    btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
+    transform.setRotation(btInputQuat);
+
+    tempCam->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
+
+// ------------------- end setting player Spawn point
     //Hardcoded start position // Original
     // startingPosition.x = 1.5;
     // startingPosition.y = 1.5;
@@ -307,7 +358,9 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
 
                     // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({0.5f,0.4f,0.5f}, 0);
 
-                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0);
+                    // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0);
+                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER);
+                    
                     // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
                     // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
                     // gameObjects.push_back(mapTile);
@@ -402,6 +455,7 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
             std::cout << "Asset folder: " << filePath << "\n";
             std::cout << "Model Name: " << modelName << "\n";
 
+            float moveSpeedToBe = d["enemyLookup"][enemyTypeChar]["moveSpeed"].GetFloat();
             // //create the world object map tile
             // // WorldObject mapTile = WorldObject(meshHolder,materialsLoaded, positionHolder, rotationHolder, scaleHolder, isbuildableHolder, isPathHolder);
 
@@ -423,13 +477,46 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 float width = (fabs(bounds[0].x) + fabs(bounds[1].x));
                 float height = (fabs(bounds[0].y) + fabs(bounds[1].y));
 
-                length = (length * scaleHolder.z)*0.7; // scaling the collision box for a tighter fit
+                length = (length * scaleHolder.x)*0.7; // scaling the collision box for a tighter fit
+                width = (width * scaleHolder.z)*0.7; // scaling the collision box for a tighter fit
+                height = (height * scaleHolder.y)*0.7; // scaling the collision box for a tighter fit
+                
+
                 // std::cout << "length: " << length << "\n";
                 // std::cout << "width: " << width << "\n";
                 // std::cout << "height: " << height << "\n";
 
                 //Add Physics to skull
-                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                
+                // collisions work properly if Skull has a box shape, it's weird, but sphere's don't work
+                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length,width,height}, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                
+                
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1, ENEMIES, PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1); // mass of 0 sets the rigidbody as kinematic (or static)
+                
+                // overriding gravity, not 100% it's needed now or not
+                enemy->getComponent<RigidBody>()->getRigidBody()->setGravity({0,0,0});
+                 
+                
+                
+                // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); 
+                // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CO_GHOST_OBJECT); 
+                // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE); //
+                
+                
+                // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); //Kinda works
+                // thing->setCollisionFlags(thing->getCollisionFlags() | PLAYER | CRYSTAL); //
+                // thing->setCollisionFlags( PLAYER | CRYSTAL); //
+                
+                
+                
+                // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE | btCollisionObject::CF_CHARACTER_OBJECT); //
+                // enemy->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags(btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK); // nope
+                // enemy->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT); // nope
+                
 
                 // std::cout << "anEnemy is: " << anEnemy << "\n";
 
@@ -438,10 +525,12 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
                 enemy->getComponent<PathFinder>()->setWave(wave);
                 enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);
+                enemy->getComponent<PathFinder>()->setMoveSpeed(moveSpeedToBe);
                 std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
                 enemy->addComponent<EnemyCollisionHandler>();
+                // enemy->addComponent<GhostObject>()->initGhostObjectWithSphere(0.1f);
             }
 
         }

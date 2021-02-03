@@ -86,5 +86,9 @@ private:
     friend MainMenuGuiManager;
     friend LevelGuiManager;
     friend GuiManager;
+
+    //NB: not sure if this should live here
+    glm::vec3 playerSpawnPoint = {0.f,3.f,0.f};
+    float playerSpawnRotation;
 };
 
