@@ -41,96 +41,10 @@ namespace {
 // based on https://github.com/kripken/ammo.js/issues/82#issuecomment-426429129
 bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
     bool collisionBegin = cp.m_userPersistentData == nullptr;
-    bool body0isGhost = false;
-    bool body1isGhost = false;
     auto btRigidBody0 = static_cast<btRigidBody *>(body0);
     auto btRigidBody1 = static_cast<btRigidBody *>(body1);
     auto rigidBody0 = static_cast<RigidBody *>(btRigidBody0->getUserPointer());
     auto rigidBody1 = static_cast<RigidBody *>(btRigidBody1->getUserPointer());
-
-    // check for ghost object collision
-    // program crashes from ghost object
-    // auto ghostCheck0 = static_cast<btGhostObject * >(body0);
-    // auto ghostCheck1 = static_cast<GhostObject * >(body1);
-    // auto ghostCheck0 = static_cast<GhostObject * >(body0);
-    // auto ghostCheck1 = static_cast<GhostObject * >(body1);
-    // auto ghostCheck0 = rigidBody0->getGameObject()->getComponent<GhostObject>();
-    // auto ghostCheck1 = rigidBody0->getGameObject()->getComponent<GhostObject>();
-    // auto btGhostBody0 = static_cast<btGhostObject *>(body0);
-    // auto btGhostBody1 = static_cast<btGhostObject *>(body1);
-
-    // auto ghostCheck0 = static_cast<GhostObject * >(btGhostBody0->getUserPointer());
-    // auto ghostCheck1 = static_cast<GhostObject * >(btGhostBody0->getUserPointer());
-
-    if (rigidBody0->getGameObject()->getComponent<GhostObject>() != nullptr)
-    {
-        // std::cout << "Ghost object found on rigid body 0" << std::endl;
-        body0isGhost = true;
-    }
-    if (rigidBody1->getGameObject()->getComponent<GhostObject>() != nullptr)
-    {
-        // std::cout << "Ghost object found on rigid body 1" << std::endl;
-        body1isGhost = true;
-    }
-    
-    
-
-    // if(ghostCheck0 != nullptr) body0isGhost = true;
-    // if(ghostCheck1 != nullptr) body1isGhost = true;
-    // if(ghostCheck0->getGhostObject() != nullptr) body0isGhost = true;
-    // if(ghostCheck0->getGhostObject() != nullptr) body1isGhost = true;
-
-    // if (ghostCheck1 != nullptr || ghostCheck2 != nullptr)
-    // {
-    //     std::cout << "one body was ghostObject";
-    // }
-    // ------- from: https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=7468
-    // Prepare for getting all the contact manifolds for one Overlapping Pair
-    // btManifoldArray manifoldArray;
-    // // Get all the Overlapping Pair
-    // btBroadphasePairArray &pairArray = ghostObject->getOverlappingPairCache()->getOverlappingPairArray();
-    // int numPairs = pairArray.size();
-
-    // for (int i = 0; i < numPairs; i++)
-    // {
-    //     manifoldArray.clear();
-
-    //     const btBroadphasePair &pair = pairArray[i];
-
-    //     //unless we manually perform collision detection on this pair, the contacts are in the dynamics world paircache:
-    //     //The next line fetches the collision information for this Pair
-    //     btBroadphasePair *collisionPair = dynamicsWorld->getPairCache()->findPair(pair.m_pProxy0, pair.m_pProxy1);
-    //     if (!collisionPair)
-    //         continue;
-
-    //     // Read out the all contact manifolds for this Overlapping Pair
-    //     if (collisionPair->m_algorithm)
-    //         collisionPair->m_algorithm->getAllContactManifolds(manifoldArray);
-
-    //     for (int j = 0; j < manifoldArray.size(); j++)
-    //     {
-    //         btPersistentManifold *manifold = manifoldArray[j];
-
-    //         // Check if the first object in the Pair is GhostObject or not.
-    //         btScalar directionSign = manifold->getBody0() == m_ghostObject ? btScalar(-1.0) : btScalar(1.0);
-    //         for (int p = 0; p < manifold->getNumContacts(); p++)
-    //         {
-    //             const btManifoldPoint &pt = manifold->getContactPoint(p);
-    //             if (pt.getDistance() < 0.f)
-    //             {
-    //                 // Actually you can get the local information from this Overlapping pair, not just world Position
-    //                 const btVector3 &ptA = pt.getPositionWorldOnA();
-    //                 const btVector3 &ptB = pt.getPositionWorldOnB();
-    //                 const btVector3 &normalOnB = pt.m_normalWorldOnB;
-    //                 /// work here
-    //             }
-    //         }
-    //     }
-    // }
-    //--------- end from:
-    // TODO: check if these can be made shared pointers
-    // GameObject* body0GameObject;
-    // GameObject* body1GameObject;
 
     if (collisionBegin){
         static size_t collisionId = 0;
@@ -140,31 +54,14 @@ bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
         auto name1 = rigidBody1->getGameObject()->getName();
         std::cout << "colision on: " << name1 << std::endl;
 
-        // std::cout << "attempting to check collision" << std::endl;
-
-        // if (body0isGhost)
-        // {
-        //     // if collision is with a ghost, get the gameObject from the ghost
-        //     // body0GameObject = ghostCheck0->getGameObject();
-        // } else {
-        //     body0GameObject = rigidBody0->getGameObject();
-        // }
-        // if (body1isGhost)
-        // {
-        //     // if collision is with a ghost, get the gameObject from the ghost
-        //     // body1GameObject = ghostCheck1->getGameObject();
-        // } else {
-        //     body1GameObject = rigidBody1->getGameObject();
-        // }
-        // body0GameObject = rigidBody0->getGameObject();
-        // body1GameObject = rigidBody1->getGameObject();
-
-        // cp.m_userPersistentData = new CollisionId(collisionId, body0GameObject, body1GameObject); //original
         cp.m_userPersistentData = new CollisionId(collisionId, rigidBody0->getGameObject(), rigidBody1->getGameObject()); //original
     }
     CollisionId* id = (CollisionId*)cp.m_userPersistentData;
     glm::vec3 pointOnA (cp.getPositionWorldOnA().x(), cp.getPositionWorldOnA().y(), cp.getPositionWorldOnA().z());
     glm::vec3 pointOnB (cp.getPositionWorldOnB().x(), cp.getPositionWorldOnB().y(), cp.getPositionWorldOnB().z());
+    
+    
+    
     // for (auto ph : body0GameObject->getCollisionHandlers()){
     for (auto ph : rigidBody0->getGameObject()->getCollisionHandlers()){
         // ph->onCollision(id->collisionId, body1GameObject, pointOnA, collisionBegin); // original

@@ -11,6 +11,22 @@
 
 class Transform;
 
+// Enum for setting the collision groups and masks
+// both objects need to have the collision masks to collide with each other
+// USE:
+   // set group to group of objects this thing (the object) belongs to
+    // mask to the bitwise (PLAYER | BUILDING | WALL)
+    // constructor needs to take in which group and object to collide with
+    // int group = 2;
+
+    // eg if a player
+    // int group = PLAYER;
+    // int mask = BUILDINGS | ENEMIES | COINS ;
+
+    // eg if a enemy
+    // int group = ENEMY;
+    // int mask = PLAYER | CRYSTAL | PROJECTILES ;
+
 enum SBCollisions
 {
     BUILDINGS = 64,
@@ -26,7 +42,6 @@ public:
     ~RigidBody() final;
     void initRigidBodyWithSphere(float radius, float mass = 0);
     void initRigidBodyWithSphere(float radius, float mass, short group, short mask);
-    void initGhostObjectWithSphere(float radius);
 
     void initRigidBodyWithBox(glm::vec3 halfExtend, float mass = 1.0);
     void initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short group, short mask);

@@ -83,10 +83,9 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, sho
         // rigidBody->forceActivationState(DISABLE_DEACTIVATION);
     }
 
-    // ---------- end
+     // physicsWorld->addCollisionObject(rigidBody) // old way
 
-    // physicsWorld->addCollisionObject(rigidBody)
-    // set group to group of objects it belongs to
+    // set group to group of objects this thing (the object) belongs to
     // mask to the bitwise (PLAYER | BUILDING | WALL)
     // constructor needs to take in which group and object to collide with
     // int group = 2;
@@ -101,6 +100,8 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, sho
 
     physicsWorld->addRigidBody(rigidBody, group, mask);
 }
+
+
 void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info){
     auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
     if (rigidBody){
@@ -119,27 +120,11 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info){
         rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | CF_CUSTOM_MATERIAL_CALLBACK); // original Call
     } else {
         // std::cout << "trying to make Kinematic" << std::endl;
-        // rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
         rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
         // rigidBody->forceActivationState(DISABLE_DEACTIVATION);
     }
 
     // ---------- end
-
-    // physicsWorld->addCollisionObject(rigidBody)
-    // set group to group of objects it belongs to
-    // mask to the bitwise (PLAYER | BUILDING | WALL)
-    // constructor needs to take in which group and object to collide with
-    // int group = 2;
-
-    // eg if a player
-    // int group = PLAYER;
-    // int mask = BUILDINGS | ENEMIES | COINS ;
-
-    // eg if a enemy
-    // int group = ENEMY;
-    // int mask = PLAYER | CRYSTAL | PROJECTILES ;
-
     physicsWorld->addRigidBody(rigidBody);
 }
 
@@ -177,6 +162,8 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
     }
 
 }
+
+// -------- New sphere init that takes in group and mask values
 void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, short mask) {
     delete fallMotionState;
     delete shape;
@@ -209,63 +196,21 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, s
 
     }
 
-    // fallMotionState =
-    //         new btDefaultMotionState(btTransform(btQuaternion(rotQ.x, rotQ.y, rotQ.z, rotQ.w), btVector3(pos.x, pos.y, pos.z)));
+    // set group to group of objects this thing (the object) belongs to
+    // mask to the bitwise (PLAYER | BUILDING | WALL)
+    // constructor needs to take in which group and object to collide with
+    // int group = 2;
 
-    // btVector3 fallInertia(0, 0, 0);
-    // shape->calculateLocalInertia(mass, fallInertia);
-    // btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
-    // initRigidBody(fallRigidBodyCI, group, mask);
+    // eg if a player
+    // int group = PLAYER;
+    // int mask = BUILDINGS | ENEMIES | COINS ;
 
-//-----------
-//     bool isDynamic = false;
-//     if (mass != 0)
-//     {
-//         isDynamic = true;
-//     }
-// //----------
-//     if (isDynamic)
-//     {
-// //         /* code */
-//         btVector3 fallInertia(0, 0, 0);
-//         shape->calculateLocalInertia(mass, fallInertia);
-//         btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
-//         initRigidBody(fallRigidBodyCI, group, mask);
-//     } else {
-//         btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape);
-//         initRigidBody(fallRigidBodyCI, group, mask);
-
-//     }
+    // eg if a enemy
+    // int group = ENEMY;
+    // int mask = PLAYER | CRYSTAL | PROJECTILES ;
 
 }
 
-void RigidBody::initGhostObjectWithSphere(float radius){
-    auto ghostObject = new btGhostObject();
-		ghostObject->setCollisionShape(new btBoxShape(btVector3(btScalar(50.),btScalar(50.),btScalar(50.))));
-		
-        // adding transform for ghost object
-        auto pos = transform->position;
-        auto rot = transform->localRotation();
-        glm::quat rotQ = glm::quat_cast(rot);
-
-        btTransform initialTransform =
-            btTransform(btQuaternion(rotQ.x, rotQ.y, rotQ.z, rotQ.w), btVector3(pos.x, pos.y, pos.z));
-        ghostObject->setWorldTransform(initialTransform);
-        auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
-		// m_dynamicsWorld->addCollisionObject(ghostObject);
-		physicsWorld->addCollisionObject(ghostObject);
-		physicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());	
-
-//    if (rigidBody){
-//         physicsWorld->removeRigidBody(rigidBody);
-//         delete rigidBody;
-//     }
-//     rigidBody = new btRigidBody(info);
-//     rigidBody->setUserPointer(this);
-
-    // physicsWorld->addRigidBody(rigidBody);
-    // physicsWorld->addRigidBody(ghostObject);
-}
 
 void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
     delete fallMotionState;
@@ -285,6 +230,8 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
     initRigidBody(fallRigidBodyCI);
 
 }
+
+// new initialiser that uses groups and masks
 void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short group, short mask) {
     delete fallMotionState;
     delete shape;
@@ -301,6 +248,20 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short gro
     shape->calculateLocalInertia(mass, fallInertia);
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
     initRigidBody(fallRigidBodyCI, group, mask);
+
+    
+    // set group to group of objects this thing (the object) belongs to
+    // mask to the bitwise (PLAYER | BUILDING | WALL)
+    // constructor needs to take in which group and object to collide with
+    // int group = 2;
+
+    // eg if a player
+    // int group = PLAYER;
+    // int mask = BUILDINGS | ENEMIES | COINS ;
+
+    // eg if a enemy
+    // int group = ENEMY;
+    // int mask = PLAYER | CRYSTAL | PROJECTILES ;
 
 }
 

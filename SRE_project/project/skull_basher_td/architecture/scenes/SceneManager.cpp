@@ -126,19 +126,13 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     crystalAN->setAnimationState("rotate");
 
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
-    //----------- figuring out ghostObjects
-    // crystalRigidBody->initRigidBodyWithBox({0.5,0.5,0.5}, 1, CRYSTAL, ENEMIES);
-    crystalRigidBody->initRigidBodyWithSphere(0.5f, 1, CRYSTAL, ENEMIES);
-    // crystalRigidBody->initRigidBodyWithBox({0.5,0.5,0.5}, 1, CRYSTAL, ENEMIES);
+    // ---- set crystal collision group and flags
+    crystalRigidBody->initRigidBodyWithSphere(0.5f, 1, CRYSTAL, ENEMIES); // crystal needs to be sphere -> skull collision only works with box
+    
+    // ---- making sure that crystal can't move if hit
     crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
     crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
 
-    // crystalRigidBody->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
-
-    // crystal->addComponent<GhostObject>()->initGhostObjectWithSphere(0.01f);
-    // crystal->addComponent<RigidBody>()->initGhostObjectWithSphere(0.9f);
-
-    // ---------- end figuring out ghostobjects
     gameManager->crystal = crystal->getComponent<CrystalHealth>();
     // crystal->addComponent<EnemyCollisionHandler>();
 
@@ -483,7 +477,11 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 float width = (fabs(bounds[0].x) + fabs(bounds[1].x));
                 float height = (fabs(bounds[0].y) + fabs(bounds[1].y));
 
-                length = (length * scaleHolder.z)*0.7; // scaling the collision box for a tighter fit
+                length = (length * scaleHolder.x)*0.7; // scaling the collision box for a tighter fit
+                width = (width * scaleHolder.z)*0.7; // scaling the collision box for a tighter fit
+                height = (height * scaleHolder.y)*0.7; // scaling the collision box for a tighter fit
+                
+
                 // std::cout << "length: " << length << "\n";
                 // std::cout << "width: " << width << "\n";
                 // std::cout << "height: " << height << "\n";
@@ -491,12 +489,19 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 //Add Physics to skull
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 0); // mass of 0 sets the rigidbody as kinematic (or static)
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
-                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length/2,width/2,height/2}, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                
+                // collisions work properly if Skull has a box shape, it's weird, but sphere's don't work
+                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length,width,height}, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                
+                
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1, ENEMIES, PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
                 // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 100.1); // mass of 0 sets the rigidbody as kinematic (or static)
                 
+                // overriding gravity, not 100% it's needed now or not
+                enemy->getComponent<RigidBody>()->getRigidBody()->setGravity({0,0,0});
+                 
                 
-                auto thing =  enemy->getComponent<RigidBody>()->getRigidBody();
+                
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT); 
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CO_GHOST_OBJECT); 
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE); //
@@ -509,7 +514,6 @@ void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
                 
                 
                 // thing->setCollisionFlags(thing->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE | btCollisionObject::CF_CHARACTER_OBJECT); //
-                thing->setGravity({0,0,0}); 
                 // enemy->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags(btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK); // nope
                 // enemy->getComponent<RigidBody>()->getRigidBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT); // nope
                 
