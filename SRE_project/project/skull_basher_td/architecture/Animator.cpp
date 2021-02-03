@@ -61,9 +61,6 @@ void Animator::update(float deltaTime) {
                 glm::mix(startTransform.position, targetTransform.position, t),
                 glm::mix(startTransform.scale, targetTransform.scale, t),
                 glm::mix(startTransform.rotation, targetTransform.rotation, t));
-        std::cout << "cur_rot " << currentTransform.rotation.x << std::endl;
-        std::cout << "t " << t << std::endl;
-        std::cout << "time " << currentAnimation.second->getCurrentKeyframeTime() << std::endl;
         updateSQTMatrix();
     }
 }

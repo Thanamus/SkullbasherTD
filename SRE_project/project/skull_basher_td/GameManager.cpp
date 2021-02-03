@@ -52,7 +52,7 @@ void GameManager::init() {
     totalEnemiesInCurrentSet = 0;
 
     enemyAmountWave = 0;
-    waveAndEnemys.clear();
+    waveAndEnemies.clear();
     waveAndTimeBetweens.clear();
     lastEnemy = false;
 }
@@ -222,11 +222,9 @@ std::vector<glm::vec3> GameManager::getPath() {
 
 glm::vec3 GameManager::getNextPathPoint(int currentPathIndex){
     //path should count down from end of vector to 0
-    if (currentPathIndex != 0 && currentPathIndex <= (path.size()-1)) {
-        return path[currentPathIndex-1];
-    } else {
-        return path[0];
-    }
+    return (currentPathIndex != 0 && currentPathIndex <= (path.size()-1)) ?
+    path[currentPathIndex-1] :
+    path[0];
 }
 
 

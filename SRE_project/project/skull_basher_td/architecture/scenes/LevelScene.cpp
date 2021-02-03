@@ -66,8 +66,6 @@ void LevelScene::update(float deltaTime){
     // delete dead objects
     for (auto g : gameObjects)
     {
-
-
             if (g->deleteMe == true) // looks for deleteMe flag on the game object, if true, then remove the gameObject
             {
                 // TODO find and cleanup dangling shared_ptrs

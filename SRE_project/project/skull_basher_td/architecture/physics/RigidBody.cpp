@@ -36,10 +36,6 @@ btRigidBody* RigidBody::getRigidBody(){
 }
 
 void RigidBody::updateTransformFromPhysicsWorld(){
-    bool transformCheck = false;
-
-    // if(gameObject->getComponent<Transform>() != nullptr) transformCheck = true;
-
     // if( transformCheck){
         btTransform pTransform;
         // rigidBody->getMotionState()->getWorldTransform(pTransform);
@@ -52,8 +48,8 @@ void RigidBody::updateTransformFromPhysicsWorld(){
         glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
         transform->rotation = glm::degrees(glm::eulerAngles(inputQuat));
     // }
-        if(isnan(pTransform.getOrigin().x()) || isnan(pTransform.getRotation().x())) 
-        std::cerr << "Yo this skull has been banished to the Shadow Realm";
+//        if(isnan(pTransform.getOrigin().x()) || isnan(pTransform.getRotation().x()))
+//        std::cerr << "Yo this skull has been banished to the Shadow Realm";
 }
 
 void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, short group, short mask){

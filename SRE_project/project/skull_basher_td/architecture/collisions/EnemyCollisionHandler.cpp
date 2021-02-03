@@ -29,7 +29,7 @@ void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
         if(crystal != nullptr)
         {
             std::cout << "hit crystal "<<std::endl;
-            crystal->decreasHealth(25);
+            crystal->decreaseHealth(25);
 
             // auto collisionComponent = gameObject->getComponent<EnemyCollisionHandler>();
             // gameObject->removeComponent(collisionComponent);

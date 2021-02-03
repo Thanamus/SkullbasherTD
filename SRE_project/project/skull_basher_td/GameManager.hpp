@@ -25,7 +25,7 @@ class GameManager
 public:
     static GameManager& getInstance()
     {
-        static GameManager& instance; // Guaranteed to be destroyed.
+        static GameManager instance; // Guaranteed to be destroyed.
         // Instantiated on first use.
         return instance;
     }
@@ -48,9 +48,9 @@ public:
 
     void setScore(int score);
 
-    float getPower() const;
-
-    void setPower(float power);
+//    float getPower() const;
+//
+//    void setPower(float power);
 
     bool levelRunning = true;
     bool won = false;
