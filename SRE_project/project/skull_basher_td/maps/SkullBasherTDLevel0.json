@@ -531,6 +531,10 @@
             {
                 "name": "stepwood_2.wav",
                 "location": ".\\assets\\soundEffects\\footsteps\\stepwood_2.wav"  
+            },
+            {
+                "name": "deathd.wav",
+                "location": ".\\assets\\soundEffects\\monster\\deathd.wav"
             }
         ]
 }

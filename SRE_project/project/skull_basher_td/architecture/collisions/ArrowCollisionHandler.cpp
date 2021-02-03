@@ -9,6 +9,10 @@
 #include "ArrowCollisionHandler.hpp"
 // #include "../health/CrystalHealth.hpp"
 
+// Sound Effects _Include
+#include "../sound/SourceManager.hpp"
+#include "../transform.hpp"
+
 class GameObject;
 
 ArrowCollisionHandler::ArrowCollisionHandler(GameObject *gameObject) : Component(gameObject) {
@@ -30,20 +34,16 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
         // const std::string objectName = other->getName();
 
         short group = other->getComponent<RigidBody>()->getGroupID();
-        if (group == ENEMIES)
+        if (group == ENEMIES) // check group ID matches that of the enemy!
         {
+            auto enemyPosition = other->getComponent<Transform>()->position;
             std::cout << "bashing skulls for days" << std::endl;
+            auto soundeffect = SourceManager::Get(); // get sound effect player
+            soundeffect->playMyJam("deathd.wav", position, 20);
             other->deleteMe = true;
         }
         
-        // if (objectName == "Skull01.obj")
-        // {
-        //     // very crude collision check: TODO refine collision check
-        //     // Suggestion, check for rigid body and group ID?
-            
-        //     other->deleteMe = true; // set the delete flag on the other object
-        // }
-        
+         
         // if(crystal != nullptr)
         // {
         //     std::cout << "hit crystal "<<std::endl;

@@ -344,6 +344,19 @@
             {
                 "name": "mnstr1.wav",
                 "location": ".\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav"  
+            },
+            {
+                "name": "gassy-footstep1.wav",
+                "location": ".\\assets\\soundEffects\\footsteps\\gassy-footstep1.wav"  
+            },
+            {
+                "name": "stepwood_2.wav",
+                "location": ".\\assets\\soundEffects\\footsteps\\stepwood_2.wav"  
+            },
+            {
+                "name": "deathd.wav",
+                "location": ".\\assets\\soundEffects\\monster\\deathd.wav"
             }
+            
         ]
 }
