@@ -52,6 +52,8 @@ public:
 
     void setLinearVelocityOnRigidBody(btVector3 linear_velocity);
 
+    short getGroupID();
+
 private:
     int collisionStartFrameId;
     int collisionStartUpdateFrameId;
@@ -59,6 +61,9 @@ private:
     void updateTransformFromPhysicsWorld();
     btRigidBody* rigidBody = nullptr;
     Transform* transform;
+
+    short group = -99;
+    short mask = -99;
 
     btCollisionShape* shape = nullptr;
     btDefaultMotionState* fallMotionState = nullptr;

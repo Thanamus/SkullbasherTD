@@ -27,6 +27,9 @@
 
 #include "./ModelRenderer.hpp"
 
+// Arrow Collision Hanlder include
+#include "./collisions/ArrowCollisionHandler.hpp"
+
 
 //using namespace sre;
 using namespace glm;
@@ -363,6 +366,7 @@ void PersonController::fire_projectile(){
     // arrowRigidBody->setAngularFactor({0,0,0});
     arrowRigidBody->setAngularVelocity({0,0,0});
     // arrowRigidBody->setLinearFactor({0,0,0});
+    arrow->addComponent<ArrowCollisionHandler>();
 }
 
 // void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
