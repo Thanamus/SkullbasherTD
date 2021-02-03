@@ -23,12 +23,38 @@
 using namespace sre;
 using namespace glm;
 
-GameManager::GameManager() {
-}
-
 void GameManager::init() {
+    if(sceneManager == nullptr)
+        sceneManager = std::make_unique<SceneManager>();
+    towers.clear();
     loadTowers("data/towers.json");
     selectedTower = towers[0];
+    quit = false;
+    buildModeActive = false;
+
+
+    levelRunning = true;
+    won = false;
+    paused = false;
+    score = 40;
+    path.clear();
+    currentWave = 0;
+    totalWavesInLevel = 0;
+
+    enemySetsAmount = 0; //assuming this means how many waves
+
+
+    currentEnemySet = 0;
+    totalEnemySetsInCurrentWave = 0;
+    // int currentEnemyInset = 0;
+
+    currentEnemy = 0;
+    totalEnemiesInCurrentSet = 0;
+
+    enemyAmountWave = 0;
+    waveAndEnemys.clear();
+    waveAndTimeBetweens.clear();
+    lastEnemy = false;
 }
 
 void GameManager::loadTowers(std::string filename) {
@@ -113,7 +139,7 @@ void GameManager::onKey(SDL_Event &event)
             updateTowerIndicator();
         }
         else {
-            auto towerIndicator = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
+            auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
             towerIndicator->getComponent<ModelRenderer>()->active = false;
         }
     }
@@ -123,10 +149,10 @@ void GameManager::onMouse(SDL_Event &event)
 {
     if(event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
     {
-        auto personController = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
+        auto personController = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
         if(personController->allowedToBuild)
         {
-            auto tower = currentScene->createGameObject(selectedTower->getName());
+            auto tower = sceneManager->currentScene->createGameObject(selectedTower->getName());
             auto towerTR = tower->getComponent<Transform>();
             towerTR->position = personController->tower->getComponent<Transform>()->position;
             towerTR->rotation = personController->tower->getComponent<Transform>()->rotation;
@@ -158,20 +184,12 @@ void GameManager::setScore(int score) {
     GameManager::score = score;
 }
 
-float GameManager::getPower() const {
-    return power;
-}
-
-void GameManager::setPower(float power) {
-    GameManager::power = power;
-}
-
 void GameManager::updateTowerIndicator()
 {
-    if(currentScene == nullptr)
+    if(sceneManager->currentScene == nullptr)
         return;
 
-    auto towerIndicator = currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
+    auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
 
     auto path =  ".\\assets\\"+ selectedTower->getMesh();
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName(selectedTower->getMesh()).build();
@@ -248,51 +266,60 @@ waveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
     return waveAndTimeBetweens[currentWave];
 }
 
-void GameManager::updateAllWaveStats(){
+bool GameManager::updateAllWaveStats(){
     int tempCurrentEnemyHolder = currentEnemy;
     int tempCurrentEnemySetHolder = currentEnemySet;
     int tempCurrentEnemyWaveHolder = currentWave;
 
-    //check enemy
-    tempCurrentEnemyHolder ++;
-    if (tempCurrentEnemyHolder > totalEnemiesInCurrentSet)
-    { //temp number is higher than in the set
+    if (!lastEnemy)
+    {
+        /* code */
+        //check enemy
+        tempCurrentEnemyHolder ++;
+        if (tempCurrentEnemyHolder > totalEnemiesInCurrentSet)
+        { //temp number is higher than in the set
 
-        //check set
-        tempCurrentEnemySetHolder ++;
-        if (tempCurrentEnemySetHolder >= totalEnemySetsInCurrentWave)
-        { // temp set is higher than the total
+            //check set
+            tempCurrentEnemySetHolder ++;
+            if (tempCurrentEnemySetHolder >= totalEnemySetsInCurrentWave)
+            { // temp set is higher than the total
 
-            //check wave
-            tempCurrentEnemyWaveHolder ++;
-            // std::cout << "waves in level" << totalWavesInLevel;
+                //check wave
+                tempCurrentEnemyWaveHolder ++;
+                // std::cout << "waves in level" << totalWavesInLevel;
 
-            if (tempCurrentEnemyWaveHolder >= totalWavesInLevel)
-            { // temp waves is higher than total waves
-                return; //Do nothing, the level is at the last wave anyway
-            } else //update wave
-            { //temp wave is under total waves
-                checkAndUpdateWaveNumber(tempCurrentEnemyWaveHolder);
-                return;
+                if (tempCurrentEnemyWaveHolder >= totalWavesInLevel)
+                { // temp waves is higher than total waves
+                    // getting here should mean that the last enemy was triggered
+                    lastEnemy = true;
+                    return false; //Do nothing, the level is at the last wave anyway
+                } else //update wave
+                { //temp wave is under total waves
+                    checkAndUpdateWaveNumber(tempCurrentEnemyWaveHolder);
+                    return true;
+                }
+
+
+            } else // update the set
+            {
+                currentEnemySet = tempCurrentEnemySetHolder;
+                //get total number of enemies in the current set
+                setTotalEnemiesInCurrentSet();
+
+                //reset enemy number
+                currentEnemy = 0;
+
+                return true;
             }
 
-
-        } else // update the set
-        {
-            currentEnemySet = tempCurrentEnemySetHolder;
-            //get total number of enemies in the current set
-            setTotalEnemiesInCurrentSet();
-
-            //reset enemy number
-            currentEnemy = 0;
-
-            return;
+        } else
+        { //temp enemy number wasn't too high, means there is another enemy in the set
+            currentEnemy = tempCurrentEnemyHolder;
+            return true;
         }
-
-    } else
-    { //temp enemy number wasn't too high, means there is another enemy in the set
-        currentEnemy = tempCurrentEnemyHolder;
     }
+
+    return false; // Game is on the last enemy, so no update happened
 }
 
 
@@ -337,18 +364,6 @@ int GameManager::getTotalEnemiesInCurrentSet() const {
     return totalEnemiesInCurrentSet;
 }
 
-void GameManager::setCurrentEnemy(int currentEnemy) {
-
+const std::unique_ptr<SceneManager> &GameManager::getSceneManager() const {
+    return sceneManager;
 }
-//
-//void GameManager::addEnemy(const std::shared_ptr<GameObject>& enemy) {
-//    enemies.push_back(enemy);
-//}
-
-//void GameManager::removeEnemy(const std::shared_ptr<GameObject>& enemy) {
-//    enemies.erase(std::find(enemies.begin(), enemies.end(), enemy), enemies.end());
-//}
-
-//const std::vector<std::shared_ptr<GameObject>> &GameManager::getEnemies() const {
-//    return enemies;
-//}

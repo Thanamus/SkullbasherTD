@@ -4,9 +4,9 @@
 
 #include <sre/Renderer.hpp>
 #include "../Camera.hpp"
-#include "../RigidBody.hpp"
+#include "../physics/RigidBody.hpp"
 #include "../Light.hpp"
-#include "../BulletPhysics.hpp"
+#include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
 #include "../PersonController.hpp"
@@ -15,13 +15,14 @@
     //WorldObject
 #include "../WorldObject.hpp"
 
-#include "../SoundEffectsLibrary.hpp"
+#include "../sound/SoundEffectsLibrary.hpp"
 
 //rapidjson imports
 #include "../rapidjson/rapidjson.h"
 
 #include <iostream>
 #include "LevelScene.hpp"
+#include "../../GameManager.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -40,7 +41,7 @@ LevelScene::~LevelScene(){
 }
 
 void LevelScene::update(float deltaTime){
-    if(gameManager->paused || !gameManager->levelRunning)
+    if(GameManager::getInstance().paused || !GameManager::getInstance().levelRunning)
         return;
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
@@ -50,6 +51,7 @@ void LevelScene::update(float deltaTime){
     for (auto& u : updatables){
         u->update(deltaTime);
     }
+    // bulletPhysics->step(this);
     for (auto& p : rigidBodies){
         p->updateTransformFromPhysicsWorld();
     }
@@ -60,18 +62,55 @@ void LevelScene::update(float deltaTime){
 
     bulletPhysics->step(this);
     scheduleManager->update(deltaTime); //has to be updated separately from the rest
+
+    // delete dead objects
+    for (auto g : gameObjects)
+    {
+
+
+            if (g->deleteMe == true) // looks for deleteMe flag on the game object, if true, then remove the gameObject
+            {
+                // TODO find and cleanup dangling shared_ptrs
+                // std::cout << "g count 1: " << g.use_count() << std::endl;
+                // auto camera = gameObjects[i]->getComponent<Camera>();
+                auto components = g->getComponents();
+
+
+                for (auto c : components)
+                {
+
+                    g->removeComponent(c);
+                    // this->removeComponent<Renderable>(c);
+
+                }
+
+                // std::make_unique<GameObject>(g);
+                // std::cout << "g count 2: " << g.use_count() << std::endl;
+                g.reset();
+
+
+                gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), g), gameObjects.end()); // maintains the sceneObjects list
+                // std::cout << "game Object destroyed";
+                // TODO: something not quite right here
+                // std::cout << "g count 3: " << g.use_count() << std::endl;
+            }
+
+
+
+    }
+
 }
 
 void LevelScene::onKey(SDL_Event &event){
     auto tempCam = this->cameras[0]->getGameObject(); // gets the main camera object and gets the game object from that
     tempCam->getComponent<PersonController>()->onKey(event); //camera game object has a PersonController
-    gameManager->onKey(event);
+    GameManager::getInstance().onKey(event);
 }
 
 void LevelScene::onMouse(SDL_Event &event){
     auto tempCam = this->cameras[0]->getGameObject(); //gets the main camera
     tempCam->getComponent<PersonController>()->onMouse(event); //triggers the onMouse event handling in the Person controller
-    gameManager->onMouse(event);
+    GameManager::getInstance().onMouse(event);
 }
 
 void LevelScene::render(){

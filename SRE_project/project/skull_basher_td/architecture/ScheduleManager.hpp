@@ -7,7 +7,6 @@
 
 //std::shared_ptr<Scene> currentScene;
 class Scene;
-class GameManager;
 
 class ScheduleManager {
     public:
@@ -16,7 +15,6 @@ class ScheduleManager {
 
         void update(float deltaTime); //Note, can't inherit from Updateable, since Updateable is private to scene.
 
-        std::shared_ptr<Scene> currentScene;
         void fetchInitialWaveSchedule();
     private:
 
@@ -25,6 +23,7 @@ class ScheduleManager {
         bool waveGoGoGo = false;
         bool enemyGoGoGo = false;
 
+        bool lastEnemy = false;
         int elapsedTimeInSec = 0;
         int goGoTimeSec = 0;
         std::chrono::steady_clock::time_point startTime;

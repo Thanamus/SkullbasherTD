@@ -6,28 +6,25 @@
 //#include "Camera.hpp"
 //#include "ModelRenderer.hpp"
 //#include "Light.hpp"
-//#include <string>
-//#include <sre/Resource.hpp>
 //
-//#include "RigidBody.hpp"
-//#include "CustomerCollisionHandler.hpp"
+//#include "./physics/RigidBody.hpp"
+//#include "./collisions/CustomCollisionHandler.hpp"
 //
 //#include "PersonController.hpp"
 //#define GLM_ENABLE_EXPERIMENTAL
 //#include "glm/gtx/string_cast.hpp"
-//#include "BulletPhysics.hpp"
+//#include "./physics/BulletPhysics.hpp"
 //#include "Main.hpp"
 //#include "sre/Material.hpp"
 //
 //
 ////sound Device
-//#include "SoundDevice.hpp" //i.e a device that is the "Listener"
-//#include "SoundEffectsLibrary.hpp" //i.e. SoundBuffer
-//#include "SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
-//#include "MusicBuffer.hpp"
+//#include "./sound/SoundDevice.hpp" //i.e a device that is the "Listener"
+//#include "./sound/SoundEffectsLibrary.hpp" //i.e. SoundBuffer
+//#include "./sound/SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
+//#include "./music/MusicBuffer.hpp"
 //
-//#include "SourceManager.hpp"
-//#include "sol.hpp"
+//#include "./sound/SourceManager.hpp"
 //#include "../LevelGuiManager.hpp"
 //#include "../MainMenuGuiManager.hpp"
 //
@@ -51,43 +48,26 @@
 //    MusicBuffer * myMusicBuffer = MusicBuffer::Get(); // Initialise music buffer
 //    myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)"); // Start playing a music track. First music track played should use "Load()"
 //
+//
+//    auto fonts = ImGui::GetIO().Fonts;
+//    fonts->AddFontDefault();
 //    //-------------- handshaking
-//    gameManager = std::make_shared<GameManager>();
-//    gameManager->init();
-//    guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
-//    //scheduleManager = std::make_shared<ScheduleManager>();
-//    guiManager->gameManager = gameManager;
+//    GameManager::getInstance().init();
+//    for (const auto& levelData : GameManager::getInstance().getSceneManager()->getLevelsData())
+//    {
+//        if(levelData->sceneType != 1)
+//            continue;
 //
-//    //gameManager->ToggleLockMouse();
-//
-//    sceneManager = std::make_shared<SceneManager>();
-//    sceneManager->gameManager = gameManager;
-//    guiManager->sceneManager = sceneManager;
-//
-//    //make scene
-//    //auto scene = sceneManager->createScene(".\\maps\\SkullBasherTDLevel0.json");
-//    auto scene = sceneManager->createMainMenuScene();
-//    scene->sceneManager = sceneManager;
-//    sceneManager->setCurrentScene(scene);
-//
-//    sceneManager->getCurrentScene()->guiManager = guiManager;
-//    sceneManager->getCurrentScene()->gameManager = gameManager;
-//    sceneManager->getCurrentScene()->sceneManager = sceneManager;
-//    gameManager->currentScene = sceneManager->getCurrentScene();
-//    //sceneManager->loadMap(R"(.\maps\SkullBasherTDLevel0.json)", sceneManager->getCurrentScene());
-//
-//    //scheduleManager->currentScene = sceneManager->getCurrentScene(); //not sure about this pattern, here the two managers 'know' each other
-//    //sceneManager->getCurrentScene()->scheduleManager = scheduleManager;
-//
-//    //gameManager->setInitialWaveStats();
-//    //scheduleManager->fetchInitialWaveSchedule();
+//        GameManager::getInstance().getSceneManager()->changeScene(levelData);
+//        break;
+//    }
 //
 ////--------------- Start Playing music - lives here because the buffers run out before things load
 //    myMusicBuffer->Play();
 //
 //// --------- start update cycles
 //    r.frameUpdate = [&](float deltaTime){
-//        sceneManager->getCurrentScene()->update(deltaTime);
+//        GameManager::getInstance().getSceneManager()->getCurrentScene()->update(deltaTime);
 //
 //        mySourceManager->CheckAndReleaseOALSource(); // Checks for any sources that are finished playing their sound, and releases the source
 //
@@ -95,16 +75,18 @@
 //        myMusicBuffer->UpdateBufferStream(); // Updates the music buffer so music keeps playing. Note: doesn't need to be called every frame, so we could optimise here
 //    };
 //    r.frameRender = [&]{
-//        sceneManager->getCurrentScene()->render();
+//        GameManager::getInstance().getSceneManager()->getCurrentScene()->render();
 //    };
 //    r.keyEvent = [&](SDL_Event &e) {
-//        sceneManager->getCurrentScene()->onKey(e); //worked! // asks scene to manage the onKey
+//        GameManager::getInstance().getSceneManager()->getCurrentScene()->onKey(e); //worked! // asks scene to manage the onKey
 //    };
 //    r.mouseEvent = [&](SDL_Event &e) {
-//        sceneManager->getCurrentScene()->onMouse(e); // asks scene to manage the mouse thing
+//        GameManager::getInstance().getSceneManager()->getCurrentScene()->onMouse(e); // asks scene to manage the mouse thing
 //    };
 //    r.startEventLoop();
 //}
+//
+//#include "Animator.hpp"
 //
 //const sre::SDLRenderer &Main::getR() const {
 //    return r;
@@ -116,15 +98,6 @@
 //}
 //
 //
-//
-#include <iostream>
-#include <vector>
-#include <fstream>
-
-#include "sre/Texture.hpp"
-#include "sre/Renderer.hpp"
-#include "sre/Material.hpp"
-#include "sre/SDLRenderer.hpp"
 
 //#pragma clang diagnostic push
 //#pragma clang diagnostic ignored "-Wformat-security"
@@ -372,5 +345,3 @@ int main() {
     std::make_unique<ObjViewerExample>();
     return 0;
 }
-
-//#pragma clang diagnostic pop

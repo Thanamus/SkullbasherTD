@@ -9,11 +9,14 @@
 #include "Transform.hpp"
 #include "GameObject.hpp"
 
-#include "CollisionHandler.hpp"
+// #include "./collisions/CollisionHandler.hpp"
 
 #include <chrono>
 
-class PersonController : public Component, public CollisionHandler {
+class PlayerCollisionController;
+
+// class PersonController : public Component, public CollisionHandler {
+class PersonController : public Component {
 public:
     explicit PersonController(GameObject* GameObject);
     virtual ~PersonController();
@@ -36,16 +39,15 @@ public:
     std::shared_ptr<GameObject> hand;
     std::shared_ptr<GameObject> tower;
     std::shared_ptr<GameObject> targetBlock;
-    std::shared_ptr<Scene> currentScene;
     bool allowedToBuild = false;
 
     //------ customCollision Component Override
 
-    void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override;
-    // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
-    // void onCollisionEnd(size_t collisionId); 
-    void onCollisionEnd(size_t collisionId) override; 
-
+    // void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override;
+    // // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
+    // // void onCollisionEnd(size_t collisionId); 
+    // void onCollisionEnd(size_t collisionId) override; 
+    friend class PlayerCollisionHandler;
 private:
 
     glm::vec3 world_up = glm::vec3(0, 1, 0);
@@ -63,9 +65,9 @@ private:
 
     float jumpHeight = 5.f;
 
-    // Footstep sound timing
-    std::chrono::steady_clock::time_point start_footstep_lockout;
-    int footstep_lockout_millisec = 300;
+    // // Footstep sound timing
+    // std::chrono::steady_clock::time_point start_footstep_lockout;
+    // int footstep_lockout_millisec = 300;
 
     // input stuff
     bool key_fwd = false;

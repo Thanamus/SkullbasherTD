@@ -4,10 +4,11 @@
 #include "sre/Material.hpp"
 #include "GuiManager.hpp"
 
+
 class MainMenuGuiManager : public GuiManager
 {
 public:
-    explicit MainMenuGuiManager(std::shared_ptr<GameManager> gameManager);
+    explicit MainMenuGuiManager();
     ~MainMenuGuiManager() override;
     void onGui() override;
 private:
@@ -16,6 +17,4 @@ private:
     void guiLevelGrid();
 
     bool pickLevel = false;
-
-    friend SceneManager;
 };

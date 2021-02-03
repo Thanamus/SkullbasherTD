@@ -2,6 +2,7 @@
 // Created by Morten Nobel Jørgensen on 2018-11-06.
 //
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 #include <sre/Mesh.hpp>
 #include "glm/glm.hpp"
 #include <string>
@@ -10,6 +11,7 @@
 #include "GameObject.hpp"
 #include "Animator.hpp"
 #include "ModelRenderer.hpp"
+
 
 class Transform : public Component {
 public:

@@ -1,17 +1,14 @@
 
 #include "ScheduleManager.hpp"
 #include "../GameManager.hpp"
-#include "scenes/Scene.hpp"
 #include "GameObject.hpp"
 #include "Pathfinder.hpp"
 
-#include "SourceManager.hpp"
-#include "MusicBuffer.hpp"
-
-class GameManager;
+#include "./music/MusicBuffer.hpp"
 
 ScheduleManager::ScheduleManager(){
     startTime = std::chrono::steady_clock::now();
+    lastEnemy = false; // double cover for last enemy
 }
 
 ScheduleManager::~ScheduleManager(){
@@ -19,29 +16,34 @@ ScheduleManager::~ScheduleManager(){
 }
 
 void ScheduleManager::update(float deltaTime){
-    kickOffTime = std::chrono::steady_clock::now();
-    elapsedTimeInSec = std::chrono::duration_cast<std::chrono::seconds>(kickOffTime - startTime).count();
 
-    if (waveGoGoGo == false)
+    if (lastEnemy == false)
     {
+        /* code */
 
-        if (elapsedTimeInSec >= timeBetweenWaves)
+        kickOffTime = std::chrono::steady_clock::now();
+        elapsedTimeInSec = std::chrono::duration_cast<std::chrono::seconds>(kickOffTime - startTime).count();
+
+        if (waveGoGoGo == false)
         {
-            waveGoGoGo = true;
 
-        }
+            if (elapsedTimeInSec >= timeBetweenWaves)
+            {
+                waveGoGoGo = true;
+
+            }
 
 
-    } else if ( waveGoGoGo == true) {
+        } else if ( waveGoGoGo == true) {
 
 
-        if ( elapsedTimeInSec >= goGoTimeSec)
-        {
-            goGoTimeSec = elapsedTimeInSec + timeBetweenEnemies;
-            auto gameObjectsList = currentScene->getGameObjects();
-            int enemyToGoGoGo = currentScene->gameManager->getCurrentEnemy();
-            int enemySetToGoGoGo = currentScene->gameManager->getCurrentEnemySet();
-            int enemyWaveToGoGoGo = currentScene->gameManager->getCurrentWave();
+            if ( elapsedTimeInSec >= goGoTimeSec)
+            {
+                goGoTimeSec = elapsedTimeInSec + timeBetweenEnemies;
+                auto gameObjectsList = GameManager::getInstance().getSceneManager()->getCurrentScene()->getGameObjects();
+                int enemyToGoGoGo = GameManager::getInstance().getCurrentEnemy();
+                int enemySetToGoGoGo = GameManager::getInstance().getCurrentEnemySet();
+                int enemyWaveToGoGoGo = GameManager::getInstance().getCurrentWave();
 
             for (size_t i = 0; i < gameObjectsList.size(); i++)
             {
@@ -53,8 +55,8 @@ void ScheduleManager::update(float deltaTime){
                     int currentEnemyNumber = enemy->getEnemyNumber();
                     int currentEnemySetNumber = enemy->getEnemySetNumber();
 
-                    // std::cout << "current Enemy Set " << currentEnemySetNumber << std::endl;
-                    // std::cout << "looking for: enemy:" << enemyToGoGoGo << ", set: " << enemySetToGoGoGo << " wave: " << enemyWaveToGoGoGo << std::endl;
+                        // std::cout << "current Enemy Set " << currentEnemySetNumber << std::endl;
+                        // std::cout << "looking for: enemy:" << enemyToGoGoGo << ", set: " << enemySetToGoGoGo << " wave: " << enemyWaveToGoGoGo << std::endl;
 
                     if (currentEnemyWaveNumber == enemyWaveToGoGoGo)
                     { 
@@ -76,27 +78,37 @@ void ScheduleManager::update(float deltaTime){
                                     // mySourceManager->playMyJam("pestilence.wav", testPosition, testSoundDist);
                                     // mySourceManager->playSource((ALuint)1);
 
-                                    // Only for testing the fade out, can be removed
-                                    // MusicBuffer * myMusicBuffer = MusicBuffer::Get();
-                                    // myMusicBuffer->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
+                                        // Only for testing the fade out, can be removed
+                                        // MusicBuffer * myMusicBuffer = MusicBuffer::Get();
+                                        // myMusicBuffer->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
 
-                                //make Game Manager Update the enemy and wave
-                                currentScene->gameManager->updateAllWaveStats();
-                                waveGoGoGo = false; //just did stuff, reset wave go go go to false to wait for next elapsed time
-                                break;
+                                    //make Game Manager Update the enemy and wave
+                                    bool updateHappened = GameManager::getInstance().updateAllWaveStats();
+                                    if (!updateHappened)
+                                    {
+                                        lastEnemy = true;
+                                    }
+
+
+                                    waveGoGoGo = false; //just did stuff, reset wave go go go to false to wait for next elapsed time
+
+                                    fetchInitialWaveSchedule(); // TODO change name, also might not need to happen every trigger
+
+                                    break;
+
+                                }
 
                             }
-                            
-                        }
-                        
-                    }
-                    
-                }
 
+                        }
+
+                    }
+
+                }
+                waveGoGoGo = false; //just did stuff, reset wave go go go to false to wait for next elapsed time
             }
-            waveGoGoGo = false; //just did stuff, reset wave go go go to false to wait for next elapsed time
+
         }
-        
     }
 
 }
@@ -104,7 +116,7 @@ void ScheduleManager::update(float deltaTime){
 
 void ScheduleManager::fetchInitialWaveSchedule(){
         //set inital timeBetweenWaves
-    waveScheduleDetails initialTimeBetweens = currentScene->gameManager->getCurrentTimeBetweenWaves();
+    waveScheduleDetails initialTimeBetweens = GameManager::getInstance().getCurrentTimeBetweenWaves();
     timeBetweenWaves = initialTimeBetweens.timeBetweenWaves;
     timeBetweenEnemies = initialTimeBetweens.timeBetweenEnemies;
 }

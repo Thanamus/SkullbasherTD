@@ -1,0 +1,348 @@
+{
+  "levelId": 3,
+  "levelName": "Onslaught",
+  "levelDifficulty": 2,
+  "sceneType": 0,
+  "playerSpawnPoint": [2.0,4.0,3.0],
+  "playerSpawnRotation": 50.0,
+  "tileMap":[
+    [
+      [10,10,10,12,10,10,10]
+    ],
+    [
+      [10,10,10,12,10,10,10]
+    ],
+    [
+      [10,10,10,12,10,10,10]
+    ],
+
+    [
+      [10,10,10,12,10,10,10]
+    ],
+    [
+      [10,10,10,12,10,10,10]
+    ],
+    [
+      [10,10,10,12,10,10,10]
+    ],
+
+
+
+
+    [
+      [10,10,10,12,10,10,10]
+    ],
+    [
+      [10,10,10,12,10,10,10]
+    ],
+    [
+      [10,10,10,12,10,10,10]
+    ],
+
+    [
+      [0,0,11,12,11],
+      [0,0,11,129,11],
+      [0,0,11,129,11],
+      [0,0,11,11,11]
+    ],
+    [
+      [0,0,11,12,11],
+      [0,0,11,0,11],
+      [0,0,11,0,11],
+      [0,0,11,11,11]
+    ],
+    [
+      [0,0,11,11,11],
+      [0,0,11,11,11],
+      [0,0,11,11,11],
+      [0,0,11,11,11]
+    ]
+
+  ],
+  "MapLookup": {
+    "0": {
+      "object": "nul",
+      "material": "unused",
+      "isbuildable": false,
+      "isPath": false,
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": null,
+          "y": null,
+          "z": null
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "10": {
+      "object": "GrassBlock01D.obj",
+      "material": "..\\Assets\\WorldMapAssets\\GrassBlock01D.mtl",
+      "isbuildable": false,
+      "isPath": false,
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "11": {
+      "object": "Floor01.obj",
+      "material": "..\\Assets\\WorldMapAssets\\Floor01.mtl",
+      "isbuildable": false,
+      "isPath": false,
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "12": {
+      "object": "PathBlock01D.obj",
+      "material": "..\\Assets\\WorldMapAssets\\PathBlock01D.mtl",
+      "isbuildable": false,
+      "isPath": true,
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reversePathBuffer":false
+    },
+    "121": {
+      "object": "PathBlock01D.obj",
+      "material": "..\\Assets\\WorldMapAssets\\PathBlock01D.mtl",
+      "isbuildable": false,
+      "isPath": true,
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "reversePathBuffer":true
+    },
+    "129": {
+      "object": "PathBlock01D.obj",
+      "material": "..\\Assets\\WorldMapAssets\\PathBlock01D.mtl",
+      "isbuildable": false,
+      "isPath": false,
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "13": {
+      "object": "BuildableBlock01D.obj",
+      "material": "..\\Assets\\WorldMapAssets\\BuildableBlock01D.mtl",
+      "isbuildable": true,
+      "isPath": false,
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "20": {
+      "object": "Step01D.obj",
+      "material": "..\\Assets\\WorldMapAssets\\Step01D.mtl",
+      "isbuildable": false,
+      "isPath": false,
+      "rotation": 180,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "30": {
+      "object": "Bridge01D.obj",
+      "material": "..\\Assets\\WorldMapAssets\\Bridge01D.mtl",
+      "isbuildable": false,
+      "isPath": false,
+      "rotation": 180,
+      "scaleFactors": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "collision": [
+        {
+          "type": "box",
+          "x": 0.5,
+          "y": 0.3,
+          "z": 0.5
+        }
+      ],
+      "posOffset":
+      {
+        "x": 0.0,
+        "y": 0.5,
+        "z": 0.0
+      }
+    }
+  },
+  "waves": [
+    {"enemies":[{"enemyType":1,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":10},
+    {"enemies":[{"enemyType":1,"quantity":2}], "timeBetweenEnemy":1, "timeBetweenWaves":10},
+    {"enemies":[{"enemyType":1,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":10}
+  ],
+  "enemyLookup":{
+    "1": {
+      "object": "Skull01.obj",
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.4,
+        "y": 0.4,
+        "z": 0.4
+      },
+      "moveSpeed": 0.2
+    },
+    "2": {
+      "object": "Skull01.obj",
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.1,
+        "y": 0.1,
+        "z": 0.1
+      },
+      "moveSpeed": 0.3
+    },
+    "3": {
+      "object": "Skull01.obj",
+      "rotation": 0,
+      "scaleFactors": {
+        "x": 0.8,
+        "y": 0.8,
+        "z": 0.8
+      },
+      "moveSpeed": 0.1
+    }
+  },
+  "soundEffects":
+  [
+    {
+      "name": "pestilence.wav",
+      "location": ".\\assets\\soundEffects\\spells\\pestilence.wav"
+    },
+    {
+      "name": "mnstr1.wav",
+      "location": ".\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav"
+    }
+  ]
+}

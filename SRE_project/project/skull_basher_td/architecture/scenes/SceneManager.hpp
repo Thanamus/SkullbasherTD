@@ -28,8 +28,13 @@ class GameManager;
 
 class GuiManager;
 class MainMenuGuiManager;
+class LevelGuiManager;
 
-enum DifficultyEnum { EASY = 0, MEDIUM = 1, HARD = 2 };
+enum DifficultyEnum {
+    EASY = 0,
+    MEDIUM = 1,
+    HARD = 2
+};
 enum SceneType { LEVEL = 0, MAINMENU = 1};
 
 struct LevelData {
@@ -63,7 +68,6 @@ public:
     std::shared_ptr<Scene> getCurrentScene();
     std::string getMapsFolderLoc();
 
-    std::shared_ptr<GameManager> gameManager;
     const std::vector<std::shared_ptr<LevelData>> &getLevelsData() const;
 private:
     std::vector<std::shared_ptr<LevelData>> levelsData;
@@ -79,6 +83,11 @@ private:
     friend GameManager;
     friend MainMenuScene;
     friend MainMenuGuiManager;
+    friend LevelGuiManager;
     friend GuiManager;
+
+    //NB: not sure if this should live here
+    glm::vec3 playerSpawnPoint = {0.f,3.f,0.f};
+    float playerSpawnRotation;
 };
 
