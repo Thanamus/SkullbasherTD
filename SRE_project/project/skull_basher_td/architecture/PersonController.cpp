@@ -24,6 +24,9 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 
+#include "./ModelRenderer.hpp"
+
+
 //using namespace sre;
 using namespace glm;
 
@@ -307,6 +310,13 @@ void PersonController::onMouse(SDL_Event &event)
         /*if(currentScene->gameManager->buildModeActive)
             camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());*/
     }
+
+    if (event.type == SDL_MOUSEBUTTONDOWN)
+    {
+        std::cout << "mouse clicked" << std::endl;
+        fire_projectile();
+    }
+    
 }
 
 void PersonController::setInitialPosition(glm::vec2 position, float rotation)
@@ -315,6 +325,27 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
     this->rotation = rotation;
 }
 
+void PersonController::fire_projectile(){
+    std::cout << "firing projectile" << std::endl;
+    auto arrow = gameObject->getScene()->createGameObject("arrow");
+    arrow->getComponent<Transform>()->position = position;
+    arrow->getComponent<Transform>()->rotation = camera_front;
+
+    auto arrowMR = arrow->addComponent<ModelRenderer>();
+    auto path = ".\\assets\\crossbow_bolt.obj";
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("arrow").build();
+
+    arrowMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    arrowMR->setModel(modelHolder);
+
+    auto arrowBody = arrow->addComponent<RigidBody>();
+    arrowBody->initRigidBodyWithBox({0.01,0.01,0.01}, 1, PLAYER, BUILDINGS | ENEMIES);
+    // arrow->getComponent<RigidBody>()->getRigidBody()->applyCentralImpulse({10,0,0});
+    auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();
+    arrowRigidBody->setGravity({0,0,0});
+    arrowRigidBody->applyForce({10,0,0}, btVector3{position.x, position.y, position.z});
+    arrowRigidBody->setAngularFactor({0,0,0});
+}
 
 // void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
 //     if (begin){

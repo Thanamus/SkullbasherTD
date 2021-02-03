@@ -51,6 +51,8 @@ public:
     friend class PlayerCollisionHandler;
 private:
 
+    void fire_projectile();
+
     glm::vec3 world_up = glm::vec3(0, 1, 0);
     glm::vec3 camera_front;
     glm::vec3 camera_dir;
