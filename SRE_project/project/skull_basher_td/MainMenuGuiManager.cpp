@@ -23,9 +23,7 @@ const int heartFull = 2;
 
 MainMenuGuiManager::MainMenuGuiManager(std::shared_ptr<GameManager> gameManager) : GuiManager(std::move(gameManager))
 {
-    // setup font
-    auto fonts = ImGui::GetIO().Fonts;
-    fonts->AddFontDefault();
+
 }
 
 void MainMenuGuiManager::guiMainMenu() {
@@ -58,6 +56,8 @@ void MainMenuGuiManager::guiLevelGrid() {
     int count = 0;
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 150);
     for (auto& level : sceneManager->getLevelsData()){
+        if(level->sceneType == 1)
+            continue;
         ImVec2 uv0(0,1); // flip y axis coordinates
         ImVec2 uv1(1,0);
         ImVec2 s(64,64);
@@ -67,8 +67,10 @@ void MainMenuGuiManager::guiLevelGrid() {
             sceneManager->changeScene(level);
         }
 
-        if (count == 0 || count %3 != 0)
+        if (count == 0 || count %2 != 0)
             ImGui::SameLine();
+        else
+            ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 150);
         count ++;
     }
 }

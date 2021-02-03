@@ -1,6 +1,6 @@
 {
-    "levelId": 2,
-    "levelName": "The Bad Level",
+    "levelId": 3,
+    "levelName": "The Bad Level2",
     "levelDifficulty": 2,
     "sceneType": 0,
     "tileMap":[

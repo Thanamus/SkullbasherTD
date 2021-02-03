@@ -13,6 +13,7 @@ GameObject::GameObject(std::string name_, Scene* scene_)
 }
 
 GameObject::~GameObject() {
+    std::cout << "deleting object" << std::endl;
 }
 
 void GameObject::setName(const std::string &name) {

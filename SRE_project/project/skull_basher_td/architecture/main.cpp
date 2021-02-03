@@ -48,6 +48,9 @@ Main::Main()
     MusicBuffer * myMusicBuffer = MusicBuffer::Get(); // Initialise music buffer 
     myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)"); // Start playing a music track. First music track played should use "Load()"
 
+
+    auto fonts = ImGui::GetIO().Fonts;
+    fonts->AddFontDefault();
     //-------------- handshaking
     gameManager = std::make_shared<GameManager>();
     gameManager->init();

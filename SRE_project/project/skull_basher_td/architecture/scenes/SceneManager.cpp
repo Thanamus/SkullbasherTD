@@ -494,10 +494,12 @@ void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
     if(sceneData->sceneType == 0)
     {
         auto scene = createScene(path);
+        scene->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
         setCurrentScene(scene);
         getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>(gameManager);
         getCurrentScene()->gameManager = gameManager;
-        getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
+        //getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
+        getCurrentScene()->guiManager->sceneManager = getCurrentScene()->sceneManager;
         gameManager->currentScene = getCurrentScene();
         loadMap(path, getCurrentScene());
 
@@ -507,14 +509,17 @@ void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
 
         gameManager->setInitialWaveStats();
         scheduleManager->fetchInitialWaveSchedule();
+        gameManager->ToggleLockMouse();
     }
     else
     {
         auto scene = createMainMenuScene();
+        scene->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
         setCurrentScene(scene);
         getCurrentScene()->guiManager = std::make_shared<MainMenuGuiManager>(gameManager);
         getCurrentScene()->gameManager = gameManager;
-        getCurrentScene()->sceneManager = static_cast<const std::shared_ptr<SceneManager>>(this);
+
+        getCurrentScene()->guiManager->sceneManager = getCurrentScene()->sceneManager;
         gameManager->currentScene = getCurrentScene();
     }
 }

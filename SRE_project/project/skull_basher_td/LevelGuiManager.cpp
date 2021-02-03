@@ -6,6 +6,7 @@
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
 #include "LevelGuiManager.hpp"
+#include "architecture/scenes/SceneManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
@@ -218,7 +219,7 @@ void LevelGuiManager::guiWaveInfo()
     std::string enemies = "Enemies";
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enemies)); // align center
     ImGui::Text(enemies.c_str());
-    
+
     std::string enermyText = std::to_string(gameManager->getCurrentEnemy()) + "/" + std::to_string(gameManager->getTotalEnemiesInCurrentSet());
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enermyText)); // align center
     ImGui::Text(enermyText.c_str());
@@ -238,8 +239,22 @@ void LevelGuiManager::guiQuitScreen()
 
     //Back To Game
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
-    if (ImGui::Button("Back to Menu", ImVec2(100, 50))){
+    if (ImGui::Button("Continue", ImVec2(100, 50))){
         gameManager->TogglePause();
+    }
+
+    ImGui::Spacing();
+
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
+    if (ImGui::Button("Back to Menu", ImVec2(100, 50))){
+        for (const auto& levelData : sceneManager->levelsData)
+        {
+            if(levelData->sceneType != 1)
+                continue;
+
+            sceneManager->changeScene(levelData);
+            break;
+        }
     }
 
     ImGui::Spacing();
