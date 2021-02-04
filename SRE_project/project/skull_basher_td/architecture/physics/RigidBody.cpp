@@ -15,12 +15,13 @@
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 
 
-RigidBody::RigidBody(GameObject *gameObject) : Component(gameObject) {
+RigidBody::RigidBody(GameObject* gameObject) : Component(gameObject) {
     transform = gameObject->getComponent<Transform>().get();
 
 }
 
 RigidBody::~RigidBody() {
+    transform = nullptr;
     if (rigidBody){
         delete fallMotionState;
         delete shape;
@@ -29,6 +30,7 @@ RigidBody::~RigidBody() {
 		}
         delete rigidBody;
     }
+    std::cerr << std::endl << "no moar reegeed" << std::endl;
 }
 
 btRigidBody* RigidBody::getRigidBody(){
@@ -36,20 +38,18 @@ btRigidBody* RigidBody::getRigidBody(){
 }
 
 void RigidBody::updateTransformFromPhysicsWorld(){
-    // if( transformCheck){
+//        std::cerr<<"Belongs to" << gameObject->getName() << std::endl;
         btTransform pTransform;
-        // rigidBody->getMotionState()->getWorldTransform(pTransform);
-        pTransform  = rigidBody->getWorldTransform();
-        auto & origin = pTransform.getOrigin();
-
-
-        transform->position = {origin.x(), origin.y(), origin.z()};
-        auto pRot = pTransform.getRotation();
-        glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
-        transform->rotation = glm::degrees(glm::eulerAngles(inputQuat));
-    // }
-//        if(isnan(pTransform.getOrigin().x()) || isnan(pTransform.getRotation().x()))
-//        std::cerr << "Yo this skull has been banished to the Shadow Realm";
+        if(rigidBody) {
+            pTransform  = rigidBody->getWorldTransform();
+            auto & origin = pTransform.getOrigin();
+            if(transform) {
+                transform->position = {origin.x(), origin.y(), origin.z()};
+                auto pRot = pTransform.getRotation();
+                glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
+                transform->rotation = glm::degrees(glm::eulerAngles(inputQuat));
+            }
+        }
 }
 
 void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, short group, short mask){

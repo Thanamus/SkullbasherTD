@@ -124,3 +124,11 @@ glm::vec3 Transform::globalPosition() const {
     return glm::vec3(globalTransform()[3]);
 }
 
+Transform::~Transform() {
+    parent = nullptr;
+    children.clear();
+    animator.reset();
+    modelRenderer.reset();
+    std::cerr << "transform yeeted" << std::endl;
+}
+

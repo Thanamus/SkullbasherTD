@@ -16,8 +16,6 @@ ModelRenderer::ModelRenderer(GameObject* gameObject)
     model = Model::create().withMesh(sharedMeshCube).withMaterials(materials).build();
 }
 
-ModelRenderer::~ModelRenderer() = default;
-
 void ModelRenderer::setModel(std::shared_ptr<Model> model) {
     ModelRenderer::model = std::move(model);
 }
@@ -69,4 +67,8 @@ void ModelRenderer::debugGUI() {
         }
         ImGui::TreePop();
     }
+}
+
+ModelRenderer::~ModelRenderer() {
+    std::cout << std::endl << "see ya model renderer diocane" << std::endl;
 }

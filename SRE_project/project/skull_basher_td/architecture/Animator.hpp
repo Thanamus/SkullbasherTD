@@ -16,7 +16,7 @@ struct TransformData {
 class Animator : public Component, public Updatable {
 public:
     explicit Animator(GameObject* gameObject);
-    ~Animator() override = default;
+    ~Animator() { std::cerr << "aniamtor yeeted" << std::endl;}
 
     void update(float deltaTime) override;
 

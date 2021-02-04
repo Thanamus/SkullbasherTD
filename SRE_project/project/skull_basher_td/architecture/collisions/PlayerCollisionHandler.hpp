@@ -13,8 +13,8 @@ class RigidBody;
 
 class PlayerCollisionHandler : public Component, public CollisionHandler {
 public:
-    // explicit CustomCollisionHandler(GameObject *gameObject) : Component(gameObject));
-    explicit PlayerCollisionHandler(GameObject *gameObject);
+    // explicit CustomCollisionHandler(GameObject* gameObject) : Component(gameObject));
+    explicit PlayerCollisionHandler(GameObject* gameObject);
     virtual ~PlayerCollisionHandler();
 
     // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin) override {

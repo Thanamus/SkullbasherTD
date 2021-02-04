@@ -15,7 +15,7 @@ class Pathfinder;
 class EnemyComponent : public HealthComponent, public Updatable {
 public:
     explicit EnemyComponent(GameObject* gameObject);
-    ~EnemyComponent() override;
+    ~EnemyComponent();
 
     void setWave(int incomingWaveNumber);
     int getWave() const;

@@ -15,7 +15,7 @@
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 
 
-GhostObject::GhostObject(GameObject *gameObject) : Component(gameObject) {
+GhostObject::GhostObject(GameObject* gameObject) : Component(gameObject) {
     transform = gameObject->getComponent<Transform>().get();
 
 }

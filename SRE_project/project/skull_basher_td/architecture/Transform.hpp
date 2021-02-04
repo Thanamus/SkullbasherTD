@@ -16,6 +16,7 @@
 class Transform : public Component {
 public:
     explicit Transform(GameObject* gameObject);
+    ~Transform();
 
     std::string name;
 

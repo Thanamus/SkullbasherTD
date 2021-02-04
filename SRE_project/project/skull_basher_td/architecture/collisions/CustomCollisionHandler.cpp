@@ -10,7 +10,7 @@
 
 class GameObject;
 
-CustomCollisionHandler::CustomCollisionHandler(GameObject *gameObject) : Component(gameObject) {
+CustomCollisionHandler::CustomCollisionHandler(GameObject* gameObject) : Component(gameObject) {
 
 }
 

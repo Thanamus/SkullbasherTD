@@ -6,13 +6,13 @@
 #include "Pathfinder.hpp"
 #include "Transform.hpp"
 
-EnemyComponent::EnemyComponent(GameObject *gameObject) : HealthComponent(gameObject) {
+EnemyComponent::EnemyComponent(GameObject* gameObject) : HealthComponent(gameObject) {
     pathfinder = new Pathfinder(gameObject);
 }
 
 EnemyComponent::~EnemyComponent() {
-    if (pathfinder)
-        delete pathfinder;
+    delete pathfinder;
+    std::cerr << "enemy component yeeted" << std::endl;
 }
 
 void EnemyComponent::update(float deltaTime) {

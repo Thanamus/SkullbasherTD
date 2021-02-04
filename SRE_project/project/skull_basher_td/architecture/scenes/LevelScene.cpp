@@ -47,56 +47,21 @@ void LevelScene::update(float deltaTime){
     auto tempCam = this->cameras[0]->getGameObject();
     tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
 
+    for (const auto& g : gameObjects)
+        if (g && g->deleteMe) // looks for deleteMe flag on the game object, if true, then remove the gameObject
+            deleteGameObject(g);
     bulletPhysics->step(this);
-    for (auto& u : updatables){
+    for (auto& u : updatables)
         u->update(deltaTime);
-    }
     // bulletPhysics->step(this);
-    for (auto& p : rigidBodies){
+    for (auto& p : rigidBodies)
         p->updateTransformFromPhysicsWorld();
-    }
-    for (auto& s : scriptables){
+    for (auto& s : scriptables)
         if(s->isEnabled())
             s->update();
-    }
 
     bulletPhysics->step(this);
     scheduleManager->update(deltaTime); //has to be updated separately from the rest
-
-    // delete dead objects
-    for (auto g : gameObjects)
-    {
-            if (g->deleteMe == true) // looks for deleteMe flag on the game object, if true, then remove the gameObject
-            {
-                // TODO find and cleanup dangling shared_ptrs
-                // std::cout << "g count 1: " << g.use_count() << std::endl;
-                // auto camera = gameObjects[i]->getComponent<Camera>();
-                auto components = g->getComponents();
-
-
-                for (auto c : components)
-                {
-
-                    g->removeComponent(c);
-                    // this->removeComponent<Renderable>(c);
-
-                }
-
-                // std::make_unique<GameObject>(g);
-                // std::cout << "g count 2: " << g.use_count() << std::endl;
-                g.reset();
-
-
-                gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), g), gameObjects.end()); // maintains the sceneObjects list
-                // std::cout << "game Object destroyed";
-                // TODO: something not quite right here
-                // std::cout << "g count 3: " << g.use_count() << std::endl;
-            }
-
-
-
-    }
-
 }
 
 void LevelScene::onKey(SDL_Event &event){

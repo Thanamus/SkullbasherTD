@@ -52,18 +52,16 @@ void Pathfinder::update(float deltaTime) {
         // if (currentPosition.x == nextPathPoint.x && currentPosition.z == nextPathPoint.z)
         if ((currentPosition.x <= nextPathPoint.x+0.5f && currentPosition.x >= nextPathPoint.x-0.5f)  && (currentPosition.z <= nextPathPoint.z+0.5f && currentPosition.z >= nextPathPoint.z-0.5f)) {
             fetchNextPathPoint();
-            if(transformComp) {
+            if(transformComp)
                 transformComp->lookAt(nextPathPoint, glm::vec3(0, 1, 0));
-                std::cerr << "Looking at next point x: " << nextPathPoint.x << " z: "<< nextPathPoint.z << "from position x: " << currentPosition.x << " z: "<< currentPosition.z << std::endl;
-            }
         }
         // std::cout << "I am a skull, I should be moving to: " << nextPathPoint.x << "\n";
         // move skull
         // mix currentposition with next path point and delta time
         // TODO: review
-        nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, moveSpeed*deltaTime*10); //speed is controlled with the float
+        nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, moveSpeed*deltaTime*100); //speed is controlled with the float
         // nextPosition.y = glm::mix(currentPosition.y, nextPathPoint.y, 0.01f);
-        nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, moveSpeed*deltaTime*10);
+        nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, moveSpeed*deltaTime*100);
 
         // nextPosition = glm::mix(currentPosition, nextPathPoint, velocity);
         nextPosition.y = 0; // correction for the path being on the floor

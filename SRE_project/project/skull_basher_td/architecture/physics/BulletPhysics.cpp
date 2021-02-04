@@ -50,9 +50,9 @@ bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
         static size_t collisionId = 0;
         collisionId++;
         auto name0 = rigidBody0->getGameObject()->getName();
-        std::cout << "colision on: " << name0 << std::endl;
+        std::cout << "collision on: " << name0 << std::endl;
         auto name1 = rigidBody1->getGameObject()->getName();
-        std::cout << "colision on: " << name1 << std::endl;
+        std::cout << "collision on: " << name1 << std::endl;
 
         cp.m_userPersistentData = new CollisionId(collisionId, rigidBody0->getGameObject(), rigidBody1->getGameObject()); //original
     }

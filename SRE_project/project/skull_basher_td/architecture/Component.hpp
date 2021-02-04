@@ -4,12 +4,14 @@
 
 #pragma once
 
+#include <memory>
+
 // forward declaration
 class GameObject;
 
 class Component {
 public:
-    virtual ~Component() = default;
+    ~Component();
     GameObject* getGameObject();
     bool active = true;
 
@@ -23,8 +25,8 @@ public:
     virtual void debugGUI();
 
 protected:
-    Component(GameObject* gameObject);
-    GameObject *gameObject = nullptr;
+    explicit Component(GameObject* gameObject);
+    GameObject* gameObject;
 
     friend class GameObject;
 };

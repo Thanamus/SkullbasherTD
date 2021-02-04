@@ -39,7 +39,7 @@ enum SBCollisions
 class RigidBody : public Component {
 public:
     explicit RigidBody(GameObject* gameObject);
-    ~RigidBody() final;
+    ~RigidBody();
     void initRigidBodyWithSphere(float radius, float mass = 0);
     void initRigidBodyWithSphere(float radius, float mass, short group, short mask);
 
@@ -58,7 +58,7 @@ private:
     int collisionStartEndFrameId;
     void updateTransformFromPhysicsWorld();
     btRigidBody* rigidBody = nullptr;
-    Transform* transform;
+    Transform* transform = nullptr;
 
     btCollisionShape* shape = nullptr;
     btDefaultMotionState* fallMotionState = nullptr;

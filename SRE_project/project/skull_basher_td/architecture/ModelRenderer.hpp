@@ -13,7 +13,7 @@
 class ModelRenderer : public Component, public Renderable {
 public:
     explicit ModelRenderer(GameObject* gameObject);
-    ~ModelRenderer() override;
+    ~ModelRenderer();
 
     void setModel(std::shared_ptr<Model> model);
     std::shared_ptr<Model> getModel();

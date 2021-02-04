@@ -100,8 +100,6 @@ private:
     std::vector<glm::vec3> path;
 
 //-------------- Wave stats -------------------
-
-    std::vector<std::shared_ptr<GameObject>> enemies;
 //    const std::vector<std::shared_ptr<GameObject>> &getEnemies() const;
     int currentWave = 0;
     int totalWavesInLevel = 0;

@@ -16,7 +16,7 @@
 using namespace std;
 using namespace glm;
 #include <functional>   // std::ref
-Camera::Camera(GameObject * gameObject)
+Camera::Camera(GameObject* gameObject)
 :Component(gameObject)
 {
     transform = gameObject->getComponent<Transform>().get();
@@ -271,6 +271,11 @@ sre::Camera Camera::getCamera() {
 void Camera::update(float deltaTime)
 {
 
+}
+
+Camera::~Camera() {
+    transform = nullptr;
+    materials.clear();
 }
 
 

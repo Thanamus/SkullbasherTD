@@ -11,7 +11,7 @@
 TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         : Component(gameObject) {
     lua.set_function("getGameObject", [&]()->GameObject* {
-        return gameObject;
+        return getGameObject();
     });
 
     // extend GameObject definition

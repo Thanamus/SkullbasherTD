@@ -34,7 +34,8 @@ public:
     virtual void onKey(SDL_Event &event);
     virtual void onMouse(SDL_Event &event);
 
-    std::shared_ptr<GameObject> createGameObject(std::string name = "Scene");
+    std::shared_ptr<GameObject> createGameObject(std::string name_ = "Scene");
+    void deleteGameObject(const std::shared_ptr<GameObject>& gameObject);
 
     bool isDebugPhysics() const;
 
@@ -71,8 +72,8 @@ protected:
     std::vector<Light*> lights;
     sre::WorldLights worldLights;
 
-    void addComponent(Component* component);
-    void removeComponent(Component* component);
+    void addComponent(const std::shared_ptr<Component>& component);
+    void removeComponent(const std::shared_ptr<Component>& component);
 
     BulletPhysics* bulletPhysics;
 

@@ -23,8 +23,6 @@ public:
     explicit TowerBehaviourComponent(GameObject* gameObject);
     void update() override;
 
-    static std::vector<std::shared_ptr<GameObject>> getEnemyList;
-
     float getRange() const;
     void setRange(float _range);
 
