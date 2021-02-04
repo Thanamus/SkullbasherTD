@@ -484,7 +484,7 @@
     ],
     "enemyLookup":{
         "1": {
-            "object": "Skull01.obj",
+            "object": "Skull02.obj",
             "rotation": 0,
             "scaleFactors": {
                 "x": 0.4,

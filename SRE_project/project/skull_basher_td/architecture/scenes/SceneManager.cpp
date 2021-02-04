@@ -79,7 +79,7 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     hand->getComponent<Transform>()->rotation = {0,0,0};
     hand->getComponent<Transform>()->scale = {0.1f,0.1f,0.1f};
     auto handMR = hand->addComponent<ModelRenderer>();
-    auto path =  ".\\assets\\lowpoly_crossbow_2_2.obj";
+    auto path =  ".\\assets\\lowpoly_crossbow_2_5.obj";
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
 
     handMR->setMesh(sre::Mesh::create().withCube(0.99).build());
@@ -95,11 +95,13 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     crystal->getComponent<CrystalHealth>()->setHealth(100);
     auto crystalMR = crystal->addComponent<ModelRenderer>();
     auto crystalPath =  ".\\assets\\crystal.obj";
+    //TODO: review animation
     auto crystalAN = crystal->addComponent<Animator>();
     crystalMR->setAnimator(crystalAN.get());
+
     auto crystalRotate = std::make_shared<Animation>(true);
-    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(0), 5.f);
-    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(360), 5.f);
+    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(0), 5.f);
+    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(360), 5.f);
     crystalAN->addAnimation("rotate", crystalRotate);
     crystalAN->setAnimationState("rotate");
 
@@ -115,35 +117,7 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
 
     crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
 
-    auto coin = res->createGameObject("Coin");
-    coin->getComponent<Transform>()->position = {4,0,4};
-    coin->getComponent<Transform>()->rotation = {0,0,0};
-    coin->getComponent<Transform>()->scale = {0.4f,0.4f,0.4f};
-    auto coinMR = coin->addComponent<ModelRenderer>();
-    auto coinPath =  ".\\assets\\Coins.obj";
-    auto coinAN = crystal->addComponent<Animator>();
-    coinMR->setAnimator(coinAN.get());
-    auto coinRotate = std::make_shared<Animation>(true);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(1), 5.f);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(359), 5.f);
-    coinAN->addAnimation("rotate", coinRotate);
-    coinAN->setAnimationState("rotate");
-
-    auto bounds = coinMR->getMesh()->getBoundsMinMax();
-
-    float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/5;
-    float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/5;
-    float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/4;
-
-    auto coinRigidBody = coin->addComponent<RigidBody>();
-    // ---- set crystal collision group and flags
-    coinRigidBody->initRigidBodyWithBox({length,width,height}, 1, COINS, PLAYER ); // crystal needs to be sphere -> skull collision only works with box
-
-    // ---- making sure that crystal can't move if hit
-    coinRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
-    coinRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
-
-    coinMR->setModel(Model::create().withOBJ(coinPath).withName("coin").build());
+    res->SpawnCoin({4,0,4});
 
     return res;
 };
@@ -370,6 +344,7 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
 
                     //Load the mesh from file
                     auto filePath = mapAssetFolderLoc + "\\" + modelName;
+                    //auto filePath = ".\\assets\\skull.obj";
                     modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
 
                     //create game object
