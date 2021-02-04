@@ -30,7 +30,6 @@ RigidBody::~RigidBody() {
 		}
         delete rigidBody;
     }
-    std::cerr << std::endl << "no moar reegeed" << std::endl;
 }
 
 btRigidBody* RigidBody::getRigidBody(){

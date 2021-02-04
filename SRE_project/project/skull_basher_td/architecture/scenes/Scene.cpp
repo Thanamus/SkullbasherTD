@@ -61,7 +61,7 @@ std::shared_ptr<GameObject> Scene::createGameObject(std::string name_){
 void Scene::addComponent(const std::shared_ptr<Component>& component) {
     auto componentRawPtr = component.get();
     if(!componentRawPtr)
-        std::cerr << std::endl << "keklmao" << std::endl;
+        std::cout << std::endl << "keklmao" << std::endl;
     auto camera = dynamic_cast<Camera*>(componentRawPtr);
     if (camera){
         cameras.push_back(camera);
@@ -173,18 +173,15 @@ std::vector<EnemyComponent *> Scene::getEnemies() {
     return enemies;
 }
 
-void Scene::deleteGameObject(const std::shared_ptr<GameObject>& gameObject) {
+std::vector<std::shared_ptr<GameObject>>::iterator Scene::deleteGameObject(const std::shared_ptr<GameObject>& gameObject) {
     // look for gameObject to delete
-    std::cerr << std::endl << "rigidbodies b4: " << rigidBodies.size() << std::endl;
+    std::cout << std::endl << "rigidbodies before: " << rigidBodies.size() << std::endl;
     auto it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
     // if found, release the managed object and remove it from the array
-    std::cerr << std::endl << "Starting with a lot of components: " << gameObject->components.size() <<  std::endl;
-    if(it != gameObjects.end()) {
-        std::cerr << std::endl << "Removing GameObject from vector in scene..." << std::endl;
-        gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
-        std::cerr << std::endl << "Scene is done." << std::endl;
-    }
-    std::cerr << std::endl << "rigidbodies after: " << rigidBodies.size() << std::endl;
+    if(it != gameObjects.end())
+        it = gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
+    std::cout << std::endl << "rigidbodies after: " << rigidBodies.size() << std::endl;
+    return it;
 }
 
 #pragma clang diagnostic pop

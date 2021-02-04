@@ -35,7 +35,7 @@ public:
     virtual void onMouse(SDL_Event &event);
 
     std::shared_ptr<GameObject> createGameObject(std::string name_ = "Scene");
-    void deleteGameObject(const std::shared_ptr<GameObject>& gameObject);
+    std::vector<std::shared_ptr<GameObject>>::iterator deleteGameObject(const std::shared_ptr<GameObject>& gameObject);
 
     bool isDebugPhysics() const;
 

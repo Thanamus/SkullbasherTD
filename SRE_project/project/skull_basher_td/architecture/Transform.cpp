@@ -126,9 +126,7 @@ glm::vec3 Transform::globalPosition() const {
 
 Transform::~Transform() {
     parent = nullptr;
-    children.clear();
     animator.reset();
     modelRenderer.reset();
-    std::cerr << "transform yeeted" << std::endl;
 }
 

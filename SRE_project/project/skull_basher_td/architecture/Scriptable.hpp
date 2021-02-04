@@ -36,7 +36,7 @@ public:
                 {
                     sol::error err = result;
                     std::string what = err.what();
-                    std::cerr << what << std::endl;
+                    std::cout << what << std::endl;
                 }
             }
         }

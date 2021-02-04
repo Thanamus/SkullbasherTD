@@ -70,5 +70,4 @@ void ModelRenderer::debugGUI() {
 }
 
 ModelRenderer::~ModelRenderer() {
-    std::cout << std::endl << "see ya model renderer diocane" << std::endl;
 }

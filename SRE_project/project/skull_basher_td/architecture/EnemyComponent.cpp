@@ -12,7 +12,6 @@ EnemyComponent::EnemyComponent(GameObject* gameObject) : HealthComponent(gameObj
 
 EnemyComponent::~EnemyComponent() {
     delete pathfinder;
-    std::cerr << "enemy component yeeted" << std::endl;
 }
 
 void EnemyComponent::update(float deltaTime) {

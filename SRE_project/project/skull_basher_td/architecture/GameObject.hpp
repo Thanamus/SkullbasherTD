@@ -19,8 +19,7 @@ public:
 
     template<typename C>
     std::shared_ptr<C> addComponent();
-
-    bool removeComponent(const std::shared_ptr<Component>& ptr);
+    std::vector<std::shared_ptr<Component>>::iterator removeComponent(const std::shared_ptr<Component>& ptr);
 
     template<typename C>
     std::shared_ptr<C> getComponent();
@@ -50,7 +49,6 @@ private:
     std::vector<std::shared_ptr<Component>> components = {};
     std::vector<CollisionHandler*> collisionHandlers = {};
 
-
     GameObject(std::string name, Scene* scene);
 
     friend class Scene;
@@ -73,7 +71,7 @@ std::shared_ptr<T> GameObject::addComponent() {
 
 template<typename C>
 std::shared_ptr<C> GameObject::getComponent() {
-    for (auto c : components){
+    for (const auto& c : components){
         auto castPtr = std::dynamic_pointer_cast<C>(c);
         if (castPtr)
             return castPtr;

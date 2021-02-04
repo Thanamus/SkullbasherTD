@@ -30,7 +30,7 @@ namespace {
  Scene* scene;
 
  bool sceneContains(GameObject* ptr){
-     for (auto go : scene->getGameObjects()){
+     for (const auto& go : scene->getGameObjects()){
          if (go.get() == ptr){
              return true;
          }

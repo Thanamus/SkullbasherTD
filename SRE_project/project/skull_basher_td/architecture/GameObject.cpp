@@ -13,17 +13,16 @@ GameObject::GameObject(std::string name_, Scene* scene_) : name(std::move(name_)
 }
 
 GameObject::~GameObject() {
-    std::cerr << std::endl << "Here we go go go!" << std::endl;
-    for(const auto& co : components)
-        removeComponent(co);
-    components.clear();
-    std::cerr << std::endl << components.size() << " components left." << std::endl;
+    while(!components.empty()) {
+        removeComponent(*components.begin());
+    }
 
-    if(!children.empty())
-        for(const auto& ch : children)
-            scene->deleteGameObject(ch);
+    components.clear();
+
+    while(!children.empty()) {
+        scene->deleteGameObject(*children.begin());
+    }
     children.clear();
-    std::cerr << std::endl << children.size()<< " children left." << std::endl;
 
     if (parent) {
         auto parentChildren = GameObject::parent->children;
@@ -32,7 +31,6 @@ GameObject::~GameObject() {
         parent = nullptr;
     }
     scene = nullptr;
-    std::cerr << "Here GameObject " << name << " is destroyed with " << components.size() << std::endl;
 }
 
 void GameObject::setName(const std::string &name_) {
@@ -48,21 +46,20 @@ const std::vector<CollisionHandler*>& GameObject::getCollisionHandlers(){
     return collisionHandlers;
 }
 
-bool GameObject::removeComponent(const std::shared_ptr<Component>& ptr) {
-    for (const auto& c : components) {
-        if (c.get() == ptr.get()) {
-            auto ch = dynamic_cast<CollisionHandler*>(ptr.get());
-            if (ch && !collisionHandlers.empty())
-                collisionHandlers.erase(std::remove(collisionHandlers.begin(), collisionHandlers.end(), ch), collisionHandlers.end());
-            // remove from scene
-            scene->removeComponent(c);
-            // remove from array (auto-releases the object!)
-            components.erase(std::remove(components.begin(),components.end(), c), components.end());
-            return true;
-        }
+std::vector<std::shared_ptr<Component>>::iterator GameObject::removeComponent(const std::shared_ptr<Component>& ptr) {
+//    for (const auto& c : components) {
+      for (auto c = components.begin(); c != components.end(); c++) {
+          if (c->get() == ptr.get()) {
+              auto ch = dynamic_cast<CollisionHandler*>(ptr.get());
+              if (ch && !collisionHandlers.empty())
+                  collisionHandlers.erase(std::remove(collisionHandlers.begin(), collisionHandlers.end(), ch), collisionHandlers.end());
+              // remove from scene
+              scene->removeComponent(*c);
+              // remove from array (auto-releases the object!)
+              return components.erase(std::remove(components.begin(),components.end(), *c), components.end());
+          }
     }
-    std::cerr << std::endl << ptr.get() << std::endl;
-    return false;
+    return components.end();
 }
 
 // bool GameObject::removeComponent(std::shared_ptr<Component> ptr) {

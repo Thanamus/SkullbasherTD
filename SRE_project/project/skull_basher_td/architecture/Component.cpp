@@ -11,7 +11,6 @@ Component::Component(GameObject* gameObject) : gameObject(gameObject) {}
 
 Component::~Component() {
     gameObject = nullptr;
-    std::cerr << "Here Component is destroyed" << std::endl;
 }
 
 GameObject *Component::getGameObject() {
