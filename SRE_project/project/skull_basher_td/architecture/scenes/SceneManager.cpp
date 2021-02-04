@@ -24,15 +24,10 @@
 #include "../sound/SourceManager.hpp"
 
 //rapidjson imports
-#include "../rapidjson/rapidjson.h"
-#include "../rapidjson/document.h"
 #include "../rapidjson/istreamwrapper.h"
 #include "../../LevelGuiManager.hpp"
-#include "../health/HealthComponent.hpp"
-#include "../health/CrystalHealth.hpp"
 
 // Collision imports
-#include "../collisions/CustomCollisionHandler.hpp"
 #include "../collisions/EnemyCollisionHandler.hpp"
 #include "../collisions/PlayerCollisionHandler.hpp"
 
@@ -59,7 +54,7 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
     cameraObj->getComponent<Transform>()->position = playerSpawnPoint;
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | CRYSTAL); // Dynamic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | CRYSTAL | COINS); // Dynamic physics object
 
     //--- end setting cameras
 
@@ -119,6 +114,36 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     GameManager::getInstance().crystal = crystal->getComponent<CrystalHealth>();
 
     crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
+
+    auto coin = res->createGameObject("Coin");
+    coin->getComponent<Transform>()->position = {4,0,4};
+    coin->getComponent<Transform>()->rotation = {0,0,0};
+    coin->getComponent<Transform>()->scale = {0.4f,0.4f,0.4f};
+    auto coinMR = coin->addComponent<ModelRenderer>();
+    auto coinPath =  ".\\assets\\Coins.obj";
+    auto coinAN = crystal->addComponent<Animator>();
+    coinMR->setAnimator(coinAN.get());
+    auto coinRotate = std::make_shared<Animation>(true);
+    coinRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(1), 5.f);
+    coinRotate->addFrame(glm::vec3( 0), glm::vec3(0), glm::vec3(359), 5.f);
+    coinAN->addAnimation("rotate", coinRotate);
+    coinAN->setAnimationState("rotate");
+
+    auto bounds = coinMR->getMesh()->getBoundsMinMax();
+
+    float length = (fabs(bounds[0].z) + fabs(bounds[1].z))/5;
+    float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/5;
+    float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/4;
+
+    auto coinRigidBody = coin->addComponent<RigidBody>();
+    // ---- set crystal collision group and flags
+    coinRigidBody->initRigidBodyWithBox({length,width,height}, 1, COINS, PLAYER ); // crystal needs to be sphere -> skull collision only works with box
+
+    // ---- making sure that crystal can't move if hit
+    coinRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
+    coinRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
+
+    coinMR->setModel(Model::create().withOBJ(coinPath).withName("coin").build());
 
     return res;
 };

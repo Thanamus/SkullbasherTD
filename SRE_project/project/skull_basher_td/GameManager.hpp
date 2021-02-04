@@ -47,6 +47,7 @@ public:
     int getScore() const;
 
     void setScore(int score);
+    void addScore(int score);
 
     float getPower() const;
 

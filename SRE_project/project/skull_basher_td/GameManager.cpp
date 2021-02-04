@@ -364,3 +364,7 @@ int GameManager::getTotalEnemiesInCurrentSet() const {
 const std::unique_ptr<SceneManager> &GameManager::getSceneManager() const {
     return sceneManager;
 }
+
+void GameManager::addScore(int score) {
+    this->score += score;
+}
