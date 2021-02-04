@@ -13,15 +13,12 @@ GameObject::GameObject(std::string name_, Scene* scene_) : name(std::move(name_)
 }
 
 GameObject::~GameObject() {
-    while(!components.empty()) {
+    while(!components.empty())
         removeComponent(*components.begin());
-    }
-
     components.clear();
 
-    while(!children.empty()) {
+    while(!children.empty())
         scene->deleteGameObject(*children.begin());
-    }
     children.clear();
 
     if (parent) {
