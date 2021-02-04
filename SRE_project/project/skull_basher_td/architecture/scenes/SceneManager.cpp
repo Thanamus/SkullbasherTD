@@ -293,6 +293,7 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
     float rotationHolder;
     glm::vec3 positionHolder;
     glm::vec3 scaleHolder;// scale
+    glm::vec3 collisionHolder;
 
     bool isbuildableHolder = false;
     bool isPathHolder = false;
@@ -357,8 +358,8 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
                     // NEW
                     mapTileMR->setModel(modelHolder);
                     float xOffset = d["MapLookup"][c]["posOffset"]["x"].GetFloat();
-                    float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();;
-                    float zOffset = d["MapLookup"][c]["posOffset"]["z"].GetFloat();;
+                    float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();
+                    float zOffset = d["MapLookup"][c]["posOffset"]["z"].GetFloat();
 
                     positionHolder.x += xOffset;
                     positionHolder.y += yOffset;
@@ -370,9 +371,13 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
                     mapTile->getComponent<Transform>()->scale = scaleHolder;
                     auto bounds = mapTileMR->getMesh()->getBoundsMinMax();
 
-                    float length = createScaledBounds(bounds[0].z, bounds[1].z, scaleHolder.z);
-                    float width = createScaledBounds(bounds[0].x, bounds[1].x, scaleHolder.x);
-                    float height = createScaledBounds(bounds[0].y, bounds[1].y, scaleHolder.y);
+                    collisionHolder.x = d["MapLookup"][c]["collision"]["x"].GetFloat();
+                    collisionHolder.y = d["MapLookup"][c]["collision"]["y"].GetFloat();
+                    collisionHolder.z = d["MapLookup"][c]["collision"]["z"].GetFloat();
+
+                    float length = createScaledBounds(bounds[0].z, bounds[1].z, collisionHolder.x);
+                    float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.y);
+                    float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.z);
 
                     mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER);
 

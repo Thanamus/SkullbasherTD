@@ -1,13 +1,12 @@
 # Blender MTL File: 'None'
 # Material Count: 1
 
-newmtl MainMaterial.002
+newmtl MainMaterial
 Ns 86.470579
 Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.800000 0.800000
+Kd 0.171441 0.068478 0.006995
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 0.000000
-illum 9
-map_Kd Winter Arena\\ColorPalletteBLUE.png
+Ni 1.000000
+d 1.000000
+illum 2
