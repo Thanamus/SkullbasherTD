@@ -11,6 +11,7 @@
 #include "../ScheduleManager.hpp"
 #include "LevelScene.hpp"
 #include "MainMenuScene.hpp"
+#include "../rapidjson/document.h"
 
 #include <utility>
 #include <vector>
@@ -72,6 +73,10 @@ public:
 private:
     std::vector<std::shared_ptr<LevelData>> levelsData;
     void loadLevelsData();
+    void loadLevelsMap(std::string filename, std::shared_ptr<Scene> res);
+    void loadLevelsEnemies(std::string filename, std::shared_ptr<Scene> res);
+    void loadLevelsSound(std::string filename);
+    float createScaledBounds(float boundSideZero, float boundSideOne , float scale);
     //World Map stuff
     // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
     std::string mapsFolderLoc = ".\\maps\\"; // apparently does work

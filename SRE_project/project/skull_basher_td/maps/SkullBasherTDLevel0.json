@@ -236,9 +236,9 @@
             "isPath": false,
             "rotation": 0,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
@@ -262,9 +262,9 @@
             "isPath": false,
             "rotation": 0,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
@@ -288,9 +288,9 @@
             "isPath": false,
             "rotation": 0,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
@@ -314,9 +314,9 @@
             "isPath": true,
             "rotation": 0,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
@@ -341,9 +341,9 @@
             "isPath": true,
             "rotation": 0,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
@@ -368,9 +368,9 @@
             "isPath": false,
             "rotation": 0,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
@@ -394,9 +394,9 @@
             "isPath": false,
             "rotation": 0,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
@@ -420,9 +420,9 @@
             "isPath": false,
             "rotation": 180,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
@@ -446,9 +446,9 @@
             "isPath": false,
             "rotation": 180,
             "scaleFactors": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "collision": [
                 {
