@@ -81,7 +81,7 @@ void Camera::moveHandCursor(glm::vec3 front, std::shared_ptr<GameObject> hand)
     //hand->getComponent<Transform>()->position.x -= 0.5f;
 
     hand->getComponent<Transform>()->lookAt(hand->getComponent<Transform>()->position + front, glm::vec3(0, 1, 0));
-    hand->getComponent<Transform>()->rotation = transform->rotation;
+    // hand->getComponent<Transform>()->rotation = transform->rotation;
 }
 
 void Camera::moveTowerCursor(glm::vec3 front, std::shared_ptr<GameObject> tower)

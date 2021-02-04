@@ -165,6 +165,9 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
 
 // -------- New sphere init that takes in group and mask values
 void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, short mask) {
+    this->group = group;
+    this->mask = mask;
+
     delete fallMotionState;
     delete shape;
     shape = new btSphereShape(radius);
@@ -233,6 +236,9 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
 
 // new initialiser that uses groups and masks
 void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short group, short mask) {
+    this->group = group;
+    this->mask = mask;
+    
     delete fallMotionState;
     delete shape;
     shape = new btBoxShape({halfExtend.x, halfExtend.y, halfExtend.z});
@@ -291,4 +297,8 @@ void RigidBody::setLinearVelocityOnRigidBody(btVector3 linear_velocity){
     // btScalar &thing;
     // test.y(thing);
     std::cout << "linear velocity set, is: " << test.y() << " should be " << linear_velocity.y() << std::endl;
+}
+
+short RigidBody::getGroupID(){
+    return group;
 }

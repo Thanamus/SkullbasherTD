@@ -15,6 +15,7 @@
 
 class PlayerCollisionController;
 
+
 // class PersonController : public Component, public CollisionHandler {
 class PersonController : public Component {
 public:
@@ -50,6 +51,8 @@ public:
     friend class PlayerCollisionHandler;
 private:
 
+    void fire_projectile();
+
     glm::vec3 world_up = glm::vec3(0, 1, 0);
     glm::vec3 camera_front;
     glm::vec3 camera_dir;
@@ -61,9 +64,9 @@ private:
     // float movespeed = 8.f;
     float movespeed = 5.f;
     // float sensitivity = 1.7f;
-    float sensitivity = 100.7f;
+    float sensitivity = 50.0f;
 
-    float jumpHeight = 5.f;
+    float jumpHeight = 7.f;
 
     // // Footstep sound timing
     // std::chrono::steady_clock::time_point start_footstep_lockout;
