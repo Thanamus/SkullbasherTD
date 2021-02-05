@@ -86,8 +86,8 @@ IF (WIN32)
 #    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY/Debug})
 
     #This does copy the files there
-#    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
-#    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
+    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
+   file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
 
     # Set working directory to ${CMAKE_CURRENT_BINARY_DIR}/Debug
     #set_target_properties(skull_basher_td PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Debug)
