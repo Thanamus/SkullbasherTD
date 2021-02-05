@@ -33,13 +33,14 @@ enum SBCollisions
     ENEMIES = 128,
     COINS = 256,
     PLAYER = 512,
-    CRYSTAL = 1024
+    CRYSTAL = 1024,
+    PROJECTILES = 2048
 };
 
 class RigidBody : public Component {
 public:
     explicit RigidBody(GameObject* gameObject);
-    ~RigidBody() final;
+    ~RigidBody();
     void initRigidBodyWithSphere(float radius, float mass = 0);
     void initRigidBodyWithSphere(float radius, float mass, short group, short mask);
 
@@ -55,12 +56,12 @@ public:
     short getGroupID();
 
 private:
-    int collisionStartFrameId;
-    int collisionStartUpdateFrameId;
-    int collisionStartEndFrameId;
+    int collisionStartFrameId{};
+    int collisionStartUpdateFrameId{};
+    int collisionStartEndFrameId{};
     void updateTransformFromPhysicsWorld();
     btRigidBody* rigidBody = nullptr;
-    Transform* transform;
+    Transform* transform = nullptr;
 
     short group = -99;
     short mask = -99;

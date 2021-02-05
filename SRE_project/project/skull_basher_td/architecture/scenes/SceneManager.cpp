@@ -18,7 +18,6 @@
 //WorldObject
 #include "../WorldObject.hpp"
 
-#include "../PathFinder.hpp"
 
 #include "../sound/SoundEffectsLibrary.hpp"
 #include "../sound/SourceManager.hpp"
@@ -26,13 +25,18 @@
 //rapidjson imports
 #include "../rapidjson/istreamwrapper.h"
 #include "../../LevelGuiManager.hpp"
+#include "../TowerBehaviourComponent.hpp"
+#include "../health/HealthComponent.hpp"
+#include "../health/CrystalHealth.hpp"
 
 // Collision imports
 #include "../collisions/EnemyCollisionHandler.hpp"
 #include "../collisions/PlayerCollisionHandler.hpp"
-#include "../health/EnemyHealth.hpp"
+
+#include "../Pathfinder.hpp"
 
 #include <iostream>
+#include <utility>
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -46,10 +50,9 @@ SceneManager::SceneManager()
     loadLevelsData();
 }
 
-SceneManager::~SceneManager(){
-}
+SceneManager::~SceneManager()= default;
 
-std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
+std::shared_ptr<Scene> SceneManager::createScene(){
     auto res = std::make_shared<LevelScene>();
     auto cameraObj = res->createGameObject("Camera");
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
@@ -72,6 +75,8 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     tower->getComponent<Transform>()->scale = {0.2f,0.2f,0.2f};
     auto towerMR = tower->addComponent<ModelRenderer>();
     towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    auto towerTB = tower->addComponent<TowerBehaviourComponent>();
+    towerTB->setEnabled(false);
 
     cameraObj->getComponent<PersonController>()->tower = tower;
 
@@ -89,17 +94,18 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
     cameraObj->getComponent<PersonController>()->hand = hand;
 
     auto crystal = res->createGameObject("Crystal");
-    crystal->getComponent<Transform>()->position = {2,0,4};
-    crystal->getComponent<Transform>()->rotation = {0,0,0};
-    crystal->getComponent<Transform>()->scale = {0.4f,0.4f,0.4f};
+    auto crystalTR = crystal->getComponent<Transform>();
+    crystalTR->position = {2,0,4};
+    crystalTR->rotation = {0,0,0};
+    crystalTR->scale = {0.4f,0.4f,0.4f};
     crystal->addComponent<CrystalHealth>();
     crystal->getComponent<CrystalHealth>()->setHealth(100);
     auto crystalMR = crystal->addComponent<ModelRenderer>();
     auto crystalPath =  ".\\assets\\crystal.obj";
     //TODO: review animation
     auto crystalAN = crystal->addComponent<Animator>();
-    crystalMR->setAnimator(crystalAN.get());
-
+    crystalTR->setAnimator(crystalAN);
+    crystalTR->setModelRenderer(crystalMR);
     auto crystalRotate = std::make_shared<Animation>(true);
     crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(0), 5.f);
     crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(360), 5.f);
@@ -108,8 +114,8 @@ std::shared_ptr<Scene> SceneManager::createScene(std::string levelName){
 
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     // ---- set crystal collision group and flags
-    crystalRigidBody->initRigidBodyWithSphere(0.5f, 1, CRYSTAL, ENEMIES); // crystal needs to be sphere -> skull collision only works with box
-    
+    crystalRigidBody->initRigidBodyWithSphere(0.5f, 1, CRYSTAL, ENEMIES | PROJECTILES); // crystal needs to be sphere -> skull collision only works with box
+
     // ---- making sure that crystal can't move if hit
     crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
     crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
@@ -138,7 +144,7 @@ std::shared_ptr<Scene> SceneManager::createMainMenuScene(){
 };
 
 void SceneManager::setCurrentScene(std::shared_ptr<Scene> res){
-    this->currentScene = res;
+    this->currentScene = std::move(res);
 };
 
 std::shared_ptr<Scene> SceneManager::getCurrentScene(){
@@ -149,20 +155,20 @@ std::string SceneManager::getMapsFolderLoc(){
     return mapsFolderLoc;
 };
 
-void SceneManager::loadMap(std::string filename, std::shared_ptr<Scene> res){
+void SceneManager::loadMap(const std::string& filename, std::shared_ptr<Scene> res){
     loadLevelsMap(filename, res);
     loadLevelsEnemies(filename, res);
     loadLevelsSound(filename);
 }
 
-void SceneManager::changeScene(std::shared_ptr<LevelData> sceneData) {
+void SceneManager::changeScene(const std::shared_ptr<LevelData>& sceneData) {
     std::string path = ".\\maps\\";
     path.append(sceneData->fileName);
 
     if(sceneData->sceneType == 0)
     {
         GameManager::getInstance().init();
-        auto scene = createScene(path);
+        auto scene = createScene();
         setCurrentScene(scene);
         getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>();
         loadMap(path, getCurrentScene());
@@ -188,7 +194,6 @@ const std::vector<std::shared_ptr<LevelData>> &SceneManager::getLevelsData() con
 }
 
 void SceneManager::loadLevelsData() {
-
     std::string pattern(".\\maps\\*.json*");
     WIN32_FIND_DATA data;
     HANDLE hFind;
@@ -223,7 +228,7 @@ float SceneManager::createScaledBounds(float boundSideZero, float boundSideOne, 
     return (fabs(boundSideZero + (scale * 2)) + fabs(boundSideOne + (scale * 2)))/factor;
 }
 
-void SceneManager::loadLevelsSound(std::string filename) {
+void SceneManager::loadLevelsSound(const std::string& filename) {
     using namespace rapidjson;
     std::ifstream fis(filename);
     IStreamWrapper isw(fis);
@@ -242,7 +247,7 @@ void SceneManager::loadLevelsSound(std::string filename) {
     }
 }
 
-void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> res) {
+void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Scene> res) {
     using namespace rapidjson;
     std::ifstream fis(filename);
     IStreamWrapper isw(fis);
@@ -296,10 +301,10 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
     glm::vec3 scaleHolder;// scale
     glm::vec3 collisionHolder;
 
-    bool isbuildableHolder = false;
+    bool isBuildableHolder = false;
     bool isPathHolder = false;
 
-    std::string modelName = "";
+    std::string modelName;
     std::shared_ptr<Model> modelHolder;
     std::shared_ptr<sre::Mesh> meshHolder;
     std::shared_ptr<sre::Material> matHolder;
@@ -339,7 +344,7 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
 
                     positionHolder = glm::vec3((row * (scaleHolder.x * 2)) + tilePosOffset,tileHeight * (scaleHolder.y * 2),(column * (scaleHolder.z * 2))+ tilePosOffset);
 
-                    isbuildableHolder = d["MapLookup"][c]["isbuildable"].GetBool();
+                    isBuildableHolder = d["MapLookup"][c]["isbuildable"].GetBool();
                     isPathHolder = d["MapLookup"][c]["isPath"].GetBool();
 
                     modelName = d["MapLookup"][c]["object"].GetString();
@@ -353,7 +358,7 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
                     auto mapTile = res->createGameObject(modelName);
                     auto mapTileMR = mapTile->addComponent<ModelRenderer>();
                     mapTile->addComponent<WorldObject>();
-                    mapTile->getComponent<WorldObject>()->setBuildable(isbuildableHolder);
+                    mapTile->getComponent<WorldObject>()->setBuildable(isBuildableHolder);
                     mapTile->getComponent<WorldObject>()->setIsPath(isPathHolder);
 
                     // NEW
@@ -381,6 +386,10 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
                     float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 4);
 
                     mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER);
+
+                    // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
+                    // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
+                    // gameObjects.push_back(mapTile);
 
                     if (isPathHolder)
                     {
@@ -414,7 +423,7 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
     crystal->getComponent<Transform>()->position = path[0];
 }
 
-void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene> res) {
+void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_ptr<Scene> res) {
     using namespace rapidjson;
     std::ifstream fis(filename);
     IStreamWrapper isw(fis);
@@ -429,26 +438,24 @@ void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene
     glm::vec3 positionHolder;
     glm::vec3 collisionHolder;
     glm::vec3 scaleHolder;// scale
-    std::string modelName = "";
+    std::string modelName;
     std::shared_ptr<Model> modelHolder;
     std::shared_ptr<sre::Mesh> meshHolder;
     std::shared_ptr<sre::Material> matHolder;
     std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
 
-    for (size_t wave = 0; wave < howManyWaves; wave++)
-    { //wave level
+    for (size_t wave = 0; wave < howManyWaves; wave++) { //wave level
         //get the number of enemyTypes and quantities in order
         int numberOfEnemySets = d["waves"][wave]["enemies"].GetArray().Size();
         std::vector<enemySetsInWave> enemySetsHolder;
-        enemySetsInWave tempEnemySet;
+        enemySetsInWave tempEnemySet{};
 
         //wave schedule parameters per this current wave
-        waveScheduleDetails waveScheduleDetailHolder;
+        waveScheduleDetails waveScheduleDetailHolder{};
         waveScheduleDetailHolder.timeBetweenWaves = d["waves"][wave]["timeBetweenWaves"].GetInt();
         waveScheduleDetailHolder.timeBetweenEnemies = d["waves"][wave]["timeBetweenEnemy"].GetInt();
 
-        for (size_t currentEnemySet = 0; currentEnemySet < numberOfEnemySets; currentEnemySet++)
-        { //inside set level
+        for (size_t currentEnemySet = 0; currentEnemySet < numberOfEnemySets; currentEnemySet++) { //inside set level
             enemyTypeInt = d["waves"][wave]["enemies"][currentEnemySet]["enemyType"].GetInt();
             enemyTypeStr = std::to_string(enemyTypeInt);
             const char *enemyTypeChar = enemyTypeStr.c_str();
@@ -458,13 +465,13 @@ void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene
 
             //put the set into the enemySetHolder to be sent to GameManager later
             tempEnemySet.enemyType = enemyTypeInt;
-            tempEnemySet.quantiy = howManyOfEnemyType;
+            tempEnemySet.quantity = howManyOfEnemyType;
             enemySetsHolder.push_back(tempEnemySet);
 
 
             std::vector<glm::vec3> path = GameManager::getInstance().getPath();
             int endOfPath = path.size();
-            positionHolder = path[endOfPath-1]; //sets where the enemy will spawn
+            positionHolder = path[endOfPath - 1]; //sets where the enemy will spawn
             positionHolder.y += 1.0; //compensates for the fact that the path is well, the ground
 
             scaleHolder.x = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["x"].GetFloat();// scale
@@ -480,14 +487,24 @@ void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene
             std::cout << "Asset folder: " << filePath << "\n";
             std::cout << "Model Name: " << modelName << "\n";
 
-            float moveSpeedToBe = d["enemyLookup"][enemyTypeChar]["moveSpeed"].GetFloat();
+            float enemyMoveSpeed = d["enemyLookup"][enemyTypeChar]["moveSpeed"].GetFloat();
             // //create the world object map tile
-            for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++)
-            {
+            for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++) {
                 //create game object
                 auto enemy = res->createGameObject(modelName);
+                auto enemyTR = enemy->getComponent<Transform>();
+                // std::cout << "mesh Name: " << modelName << "\n";
                 auto enemyMR = enemy->addComponent<ModelRenderer>();
+                auto enemyAN = enemy->addComponent<Animator>();
                 enemyMR->setModel(modelHolder);
+                enemyTR->setModelRenderer(enemyMR);
+                enemyTR->setAnimator(enemyAN);
+
+                auto idleAnimation = std::make_shared<Animation>(true);
+                idleAnimation->addFrame(glm::vec3(0, 0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
+                idleAnimation->addFrame(glm::vec3(0, -0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
+                enemyAN->addAnimation("idle", idleAnimation);
+                enemyAN->setAnimationState("idle");
 
                 enemy->getComponent<Transform>()->position = positionHolder;
                 enemy->getComponent<Transform>()->rotation.y = rotationHolder;
@@ -501,31 +518,32 @@ void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene
                 float length = createScaledBounds(bounds[0].z, bounds[1].z, collisionHolder.z, 7);
                 float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.x, 7);
                 float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 7);
+//
+                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
 
                 // collisions work properly if Skull has a box shape, it's weird, but sphere's don't work
-                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length,width,height}, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length, width, height}, 1, ENEMIES, PLAYER |
+                                                                                                            CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                enemy->getComponent<RigidBody>()->getRigidBody()->setGravity({0, 0, 0});
 
-                // overriding gravity, not 100% it's needed now or not
-                enemy->getComponent<RigidBody>()->getRigidBody()->setGravity({0,0,0});
-
-                //Add Path Finder to Skull
-                enemy->addComponent<PathFinder>();
-                enemy->getComponent<PathFinder>()->setEnemyNumber(anEnemy);
-                enemy->getComponent<PathFinder>()->setWave(wave);
-                enemy->getComponent<PathFinder>()->setEnemySetNumber(currentEnemySet);
-                enemy->getComponent<PathFinder>()->setMoveSpeed(moveSpeedToBe);
+                //Add EnemyComponent to Skull
+                auto enemyEC = enemy->addComponent<EnemyComponent>();
+                enemyEC->setEnemyNumber(anEnemy);
+                enemyEC->setWave(wave);
+                enemyEC->setEnemySetNumber(currentEnemySet);
+                enemyEC->getPathfinder()->setMoveSpeed(enemyMoveSpeed);
+                enemyEC->addHealth(d["enemyLookup"][enemyTypeChar]["health"].GetFloat());
                 std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
                 enemy->addComponent<EnemyCollisionHandler>();
-
-                enemy->addComponent<EnemyHealth>();
-                enemy->getComponent<EnemyHealth>()->addHealth(d["enemyLookup"][enemyTypeChar]["health"].GetFloat());
             }
         }
 
         //send the wave details to the Game Manager
         GameManager::getInstance().addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
+
+
     }
 }
 

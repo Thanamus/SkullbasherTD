@@ -10,7 +10,7 @@
 
 class GameObject;
 
-CustomCollisionHandler::CustomCollisionHandler(GameObject *gameObject) : Component(gameObject) {
+CustomCollisionHandler::CustomCollisionHandler(GameObject* gameObject) : Component(gameObject) {
 
 }
 
@@ -32,6 +32,6 @@ void CustomCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
 // }
 
 void CustomCollisionHandler::onCollisionEnd(size_t collisionId) {
-    std::cout << "Collision end "<<collisionId<<std::endl;
+//    std::cout << "Collision end "<<collisionId<<std::endl;
 }
 

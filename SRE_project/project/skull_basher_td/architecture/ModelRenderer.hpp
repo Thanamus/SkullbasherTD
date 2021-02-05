@@ -9,19 +9,11 @@
 #include "Component.hpp"
 #include "GameObject.hpp"
 #include "Renderable.hpp"
-#include "Transform.hpp"
-#include "Animator.hpp"
 
 class ModelRenderer : public Component, public Renderable {
 public:
     explicit ModelRenderer(GameObject* gameObject);
-    ~ModelRenderer() override;
-
-    Animator *getAnimator() const;
-    void setAnimator(Animator *animator);
-
-    Transform *getTransform() const;
-    void setTransform(Transform *transform);
+    ~ModelRenderer();
 
     void setModel(std::shared_ptr<Model> model);
     std::shared_ptr<Model> getModel();
@@ -38,6 +30,4 @@ public:
 
 private:
     std::shared_ptr<Model> model;
-    Transform* transform;
-    Animator* animator;
 };

@@ -30,8 +30,9 @@ namespace {
  Scene* scene;
 
  bool sceneContains(GameObject* ptr){
-     for (auto go : scene->getGameObjects()){
-         if (go.get() == ptr){
+     if (ptr->deleteMe) return false; // skip objects to be deleted!
+     for (const auto& go : scene->getGameObjects()){
+         if (go.get() == ptr) {
              return true;
          }
      }
@@ -49,14 +50,14 @@ bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
     if (collisionBegin){
         static size_t collisionId = 0;
         collisionId++;
-        auto name0 = rigidBody0->getGameObject()->getName();
-        std::cout << "colision on: " << name0 << std::endl;
-        auto name1 = rigidBody1->getGameObject()->getName();
-        std::cout << "colision on: " << name1 << std::endl;
+//        auto name0 = rigidBody0->getGameObject()->getName();
+//        std::cout << "collision on: " << name0 << std::endl;
+//        auto name1 = rigidBody1->getGameObject()->getName();
+//        std::cout << "collision on: " << name1 << std::endl;
 
         cp.m_userPersistentData = new CollisionId(collisionId, rigidBody0->getGameObject(), rigidBody1->getGameObject()); //original
     }
-    CollisionId* id = (CollisionId*)cp.m_userPersistentData;
+    auto* id = (CollisionId*)cp.m_userPersistentData;
     glm::vec3 pointOnA (cp.getPositionWorldOnA().x(), cp.getPositionWorldOnA().y(), cp.getPositionWorldOnA().z());
     glm::vec3 pointOnB (cp.getPositionWorldOnB().x(), cp.getPositionWorldOnB().y(), cp.getPositionWorldOnB().z());
     
@@ -84,7 +85,9 @@ bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
 }
 
 bool contactDestroyedCallback(void * data) {
-    CollisionId* id = (CollisionId*)data;
+    auto* id = (CollisionId*)data;
+    if(id->bodyA->deleteMe || id->bodyB->deleteMe) // we dont want stuff to happen if either object is queued for destruction
+        return false;
     if (sceneContains(id->bodyA)){
         for (auto ph : id->bodyA->getCollisionHandlers()){
             ph->onCollisionEnd(id->collisionId);

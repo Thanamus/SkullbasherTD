@@ -16,7 +16,7 @@ class btPairCachingGhostObject;
 class GhostObject : public Component {
 public:
     explicit GhostObject(GameObject* gameObject);
-    ~GhostObject() final;
+    ~GhostObject();
     // void initRigidBodyWithSphere(float radius, float mass = 0);
     void initGhostObjectWithSphere(float radius);
 

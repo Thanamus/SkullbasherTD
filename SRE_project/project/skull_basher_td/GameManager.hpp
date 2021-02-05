@@ -8,7 +8,7 @@
 
 struct enemySetsInWave {
     int enemyType;
-    int quantiy;
+    int quantity;
 };
 
 struct waveScheduleDetails {
@@ -37,8 +37,8 @@ public:
 
     std::vector<std::shared_ptr<Tower>> GetTowers();
     std::shared_ptr<Tower> selectedTower;
-    void GameManager::onKey(SDL_Event &event);
-    void GameManager::onMouse(SDL_Event &event);
+    void onKey(SDL_Event &event);
+    void onMouse(SDL_Event &event);
     void TogglePause();
     void ToggleLockMouse();
     bool quit = false;
@@ -49,9 +49,9 @@ public:
     void setScore(int score);
     void addScore(int score);
 
-    float getPower() const;
-
-    void setPower(float power);
+//    float getPower() const;
+//
+//    void setPower(float power);
 
     bool levelRunning = true;
     bool won = false;
@@ -82,15 +82,15 @@ public:
     void setInitialWaveStats();
     const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
     int getTotalEnemiesInCurrentSet() const;
+
+//    void addEnemy(const std::shared_ptr<GameObject>& enemy);
+//    void removeEnemy(const std::shared_ptr<GameObject>& enemy);
+    const std::unique_ptr<SceneManager> &getSceneManager() const;
+
 private:
     GameManager() {}
 
     std::unique_ptr<SceneManager> sceneManager;
-public:
-    const std::unique_ptr<SceneManager> &getSceneManager() const;
-
-private:
-
     void loadTowers(std::string filename);
     std::vector<std::shared_ptr<Tower>> towers;
 
@@ -101,11 +101,11 @@ private:
     std::vector<glm::vec3> path;
 
 //-------------- Wave stats -------------------
+//    const std::vector<std::shared_ptr<GameObject>> &getEnemies() const;
     int currentWave = 0;
     int totalWavesInLevel = 0;
 
     int enemySetsAmount = 0; //assuming this means how many waves
-
 
     int currentEnemySet = 0;
     int totalEnemySetsInCurrentWave = 0;
@@ -125,7 +125,7 @@ private:
 // using mymeaningfulmap = std::map<int, somethingmeaninful>;
 // from https://stackoverflow.com/questions/24882357/stdpair-vs-array
 
-    std::map <int, std::vector<enemySetsInWave>> waveAndEnemys;
+    std::map <int, std::vector<enemySetsInWave>> waveAndEnemies;
     std::map <int, waveScheduleDetails> waveAndTimeBetweens;
     bool lastEnemy = false;
 };

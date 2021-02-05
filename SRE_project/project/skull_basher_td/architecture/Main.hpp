@@ -18,7 +18,7 @@ public:
     //static std::shared_ptr<Scene> createScene(std::string levelName);
     //std::shared_ptr<Scene> createMainMenuScene();
     const sre::SDLRenderer &getR() const;
-    uint32_t /*ALuint*/ soundA;
+    uint32_t /*ALuint*/ soundA{};
 
 private:
     sre::SDLRenderer r;

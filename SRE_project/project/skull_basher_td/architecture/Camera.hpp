@@ -14,8 +14,8 @@
 
 class Camera : public Component {
 public:
-    explicit Camera(GameObject * gameObject);
-    ~Camera() override = default;
+    explicit Camera(GameObject* gameObject);
+    ~Camera();
 
     void bind();
 
@@ -51,7 +51,7 @@ public:
     void resetTowerCursor(std::shared_ptr<GameObject> tower, glm::vec3 position);
     glm::vec3 calcTowerCursorPosition(glm::vec3 front);
 private:
-    Transform* transform;
+    Transform* transform = nullptr;
     sre::Camera camera;
     friend class Engine;
     friend class Scene;

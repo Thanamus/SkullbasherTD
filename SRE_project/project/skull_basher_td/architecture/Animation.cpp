@@ -17,8 +17,7 @@ Animation::Animation()
 }
 
 
-void Animation::addFrame(glm::vec3 translate, glm::vec3 scale, glm::vec3 rotate, float timeDuration)
-{
+void Animation::addFrame(glm::vec3 translate, glm::vec3 scale, glm::vec3 rotate, float timeDuration) {
     Keyframe data{};
     data.translate = translate;
     data.scale = scale;

@@ -16,7 +16,7 @@ Tower::Tower(int id,
              std::string name,
              std::string icon,
              std::string mesh,
-             float buildCost,
+             int buildCost,
              float constructionTime,
              float delay)
 {
@@ -45,7 +45,7 @@ const std::string &Tower::getMesh() const {
     return mesh;
 }
 
-float Tower::getBuildCost() const {
+int Tower::getBuildCost() const {
     return buildCost;
 }
 

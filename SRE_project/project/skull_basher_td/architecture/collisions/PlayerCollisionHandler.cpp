@@ -22,14 +22,10 @@
 class GameObject;
 class Component;
 
-PlayerCollisionHandler::PlayerCollisionHandler(GameObject *gameObject) : Component(gameObject) {
+PlayerCollisionHandler::PlayerCollisionHandler(GameObject* gameObject) : Component(gameObject) {
     // gameObject->getComponent<Transform>();
     // isGrounded = gameObject->getComponent<PersonController>()->isGrounded; // shold link PersonController and isGrounded
     start_footstep_lockout = std::chrono::steady_clock::now(); // initalise the first footstep lockout
-}
-
-PlayerCollisionHandler::~PlayerCollisionHandler(){
-
 }
 
 
@@ -85,6 +81,6 @@ void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
 
 
 void PlayerCollisionHandler::onCollisionEnd(size_t collisionId) {
-    std::cout << "Collision end "<<collisionId<<std::endl;
+//    std::cout << "Collision end "<<collisionId<<std::endl;
 }
 

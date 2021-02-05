@@ -13,45 +13,48 @@
 class Component;
 
 
-class GameObject {
+class GameObject : std::enable_shared_from_this<GameObject> {
 public:
     ~GameObject();
-
     template<typename C>
     std::shared_ptr<C> addComponent();
-
-    bool removeComponent(std::shared_ptr<Component> ptr);
+    void removeComponent(const std::shared_ptr<Component>& ptr);
 
     template<typename C>
     std::shared_ptr<C> getComponent();
 
     std::string getName();
-    void setName(const std::string &name);
+    void setName(const std::string &name_);
 
-    const std::vector<std::shared_ptr<Component>>& getComponents();
+    const std::vector<std::shared_ptr<Component>> & getComponents();
     Scene* getScene();
 
     const std::vector<CollisionHandler*>& getCollisionHandlers();
 
-    GameObject *getParent() const;
+    GameObject* getParent() const;
+    void setParent(GameObject *parent_);
 
-    void setParent(GameObject *parent);
-    const std::vector<GameObject*> & getChildren();
-    const GameObject* getChildByName(const std::string& childName);
+    const std::vector<std::shared_ptr<GameObject>> & getChildren();
+    std::shared_ptr<GameObject> getChildByName(const std::string& childName);
 
+    // TODO:  getter/setter
     bool deleteMe = false;
+
 private:
-    Scene* scene;
-    GameObject* parent = nullptr;
-    std::vector<GameObject*> children;
-    std::vector<std::shared_ptr<Component>> components;
-    std::vector<CollisionHandler*> collisionHandlers;
-    GameObject(std::string name, Scene* scene);
     std::string name;
+    Scene* scene = nullptr;
+    GameObject* parent = nullptr;
+    std::vector<std::shared_ptr<GameObject>> children = {};
+    std::vector<std::shared_ptr<Component>> components = {};
+    std::vector<CollisionHandler*> collisionHandlers = {};
+
+    GameObject(std::string name, Scene* scene);
+
     friend class Scene;
 };
 
 // function templates has to defined in header files
+// TODO: take a look at this, make everything shared_ptr rather than random raw ptrs? depends whether we have memory leaks
 template<typename T>
 std::shared_ptr<T> GameObject::addComponent() {
     auto obj = new T(this);
@@ -59,19 +62,18 @@ std::shared_ptr<T> GameObject::addComponent() {
     if (ch){
         collisionHandlers.push_back(ch);
     }
-    scene->addComponent(obj);
     std::shared_ptr<T> ptr(obj);
+    scene->addComponent(ptr);
     components.push_back(ptr);
     return ptr;
 }
 
 template<typename C>
 std::shared_ptr<C> GameObject::getComponent() {
-    for (auto c : components){
+    for (const auto& c : components){
         auto castPtr = std::dynamic_pointer_cast<C>(c);
-        if (castPtr != nullptr){
+        if (castPtr)
             return castPtr;
-        }
     }
     // not found
     return nullptr;
