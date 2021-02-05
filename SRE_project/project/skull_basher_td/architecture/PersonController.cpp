@@ -397,8 +397,10 @@ void PersonController::fire_projectile(){
 
     // add the collision handler for the arrow
     arrow->addComponent<ArrowCollisionHandler>();
+
+    // give the arrow a lifespan
     arrow->addComponent<Expirable>();
-    
+
 
     SourceManager::Get()->playMyJam_global("Bow.wav");
 }

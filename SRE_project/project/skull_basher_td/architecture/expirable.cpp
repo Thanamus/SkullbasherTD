@@ -32,3 +32,12 @@ void Expirable::update(float deltaTime){
 
 }
 
+// set a different lifespan from the default
+void Expirable::setLifespan(int lifeSpan){
+    this->lifespan_millisec = lifeSpan;
+}
+
+// gets the lifespan of the object (not life remaining!)
+int Expirable::getLifespan(){
+    return lifespan_millisec;
+}
