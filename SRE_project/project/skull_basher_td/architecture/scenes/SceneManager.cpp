@@ -523,7 +523,9 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
 
                 // collisions work properly if Skull has a box shape, it's weird, but sphere's don't work
                 enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length, width, height}, 1, ENEMIES, PLAYER |
-                                                                                                            CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
+                                                                                                            CRYSTAL |
+                                                                                                            PROJECTILES
+                ); // mass of 0 sets the rigidbody as kinematic (or static)
                 enemy->getComponent<RigidBody>()->getRigidBody()->setGravity({0, 0, 0});
 
                 //Add EnemyComponent to Skull
