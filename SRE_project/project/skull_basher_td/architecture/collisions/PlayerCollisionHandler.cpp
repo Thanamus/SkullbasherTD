@@ -80,7 +80,7 @@ void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
 }
 
 
-void PlayerCollisionHandler::onCollisionEnd(size_t collisionId) {
+void PlayerCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
 //    std::cout << "Collision end "<<collisionId<<std::endl;
 }
 

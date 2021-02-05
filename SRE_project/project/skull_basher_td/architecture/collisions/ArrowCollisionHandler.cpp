@@ -51,7 +51,6 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
             auto rigidbody = gameObject->getComponent<RigidBody>();
             if(rigidbody) // prevents further collisions
                 rigidbody->getRigidBody()->setActivationState(WANTS_DEACTIVATION);
-            gameObject->deleteMe = true;
         } 
         // else if ( group == BUILDINGS){
         //     // TODO noise is a little annoying, need to make either a time out or make the object goto sleep faster
@@ -86,6 +85,9 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
 //     }
 // }
 
-void ArrowCollisionHandler::onCollisionEnd(size_t collisionId) {
-//    std::cout << "Collision end "<<collisionId<<std::endl;
+void ArrowCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
+    if(other) {
+        std::cout << "arrow queued for deletion" << std::endl;
+        gameObject->deleteMe = true;
+    }
 }

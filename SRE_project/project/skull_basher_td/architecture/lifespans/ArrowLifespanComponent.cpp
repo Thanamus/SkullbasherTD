@@ -1,11 +1,10 @@
 
 #include "ArrowLifespanComponent.hpp"
-#include <cmath>
+#include "../GameObject.hpp"
 
 
 using namespace glm;
-ArrowLifespanComponent::ArrowLifespanComponent(GameObject* gameObject)
- : Component(gameObject)
+ArrowLifespanComponent::ArrowLifespanComponent(GameObject* gameObject) : Component(gameObject)
 {
     start_life = std::chrono::steady_clock::now();
 }

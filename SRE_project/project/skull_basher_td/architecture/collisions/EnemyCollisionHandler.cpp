@@ -32,6 +32,6 @@ void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
     }
 }
 
-void EnemyCollisionHandler::onCollisionEnd(size_t collisionId) {
+void EnemyCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
 //    std::cout << "Collision end "<<collisionId<<std::endl;
 }

@@ -90,12 +90,13 @@ bool contactDestroyedCallback(void * data) {
         return false;
     if (sceneContains(id->bodyA)){
         for (auto ph : id->bodyA->getCollisionHandlers()){
-            ph->onCollisionEnd(id->collisionId);
+            // TODO:  redefine this function!
+            ph->onCollisionEnd(id->collisionId, id->bodyB);
         }
     }
     if (sceneContains(id->bodyB)){
         for (auto ph : id->bodyB->getCollisionHandlers()){
-            ph->onCollisionEnd(id->collisionId);
+            ph->onCollisionEnd(id->collisionId, id->bodyA);
         }
     }
     delete id;

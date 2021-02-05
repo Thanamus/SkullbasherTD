@@ -27,7 +27,7 @@ public:
     void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
     // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
     // void onCollisionEnd(size_t collisionId); 
-    void onCollisionEnd(size_t collisionId) override; 
+    void onCollisionEnd(size_t collisionId, GameObject *other) override;
 private:
         // Footstep sound timing
     // bool& isGrounded;

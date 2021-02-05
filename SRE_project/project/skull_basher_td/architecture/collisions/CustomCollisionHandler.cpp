@@ -31,7 +31,7 @@ void CustomCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
 //     }
 // }
 
-void CustomCollisionHandler::onCollisionEnd(size_t collisionId) {
+void CustomCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
 //    std::cout << "Collision end "<<collisionId<<std::endl;
 }
 

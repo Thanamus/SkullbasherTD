@@ -27,6 +27,6 @@ public:
     // void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override; // original before gameObject switch
     // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
     // void onCollisionEnd(size_t collisionId); 
-    void onCollisionEnd(size_t collisionId) override; 
+    void onCollisionEnd(size_t collisionId, GameObject *other) override;
 
 };
