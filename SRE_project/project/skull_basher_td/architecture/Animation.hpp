@@ -19,13 +19,6 @@ private:
     unsigned int currentKeyframeIndex;
     float currentKeyframeTime;
     bool looping;
-public:
-    bool isLooping() const;
-
-    void setLooping(bool looping);
-
-private:
-
     void nextFrame();
 
 public:
@@ -43,6 +36,9 @@ public:
     bool updateFrame(float deltaTime);
 
     bool hasEnded(float deltaTime);
+
+    bool isLooping() const;
+    void setLooping(bool looping);
 
     void reset();
 };

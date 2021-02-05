@@ -15,7 +15,7 @@
 class Light : public Component {
 public:
     Light(GameObject* gameObject);
-
+    ~Light() { transform = nullptr; }
     void debugGUI() override ;
 
     sre::Light& getLight();

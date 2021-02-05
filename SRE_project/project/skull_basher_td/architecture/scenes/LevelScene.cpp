@@ -44,67 +44,24 @@ LevelScene::~LevelScene(){
 void LevelScene::update(float deltaTime){
     if(GameManager::getInstance().paused || !GameManager::getInstance().levelRunning)
         return;
+    for (const auto& g : gameObjects)
+        if (g && g->deleteMe) { // looks for deleteMe flag on the game object, if true, then remove the gameObject
+            std::cout << "deleting gameobject " << g->getName() << " with address " << g << std::endl;
+            deleteGameObject(g);
+            std::cout << "done" << std::endl;
+        }
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
     tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
-
     bulletPhysics->step(this);
-    for (auto& u : updatables){
+    for (auto& u : updatables)
         u->update(deltaTime);
-    }
-    for (auto& p : this->rigidBodies){
+    for (auto& p : rigidBodies)
         p->updateTransformFromPhysicsWorld();
-    }
-    // bulletPhysics->step(this);
+    for (auto& s : scriptables)
+        if(s->isEnabled())
+            s->update();
     scheduleManager->update(deltaTime); //has to be updated separately from the rest
-
-    // delete dead objects
-    // for (int i=0;i<gameObjects.size();i++){
-    //     // gameObjects[i]->update(time);
-
-    //     if (gameObjects[i]->deleteMe == true) // looks for deleteMe flag on the game object, if true, then remove the gameObject
-    //     {
-    //             auto components = gameObjects[i]->getComponents();
-    //             for (auto c : components)
-    //             {
-    //                 gameObjects[i]->removeComponent(c);
-    //                 // this->removeComponent<Renderable>(c);
-    //             }
-    //         gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObjects[i]), gameObjects.end()); // maintains the sceneObjects list
-    //     }
-
-    // }
-
-
-    for (auto g : gameObjects)
-    {
-        if (g->deleteMe == true) // looks for deleteMe flag on the game object, if true, then remove the gameObject
-        {
-            // // TODO find and cleanup dangling shared_ptrs
-            // // std::cout << "g count 1: " << g.use_count() << std::endl;
-            // // auto camera = gameObjects[i]->getComponent<Camera>();
-            // // TODO check for updateable and renderable?
-            // auto thing =  g->getComponent<RigidBody>();
-
-
-
-            auto components = g->getComponents();
-            for (auto c : components)
-            {
-                g->removeComponent(c);
-                // this->removeComponent<Renderable>(c);
-            }
-
-
-            // std::make_unique<GameObject>(g);
-            // std::cout << "g count 2: " << g.use_count() << std::endl;
-            g.reset();
-            gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), g), gameObjects.end()); // maintains the sceneObjects list
-            // std::cout << "game Object destroyed";
-            // TODO: something not quite right here
-            // std::cout << "g count 3: " << g.use_count() << std::endl;
-        }
-    }
 }
 
 void LevelScene::onKey(SDL_Event &event){
@@ -133,7 +90,7 @@ void LevelScene::render(){
         worldLights.addLight(l->getLight());
     }
 
-    for (auto c : cameras){
+    for (auto & c : cameras){
         c->bind();
 
         auto rp = sre::RenderPass::create()
@@ -180,15 +137,16 @@ void LevelScene::render(){
 
 void LevelScene::SpawnCoin(glm::vec3 position) {
     auto coin = this->createGameObject("Coin");
-    coin->getComponent<Transform>()->position = position;
-    coin->getComponent<Transform>()->rotation = {0,0,0};
-    coin->getComponent<Transform>()->scale = {0.4f,0.4f,0.4f};
+    auto coinTR = coin->getComponent<Transform>();
+    coinTR->position = position;
+    coinTR->rotation = {0,0,0};
+    coinTR->scale = {0.4f,0.4f,0.4f};
     auto coinMR = coin->addComponent<ModelRenderer>();
     auto coinPath =  ".\\assets\\Coins.obj";
 
     //TODO: review animation
     auto coinAN = coin->addComponent<Animator>();
-    coinMR->setAnimator(coinAN.get());
+    coinTR->setAnimator(coinAN);
     auto coinRotate = std::make_shared<Animation>(true);
     coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(1), 5.f);
     coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(359), 5.f);

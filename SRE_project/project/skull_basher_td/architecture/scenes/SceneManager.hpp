@@ -60,10 +60,10 @@ public:
     explicit SceneManager();
     virtual ~SceneManager();
 
-    std::shared_ptr<Scene> createScene(std::string levelName);
-    void changeScene(std::shared_ptr<LevelData> sceneData);
-    void loadMap(std::string filename, std::shared_ptr<Scene> res);
-    std::shared_ptr<Scene> createMainMenuScene();
+    std::shared_ptr<Scene> createScene();
+    void changeScene(const std::shared_ptr<LevelData>& sceneData);
+    void loadMap(const std::string& filename, std::shared_ptr<Scene> res);
+    static std::shared_ptr<Scene> createMainMenuScene();
 
     void setCurrentScene(std::shared_ptr<Scene> res);
     std::shared_ptr<Scene> getCurrentScene();
@@ -73,10 +73,10 @@ public:
 private:
     std::vector<std::shared_ptr<LevelData>> levelsData;
     void loadLevelsData();
-    void loadLevelsMap(std::string filename, std::shared_ptr<Scene> res);
-    void loadLevelsEnemies(std::string filename, std::shared_ptr<Scene> res);
-    void loadLevelsSound(std::string filename);
-    float createScaledBounds(float boundSideZero, float boundSideOne , float scale, float factor);
+    void loadLevelsMap(const std::string& filename, std::shared_ptr<Scene> res);
+    void loadLevelsEnemies(const std::string& filename, std::shared_ptr<Scene> res);
+    void loadLevelsSound(const std::string& filename);
+    static float createScaledBounds(float boundSideZero, float boundSideOne , float scale, float factor);
     //World Map stuff
     // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
     std::string mapsFolderLoc = ".\\maps\\"; // apparently does work

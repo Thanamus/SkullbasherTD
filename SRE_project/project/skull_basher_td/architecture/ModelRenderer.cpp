@@ -3,23 +3,18 @@
 //
 
 #include "ModelRenderer.hpp"
-
-#include <sre/Renderer.hpp>
 #include <imgui.h>
-#include "ModelRenderer.hpp"
-#include "Animator.hpp"
+#include "Transform.hpp"
 
 using namespace sre;
 
 ModelRenderer::ModelRenderer(GameObject* gameObject)
-: Component(gameObject), transform(gameObject->getComponent<Transform>().get()), animator(gameObject->getComponent<Animator>().get()) {
+: Component(gameObject) {
     std::vector<std::shared_ptr<Material>> materials;
     materials.push_back(sre::Shader::getStandardBlinnPhong()->createMaterial());
     static auto sharedMeshCube = Mesh::create().withCube().build();
     model = Model::create().withMesh(sharedMeshCube).withMaterials(materials).build();
 }
-
-ModelRenderer::~ModelRenderer() = default;
 
 void ModelRenderer::setModel(std::shared_ptr<Model> model) {
     ModelRenderer::model = std::move(model);
@@ -48,14 +43,7 @@ void ModelRenderer::setMaterials(std::vector<std::shared_ptr<sre::Material>> mat
 void ModelRenderer::draw(sre::RenderPass* renderPass) {
     if(!active)
         return;
-
-    auto compositeTransform = model->getTransform();
-    if(transform)
-        compositeTransform *= transform->globalTransform();
-    if(animator)
-        compositeTransform *= animator->getSQTMatrix();
-
-    renderPass->draw(model->getMesh(), compositeTransform, model->getMaterials());
+    renderPass->draw(model->getMesh(), gameObject->getComponent<Transform>()->globalTransform(), model->getMaterials());
 }
 
 void ModelRenderer::debugGUI() {
@@ -81,19 +69,5 @@ void ModelRenderer::debugGUI() {
     }
 }
 
-Transform *ModelRenderer::getTransform() const {
-    return transform;
+ModelRenderer::~ModelRenderer() {
 }
-
-void ModelRenderer::setTransform(Transform *transform) {
-    ModelRenderer::transform = transform;
-}
-
-Animator *ModelRenderer::getAnimator() const {
-    return animator;
-}
-
-void ModelRenderer::setAnimator(Animator *animator) {
-    ModelRenderer::animator = animator;
-}
-

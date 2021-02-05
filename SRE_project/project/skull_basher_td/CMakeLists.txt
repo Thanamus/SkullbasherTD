@@ -47,7 +47,7 @@ find_package(SDL2 REQUIRED)
 
 add_executable(skull_basher_td ${SkullBasherTD})
 
-target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile OpenAL)
+target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile OpenAL StackWalker)
 
 
 
@@ -56,7 +56,7 @@ target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile
 #file(COPY level0.json level0.png powerbar.png assets data DESTINATION Release)
 #file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 #file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
-file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY level0.json level0.png powerbar.png maps assets scripts data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 #file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${TARGET_FILE_DIR}/Release)
 
 #file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)

@@ -366,7 +366,7 @@ void PersonController::fire_projectile(){
     auto arrowBody = arrow->addComponent<RigidBody>();
     // set the arrow to collide with buildings and enemies
     // box appears to be the right size but could use bounds for a better fit
-    arrowBody->initRigidBodyWithBox({0.01,0.01,0.5}, 0.1, PLAYER, BUILDINGS | ENEMIES);
+    arrowBody->initRigidBodyWithBox({0.01,0.01,0.5}, 0.1, PROJECTILES, BUILDINGS | ENEMIES | CRYSTAL);
     
     // get the body and set a few factors
     auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();

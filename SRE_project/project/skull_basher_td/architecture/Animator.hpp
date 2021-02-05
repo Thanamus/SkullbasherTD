@@ -16,7 +16,6 @@ struct TransformData {
 class Animator : public Component, public Updatable {
 public:
     explicit Animator(GameObject* gameObject);
-    ~Animator() override = default;
 
     void update(float deltaTime) override;
 
@@ -32,6 +31,7 @@ private:
     std::map<std::string, std::shared_ptr<Animation>> animations; // animations are given a name; can be later defined in an an animation json/script/whatever
     glm::mat4 SQTMatrix = glm::mat4(1.0f);
 
+    TransformData startTransform{glm::vec3(0), glm::vec3(1), glm::vec3(0) };
     TransformData currentTransform{glm::vec3(0), glm::vec3(1), glm::vec3(0) };
     TransformData targetTransform{glm::vec3(0), glm::vec3(1), glm::vec3(0) };
 

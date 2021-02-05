@@ -11,8 +11,9 @@
 
 // Sound Effects _Include
 #include "../sound/SourceManager.hpp"
-#include "../transform.hpp"
-#include "../health/EnemyHealth.hpp"
+#include "../Transform.hpp"
+#include "../EnemyComponent.hpp"
+#include "../health/CrystalHealth.hpp"
 
 class GameObject;
 
@@ -20,17 +21,11 @@ ArrowCollisionHandler::ArrowCollisionHandler(GameObject *gameObject) : Component
 
 }
 
-ArrowCollisionHandler::~ArrowCollisionHandler(){
-
-}
-
-
 void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
-    if(this->gameObject->deleteMe)
+    if(gameObject->deleteMe)
         return;
     
-    if (begin){
-
+    if (begin) {
         // auto crystal = other->getComponent<CrystalHealth>(); // crystal health check, could change to enemy health check
         // std::cout << "crystal " << crystal <<std::endl;
         // const std::string objectName = other->getName();
@@ -43,17 +38,20 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
         SourceManager::Get()->playMyJam("deathd.wav", otherObjectsPosition, 20);
         */
         // auto soundeffect = SourceManager::Get(); // get sound effect player
-        short group = other->getComponent<RigidBody>()->getGroupID();
+        auto enemy = other->getComponent<EnemyComponent>();
         auto otherObjectsPosition = other->getComponent<Transform>()->position;
-        if (group == ENEMIES) // check group ID matches that of the enemy!
+        if (enemy) // check group ID matches that of the enemy!
         {
             // auto enemyPosition = other->getComponent<Transform>()->position;
             std::cout << "bashing skulls for days" << std::endl;
             // soundeffect->playMyJam("deathd.wav", otherObjectsPosition, 20);
             //SourceManager::Get()->playMyJam("deathd.wav", otherObjectsPosition, 20);
             //other->deleteMe = true;
-            other->getComponent<EnemyHealth>()->decreasHealth(1);
-            this->gameObject->deleteMe = true;
+            enemy->decreaseHealth(1);
+            auto rigidbody = gameObject->getComponent<RigidBody>();
+            if(rigidbody) // prevents further collisions
+                rigidbody->getRigidBody()->setActivationState(WANTS_DEACTIVATION);
+            gameObject->deleteMe = true;
         } 
         // else if ( group == BUILDINGS){
         //     // TODO noise is a little annoying, need to make either a time out or make the object goto sleep faster
@@ -89,5 +87,5 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
 // }
 
 void ArrowCollisionHandler::onCollisionEnd(size_t collisionId) {
-    std::cout << "Collision end "<<collisionId<<std::endl;
+//    std::cout << "Collision end "<<collisionId<<std::endl;
 }
