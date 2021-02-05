@@ -34,6 +34,8 @@
 // game manager include
 #include "../GameManager.hpp"
 
+// expirable include (for arrow)
+#include "./expirable.hpp"
 
 //using namespace sre;
 using namespace glm;
@@ -395,6 +397,8 @@ void PersonController::fire_projectile(){
 
     // add the collision handler for the arrow
     arrow->addComponent<ArrowCollisionHandler>();
+    arrow->addComponent<Expirable>();
+    
 
     SourceManager::Get()->playMyJam_global("Bow.wav");
 }
