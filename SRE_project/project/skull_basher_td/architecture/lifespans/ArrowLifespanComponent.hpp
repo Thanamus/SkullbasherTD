@@ -14,15 +14,15 @@
 */
 
 
-class Expirable : public Component, public Updatable
+class ArrowLifespanComponent : public Component, public Updatable
 {
 public:
-    explicit Expirable(GameObject *gameobject);
-    ~Expirable();
+    explicit ArrowLifespanComponent(GameObject *gameobject);
+    ~ArrowLifespanComponent();
 
     void update(float deltaTime) override;
 
-    void setLifespan(int life_span); // sets the lifespan of the object
+    virtual void setLifespan(int life_span); // sets the lifespan of the object
 
     int getLifespan();
 

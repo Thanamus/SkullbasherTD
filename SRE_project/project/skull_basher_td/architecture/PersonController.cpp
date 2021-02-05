@@ -35,7 +35,7 @@
 #include "../GameManager.hpp"
 
 // expirable include (for arrow)
-#include "./expirable.hpp"
+#include "./LifespanComponent.hpp"
 
 //using namespace sre;
 using namespace glm;
@@ -399,7 +399,7 @@ void PersonController::fire_projectile(){
     arrow->addComponent<ArrowCollisionHandler>();
 
     // give the arrow a lifespan
-    arrow->addComponent<Expirable>();
+    arrow->addComponent<LifespanComponent>();
 
 
     SourceManager::Get()->playMyJam_global("Bow.wav");
