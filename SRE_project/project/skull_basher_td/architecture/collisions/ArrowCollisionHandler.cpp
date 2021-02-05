@@ -12,6 +12,7 @@
 // Sound Effects _Include
 #include "../sound/SourceManager.hpp"
 #include "../transform.hpp"
+#include "../health/EnemyHealth.hpp"
 
 class GameObject;
 
@@ -25,7 +26,8 @@ ArrowCollisionHandler::~ArrowCollisionHandler(){
 
 
 void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
-    // std::cout << "EnemyCollisionHandler "  <<std::endl;
+    if(this->gameObject->deleteMe)
+        return;
     
     if (begin){
 
@@ -48,8 +50,10 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
             // auto enemyPosition = other->getComponent<Transform>()->position;
             std::cout << "bashing skulls for days" << std::endl;
             // soundeffect->playMyJam("deathd.wav", otherObjectsPosition, 20);
-            SourceManager::Get()->playMyJam("deathd.wav", otherObjectsPosition, 20);
-            other->deleteMe = true;
+            //SourceManager::Get()->playMyJam("deathd.wav", otherObjectsPosition, 20);
+            //other->deleteMe = true;
+            other->getComponent<EnemyHealth>()->decreasHealth(1);
+            this->gameObject->deleteMe = true;
         } 
         // else if ( group == BUILDINGS){
         //     // TODO noise is a little annoying, need to make either a time out or make the object goto sleep faster

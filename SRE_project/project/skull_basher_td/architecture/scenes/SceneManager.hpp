@@ -76,7 +76,7 @@ private:
     void loadLevelsMap(std::string filename, std::shared_ptr<Scene> res);
     void loadLevelsEnemies(std::string filename, std::shared_ptr<Scene> res);
     void loadLevelsSound(std::string filename);
-    float createScaledBounds(float boundSideZero, float boundSideOne , float scale);
+    float createScaledBounds(float boundSideZero, float boundSideOne , float scale, float factor);
     //World Map stuff
     // std::string mapAssetFolderLoc = "..\\Assets\\WorldMapAssets"; //didn't work
     std::string mapsFolderLoc = ".\\maps\\"; // apparently does work

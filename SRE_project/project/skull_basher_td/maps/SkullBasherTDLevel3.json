@@ -303,31 +303,72 @@
     ],
     "enemyLookup":{
         "1": {
-            "object": "Skull01.obj",
+            "object": "Skull03.obj",
             "rotation": 0,
             "scaleFactors": {
                 "x": 0.4,
                 "y": 0.4,
                 "z": 0.4
-            }
+            },
+            "collision": {
+                "type": "box",
+                "x": 0.4,
+                "y": 0.4,
+                "z": 0.4
+            },
+            "moveSpeed": 0.2,
+            "health": 2.0
         },
         "2": {
-            "object": "Skull01.obj",
+            "object": "Skull02.obj",
             "rotation": 0,
             "scaleFactors": {
                 "x": 0.1,
                 "y": 0.1,
                 "z": 0.1
-            }
+            },
+            "collision": {
+                "type": "box",
+                "x": 0.1,
+                "y": 0.1,
+                "z": 0.1
+            },
+            "moveSpeed": 0.25,
+            "health": 1.0
         },
         "3": {
-            "object": "Skull01.obj",
-            "rotation": -0,
+            "object": "Skull04.obj",
+            "rotation": 0,
+            "scaleFactors": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "collision": {
+                "type": "box",
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "moveSpeed": 0.1,
+            "health": 3.0
+        },
+        "4": {
+            "object": "SkullBoss01.obj",
+            "rotation": 0,
             "scaleFactors": {
                 "x": 0.8,
                 "y": 0.8,
                 "z": 0.8
-            }
+            },
+            "collision": {
+                "type": "box",
+                "x": 0.8,
+                "y": 0.8,
+                "z": 0.8
+            },
+            "moveSpeed": 0.1,
+            "health": 5.0
         }
     },
     "soundEffects":

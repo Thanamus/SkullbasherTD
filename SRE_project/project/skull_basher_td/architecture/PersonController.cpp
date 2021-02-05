@@ -355,7 +355,7 @@ void PersonController::fire_projectile(){
 
     // add a model and mesh to the arrow
     auto arrowMR = arrow->addComponent<ModelRenderer>();
-    auto path = ".\\assets\\crossbow_bolt.obj";
+    auto path = ".\\assets\\crossbow_bolt_2.obj";
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("arrow").build();
     arrowMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     arrowMR->setModel(modelHolder);
@@ -364,7 +364,7 @@ void PersonController::fire_projectile(){
     auto arrowBody = arrow->addComponent<RigidBody>();
     // set the arrow to collide with buildings and enemies
     // box appears to be the right size but could use bounds for a better fit
-    arrowBody->initRigidBodyWithBox({0.01,0.01,0.2}, 0.1, PLAYER, BUILDINGS | ENEMIES);
+    arrowBody->initRigidBodyWithBox({0.01,0.01,0.5}, 0.1, PLAYER, BUILDINGS | ENEMIES);
     
     // get the body and set a few factors
     auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();

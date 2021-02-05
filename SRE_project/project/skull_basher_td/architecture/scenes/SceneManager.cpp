@@ -30,6 +30,7 @@
 // Collision imports
 #include "../collisions/EnemyCollisionHandler.hpp"
 #include "../collisions/PlayerCollisionHandler.hpp"
+#include "../health/EnemyHealth.hpp"
 
 #include <iostream>
 
@@ -218,8 +219,8 @@ void SceneManager::loadLevelsData() {
     }
 }
 
-float SceneManager::createScaledBounds(float boundSideZero, float boundSideOne , float scale) {
-    return (fabs(boundSideZero + (scale * 2)) + fabs(boundSideOne + (scale * 2)))/4;
+float SceneManager::createScaledBounds(float boundSideZero, float boundSideOne, float scale, float factor) {
+    return (fabs(boundSideZero + (scale * 2)) + fabs(boundSideOne + (scale * 2)))/factor;
 }
 
 void SceneManager::loadLevelsSound(std::string filename) {
@@ -375,9 +376,9 @@ void SceneManager::loadLevelsMap(std::string filename, std::shared_ptr<Scene> re
                     collisionHolder.y = d["MapLookup"][c]["collision"]["y"].GetFloat();
                     collisionHolder.z = d["MapLookup"][c]["collision"]["z"].GetFloat();
 
-                    float length = createScaledBounds(bounds[0].z, bounds[1].z, collisionHolder.x);
-                    float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.y);
-                    float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.z);
+                    float length = createScaledBounds(bounds[0].z, bounds[1].z, collisionHolder.z, 4);
+                    float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.x, 4);
+                    float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 4);
 
                     mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER);
 
@@ -426,6 +427,7 @@ void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene
     std::string enemyTypeStr;
     float rotationHolder;
     glm::vec3 positionHolder;
+    glm::vec3 collisionHolder;
     glm::vec3 scaleHolder;// scale
     std::string modelName = "";
     std::shared_ptr<Model> modelHolder;
@@ -492,13 +494,13 @@ void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene
                 enemy->getComponent<Transform>()->scale = scaleHolder;
                 auto bounds = enemyMR->getMesh()->getBoundsMinMax();
 
-                float length = (fabs(bounds[0].z) + fabs(bounds[1].z));
-                float width = (fabs(bounds[0].x) + fabs(bounds[1].x));
-                float height = (fabs(bounds[0].y) + fabs(bounds[1].y));
+                collisionHolder.x = d["enemyLookup"][enemyTypeChar]["collision"]["x"].GetFloat();
+                collisionHolder.y = d["enemyLookup"][enemyTypeChar]["collision"]["y"].GetFloat();
+                collisionHolder.z = d["enemyLookup"][enemyTypeChar]["collision"]["z"].GetFloat();
 
-                length = (length * scaleHolder.x)*0.7; // scaling the collision box for a tighter fit
-                width = (width * scaleHolder.z)*0.7; // scaling the collision box for a tighter fit
-                height = (height * scaleHolder.y)*0.7; // scaling the collision box for a tighter fit
+                float length = createScaledBounds(bounds[0].z, bounds[1].z, collisionHolder.z, 7);
+                float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.x, 7);
+                float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 7);
 
                 // collisions work properly if Skull has a box shape, it's weird, but sphere's don't work
                 enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length,width,height}, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
@@ -516,8 +518,10 @@ void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
                 enemy->addComponent<EnemyCollisionHandler>();
-            }
 
+                enemy->addComponent<EnemyHealth>();
+                enemy->getComponent<EnemyHealth>()->addHealth(d["enemyLookup"][enemyTypeChar]["health"].GetFloat());
+            }
         }
 
         //send the wave details to the Game Manager

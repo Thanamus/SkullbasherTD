@@ -210,8 +210,8 @@
         ],
         [
             [0,0,11,12,11],
-            [0,0,11,129,11],
-            [0,0,11,129,11],
+            [0,0,11,122,11],
+            [0,0,11,122,11],
             [0,0,11,11,11]
         ],        
         [
@@ -375,6 +375,31 @@
                 },
             "reversePathBuffer":true
         },
+        "122": {
+            "object": "PortalBlock01D.obj",
+            "material": "..\\Assets\\WorldMapAssets\\PortalBlock01D.mtl",
+            "isbuildable": false,
+            "isPath": true,
+            "rotation": 0,
+            "scaleFactors": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "collision": {
+                "type": "box",
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "reversePathBuffer":true
+        },
         "129": {
             "object": "PathBlock01D.obj",
             "material": "..\\Assets\\WorldMapAssets\\PathBlock01D.mtl",
@@ -461,8 +486,8 @@
             "collision": {
                 "type": "box",
                 "x": 1.0,
-                "y": 1.0,
-                "z": 0.2
+                "y": 0.2,
+                "z": 1.0
             },
             "posOffset":
                 {
@@ -486,38 +511,77 @@
         {"enemies":[{"enemyType":3,"quantity":2}, {"enemyType":1,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":30},
 
         {"enemies":[{"enemyType":3,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":5},
-        {"enemies":[{"enemyType":2,"quantity":10}], "timeBetweenEnemy":2, "timeBetweenWaves":20}
+        {"enemies":[{"enemyType":2,"quantity":10}], "timeBetweenEnemy":2, "timeBetweenWaves":5},
+        {"enemies":[{"enemyType":4,"quantity":1}], "timeBetweenEnemy":1, "timeBetweenWaves":20}
     ],
     "enemyLookup":{
         "1": {
-            "object": "Skull02.obj",
+            "object": "Skull03.obj",
             "rotation": 0,
             "scaleFactors": {
                 "x": 0.4,
                 "y": 0.4,
                 "z": 0.4
             },
-            "moveSpeed": 0.2
+            "collision": {
+                "type": "box",
+                "x": 0.3,
+                "y": 0.3,
+                "z": 0.3
+            },
+            "moveSpeed": 0.2,
+            "health": 2.0
         },
         "2": {
-            "object": "Skull01.obj",
+            "object": "Skull02.obj",
             "rotation": 0,
             "scaleFactors": {
                 "x": 0.1,
                 "y": 0.1,
                 "z": 0.1
             },
-            "moveSpeed": 0.25
+            "collision": {
+                "type": "box",
+                "x": 0.01,
+                "y": 0.01,
+                "z": 0.01
+            },
+            "moveSpeed": 0.25,
+            "health": 1.0
         },
         "3": {
-            "object": "Skull01.obj",
+            "object": "Skull04.obj",
+            "rotation": 0,
+            "scaleFactors": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "collision": {
+                "type": "box",
+                "x": 0.9,
+                "y": 0.9,
+                "z": 0.9
+            },
+            "moveSpeed": 0.15,
+            "health": 3.0
+        },
+        "4": {
+            "object": "SkullBoss01.obj",
             "rotation": 0,
             "scaleFactors": {
                 "x": 0.8,
                 "y": 0.8,
                 "z": 0.8
             },
-            "moveSpeed": 0.1
+            "collision": {
+                "type": "box",
+                "x": 0.8,
+                "y": 0.8,
+                "z": 0.8
+            },
+            "moveSpeed": 0.1,
+            "health": 5.0
         }
     },
     "soundEffects":
