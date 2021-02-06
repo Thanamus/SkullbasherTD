@@ -18,9 +18,10 @@
 //WorldObject
 #include "../WorldObject.hpp"
 
-
+// Sound imports
 #include "../sound/SoundEffectsLibrary.hpp"
 #include "../sound/SourceManager.hpp"
+#include "../sound/PlaylistComponent.hpp"
 
 //rapidjson imports
 #include "../rapidjson/istreamwrapper.h"
@@ -533,6 +534,24 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyEC->setEnemySetNumber(currentEnemySet);
                 enemyEC->getPathfinder()->setMoveSpeed(enemyMoveSpeed);
                 enemyEC->addHealth(d["enemyLookup"][enemyTypeChar]["health"].GetFloat());
+                
+                //--------- Add playlist to enemy
+                auto enemyPlaylsitComponent = enemy->addComponent<PlaylistComponent>();
+                
+                int howManySoundEffects = d["enemyLookup"][enemyTypeChar]["soundEffectsPlaylist"].GetArray().Size();
+                    // load the sound effect playist associated with this enemy type
+                    for (size_t i = 0; i < howManySoundEffects;  i++)
+                    {
+                        std::string soundEffectCodeToSet = d["enemyLookup"][enemyTypeChar]["soundEffectsPlaylist"][i]["soundEffectCode"].GetString();
+                        std::string soundEffectNameToSet = d["enemyLookup"][enemyTypeChar]["soundEffectsPlaylist"][i]["soundEffectName"].GetString();
+
+                        enemyPlaylsitComponent->addSoundEffect(soundEffectCodeToSet, soundEffectNameToSet);
+                        std::cout << "just added a sound effect to the playlist" << std::endl;
+                    }
+                    
+
+                //--------- end add playlist to enemy
+
                 std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
