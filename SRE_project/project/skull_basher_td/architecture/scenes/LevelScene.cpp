@@ -24,6 +24,8 @@
 #include "LevelScene.hpp"
 #include "../../GameManager.hpp"
 #include "../ModelRenderer.hpp"
+#include "../CoinComponent.hpp"
+#include "../collisions/CoinCollisionHandler.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -47,64 +49,21 @@ void LevelScene::update(float deltaTime){
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
     tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
-
     bulletPhysics->step(this);
-    for (auto& u : updatables){
-        u->update(deltaTime);
-    }
-    for (auto& p : this->rigidBodies){
-        p->updateTransformFromPhysicsWorld();
-    }
-    // bulletPhysics->step(this);
-    scheduleManager->update(deltaTime); //has to be updated separately from the rest
-
-    // delete dead objects
-    // for (int i=0;i<gameObjects.size();i++){
-    //     // gameObjects[i]->update(time);
-
-    //     if (gameObjects[i]->deleteMe == true) // looks for deleteMe flag on the game object, if true, then remove the gameObject
-    //     {
-    //             auto components = gameObjects[i]->getComponents();
-    //             for (auto c : components)
-    //             {
-    //                 gameObjects[i]->removeComponent(c);
-    //                 // this->removeComponent<Renderable>(c);
-    //             }
-    //         gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObjects[i]), gameObjects.end()); // maintains the sceneObjects list
-    //     }
-
-    // }
-
-
-    for (auto g : gameObjects)
-    {
-        if (g->deleteMe == true) // looks for deleteMe flag on the game object, if true, then remove the gameObject
-        {
-            // // TODO find and cleanup dangling shared_ptrs
-            // // std::cout << "g count 1: " << g.use_count() << std::endl;
-            // // auto camera = gameObjects[i]->getComponent<Camera>();
-            // // TODO check for updateable and renderable?
-            // auto thing =  g->getComponent<RigidBody>();
-
-
-
-            auto components = g->getComponents();
-            for (auto c : components)
-            {
-                g->removeComponent(c);
-                // this->removeComponent<Renderable>(c);
-            }
-
-
-            // std::make_unique<GameObject>(g);
-            // std::cout << "g count 2: " << g.use_count() << std::endl;
-            g.reset();
-            gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), g), gameObjects.end()); // maintains the sceneObjects list
-            // std::cout << "game Object destroyed";
-            // TODO: something not quite right here
-            // std::cout << "g count 3: " << g.use_count() << std::endl;
+    for (const auto& g : gameObjects)
+        if (g && g->isQueuedForDeletion()) { // looks for queuedForDeletion flag on the game object, if true, then remove the gameObject
+            std::cout << "deleting gameobject " << g->getName() << " with address " << g << std::endl;
+            deleteGameObject(g);
+            std::cout << "done" << std::endl;
         }
-    }
+    for (auto& u : updatables)
+        u->update(deltaTime);
+    for (auto& p : rigidBodies)
+        p->updateTransformFromPhysicsWorld();
+    for (auto& s : scriptables)
+        if(s->isEnabled())
+            s->update();
+    scheduleManager->update(deltaTime); //has to be updated separately from the rest
 }
 
 void LevelScene::onKey(SDL_Event &event){
@@ -133,7 +92,7 @@ void LevelScene::render(){
         worldLights.addLight(l->getLight());
     }
 
-    for (auto c : cameras){
+    for (auto & c : cameras){
         c->bind();
 
         auto rp = sre::RenderPass::create()
@@ -176,37 +135,6 @@ void LevelScene::render(){
             ImGui::End();
         }
     }
-}
-
-void LevelScene::SpawnCoin(glm::vec3 position) {
-    auto coin = this->createGameObject("Coin");
-    coin->getComponent<Transform>()->position = position;
-    coin->getComponent<Transform>()->rotation = {0,0,0};
-    coin->getComponent<Transform>()->scale = {0.4f,0.4f,0.4f};
-    auto coinMR = coin->addComponent<ModelRenderer>();
-    auto coinPath =  ".\\assets\\Coins.obj";
-
-    //TODO: review animation
-    auto coinAN = coin->addComponent<Animator>();
-    coinMR->setAnimator(coinAN.get());
-    auto coinRotate = std::make_shared<Animation>(true);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(1), 5.f);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(359), 5.f);
-    coinAN->addAnimation("rotate", coinRotate);
-    coinAN->setAnimationState("rotate");
-    coinMR->setModel(Model::create().withOBJ(coinPath).withName("coin").build());
-    auto bounds = coinMR->getMesh()->getBoundsMinMax();
-
-    float length = (fabs(bounds[0].z) + fabs(bounds[1].z));
-    float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/5;
-    float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/12;
-
-    auto coinRigidBody = coin->addComponent<RigidBody>();
-    coinRigidBody->initRigidBodyWithBox({length,width,height}, 1, COINS, PLAYER ); // crystal needs to be sphere -> skull collision only works with box
-
-    // ---- making sure that Coin can't move if hit
-    coinRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
-    coinRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
 }
 
 #pragma clang diagnostic pop

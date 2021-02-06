@@ -23,6 +23,9 @@ file(GLOB SkullBasherTD
         "./architecture/health/*.hpp"
         "./architecture/health/*.h"
         "./architecture/health/*.cpp"
+        "./architecture/lifespans/*.hpp"
+        "./architecture/lifespans/*.h"
+        "./architecture/lifespans/*.cpp"
         "./architecture/physics/*.hpp"
         "./architecture/physics/*.h"
         "./architecture/physics/*.cpp"
@@ -47,7 +50,7 @@ find_package(SDL2 REQUIRED)
 
 add_executable(skull_basher_td ${SkullBasherTD})
 
-target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile OpenAL)
+target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile OpenAL StackWalker)
 
 
 
@@ -56,7 +59,7 @@ target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile
 #file(COPY level0.json level0.png powerbar.png assets data DESTINATION Release)
 #file(COPY level0.json level0.png DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 #file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
-file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY level0.json level0.png powerbar.png maps assets scripts data DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 #file(COPY level0.json level0.png powerbar.png maps assets data DESTINATION ${TARGET_FILE_DIR}/Release)
 
 #file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
@@ -86,8 +89,8 @@ IF (WIN32)
 #    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY/Debug})
 
     #This does copy the files there
-#    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
-#    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
+    file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
+   file(COPY ${DLLFileList} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
 
     # Set working directory to ${CMAKE_CURRENT_BINARY_DIR}/Debug
     #set_target_properties(skull_basher_td PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Debug)

@@ -22,27 +22,23 @@
 class GameObject;
 class Component;
 
-PlayerCollisionHandler::PlayerCollisionHandler(GameObject *gameObject) : Component(gameObject) {
+PlayerCollisionHandler::PlayerCollisionHandler(GameObject* gameObject) : Component(gameObject) {
     // gameObject->getComponent<Transform>();
     // isGrounded = gameObject->getComponent<PersonController>()->isGrounded; // shold link PersonController and isGrounded
     start_footstep_lockout = std::chrono::steady_clock::now(); // initalise the first footstep lockout
 }
 
-PlayerCollisionHandler::~PlayerCollisionHandler(){
-
-}
-
 
 void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 col_position, bool begin){
     if (begin){
-        std::cout << "Collision "<< collisionId <<" on "<< other->getName() << " at "<<glm::to_string(col_position)<<std::endl;
+//        std::cout << "Collision "<< collisionId <<" on "<< other->getName() << " at "<<glm::to_string(col_position)<<std::endl;
         if(other->getComponent<WorldObject>())
         {
             std::string otherObjectName = other->getName();
             glm::vec3 playerPosition = gameObject->getComponent<Transform>()->position;
             bool& isGrounded = gameObject->getComponent<PersonController>()->isGrounded; // shold link PersonController and isGrounded
             //std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;
-            std::cout << "player position is: " << playerPosition.x << " , " << playerPosition.y << " , " << playerPosition.z << std::endl;
+//            std::cout << "player position is: " << playerPosition.x << " , " << playerPosition.y << " , " << playerPosition.z << std::endl;
 
             SourceManager * mySource = SourceManager::Get();
             //----- if colliding with ground, play ground sounds
@@ -76,15 +72,11 @@ void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
                 }
             }
         }
-        else if (other->getName() == "Coin")
-        {
-            GameManager::getInstance().addScore(10);
-        }
     }
 }
 
 
-void PlayerCollisionHandler::onCollisionEnd(size_t collisionId) {
-    std::cout << "Collision end "<<collisionId<<std::endl;
+void PlayerCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
+//    std::cout << "Collision end "<<collisionId<<std::endl;
 }
 

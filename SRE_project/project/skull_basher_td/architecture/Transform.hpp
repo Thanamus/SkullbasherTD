@@ -9,11 +9,14 @@
 #include <vector>
 #include "Component.hpp"
 #include "GameObject.hpp"
+#include "Animator.hpp"
+#include "ModelRenderer.hpp"
 
 
 class Transform : public Component {
 public:
-    Transform(GameObject* gameObject);
+    explicit Transform(GameObject* gameObject);
+    ~Transform();
 
     std::string name;
 
@@ -22,22 +25,34 @@ public:
     glm::vec3 rotation = glm::vec3(0,0,0);
     glm::vec3 scale = glm::vec3(1,1,1);
 
-    glm::mat4 localRotation();
-    glm::mat4 localTransform();
-    glm::mat4 globalTransform();
+    glm::mat4 localRotation() const;
+    glm::mat4 localTransform() const;
+
+    glm::vec3 globalPosition() const;
+    glm::mat4 globalTransform() const;
+
+    std::shared_ptr<Animator> getAnimator() const;
+    void setAnimator(std::shared_ptr<Animator> _animator);
+
+    std::shared_ptr<ModelRenderer> getModelRenderer() const;
+    void setModelRenderer(std::shared_ptr<ModelRenderer> _modelRenderer);
+
 
     void debugGUI() override;
 
     Transform *getParent() const;
 
-    void setParent(Transform *parent);
+    void setParent(Transform *_parent);
     const std::vector<Transform*> & getChildren();
 
     void lookAt(glm::vec3 at,glm::vec3 up);
     void lookAt(Transform* at,glm::vec3 up);
+
 private:
     Transform * parent = nullptr;
     std::vector<Transform*> children;
+    std::shared_ptr<ModelRenderer> modelRenderer;
+    std::shared_ptr<Animator> animator;
 };
 
 

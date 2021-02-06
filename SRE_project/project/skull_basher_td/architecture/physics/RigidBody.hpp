@@ -33,34 +33,35 @@ enum SBCollisions
     ENEMIES = 128,
     COINS = 256,
     PLAYER = 512,
-    CRYSTAL = 1024
+    CRYSTAL = 1024,
+    PROJECTILES = 2048
 };
 
 class RigidBody : public Component {
 public:
     explicit RigidBody(GameObject* gameObject);
-    ~RigidBody() final;
+    ~RigidBody();
     void initRigidBodyWithSphere(float radius, float mass = 0);
     void initRigidBodyWithSphere(float radius, float mass, short group, short mask);
 
     void initRigidBodyWithBox(glm::vec3 halfExtend, float mass = 1.0);
     void initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short group, short mask);
     void initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeDist);
-    void initRigidBody(btRigidBody::btRigidBodyConstructionInfo info);
-    void initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, short group, short mask);
+    void initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info);
+    void initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info, short group, short mask);
     btRigidBody* getRigidBody();
 
     void setLinearVelocityOnRigidBody(btVector3 linear_velocity);
 
-    short getGroupID();
+    short getGroupID() const;
 
 private:
-    int collisionStartFrameId;
-    int collisionStartUpdateFrameId;
-    int collisionStartEndFrameId;
+    int collisionStartFrameId{};
+    int collisionStartUpdateFrameId{};
+    int collisionStartEndFrameId{};
     void updateTransformFromPhysicsWorld();
     btRigidBody* rigidBody = nullptr;
-    Transform* transform;
+    Transform* transform = nullptr;
 
     short group = -99;
     short mask = -99;

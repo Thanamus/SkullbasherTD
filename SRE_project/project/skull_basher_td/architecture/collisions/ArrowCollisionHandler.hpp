@@ -13,10 +13,8 @@ class ArrowCollisionHandler : public Component, public CollisionHandler {
 public:
     // explicit CustomCollisionHandler(GameObject *gameObject) : Component(gameObject));
     explicit ArrowCollisionHandler(GameObject *gameObject);
-    virtual ~ArrowCollisionHandler();
 
     void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
 
-    void onCollisionEnd(size_t collisionId) override; 
-
+    void onCollisionEnd(size_t collisionId, GameObject *other) override;
 };

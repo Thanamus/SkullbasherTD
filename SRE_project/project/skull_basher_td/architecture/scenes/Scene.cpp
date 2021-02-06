@@ -26,9 +26,7 @@
 #pragma ide diagnostic ignored "OCDFAInspection"
 
 
-Scene::Scene(std::string name)
-:name(std::move(name))
-{
+Scene::Scene(std::string name) : name(std::move(name)) {
     bulletPhysics = new BulletPhysics();
 }
 
@@ -54,63 +52,98 @@ void Scene::render(){
 
 }
 
-std::shared_ptr<GameObject> Scene::createGameObject(std::string name){
-    auto res = std::shared_ptr<GameObject>(new GameObject(name, this));
+std::shared_ptr<GameObject> Scene::createGameObject(std::string name_){
+    auto res = std::shared_ptr<GameObject>(new GameObject(name_, this));
     gameObjects.push_back(res);
     return res;
 }
 
-void Scene::addComponent(Component *component) {
-    auto camera = dynamic_cast<Camera*>(component);
+void Scene::addComponent(const std::shared_ptr<Component>& component) {
+    auto componentRawPtr = component.get();
+    auto camera = dynamic_cast<Camera*>(componentRawPtr);
     if (camera){
         cameras.push_back(camera);
     }
-    auto renderable = dynamic_cast<Renderable*>(component);
+    auto renderable = dynamic_cast<Renderable*>(componentRawPtr);
     if (renderable) {
         renderables.push_back(renderable);
     }
-    auto renderableGui = dynamic_cast<RenderableGui*>(component);
+    auto renderableGui = dynamic_cast<RenderableGui*>(componentRawPtr);
     if (renderableGui) {
         renderablesGui.push_back(renderableGui);
     }
-    auto updatable = dynamic_cast<Updatable*>(component);
+    auto updatable = dynamic_cast<Updatable*>(componentRawPtr);
     if (updatable) {
         updatables.push_back(updatable);
     }
-    auto light = dynamic_cast<Light*>(component);
+    auto scriptable = dynamic_cast<Scriptable*>(componentRawPtr);
+    if (scriptable) {
+        scriptables.push_back(scriptable);
+    }
+    auto enemy = dynamic_cast<EnemyComponent*>(componentRawPtr);
+    if (enemy) {
+        enemies.push_back(enemy);
+    }
+    auto light = dynamic_cast<Light*>(componentRawPtr);
     if (light) {
         lights.push_back(light);
     }
-    auto rigidBody = dynamic_cast<RigidBody*>(component);
+    auto rigidBody = dynamic_cast<RigidBody*>(componentRawPtr);
     if (rigidBody) {
         rigidBodies.push_back(rigidBody);
     }
 }
 
-void Scene::removeComponent(Component *component) {
-    auto camera = dynamic_cast<Camera*>(component);
-    if (camera){
-        cameras.erase(std::find(cameras.begin(),cameras.end(), camera));
+void Scene::removeComponent(const std::shared_ptr<Component>& component) {
+    auto componentRawPtr = component.get();
+    //NOTE: updated to use the erase-remove idiom (https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Erase-Remove)
+    auto camera = dynamic_cast<Camera*>(componentRawPtr);
+    if (camera) {
+        if (!cameras.empty()) {
+            cameras.erase(std::remove(cameras.begin(), cameras.end(), camera), cameras.end());
+        }
     }
-    auto renderable = dynamic_cast<Renderable*>(component);
+    auto renderable = dynamic_cast<Renderable*>(componentRawPtr);
     if (renderable) {
-        renderables.erase(std::find(renderables.begin(), renderables.end(), renderable));
+        if(!renderables.empty()) {
+            renderables.erase(std::remove(renderables.begin(), renderables.end(), renderable), renderables.end());
+        }
     }
-    auto renderableGui = dynamic_cast<RenderableGui*>(component);
+    auto renderableGui = dynamic_cast<RenderableGui*>(componentRawPtr);
     if (renderableGui) {
-        renderablesGui.erase(std::find(renderablesGui.begin(), renderablesGui.end(), renderableGui));
+        if(!renderablesGui.empty()) {
+            renderablesGui.erase(std::remove(renderablesGui.begin(), renderablesGui.end(), renderableGui), renderablesGui.end());
+        }
     }
-    auto updatable = dynamic_cast<Updatable*>(component);
+    auto updatable = dynamic_cast<Updatable*>(componentRawPtr);
     if (updatable) {
-        updatables.erase(std::find(updatables.begin(), updatables.end(), updatable));
+        if(!updatables.empty()) {
+            updatables.erase(std::remove(updatables.begin(), updatables.end(), updatable), updatables.end());
+        }
     }
-    auto light = dynamic_cast<Light*>(component);
+    auto scriptable = dynamic_cast<Scriptable*>(componentRawPtr);
+    if (scriptable) {
+        if(!scriptables.empty()) {
+            scriptables.erase(std::remove(scriptables.begin(), scriptables.end(), scriptable), scriptables.end());
+        }
+    }
+    auto enemy = dynamic_cast<EnemyComponent*>(componentRawPtr);
+    if (enemy) {
+        if(!enemies.empty()) {
+            enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
+        }
+    }
+    auto light = dynamic_cast<Light*>(componentRawPtr);
     if (light) {
-        lights.erase(std::find(lights.begin(), lights.end(), light));
+        if (!lights.empty()) {
+            lights.erase(std::remove(lights.begin(), lights.end(), light), lights.end());
+        }
     }
-    auto rigidBody = dynamic_cast<RigidBody*>(component);
+    auto rigidBody = dynamic_cast<RigidBody*>(componentRawPtr);
     if (rigidBody) {
-        rigidBodies.erase(std::find(rigidBodies.begin(), rigidBodies.end(), rigidBody));
+        if(!rigidBodies.empty()) {
+            rigidBodies.erase(std::remove(rigidBodies.begin(), rigidBodies.end(), rigidBody), rigidBodies.end());
+        }
     }
 }
 
@@ -130,8 +163,20 @@ void Scene::setAmbientColor(const glm::vec3 &ambientColor) {
     Scene::ambientColor = ambientColor;
 }
 
-std::vector<std::shared_ptr<GameObject>> Scene::getGameObjects() {
+const std::vector<std::shared_ptr<GameObject>>& Scene::getGameObjects() const {
     return gameObjects;
+}
+
+std::vector<EnemyComponent *> Scene::getEnemies() {
+    return enemies;
+}
+
+void Scene::deleteGameObject(const std::shared_ptr<GameObject>& gameObject) {
+    // look for gameObject to delete
+    auto it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
+    // if found, release the managed object and remove it from the array
+    if(it != gameObjects.end())
+        gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
 }
 
 #pragma clang diagnostic pop

@@ -448,6 +448,31 @@
                     "z": 0.0
                 }
         },
+        "131": {
+            "object": "box.obj",
+            "material": "..\\Assets\\WorldMapAssets\\box.mtl",
+            "isbuildable": false,
+            "isPath": true,
+            "rotation": 0,
+            "scaleFactors": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "collision": {
+                "type": "box",
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "reversePathBuffer":true
+        },
         "20": {
             "object": "Step01D.obj",
             "material": "..\\Assets\\WorldMapAssets\\Step01D.mtl",
@@ -529,8 +554,21 @@
                 "y": 0.3,
                 "z": 0.3
             },
-            "moveSpeed": 0.2,
-            "health": 2.0
+            "moveSpeed": 4,
+            "health": 2.0,
+            "money": 2.0,
+            "soundEffectsPlaylist": [
+                {
+                    "soundEffectCode": "death",
+                    "soundEffectName": "deathd.wav"
+                },                {
+                    "soundEffectCode": "spawn",
+                    "soundEffectName": "pestilence.wav"
+                },                {
+                    "soundEffectCode": "hit",
+                    "soundEffectName": "mnstr9.wav"
+                }
+            ]
         },
         "2": {
             "object": "Skull02.obj",
@@ -546,8 +584,23 @@
                 "y": 0.01,
                 "z": 0.01
             },
-            "moveSpeed": 0.25,
-            "health": 1.0
+            "moveSpeed": 5,
+            "health": 1.0,
+            "money": 5.0,
+            "soundEffectsPlaylist": [
+                {
+                    "soundEffectCode": "death",
+                    "soundEffectName": "deathd.wav"
+                },
+                {
+                    "soundEffectCode": "spawn",
+                    "soundEffectName": "pestilence.wav"
+                },
+                {
+                    "soundEffectCode": "hit",
+                    "soundEffectName": "mnstr9.wav"
+                }
+            ]
         },
         "3": {
             "object": "Skull04.obj",
@@ -563,8 +616,23 @@
                 "y": 0.9,
                 "z": 0.9
             },
-            "moveSpeed": 0.15,
-            "health": 3.0
+            "moveSpeed": 3,
+            "health": 3.0,
+            "money": 10.0,
+            "soundEffectsPlaylist": [
+                {
+                    "soundEffectCode": "death",
+                    "soundEffectName": "deathd.wav"
+                },
+                {
+                    "soundEffectCode": "spawn",
+                    "soundEffectName": "pestilence.wav"
+                },
+                {
+                    "soundEffectCode": "hit",
+                    "soundEffectName": "mnstr9.wav"
+                }
+            ]
         },
         "4": {
             "object": "SkullBoss01.obj",
@@ -580,8 +648,23 @@
                 "y": 0.8,
                 "z": 0.8
             },
-            "moveSpeed": 0.1,
-            "health": 5.0
+            "moveSpeed": 2,
+            "health": 5.0,
+            "money": 20.0,
+            "soundEffectsPlaylist": [
+                {
+                    "soundEffectCode": "death",
+                    "soundEffectName": "deathd.wav"
+                },
+                {
+                    "soundEffectCode": "spawn",
+                    "soundEffectName": "pestilence.wav"
+                },
+                {
+                    "soundEffectCode": "hit",
+                    "soundEffectName": "mnstr9.wav"
+                }
+            ]
         }
     },
     "soundEffects":
@@ -593,6 +676,10 @@
             {
                 "name": "mnstr1.wav",
                 "location": ".\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr1.wav"  
+            },
+            {
+                "name": "mnstr9.wav",
+                "location": ".\\assets\\soundEffects\\NPC\\gutteral_beast\\mnstr9.wav"  
             },
             {
                 "name": "gassy-footstep1.wav",

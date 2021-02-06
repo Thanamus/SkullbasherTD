@@ -57,7 +57,7 @@ void MainMenuScene::render(){
         worldLights.addLight(l->getLight());
     }
 
-    for (auto c : cameras){
+    for (auto & c : cameras){
         c->bind();
 
         auto rp = sre::RenderPass::create()

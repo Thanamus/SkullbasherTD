@@ -86,8 +86,6 @@ Main::Main()
     r.startEventLoop();
 }
 
-#include "Animator.hpp"
-
 const sre::SDLRenderer &Main::getR() const {
     return r;
 }

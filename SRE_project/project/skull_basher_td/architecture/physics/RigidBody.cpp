@@ -15,18 +15,18 @@
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 
 
-RigidBody::RigidBody(GameObject *gameObject) : Component(gameObject) {
+RigidBody::RigidBody(GameObject* gameObject) : Component(gameObject) {
     transform = gameObject->getComponent<Transform>().get();
-
 }
 
 RigidBody::~RigidBody() {
-    if (rigidBody){
+    transform = nullptr;
+    if (rigidBody) {
         delete fallMotionState;
         delete shape;
-		if (gameObject->getScene()->bulletPhysics){
-			gameObject->getScene()->bulletPhysics->world->removeRigidBody(rigidBody);
-		}
+        auto physics = gameObject->getScene()->bulletPhysics;
+		if (physics)
+			physics->world->removeRigidBody(rigidBody);
         delete rigidBody;
     }
 }
@@ -36,27 +36,21 @@ btRigidBody* RigidBody::getRigidBody(){
 }
 
 void RigidBody::updateTransformFromPhysicsWorld(){
-    bool transformCheck = false;
-
-    // if(gameObject->getComponent<Transform>() != nullptr) transformCheck = true;
-
-    // if( transformCheck){
+//        std::cerr<<"Belongs to" << gameObject->getName() << std::endl;
         btTransform pTransform;
-        // rigidBody->getMotionState()->getWorldTransform(pTransform);
-        pTransform  = rigidBody->getWorldTransform();
-        auto & origin = pTransform.getOrigin();
-
-
-        transform->position = {origin.x(), origin.y(), origin.z()};
-        auto pRot = pTransform.getRotation();
-        glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
-        transform->rotation = glm::degrees(glm::eulerAngles(inputQuat));
-    // }
-        if(isnan(pTransform.getOrigin().x()) || isnan(pTransform.getRotation().x())) 
-        std::cerr << "Yo this skull has been banished to the Shadow Realm";
+        if(rigidBody) {
+            pTransform  = rigidBody->getWorldTransform();
+            auto & origin = pTransform.getOrigin();
+            if(transform) {
+                transform->position = {origin.x(), origin.y(), origin.z()};
+                auto pRot = pTransform.getRotation();
+                glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
+                transform->rotation = glm::degrees(glm::eulerAngles(inputQuat));
+            }
+        }
 }
 
-void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, short group, short mask){
+void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info, short group, short mask){
     auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
     
     // std::cout << "rigid body made with shape: " << info.m_collisionShape->getShapeType() << std::endl;
@@ -69,19 +63,19 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, sho
     rigidBody->setUserPointer(this);
     const int CF_CUSTOM_MATERIAL_CALLBACK = 8;
 
-    // --- new stuff for trying to implement kinematic physics
-    bool isDynamic = false;
-    if (info.m_mass != 0)
-    {
-        isDynamic = true;
-        // rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | CF_CUSTOM_MATERIAL_CALLBACK); // original Call
-    } else {
-        // std::cout << "trying to make Kinematic" << std::endl;
-        // rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
-        // rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
-        // rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
-        // rigidBody->forceActivationState(DISABLE_DEACTIVATION);
-    }
+//    // --- new stuff for trying to implement kinematic physics
+//    bool isDynamic = false;
+//    if (info.m_mass != 0)
+//    {
+//        isDynamic = true;
+//        // rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | CF_CUSTOM_MATERIAL_CALLBACK); // original Call
+//    } else {
+//        // std::cout << "trying to make Kinematic" << std::endl;
+//        // rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
+//        // rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
+//        // rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
+//        // rigidBody->forceActivationState(DISABLE_DEACTIVATION);
+//    }
 
      // physicsWorld->addCollisionObject(rigidBody) // old way
 
@@ -102,7 +96,7 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, sho
 }
 
 
-void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info){
+void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info){
     auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
     if (rigidBody){
         physicsWorld->removeRigidBody(rigidBody);
@@ -114,15 +108,15 @@ void RigidBody::initRigidBody(btRigidBody::btRigidBodyConstructionInfo info){
 
     // --- new stuff for trying to implement kinematic physics
     bool isDynamic = false;
-    if (info.m_mass != 0)
-    {
-        isDynamic = true;
-        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | CF_CUSTOM_MATERIAL_CALLBACK); // original Call
-    } else {
-        // std::cout << "trying to make Kinematic" << std::endl;
-        rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
-        // rigidBody->forceActivationState(DISABLE_DEACTIVATION);
-    }
+//    if (info.m_mass != 0)
+//    {
+//        isDynamic = true;
+//        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | CF_CUSTOM_MATERIAL_CALLBACK); // original Call
+//    } else {
+//        // std::cout << "trying to make Kinematic" << std::endl;
+//        rigidBody->setCollisionFlags( btCollisionObject::CF_KINEMATIC_OBJECT | btCollisionObject::CF_STATIC_OBJECT);
+//        // rigidBody->forceActivationState(DISABLE_DEACTIVATION);
+//    }
 
     // ---------- end
     physicsWorld->addRigidBody(rigidBody);
@@ -132,8 +126,7 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
     delete fallMotionState;
     delete shape;
     shape = new btSphereShape(radius);
-    shape->setMargin(0);
-
+    shape->setMargin(0.004);
     auto pos = transform->position;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
@@ -171,7 +164,8 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, s
     delete fallMotionState;
     delete shape;
     shape = new btSphereShape(radius);
-    shape->setMargin(0);
+    shape->setMargin(0.004);
+
     auto pos = transform->position;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
@@ -219,7 +213,7 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
     delete fallMotionState;
     delete shape;
     shape = new btBoxShape({halfExtend.x, halfExtend.y, halfExtend.z});
-    shape->setMargin(0);
+    shape->setMargin(0.004);
     auto pos = transform->position;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
@@ -242,7 +236,7 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short gro
     delete fallMotionState;
     delete shape;
     shape = new btBoxShape({halfExtend.x, halfExtend.y, halfExtend.z});
-    shape->setMargin(0);
+    shape->setMargin(0.004);
     auto pos = transform->position;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
@@ -275,7 +269,6 @@ void RigidBody::initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeD
     delete fallMotionState;
     delete shape;
     shape = new btStaticPlaneShape({planeNormal.x, planeNormal.y, planeNormal.z}, planeDist);
-    shape->setMargin(0);
     auto pos = transform->position;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
@@ -299,6 +292,6 @@ void RigidBody::setLinearVelocityOnRigidBody(btVector3 linear_velocity){
     std::cout << "linear velocity set, is: " << test.y() << " should be " << linear_velocity.y() << std::endl;
 }
 
-short RigidBody::getGroupID(){
+short RigidBody::getGroupID() const{
     return group;
 }

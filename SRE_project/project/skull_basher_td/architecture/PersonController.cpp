@@ -34,6 +34,8 @@
 // game manager include
 #include "../GameManager.hpp"
 
+// expirable include (for arrow)
+#include "./lifespans/ArrowLifespanComponent.hpp"
 
 //using namespace sre;
 using namespace glm;
@@ -364,7 +366,7 @@ void PersonController::fire_projectile(){
     auto arrowBody = arrow->addComponent<RigidBody>();
     // set the arrow to collide with buildings and enemies
     // box appears to be the right size but could use bounds for a better fit
-    arrowBody->initRigidBodyWithBox({0.01,0.01,0.5}, 0.1, PLAYER, BUILDINGS | ENEMIES);
+    arrowBody->initRigidBodyWithBox({0.01,0.01,0.5}, 0.1, PROJECTILES, BUILDINGS | ENEMIES);
     
     // get the body and set a few factors
     auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();
@@ -396,7 +398,18 @@ void PersonController::fire_projectile(){
     // add the collision handler for the arrow
     arrow->addComponent<ArrowCollisionHandler>();
 
+    // give the arrow a lifespan
+    arrow->addComponent<ArrowLifespanComponent>();
+
+
     SourceManager::Get()->playMyJam_global("Bow.wav");
+}
+
+void PersonController::updateHandModel(std::string modelFileName) {
+    auto path =  ".\\assets\\"+ modelFileName +".obj";
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
+
+    hand->getComponent<ModelRenderer>()->setModel(modelHolder);
 }
 
 

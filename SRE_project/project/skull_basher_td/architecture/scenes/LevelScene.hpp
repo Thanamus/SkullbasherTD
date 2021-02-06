@@ -29,7 +29,6 @@ public:
     ~LevelScene();
 
     void render() override;
-    void SpawnCoin(glm::vec3 position);
     void update(float deltaTime) override;
     void onKey(SDL_Event &event) override;
     void onMouse(SDL_Event &event) override;

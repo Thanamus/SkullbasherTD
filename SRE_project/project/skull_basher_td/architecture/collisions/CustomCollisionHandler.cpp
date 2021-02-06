@@ -10,7 +10,7 @@
 
 class GameObject;
 
-CustomCollisionHandler::CustomCollisionHandler(GameObject *gameObject) : Component(gameObject) {
+CustomCollisionHandler::CustomCollisionHandler(GameObject* gameObject) : Component(gameObject) {
 
 }
 
@@ -20,9 +20,9 @@ CustomCollisionHandler::~CustomCollisionHandler(){
 
 
 void CustomCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
-    if (begin){
-        std::cout << "Collision "<< collisionId <<" on "<<other->getName()<< " at "<<glm::to_string(position)<<std::endl;
-    }
+//    if (begin){
+//        std::cout << "Collision "<< collisionId <<" on "<<other->getName()<< " at "<<glm::to_string(position)<<std::endl;
+//    }
 }
 // Original
 // void CustomCollisionHandler::onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) {
@@ -31,7 +31,7 @@ void CustomCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
 //     }
 // }
 
-void CustomCollisionHandler::onCollisionEnd(size_t collisionId) {
-    std::cout << "Collision end "<<collisionId<<std::endl;
+void CustomCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
+//    std::cout << "Collision end "<<collisionId<<std::endl;
 }
 

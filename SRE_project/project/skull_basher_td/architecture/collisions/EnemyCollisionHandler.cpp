@@ -11,52 +11,24 @@
 
 class GameObject;
 
-EnemyCollisionHandler::EnemyCollisionHandler(GameObject *gameObject) : Component(gameObject) {
+EnemyCollisionHandler::EnemyCollisionHandler(GameObject* gameObject) : Component(gameObject) {
 
 }
-
-EnemyCollisionHandler::~EnemyCollisionHandler(){
-
-}
-
 
 void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
-    // std::cout << "EnemyCollisionHandler "  <<std::endl;
-    
-    if (begin){
+    if (begin && !stopCollisions){
+        std::cout << "EnemyCollisionHandler collided with "  << other->getComponent<RigidBody>()->getGroupID() << std::endl;
         auto crystal = other->getComponent<CrystalHealth>();
-        std::cout << "crystal " << crystal <<std::endl;
+//        std::cout << "crystal " << crystal <<std::endl;
         if(crystal != nullptr)
         {
+            stopCollisions = true;
+            gameObject->setQueuedForDeletion(true);
             std::cout << "hit crystal "<<std::endl;
-            crystal->decreasHealth(25);
-
-            // auto collisionComponent = gameObject->getComponent<EnemyCollisionHandler>();
-            // gameObject->removeComponent(collisionComponent);
-
-            gameObject->deleteMe = true;
-            
-            // auto rigidBodyComponent = gameObject->getComponent<RigidBody>();
-            // gameObject->removeComponent(rigidBodyComponent);
-            // gameObject->getComponent<RigidBody>()->~RigidBody();
-            // gameObject->~GameObject();
+            crystal->decreaseHealth(25);
         }
-        // gameObject->removeComponent<Component>();
     }
 }
-// void EnemyCollisionHandler::onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) {
-//     std::cout << "EnemyCollisionHandler "  <<std::endl;
-//     if (begin){
-//         auto crystal = other->getGameObject()->getComponent<CrystalHealth>();
-//         std::cout << "crystal " << crystal <<std::endl;
-//         if(crystal != nullptr)
-//         {
-//             std::cout << "hit crystal "<<std::endl;
-//             crystal->decreasHealth(25);
-//         }
-//     }
-// }
 
-void EnemyCollisionHandler::onCollisionEnd(size_t collisionId) {
-    std::cout << "Collision end "<<collisionId<<std::endl;
+void EnemyCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
 }

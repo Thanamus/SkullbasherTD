@@ -11,8 +11,8 @@ class RigidBody;
 
 class CustomCollisionHandler : public Component, public CollisionHandler {
 public:
-    // explicit CustomCollisionHandler(GameObject *gameObject) : Component(gameObject));
-    explicit CustomCollisionHandler(GameObject *gameObject);
+    // explicit CustomCollisionHandler(GameObject* gameObject) : Component(gameObject));
+    explicit CustomCollisionHandler(GameObject* gameObject);
     virtual ~CustomCollisionHandler();
 
     // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin) override {
@@ -27,6 +27,6 @@ public:
     // void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override; // original before gameObject switch
     // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
     // void onCollisionEnd(size_t collisionId); 
-    void onCollisionEnd(size_t collisionId) override; 
+    void onCollisionEnd(size_t collisionId, GameObject *other) override;
 
 };
