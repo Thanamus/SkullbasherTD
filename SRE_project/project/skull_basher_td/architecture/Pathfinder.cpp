@@ -76,7 +76,7 @@ void Pathfinder::update(float deltaTime) {
 
 //
         if(transformComp)
-            transformComp->lookAt(nextPosition, glm::vec3(0, 1, 0));
+            // transformComp->lookAt(nextPosition, glm::vec3(0, 1, 0));
         //update transform
         if (rigidBody) {
             btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};
