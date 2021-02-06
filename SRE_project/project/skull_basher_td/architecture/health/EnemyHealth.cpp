@@ -15,13 +15,19 @@ EnemyHealth::~EnemyHealth()
 }
 
 void EnemyHealth::HandleHealthChange() {
-    if (!GameManager::getInstance().levelRunning)
+    if (!GameManager::getInstance().levelRunning || this->getGameObject()->deleteMe)
         return;
 
     if(this->getHealth() <= 0)
     {
         SourceManager::Get()->playMyJam("deathd.wav", this->gameObject->getComponent<Transform>()->position, 20);
         this->getGameObject()->deleteMe = true;
+        GameManager::getInstance().setTotalEnemies(GameManager::getInstance().getTotalEnemies() - 1);
+        if(GameManager::getInstance().getTotalEnemies() <= 0)
+        {
+            GameManager::getInstance().toggleWinState(true);
+        }
+
     }
     else
     {

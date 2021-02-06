@@ -459,6 +459,7 @@ void SceneManager::loadLevelsEnemies(std::string filename, std::shared_ptr<Scene
             //put the set into the enemySetHolder to be sent to GameManager later
             tempEnemySet.enemyType = enemyTypeInt;
             tempEnemySet.quantiy = howManyOfEnemyType;
+            GameManager::getInstance().setTotalEnemies(GameManager::getInstance().getTotalEnemies() + howManyOfEnemyType);
             enemySetsHolder.push_back(tempEnemySet);
 
 

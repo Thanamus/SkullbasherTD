@@ -2,6 +2,7 @@
 #include "CrystalHealth.hpp"
 #include "../GameObject.hpp"
 #include "../../GameManager.hpp"
+#include "../music/MusicBuffer.hpp"
 
 CrystalHealth::CrystalHealth(GameObject* gameObject) : HealthComponent(gameObject)
 {
@@ -18,9 +19,7 @@ void CrystalHealth::HandleHealthChange() {
 
     if(this->getHealth() <= 0)
     {
-        GameManager::getInstance().levelRunning = false;
-        GameManager::getInstance().won = false;
-        GameManager::getInstance().ToggleLockMouse();
+        GameManager::getInstance().toggleWinState(false);
     }
     else
     {

@@ -67,6 +67,7 @@ void ScheduleManager::update(float deltaTime){
                                     /* code */
                                     //object was the right one, make it go
                                     objectWithPathFinder->setMovingStatus(true);
+                                    GameManager::getInstance().setTotalEnemiesSpawned(GameManager::getInstance().getTotalEnemiesSpawned() + 1);
 
                                     //play sound
                                         // Moved to setMovingStatus

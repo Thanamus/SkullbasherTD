@@ -15,6 +15,7 @@
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
+#include "architecture/music/MusicBuffer.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -367,4 +368,30 @@ const std::unique_ptr<SceneManager> &GameManager::getSceneManager() const {
 
 void GameManager::addScore(int score) {
     this->score += score;
+}
+
+int GameManager::getTotalEnemiesSpawned() const {
+    return totalEnemiesSpawned;
+}
+
+void GameManager::setTotalEnemiesSpawned(int totalEnemiesSpawned) {
+    GameManager::totalEnemiesSpawned = totalEnemiesSpawned;
+}
+
+int GameManager::getTotalEnemies() const {
+    return totalEnemies;
+}
+
+void GameManager::setTotalEnemies(int totalEnemies) {
+    GameManager::totalEnemies = totalEnemies;
+}
+
+void GameManager::toggleWinState(bool winState) {
+    GameManager::getInstance().levelRunning = false;
+    GameManager::getInstance().won = winState;
+    GameManager::getInstance().ToggleLockMouse();
+    if(!winState)
+        MusicBuffer::Get()->changeTracks(R"(.\assets\music\A-Bitter-Hope-MP3.wav)");
+    else
+        MusicBuffer::Get()->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
 }
