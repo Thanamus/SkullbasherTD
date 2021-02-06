@@ -157,8 +157,13 @@ std::string SceneManager::getMapsFolderLoc(){
 };
 
 void SceneManager::loadMap(const std::string& filename, std::shared_ptr<Scene> res){
+    std::cout << "loading map" << std::endl;
     loadLevelsMap(filename, res);
+    
+    std::cout << "loading Enemies" << std::endl;
     loadLevelsEnemies(filename, res);
+    
+    std::cout << "loading Sounds" << std::endl;
     loadLevelsSound(filename);
 }
 
@@ -255,6 +260,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
     Document d;
     d.ParseStream(isw);
 
+    std::cout << "loading player spawn" << std::endl;
 // --------------- set player spawn point
     float spawnPointX = 0.f;
     float spawnPointY = 0.f;
@@ -287,6 +293,8 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
 
 // ------------------- end setting player Spawn point
 
+// ------------------- load tiles
+std::cout << "loading tiles" << std::endl;
     //init a map row to temporarily hold the map row
     std::vector<int> mapRow;
 
@@ -313,6 +321,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
 
     std::vector<glm::vec3> pathBuffer;
     bool reversePathBuffer = false;
+    std::cout << "starting tile iteration" << std::endl;
 
     for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
     {
@@ -337,14 +346,17 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
                     const char *c = tileTypeStr.c_str();
 
                     //get position and rotation of the block
+                    std::cout << "featching tile from lookup" << std::endl;
                     rotationHolder = d["MapLookup"][c]["rotation"].GetFloat();
 
+                    std::cout << "tile scale" << std::endl;
                     scaleHolder.x = d["MapLookup"][c]["scaleFactors"]["x"].GetFloat();
                     scaleHolder.y = d["MapLookup"][c]["scaleFactors"]["y"].GetFloat();
                     scaleHolder.z = d["MapLookup"][c]["scaleFactors"]["z"].GetFloat();
 
                     positionHolder = glm::vec3((row * (scaleHolder.x * 2)) + tilePosOffset,tileHeight * (scaleHolder.y * 2),(column * (scaleHolder.z * 2))+ tilePosOffset);
 
+                    std::cout << "tile is buildable" << std::endl;
                     isBuildableHolder = d["MapLookup"][c]["isbuildable"].GetBool();
                     isPathHolder = d["MapLookup"][c]["isPath"].GetBool();
 
@@ -364,6 +376,8 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
 
                     // NEW
                     mapTileMR->setModel(modelHolder);
+
+                    std::cout << "tile position" << std::endl;
                     float xOffset = d["MapLookup"][c]["posOffset"]["x"].GetFloat();
                     float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();
                     float zOffset = d["MapLookup"][c]["posOffset"]["z"].GetFloat();
@@ -378,6 +392,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
                     mapTile->getComponent<Transform>()->scale = scaleHolder;
                     auto bounds = mapTileMR->getMesh()->getBoundsMinMax();
 
+                    std::cout << "tile collision" << std::endl;
                     collisionHolder.x = d["MapLookup"][c]["collision"]["x"].GetFloat();
                     collisionHolder.y = d["MapLookup"][c]["collision"]["y"].GetFloat();
                     collisionHolder.z = d["MapLookup"][c]["collision"]["z"].GetFloat();
@@ -391,7 +406,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
                     // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
                     // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
                     // gameObjects.push_back(mapTile);
-
+                    std::cout << "pushing back path" << std::endl;
                     if (isPathHolder)
                     {
                         pathBuffer.push_back(positionHolder);
@@ -418,7 +433,12 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
         }
         reversePathBuffer = false;
     }
+
     GameManager::getInstance().setPath(pathHolder);
+    // ------------ end loading tiles
+
+    // ------------ loading crystal
+    std::cout << "loading crystal" << std::endl;
     auto crystal = GameManager::getInstance().crystal->getGameObject();
     auto path = GameManager::getInstance().getPath();
     crystal->getComponent<Transform>()->position = path[0];

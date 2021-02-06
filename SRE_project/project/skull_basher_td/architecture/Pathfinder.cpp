@@ -3,7 +3,10 @@
 #include "Transform.hpp"
 
 #include "./physics/RigidBody.hpp"
+
+// sound includes
 #include "./sound/SourceManager.hpp"
+#include "./sound/PlaylistComponent.hpp"
 
 using namespace glm;
 Pathfinder::Pathfinder(GameObject* _gameObject)
@@ -114,9 +117,12 @@ void Pathfinder::setMoving(bool incomingMovingStatus){
     moving = incomingMovingStatus;
     if (moving == true)
     {
+        // TODO check if sound can be moved to a memeber variable for better performance
+        std::string moveSound;
+        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("spawn", &moveSound);
         /* play sound */
         SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
-        mySourceManager->playMyJam("pestilence.wav", currentPosition, 40.f);
+        mySourceManager->playMyJam(moveSound, currentPosition, 40.f);
     }
 
     //play sound
