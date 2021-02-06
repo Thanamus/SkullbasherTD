@@ -59,8 +59,9 @@ void EnemyComponent::HandleHealthChange() {
     if(this->getHealth() <= 0) {
 
         std::string  deathSound; 
-        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("death", &deathSound);
+        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("death", deathSound);
 
+        std::cout << " raaaw: " << deathSound << std::endl;
         // SourceManager::Get()->playMyJam("deathd.wav", this->gameObject->getComponent<Transform>()->position, 20);
         SourceManager::Get()->playMyJam(deathSound, this->gameObject->getComponent<Transform>()->position, 20);
         gameObject->deleteMe = true;

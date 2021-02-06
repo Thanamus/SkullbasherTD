@@ -23,7 +23,7 @@ public:
     void addSoundEffect(std::string soundEffectCode, std::string soundEffectName);
 
     // TODO find out if this can be made a weak_ptr
-    bool getSoundEffectName(std::string soundEffectCode, std::string* const &nameToReturn);
+    bool getSoundEffectName(std::string soundEffectCode, std::string &nameToReturn);
     // bool getSoundEffectName(std::string soudnEffectCode, std::string nameToReturn);
     // bool getSoundEffectName(std::string soudnEffectCode, std::weak_ptr<std::string> const &nameToReturn);
 
