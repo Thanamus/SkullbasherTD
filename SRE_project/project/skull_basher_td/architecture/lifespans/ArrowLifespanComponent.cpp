@@ -9,10 +9,7 @@ ArrowLifespanComponent::ArrowLifespanComponent(GameObject* gameObject) : Compone
     start_life = std::chrono::steady_clock::now();
 }
 
-ArrowLifespanComponent::~ArrowLifespanComponent()
-{
-
-}
+ArrowLifespanComponent::~ArrowLifespanComponent() = default;
 
 
 void ArrowLifespanComponent::update(float deltaTime){

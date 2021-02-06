@@ -13,6 +13,8 @@ Pathfinder::Pathfinder(GameObject* _gameObject)
     // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
     fetchNextPathPoint();
     currentPosition = gameObject->getComponent<Transform>()->position;
+    startPathPoint = currentPosition;
+    direction = glm::normalize(nextPathPoint-startPathPoint);
 }
 
 void Pathfinder::fetchNextPathPoint(){
@@ -35,7 +37,6 @@ void Pathfinder::update(float deltaTime) {
         auto rigidBodyComp = gameObject->getComponent<RigidBody>();
         if(rigidBodyComp)
             rigidBody = rigidBodyComp->getRigidBody();
-        // TODO: this bit looks useless since the rigidBody always updates the Transform on each cycle. just get the transform
         if (rigidBody) {
             btTransform currentTransform = rigidBody->getWorldTransform();
             auto & origin = currentTransform.getOrigin();
@@ -46,30 +47,33 @@ void Pathfinder::update(float deltaTime) {
 
         // get nextposition
         // if (currentPosition.x == nextPathPoint.x && currentPosition.z == nextPathPoint.z)
-        if ((currentPosition.x <= nextPathPoint.x+0.5f && currentPosition.x >= nextPathPoint.x-0.5f)  && (currentPosition.z <= nextPathPoint.z+0.5f && currentPosition.z >= nextPathPoint.z-0.5f)) {
+        auto error = 0.3f;
+        if (abs(currentPosition.x - nextPathPoint.x) <= error && abs(currentPosition.z - nextPathPoint.z) <= error) {
+            startPathPoint = nextPathPoint;
             fetchNextPathPoint();
-            if(transformComp)
-                transformComp->lookAt(nextPathPoint, glm::vec3(0, 1, 0));
+            if(currentPathIndex == 0 && startPathPoint == nextPathPoint) { // has finished moving
+                moving = false;
+                return;
+            }
+            // prevent cascading errors
+            currentPosition = startPathPoint;
+            currentPosition.y = 0;
+            direction =  glm::normalize(nextPathPoint - startPathPoint);
         }
         // std::cout << "I am a skull, I should be moving to: " << nextPathPoint.x << "\n";
         // move skull
         // mix currentposition with next path point and delta time
         // TODO: review
-        nextPosition.x = glm::mix(currentPosition.x, nextPathPoint.x, moveSpeed); //speed is controlled with the float
-        // nextPosition.y = glm::mix(currentPosition.y, nextPathPoint.y, 0.01f);
-        nextPosition.z = glm::mix(currentPosition.z, nextPathPoint.z, moveSpeed);
-
-        // nextPosition = glm::mix(currentPosition, nextPathPoint, velocity);
-        nextPosition.y = 0; // correction for the path being on the floor
-
+        nextPosition = currentPosition + moveSpeed * 20.f * direction * deltaTime;
+        nextPosition.y = 0; // make sure it's on ground
 
 
         // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
         // gameObject->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
 
-//->lookAt(nextPosition, glm::vec3(0, 1, 0));
-//        if(transformComp)
-//            transformComp->position = nextPosition;
+//
+        if(transformComp)
+            transformComp->lookAt(nextPosition, glm::vec3(0, 1, 0));
         //update transform
         if (rigidBody) {
             btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};
@@ -81,7 +85,7 @@ void Pathfinder::update(float deltaTime) {
                 // Set orientation
                 float newRotation = transformComp->rotation.y;
                 btQuaternion aroundX;
-                aroundX.setRotation(btVector3(0,-1,0), radians(newRotation-180)); // works, but the objects face the wrong way?
+                aroundX.setRotation(btVector3(0,-1,0), radians(newRotation)); // works, but the objects face the wrong way?
                 transform.setRotation(aroundX);
                 // hasRigidBody->applyCentralImpulse(btVector3{0.01, 0.01, 0.01});
                 // hasRigidBody->setWorldTransform(transform); // it works!!!!
@@ -132,6 +136,14 @@ float Pathfinder::getMoveSpeed() const {
 
 void Pathfinder::setMoveSpeed(float moveSpeed_) {
     Pathfinder::moveSpeed = moveSpeed_;
+}
+
+const vec3 &Pathfinder::getStartPathPoint() const {
+    return startPathPoint;
+}
+
+const vec3 &Pathfinder::getNextPathPoint() const {
+    return nextPathPoint;
 }
 
 //    void Pathfinder::setMoveSpeed(float incoming_move_speed){

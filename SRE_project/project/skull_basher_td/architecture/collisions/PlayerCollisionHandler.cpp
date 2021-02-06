@@ -31,14 +31,14 @@ PlayerCollisionHandler::PlayerCollisionHandler(GameObject* gameObject) : Compone
 
 void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 col_position, bool begin){
     if (begin){
-        std::cout << "Collision "<< collisionId <<" on "<< other->getName() << " at "<<glm::to_string(col_position)<<std::endl;
+//        std::cout << "Collision "<< collisionId <<" on "<< other->getName() << " at "<<glm::to_string(col_position)<<std::endl;
         if(other->getComponent<WorldObject>())
         {
             std::string otherObjectName = other->getName();
             glm::vec3 playerPosition = gameObject->getComponent<Transform>()->position;
             bool& isGrounded = gameObject->getComponent<PersonController>()->isGrounded; // shold link PersonController and isGrounded
             //std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;
-            std::cout << "player position is: " << playerPosition.x << " , " << playerPosition.y << " , " << playerPosition.z << std::endl;
+//            std::cout << "player position is: " << playerPosition.x << " , " << playerPosition.y << " , " << playerPosition.z << std::endl;
 
             SourceManager * mySource = SourceManager::Get();
             //----- if colliding with ground, play ground sounds

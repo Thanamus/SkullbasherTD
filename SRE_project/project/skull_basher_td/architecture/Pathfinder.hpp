@@ -18,12 +18,17 @@ public:
     int getCurrentPathIndex() const;
 
     float getMoveSpeed() const;
-    void setMoveSpeed(float moveSpeed_);
+    void setMoveSpeed(float moveSpeed_);\
+
+    const glm::vec3 &getStartPathPoint() const;
+    const glm::vec3 &getNextPathPoint() const;
 
 private:
     GameObject* gameObject;
 
     int currentPathIndex = 0;
+    glm::vec3 direction = glm::vec3(0, 0, 0);
+    glm::vec3 startPathPoint = glm::vec3(0, 0, 0);
     glm::vec3 nextPathPoint = glm::vec3(0, 0, 0);
     glm::vec3 currentPosition = glm::vec3(0, 0, 0);
     glm::vec3 nextPosition = glm::vec3(0, 0, 0);

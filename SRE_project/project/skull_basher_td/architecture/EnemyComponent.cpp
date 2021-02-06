@@ -57,7 +57,7 @@ void EnemyComponent::HandleHealthChange() {
 
     if(this->getHealth() <= 0) {
         SourceManager::Get()->playMyJam("deathd.wav", this->gameObject->getComponent<Transform>()->position, 20);
-        this->getGameObject()->deleteMe = true;
+        gameObject->deleteMe = true;
     }
     else
     {

@@ -95,7 +95,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
 
     auto crystal = res->createGameObject("Crystal");
     auto crystalTR = crystal->getComponent<Transform>();
-    crystalTR->position = {2,0,4};
+    crystalTR->position = {3,-0.5,7};
     crystalTR->rotation = {0,0,0};
     crystalTR->scale = {0.4f,0.4f,0.4f};
     crystal->addComponent<CrystalHealth>();
@@ -106,15 +106,15 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     auto crystalAN = crystal->addComponent<Animator>();
     crystalTR->setAnimator(crystalAN);
     crystalTR->setModelRenderer(crystalMR);
-    auto crystalRotate = std::make_shared<Animation>(true);
-    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(0), 5.f);
-    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(360), 5.f);
-    crystalAN->addAnimation("rotate", crystalRotate);
-    crystalAN->setAnimationState("rotate");
+//    auto crystalRotate = std::make_shared<Animation>(true);
+//    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(0), 5.f);
+//    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(360), 5.f);
+//    crystalAN->addAnimation("rotate", crystalRotate);
+//    crystalAN->setAnimationState("rotate");
 
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     // ---- set crystal collision group and flags
-    crystalRigidBody->initRigidBodyWithSphere(0.5f, 1, CRYSTAL, ENEMIES | PROJECTILES); // crystal needs to be sphere -> skull collision only works with box
+    crystalRigidBody->initRigidBodyWithSphere(0.7f, 1, CRYSTAL, ENEMIES | PROJECTILES); // crystal needs to be sphere -> skull collision only works with box
 
     // ---- making sure that crystal can't move if hit
     crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
@@ -506,9 +506,9 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyAN->addAnimation("idle", idleAnimation);
                 enemyAN->setAnimationState("idle");
 
-                enemy->getComponent<Transform>()->position = positionHolder;
-                enemy->getComponent<Transform>()->rotation.y = rotationHolder;
-                enemy->getComponent<Transform>()->scale = scaleHolder;
+                enemyTR->position = positionHolder;
+                enemyTR->rotation.y = rotationHolder;
+                enemyTR->scale = scaleHolder;
                 auto bounds = enemyMR->getMesh()->getBoundsMinMax();
 
                 collisionHolder.x = d["enemyLookup"][enemyTypeChar]["collision"]["x"].GetFloat();
@@ -518,15 +518,13 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 float length = createScaledBounds(bounds[0].z, bounds[1].z, collisionHolder.z, 7);
                 float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.x, 7);
                 float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 7);
-//
-                // enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL); // mass of 0 sets the rigidbody as kinematic (or static)
 
-                // collisions work properly if Skull has a box shape, it's weird, but sphere's don't work
-                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length, width, height}, 1, ENEMIES, PLAYER |
-                                                                                                            CRYSTAL |
-                                                                                                            PROJECTILES
-                ); // mass of 0 sets the rigidbody as kinematic (or static)
+//                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL | PROJECTILES); // mass of 0 sets the rigidbody as kinematic (or static)
+
+//                 collisions work properly if Skull has a box shape, it's weird, but sphere's don't work
+                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length, width, height}, 1, ENEMIES, PLAYER | CRYSTAL | PROJECTILES);
                 enemy->getComponent<RigidBody>()->getRigidBody()->setGravity({0, 0, 0});
+                enemy->addComponent<EnemyCollisionHandler>();
 
                 //Add EnemyComponent to Skull
                 auto enemyEC = enemy->addComponent<EnemyComponent>();
@@ -538,7 +536,6 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
-                enemy->addComponent<EnemyCollisionHandler>();
             }
         }
 

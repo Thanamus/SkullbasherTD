@@ -3,7 +3,6 @@
 //
 
 #include "GameObject.hpp"
-#include "MyStackWalker.h"
 #include <utility>
 #include "Transform.hpp"
 

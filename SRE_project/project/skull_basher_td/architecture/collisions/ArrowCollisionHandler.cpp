@@ -17,9 +17,7 @@
 
 class GameObject;
 
-ArrowCollisionHandler::ArrowCollisionHandler(GameObject *gameObject) : Component(gameObject) {
-
-}
+ArrowCollisionHandler::ArrowCollisionHandler(GameObject *gameObject) : Component(gameObject) {}
 
 void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
     if (begin) {
@@ -40,6 +38,7 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
 }
 
 void ArrowCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
+//    std::cout << "arrow collision end!" << std::endl;
     auto enemy = other->getComponent<EnemyComponent>();
     if(enemy)
         gameObject->deleteMe = true;

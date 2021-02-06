@@ -30,7 +30,6 @@ namespace {
  Scene* scene;
 
  bool sceneContains(GameObject* ptr){
-     if (ptr->deleteMe) return false; // skip objects to be deleted!
      for (const auto& go : scene->getGameObjects()){
          if (go.get() == ptr) {
              return true;
@@ -86,11 +85,8 @@ bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
 
 bool contactDestroyedCallback(void * data) {
     auto* id = (CollisionId*)data;
-    if(id->bodyA->deleteMe || id->bodyB->deleteMe) // we dont want stuff to happen if either object is queued for destruction
-        return false;
     if (sceneContains(id->bodyA)){
         for (auto ph : id->bodyA->getCollisionHandlers()){
-            // TODO:  redefine this function!
             ph->onCollisionEnd(id->collisionId, id->bodyB);
         }
     }
