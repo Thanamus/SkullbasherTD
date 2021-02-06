@@ -175,6 +175,15 @@ void Scene::deleteGameObject(const std::shared_ptr<GameObject>& gameObject) {
     // look for gameObject to delete
     auto it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
     // if found, release the managed object and remove it from the array
+/* 
+    TODO fix intermittent error. Program: ...ol\ITU_GProg\SkullBasherTDBuild\out\Debug\skull_basher_td.exe
+    File: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\vector
+    Line: 1369 
+
+    Expression: vector erase iterator outside range
+
+*/
+
     if(it != gameObjects.end())
         gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
 }

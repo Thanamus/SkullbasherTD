@@ -483,18 +483,28 @@
     {
       "enemies": [
         {
-          "enemyType": 1,
-          "quantity": 2
+          "enemyType": 2,
+          "quantity": 1
         }
       ],
-      "timeBetweenEnemy": 1,
+      "timeBetweenEnemy": 5,
       "timeBetweenWaves": 10
     },
     {
       "enemies": [
         {
-          "enemyType": 1,
-          "quantity": 2
+          "enemyType": 3,
+          "quantity": 1
+        }
+      ],
+      "timeBetweenEnemy": 5,
+      "timeBetweenWaves": 10
+    },
+    {
+      "enemies": [
+        {
+          "enemyType": 4,
+          "quantity": 1
         }
       ],
       "timeBetweenEnemy": 5,

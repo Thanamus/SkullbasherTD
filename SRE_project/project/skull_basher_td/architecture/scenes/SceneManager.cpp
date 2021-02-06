@@ -59,7 +59,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
     cameraObj->getComponent<Transform>()->position = playerSpawnPoint;
     cameraObj->getComponent<Transform>()->rotation = {0,190,0};
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | CRYSTAL | COINS); // Dynamic physics object
+    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | COINS); // Dynamic physics object
 
     //--- end setting cameras
 
@@ -115,7 +115,8 @@ std::shared_ptr<Scene> SceneManager::createScene(){
 
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     // ---- set crystal collision group and flags
-    crystalRigidBody->initRigidBodyWithSphere(0.7f, 1, CRYSTAL, ENEMIES | PROJECTILES); // crystal needs to be sphere -> skull collision only works with box
+    // crystalRigidBody->initRigidBodyWithSphere(0.7f, 1, CRYSTAL, ENEMIES | PROJECTILES); // crystal needs to be sphere -> skull collision only works with box
+    crystalRigidBody->initRigidBodyWithSphere(0.7f, 1, CRYSTAL, ENEMIES); // crystal needs to be sphere -> skull collision only works with box
 
     // ---- making sure that crystal can't move if hit
     crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
@@ -260,7 +261,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
     Document d;
     d.ParseStream(isw);
 
-    std::cout << "loading player spawn" << std::endl;
+    // std::cout << "loading player spawn" << std::endl;
 // --------------- set player spawn point
     float spawnPointX = 0.f;
     float spawnPointY = 0.f;
@@ -272,7 +273,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
     playerSpawnPoint = {spawnPointX,spawnPointY,spawnPointZ};
 
     playerSpawnRotation = d["playerSpawnRotation"].GetFloat();
-    std::cout << " spawnPointRotation should be: " << playerSpawnRotation << std::endl;
+    // std::cout << " spawnPointRotation should be: " << playerSpawnRotation << std::endl;
 
     auto tempCam = currentScene->cameras[0]->getGameObject();
     tempCam->getComponent<Transform>()->position = playerSpawnPoint;
@@ -283,7 +284,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
     btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
     transform.setOrigin(btCameraPosition);
 
-    std::cout << " spawnPointRotation is actually:  " << tempCam->getComponent<Transform>()->rotation.y << std::endl;
+    // std::cout << " spawnPointRotation is actually:  " << tempCam->getComponent<Transform>()->rotation.y << std::endl;
 
     glm::quat inputQuat = glm::quat(tempCam->getComponent<Transform>()->rotation);
     btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
@@ -294,7 +295,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
 // ------------------- end setting player Spawn point
 
 // ------------------- load tiles
-std::cout << "loading tiles" << std::endl;
+// std::cout << "loading tiles" << std::endl;
     //init a map row to temporarily hold the map row
     std::vector<int> mapRow;
 
@@ -321,7 +322,7 @@ std::cout << "loading tiles" << std::endl;
 
     std::vector<glm::vec3> pathBuffer;
     bool reversePathBuffer = false;
-    std::cout << "starting tile iteration" << std::endl;
+    // std::cout << "starting tile iteration" << std::endl;
 
     for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
     {
@@ -346,17 +347,17 @@ std::cout << "loading tiles" << std::endl;
                     const char *c = tileTypeStr.c_str();
 
                     //get position and rotation of the block
-                    std::cout << "featching tile from lookup" << std::endl;
+                    // std::cout << "featching tile from lookup" << std::endl;
                     rotationHolder = d["MapLookup"][c]["rotation"].GetFloat();
 
-                    std::cout << "tile scale" << std::endl;
+                    // std::cout << "tile scale" << std::endl;
                     scaleHolder.x = d["MapLookup"][c]["scaleFactors"]["x"].GetFloat();
                     scaleHolder.y = d["MapLookup"][c]["scaleFactors"]["y"].GetFloat();
                     scaleHolder.z = d["MapLookup"][c]["scaleFactors"]["z"].GetFloat();
 
                     positionHolder = glm::vec3((row * (scaleHolder.x * 2)) + tilePosOffset,tileHeight * (scaleHolder.y * 2),(column * (scaleHolder.z * 2))+ tilePosOffset);
 
-                    std::cout << "tile is buildable" << std::endl;
+                    // std::cout << "tile is buildable" << std::endl;
                     isBuildableHolder = d["MapLookup"][c]["isbuildable"].GetBool();
                     isPathHolder = d["MapLookup"][c]["isPath"].GetBool();
 
@@ -377,7 +378,7 @@ std::cout << "loading tiles" << std::endl;
                     // NEW
                     mapTileMR->setModel(modelHolder);
 
-                    std::cout << "tile position" << std::endl;
+                    // std::cout << "tile position" << std::endl;
                     float xOffset = d["MapLookup"][c]["posOffset"]["x"].GetFloat();
                     float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();
                     float zOffset = d["MapLookup"][c]["posOffset"]["z"].GetFloat();
@@ -392,7 +393,7 @@ std::cout << "loading tiles" << std::endl;
                     mapTile->getComponent<Transform>()->scale = scaleHolder;
                     auto bounds = mapTileMR->getMesh()->getBoundsMinMax();
 
-                    std::cout << "tile collision" << std::endl;
+                    // std::cout << "tile collision" << std::endl;
                     collisionHolder.x = d["MapLookup"][c]["collision"]["x"].GetFloat();
                     collisionHolder.y = d["MapLookup"][c]["collision"]["y"].GetFloat();
                     collisionHolder.z = d["MapLookup"][c]["collision"]["z"].GetFloat();
@@ -406,7 +407,7 @@ std::cout << "loading tiles" << std::endl;
                     // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
                     // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
                     // gameObjects.push_back(mapTile);
-                    std::cout << "pushing back path" << std::endl;
+                    // std::cout << "pushing back path" << std::endl;
                     if (isPathHolder)
                     {
                         pathBuffer.push_back(positionHolder);
@@ -438,7 +439,7 @@ std::cout << "loading tiles" << std::endl;
     // ------------ end loading tiles
 
     // ------------ loading crystal
-    std::cout << "loading crystal" << std::endl;
+    // std::cout << "loading crystal" << std::endl;
     auto crystal = GameManager::getInstance().crystal->getGameObject();
     auto path = GameManager::getInstance().getPath();
     crystal->getComponent<Transform>()->position = path[0];
@@ -505,8 +506,8 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
             //Load the mesh from file
             auto filePath = enemiesAssetFolderLoc + "\\" + modelName;
             modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
-            std::cout << "Asset folder: " << filePath << "\n";
-            std::cout << "Model Name: " << modelName << "\n";
+            // std::cout << "Asset folder: " << filePath << "\n";
+            // std::cout << "Model Name: " << modelName << "\n";
 
             float enemyMoveSpeed = d["enemyLookup"][enemyTypeChar]["moveSpeed"].GetFloat();
             // //create the world object map tile
@@ -566,15 +567,15 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                         std::string soundEffectNameToSet = d["enemyLookup"][enemyTypeChar]["soundEffectsPlaylist"][i]["soundEffectName"].GetString();
 
                         enemyPlaylsitComponent->addSoundEffect(soundEffectCodeToSet, soundEffectNameToSet);
-                        std::cout << "just added a sound effect to the playlist" << std::endl;
+                        // std::cout << "just added a sound effect to the playlist" << std::endl;
                     }
                     
 
                 //--------- end add playlist to enemy
 
-                std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
-                std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
-                std::cout << "created enemy with wave number: " << wave << std::endl;
+                // std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
+                // std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
+                // std::cout << "created enemy with wave number: " << wave << std::endl;
             }
         }
 

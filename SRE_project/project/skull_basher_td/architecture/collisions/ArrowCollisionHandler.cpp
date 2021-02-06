@@ -29,17 +29,24 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
         SourceManager::Get()->playMyJam("deathd.wav", otherObjectsPosition, 20);
         */
         // auto soundeffect = SourceManager::Get(); // get sound effect player
+
         auto enemy = other->getComponent<EnemyComponent>();
         if (enemy) {
-            std::cout << "bashing skulls for days" << std::endl;
-            enemy->decreaseHealth(1);
+            if (canInjure)
+            {
+                /* code */
+                std::cout << "bashing skulls for days" << std::endl;
+                enemy->decreaseHealth(1);
+                canInjure = false; // box-box collisions create multiple contact points -> kills enemy fast
+            }
+            
         }
     }
 }
 
 void ArrowCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
 //    std::cout << "arrow collision end!" << std::endl;
-    auto enemy = other->getComponent<EnemyComponent>();
-    if(enemy)
-        gameObject->deleteMe = true;
+    // auto enemy = other->getComponent<EnemyComponent>();
+    // if(enemy)
+    //     gameObject->deleteMe = true;
 }

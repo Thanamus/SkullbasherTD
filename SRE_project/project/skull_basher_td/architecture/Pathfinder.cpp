@@ -98,7 +98,8 @@ void Pathfinder::update(float deltaTime) {
                 // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
                 /* code */
             }
-            rigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
+            // rigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
+            rigidBody->setWorldTransform(transform); // it works!!!!
             rigidBody->activate(true);
             // hasRigidBody->setActivationState(DISABLE_DEACTIVATION);
         }
