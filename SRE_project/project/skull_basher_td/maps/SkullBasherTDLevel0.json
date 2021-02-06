@@ -529,7 +529,7 @@
                 "y": 0.3,
                 "z": 0.3
             },
-            "moveSpeed": 0.2,
+            "moveSpeed": 4,
             "health": 2.0
         },
         "2": {
@@ -546,7 +546,7 @@
                 "y": 0.01,
                 "z": 0.01
             },
-            "moveSpeed": 0.25,
+            "moveSpeed": 5,
             "health": 1.0
         },
         "3": {
@@ -563,7 +563,7 @@
                 "y": 0.9,
                 "z": 0.9
             },
-            "moveSpeed": 0.15,
+            "moveSpeed": 3,
             "health": 3.0
         },
         "4": {
@@ -580,7 +580,7 @@
                 "y": 0.8,
                 "z": 0.8
             },
-            "moveSpeed": 0.1,
+            "moveSpeed": 2,
             "health": 5.0
         }
     },

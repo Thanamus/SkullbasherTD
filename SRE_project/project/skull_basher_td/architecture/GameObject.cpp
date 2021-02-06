@@ -43,6 +43,8 @@ const std::vector<CollisionHandler*>& GameObject::getCollisionHandlers(){
 }
 
 void GameObject::removeComponent(const std::shared_ptr<Component>& ptr) {
+    if(!ptr)
+        return;
     for (const auto& c : components) {
         if (c.get() == ptr.get()) {
             auto ch = dynamic_cast<CollisionHandler*>(ptr.get());

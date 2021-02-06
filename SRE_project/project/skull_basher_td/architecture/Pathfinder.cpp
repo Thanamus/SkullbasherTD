@@ -64,7 +64,7 @@ void Pathfinder::update(float deltaTime) {
         // move skull
         // mix currentposition with next path point and delta time
         // TODO: review
-        nextPosition = currentPosition + moveSpeed * 20.f * direction * deltaTime;
+        nextPosition = currentPosition + moveSpeed * direction * deltaTime;
         nextPosition.y = 0; // make sure it's on ground
 
 

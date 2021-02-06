@@ -385,7 +385,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
                     float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.x, 4);
                     float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 4);
 
-                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER);
+                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER | PROJECTILES);
 
                     // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
                     // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
