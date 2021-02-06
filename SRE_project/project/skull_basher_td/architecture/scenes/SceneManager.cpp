@@ -541,8 +541,6 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
 
         //send the wave details to the Game Manager
         GameManager::getInstance().addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
-
-
     }
 }
 

@@ -47,13 +47,13 @@ public:
     void initRigidBodyWithBox(glm::vec3 halfExtend, float mass = 1.0);
     void initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short group, short mask);
     void initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeDist);
-    void initRigidBody(btRigidBody::btRigidBodyConstructionInfo info);
-    void initRigidBody(btRigidBody::btRigidBodyConstructionInfo info, short group, short mask);
+    void initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info);
+    void initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info, short group, short mask);
     btRigidBody* getRigidBody();
 
     void setLinearVelocityOnRigidBody(btVector3 linear_velocity);
 
-    short getGroupID();
+    short getGroupID() const;
 
 private:
     int collisionStartFrameId{};
