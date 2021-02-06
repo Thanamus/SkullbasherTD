@@ -15,6 +15,8 @@ class PlayerCollisionHandler : public Component, public CollisionHandler {
 public:
     // explicit CustomCollisionHandler(GameObject* gameObject) : Component(gameObject));
     explicit PlayerCollisionHandler(GameObject* gameObject);
+
+
     // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin) override {
     //     if (begin){
     //         std::cout << "Collision "<< collisionId <<" on "<<other->getGameObject()->getName()<< " at "<<glm::to_string(position)<<std::endl;

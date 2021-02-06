@@ -6,6 +6,7 @@
 #include "Pathfinder.hpp"
 #include "Transform.hpp"
 #include "sound/SourceManager.hpp"
+#include "./sound/PlaylistComponent.hpp"
 
 EnemyComponent::EnemyComponent(GameObject* gameObject) : HealthComponent(gameObject) {
     pathfinder = new Pathfinder(gameObject);
@@ -56,7 +57,12 @@ void EnemyComponent::HandleHealthChange() {
         return;
 
     if(this->getHealth() <= 0) {
-        SourceManager::Get()->playMyJam("deathd.wav", this->gameObject->getComponent<Transform>()->position, 20);
+
+        std::string  deathSound; 
+        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("death", &deathSound);
+
+        // SourceManager::Get()->playMyJam("deathd.wav", this->gameObject->getComponent<Transform>()->position, 20);
+        SourceManager::Get()->playMyJam(deathSound, this->gameObject->getComponent<Transform>()->position, 20);
         gameObject->deleteMe = true;
     }
     else
