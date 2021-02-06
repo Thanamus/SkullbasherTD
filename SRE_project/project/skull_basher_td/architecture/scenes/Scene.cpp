@@ -163,7 +163,7 @@ void Scene::setAmbientColor(const glm::vec3 &ambientColor) {
     Scene::ambientColor = ambientColor;
 }
 
-std::vector<std::shared_ptr<GameObject>> Scene::getGameObjects() {
+const std::vector<std::shared_ptr<GameObject>>& Scene::getGameObjects() const {
     return gameObjects;
 }
 

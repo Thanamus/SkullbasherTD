@@ -18,7 +18,7 @@ void ArrowLifespanComponent::update(float deltaTime){
     int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - start_life).count();
 
     if (time_elapsed_milli > lifespan_millisec)
-        gameObject->deleteMe = true; 
+        gameObject->setQueuedForDeletion(true);
 
 }
 

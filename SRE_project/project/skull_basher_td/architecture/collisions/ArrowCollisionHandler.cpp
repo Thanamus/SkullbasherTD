@@ -20,7 +20,7 @@ class GameObject;
 ArrowCollisionHandler::ArrowCollisionHandler(GameObject *gameObject) : Component(gameObject) {}
 
 void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
-    if (begin) {
+    if (begin && !stopCollisions) {
         /* TODO ask andrea what is a better coding pattern
          auto soundeffect = SourceManager::Get(); // get sound effect player
         soundeffect->playMyJam("deathd.wav", otherObjectsPosition, 20);
@@ -31,7 +31,8 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
         // auto soundeffect = SourceManager::Get(); // get sound effect player
         auto enemy = other->getComponent<EnemyComponent>();
         if (enemy) {
-            std::cout << "bashing skulls for days" << std::endl;
+            stopCollisions = true;
+            gameObject->setQueuedForDeletion(true);
             enemy->decreaseHealth(1);
         }
     }
@@ -39,7 +40,4 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
 
 void ArrowCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
 //    std::cout << "arrow collision end!" << std::endl;
-    auto enemy = other->getComponent<EnemyComponent>();
-    if(enemy)
-        gameObject->deleteMe = true;
 }

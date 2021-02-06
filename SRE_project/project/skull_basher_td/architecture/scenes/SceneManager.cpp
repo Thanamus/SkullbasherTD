@@ -120,6 +120,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     // ---- making sure that crystal can't move if hit
     crystalRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
     crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
+    crystalRigidBody->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
 
     GameManager::getInstance().crystal = crystal->getComponent<CrystalHealth>();
 
@@ -346,17 +347,16 @@ std::cout << "loading tiles" << std::endl;
                     const char *c = tileTypeStr.c_str();
 
                     //get position and rotation of the block
-                    std::cout << "featching tile from lookup" << std::endl;
+//                    std::cout << "featching tile from lookup" << std::endl;
                     rotationHolder = d["MapLookup"][c]["rotation"].GetFloat();
 
-                    std::cout << "tile scale" << std::endl;
                     scaleHolder.x = d["MapLookup"][c]["scaleFactors"]["x"].GetFloat();
                     scaleHolder.y = d["MapLookup"][c]["scaleFactors"]["y"].GetFloat();
                     scaleHolder.z = d["MapLookup"][c]["scaleFactors"]["z"].GetFloat();
 
                     positionHolder = glm::vec3((row * (scaleHolder.x * 2)) + tilePosOffset,tileHeight * (scaleHolder.y * 2),(column * (scaleHolder.z * 2))+ tilePosOffset);
 
-                    std::cout << "tile is buildable" << std::endl;
+//                    std::cout << "tile is buildable" << std::endl;
                     isBuildableHolder = d["MapLookup"][c]["isbuildable"].GetBool();
                     isPathHolder = d["MapLookup"][c]["isPath"].GetBool();
 
@@ -376,8 +376,8 @@ std::cout << "loading tiles" << std::endl;
 
                     // NEW
                     mapTileMR->setModel(modelHolder);
-
-                    std::cout << "tile position" << std::endl;
+//
+//                    std::cout << "tile position" << std::endl;
                     float xOffset = d["MapLookup"][c]["posOffset"]["x"].GetFloat();
                     float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();
                     float zOffset = d["MapLookup"][c]["posOffset"]["z"].GetFloat();
@@ -392,7 +392,7 @@ std::cout << "loading tiles" << std::endl;
                     mapTile->getComponent<Transform>()->scale = scaleHolder;
                     auto bounds = mapTileMR->getMesh()->getBoundsMinMax();
 
-                    std::cout << "tile collision" << std::endl;
+//                    std::cout << "tile collision" << std::endl;
                     collisionHolder.x = d["MapLookup"][c]["collision"]["x"].GetFloat();
                     collisionHolder.y = d["MapLookup"][c]["collision"]["y"].GetFloat();
                     collisionHolder.z = d["MapLookup"][c]["collision"]["z"].GetFloat();
@@ -406,7 +406,7 @@ std::cout << "loading tiles" << std::endl;
                     // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
                     // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
                     // gameObjects.push_back(mapTile);
-                    std::cout << "pushing back path" << std::endl;
+//                    std::cout << "pushing back path" << std::endl;
                     if (isPathHolder)
                     {
                         pathBuffer.push_back(positionHolder);
@@ -541,10 +541,16 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 7);
 
 //                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL | PROJECTILES); // mass of 0 sets the rigidbody as kinematic (or static)
+//                 collisions work properly if Skull has a box shape, it's weird, but spheres don't work
 
-//                 collisions work properly if Skull has a box shape, it's weird, but sphere's don't work
-                enemy->addComponent<RigidBody>()->initRigidBodyWithBox({length, width, height}, 1, ENEMIES, PLAYER | CRYSTAL | PROJECTILES);
-                enemy->getComponent<RigidBody>()->getRigidBody()->setGravity({0, 0, 0});
+                auto enemyRB = enemy->addComponent<RigidBody>();
+                enemyRB->initRigidBodyWithBox({length, width, height}, 1, ENEMIES, PLAYER | CRYSTAL | PROJECTILES);
+                enemyRB->getRigidBody()->setGravity({0, 0, 0});
+                // skulls should not be moved by external forces
+                enemyRB->getRigidBody()->setLinearFactor({0,0,0});
+                enemyRB->getRigidBody()->setAngularFactor({0,0,0});
+                // skulls should never deactivate
+                enemyRB->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
                 enemy->addComponent<EnemyCollisionHandler>();
 
                 //Add EnemyComponent to Skull

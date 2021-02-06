@@ -38,27 +38,24 @@ std::string GameObject::getName() {
     return name;
 }
 
-const std::vector<CollisionHandler*>& GameObject::getCollisionHandlers(){
+const std::vector<CollisionHandler*>& GameObject::getCollisionHandlers() const {
     return collisionHandlers;
 }
 
 void GameObject::removeComponent(const std::shared_ptr<Component>& ptr) {
-    if(!ptr)
-        return;
-    for (const auto& c : components) {
-        if (c.get() == ptr.get()) {
-            auto ch = dynamic_cast<CollisionHandler*>(ptr.get());
-            if (ch && !collisionHandlers.empty())
-                collisionHandlers.erase(std::remove(collisionHandlers.begin(), collisionHandlers.end(), ch), collisionHandlers.end());
-            // remove from scene
-            scene->removeComponent(ptr);
-            // remove from array (auto-releases the object!)
-            components.erase(std::remove(components.begin(),components.end(), ptr), components.end());
-        }
+    auto iter = std::find(components.begin(), components.end(), ptr);
+    if(iter != components.end()) {
+        auto ch = dynamic_cast<CollisionHandler*>(ptr.get());
+        if (ch && !collisionHandlers.empty())
+            collisionHandlers.erase(std::remove(collisionHandlers.begin(), collisionHandlers.end(), ch), collisionHandlers.end());
+        // remove from scene
+        scene->removeComponent(ptr);
+        // remove from array (auto-releases the object!)
+        components.erase(std::remove(components.begin(),components.end(), ptr), components.end());
     }
 }
 
-const std::vector<std::shared_ptr<Component>> & GameObject::getComponents() {
+const std::vector<std::shared_ptr<Component>> & GameObject::getComponents() const{
     return components;
 }
 
@@ -80,7 +77,7 @@ void GameObject::setParent(GameObject *parent_) {
         parent->children.push_back(shared_from_this());
 }
 
-const std::vector<std::shared_ptr<GameObject>> &GameObject::getChildren() {
+const std::vector<std::shared_ptr<GameObject>> &GameObject::getChildren() const {
     return children;
 }
 
@@ -89,5 +86,13 @@ std::shared_ptr<GameObject> GameObject::getChildByName(const std::string& childN
         if (c->getName() == childName)
             return c;
     return nullptr;
+}
+
+bool GameObject::isQueuedForDeletion() const {
+    return queuedForDeletion;
+}
+
+void GameObject::setQueuedForDeletion(bool queuedForDeletion) {
+    GameObject::queuedForDeletion = queuedForDeletion;
 }
 

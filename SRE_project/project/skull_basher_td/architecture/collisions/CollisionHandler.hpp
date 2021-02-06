@@ -14,4 +14,6 @@ public:
     // virtual void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) = 0; // begin or update
     virtual void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) = 0; // begin or update
     virtual void onCollisionEnd(size_t collisionId, GameObject* other) = 0;
+protected:
+    bool stopCollisions = false;
 };

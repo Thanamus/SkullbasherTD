@@ -74,9 +74,9 @@ void Pathfinder::update(float deltaTime) {
         // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
         // gameObject->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
 
-//
-        if(transformComp)
-            transformComp->lookAt(nextPosition, glm::vec3(0, 1, 0));
+////
+//        if(transformComp)
+//            transformComp->lookAt(nextPosition, glm::vec3(0, 1, 0));
         //update transform
         if (rigidBody) {
             btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};

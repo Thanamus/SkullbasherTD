@@ -49,7 +49,7 @@ void LevelScene::update(float deltaTime){
     tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
     bulletPhysics->step(this);
     for (const auto& g : gameObjects)
-        if (g && g->deleteMe) { // looks for deleteMe flag on the game object, if true, then remove the gameObject
+        if (g && g->isQueuedForDeletion()) { // looks for queuedForDeletion flag on the game object, if true, then remove the gameObject
             std::cout << "deleting gameobject " << g->getName() << " with address " << g << std::endl;
             deleteGameObject(g);
             std::cout << "done" << std::endl;

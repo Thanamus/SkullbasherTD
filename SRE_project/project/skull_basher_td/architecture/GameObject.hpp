@@ -26,19 +26,21 @@ public:
     std::string getName();
     void setName(const std::string &name_);
 
-    const std::vector<std::shared_ptr<Component>> & getComponents();
+    const std::vector<std::shared_ptr<Component>> & getComponents() const;
     Scene* getScene();
 
-    const std::vector<CollisionHandler*>& getCollisionHandlers();
+    const std::vector<CollisionHandler*>& getCollisionHandlers() const;
 
     GameObject* getParent() const;
     void setParent(GameObject *parent_);
 
-    const std::vector<std::shared_ptr<GameObject>> & getChildren();
+    const std::vector<std::shared_ptr<GameObject>> & getChildren() const;
     std::shared_ptr<GameObject> getChildByName(const std::string& childName);
 
     // TODO:  getter/setter
-    bool deleteMe = false;
+    bool isQueuedForDeletion() const;
+
+    void setQueuedForDeletion(bool queuedForDeletion);
 
 private:
     std::string name;
@@ -47,6 +49,7 @@ private:
     std::vector<std::shared_ptr<GameObject>> children = {};
     std::vector<std::shared_ptr<Component>> components = {};
     std::vector<CollisionHandler*> collisionHandlers = {};
+    bool queuedForDeletion = false;
 
     GameObject(std::string name, Scene* scene);
 

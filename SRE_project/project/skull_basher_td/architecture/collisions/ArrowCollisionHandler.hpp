@@ -17,5 +17,4 @@ public:
     void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
 
     void onCollisionEnd(size_t collisionId, GameObject *other) override;
-
 };
