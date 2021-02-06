@@ -44,16 +44,16 @@ LevelScene::~LevelScene(){
 void LevelScene::update(float deltaTime){
     if(GameManager::getInstance().paused || !GameManager::getInstance().levelRunning)
         return;
+    bulletPhysics->step(this);
+    auto tempCam = this->cameras[0]->getGameObject();
+    tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
+    bulletPhysics->step(this);
     for (const auto& g : gameObjects)
         if (g && g->deleteMe) { // looks for deleteMe flag on the game object, if true, then remove the gameObject
             std::cout << "deleting gameobject " << g->getName() << " with address " << g << std::endl;
             deleteGameObject(g);
             std::cout << "done" << std::endl;
         }
-    bulletPhysics->step(this);
-    auto tempCam = this->cameras[0]->getGameObject();
-    tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
-    bulletPhysics->step(this);
     for (auto& u : updatables)
         u->update(deltaTime);
     for (auto& p : rigidBodies)

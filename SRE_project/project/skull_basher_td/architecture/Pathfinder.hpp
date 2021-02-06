@@ -15,6 +15,8 @@ public:
     void setMoving(bool incomingMovingStatus);
     bool isMoving() const;
 
+    const glm::vec3 &getDirection() const;
+
     int getCurrentPathIndex() const;
 
     float getMoveSpeed() const;

@@ -142,6 +142,7 @@ float Pathfinder::getMoveSpeed() const {
 
 void Pathfinder::setMoveSpeed(float moveSpeed_) {
     Pathfinder::moveSpeed = moveSpeed_;
+    std::cout <<"-------------------"<< moveSpeed << std::endl;
 }
 
 const vec3 &Pathfinder::getStartPathPoint() const {
@@ -150,6 +151,10 @@ const vec3 &Pathfinder::getStartPathPoint() const {
 
 const vec3 &Pathfinder::getNextPathPoint() const {
     return nextPathPoint;
+}
+
+const vec3 &Pathfinder::getDirection() const {
+    return direction;
 }
 
 //    void Pathfinder::setMoveSpeed(float incoming_move_speed){
