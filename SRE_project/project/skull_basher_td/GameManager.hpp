@@ -112,6 +112,7 @@ private:
     int totalEnemiesInCurrentSet = 0;
 
     int enemyAmountWave = 0;
+
     int totalEnemiesSpawned = 0;
     int totalEnemies = 0;
 public:

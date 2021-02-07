@@ -72,6 +72,10 @@ void EnemyComponent::HandleHealthChange() {
     }
     else
     {
+        std::string  hitSound;
+        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("hit", &hitSound);
+
+        SourceManager::Get()->playMyJam(hitSound, this->gameObject->getComponent<Transform>()->position, 20);
         //play sound or animate, or something
     }
 }
@@ -82,4 +86,12 @@ float EnemyComponent::getMoney() const {
 
 void EnemyComponent::setMoney(float money) {
     EnemyComponent::money = money;
+}
+
+float EnemyComponent::getDamage() const {
+    return damage;
+}
+
+void EnemyComponent::setDamage(float damage) {
+    EnemyComponent::damage = damage;
 }

@@ -8,6 +8,7 @@
 #include "glm/gtx/string_cast.hpp"
 #include "EnemyCollisionHandler.hpp"
 #include "../health/CrystalHealth.hpp"
+#include "../../GameManager.hpp"
 
 class GameObject;
 
@@ -25,7 +26,12 @@ void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
             stopCollisions = true;
             gameObject->setQueuedForDeletion(true);
             std::cout << "hit crystal "<<std::endl;
-            crystal->decreaseHealth(25);
+            crystal->decreaseHealth(getGameObject()->getComponent<EnemyComponent>()->getDamage());
+            GameManager::getInstance().setTotalEnemies(GameManager::getInstance().getTotalEnemies() - 1);
+            if(GameManager::getInstance().getTotalEnemies() <= 0)
+            {
+                GameManager::getInstance().toggleWinState(true);
+            }
         }
     }
 }

@@ -45,6 +45,11 @@ private:
     int enemyNumber = 0;
     int enemySetNumber = 0;
     float money = 0;
+    float damage = 0;
+public:
+    float getDamage() const;
+
+    void setDamage(float damage);
 };
 
 

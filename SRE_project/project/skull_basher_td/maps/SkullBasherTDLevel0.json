@@ -5,6 +5,7 @@
     "sceneType": 0,
     "playerSpawnPoint": [20,3.0,11],
     "playerSpawnRotation": 190,
+    "startMoney": 10,
     "tileMap":[
         [
             [10,101,10,101,10,101,10,101,10,101,10,0,0,0,0,0,0,0,0,0,0,0],
@@ -550,13 +551,14 @@
             },
             "collision": {
                 "type": "box",
-                "x": 0.3,
-                "y": 0.3,
-                "z": 0.3
+                "x": 0.4,
+                "y": 0.4,
+                "z": 0.4
             },
             "moveSpeed": 4,
             "health": 2.0,
-            "money": 2.0,
+            "money": 5.0,
+            "damage": 10.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -586,7 +588,8 @@
             },
             "moveSpeed": 5,
             "health": 1.0,
-            "money": 5.0,
+            "money": 2.0,
+            "damage": 25.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -619,6 +622,7 @@
             "moveSpeed": 3,
             "health": 3.0,
             "money": 10.0,
+            "damage": 40.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -651,6 +655,7 @@
             "moveSpeed": 2,
             "health": 5.0,
             "money": 20.0,
+            "damage": 100.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -704,6 +709,10 @@
             {
                 "name": "crossbow_reload.wav",
                 "location": ".\\assets\\soundEffects\\battle\\crossbow_reload.wav"
+            },
+            {
+                "name": "coin.wav",
+                "location": ".\\assets\\soundEffects\\inventory\\coin.wav"
             }
         ]
 }

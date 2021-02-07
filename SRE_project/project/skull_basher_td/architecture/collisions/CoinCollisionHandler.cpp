@@ -31,7 +31,7 @@ void CoinCollisionHandler::onCollision(size_t collisionId, GameObject* other, gl
             stopCollisions = true;
             gameObject->setQueuedForDeletion(true);
             GameManager::getInstance().addScore(gameObject->getComponent<CoinComponent>()->getMoney());
-            SourceManager::Get()->playMyJam("coin.wav", this->gameObject->getComponent<Transform>()->position, 20);
+            SourceManager::Get()->playMyJam_global("coin.wav");
         }
     }
 }

@@ -273,6 +273,8 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
     spawnPointZ = d["playerSpawnPoint"].GetArray()[2].GetFloat();
     playerSpawnPoint = {spawnPointX,spawnPointY,spawnPointZ};
 
+    GameManager::getInstance().setScore(d["startMoney"].GetFloat());
+
     playerSpawnRotation = d["playerSpawnRotation"].GetFloat();
     std::cout << " spawnPointRotation should be: " << playerSpawnRotation << std::endl;
 
@@ -542,9 +544,6 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.x, 7);
                 float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 7);
 
-//                enemy->addComponent<RigidBody>()->initRigidBodyWithSphere(length, 1, ENEMIES,  PLAYER | CRYSTAL | PROJECTILES); // mass of 0 sets the rigidbody as kinematic (or static)
-//                 collisions work properly if Skull has a box shape, it's weird, but spheres don't work
-
                 auto enemyRB = enemy->addComponent<RigidBody>();
                 enemyRB->initRigidBodyWithBox({length, width, height}, 1, ENEMIES, PLAYER | CRYSTAL | PROJECTILES);
                 enemyRB->getRigidBody()->setGravity({0, 0, 0});
@@ -563,7 +562,8 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyEC->getPathfinder()->setMoveSpeed(enemyMoveSpeed);
                 enemyEC->addHealth(d["enemyLookup"][enemyTypeChar]["health"].GetFloat());
                 enemyEC->setMoney(d["enemyLookup"][enemyTypeChar]["money"].GetFloat());
-                
+                enemyEC->setDamage(d["enemyLookup"][enemyTypeChar]["damage"].GetFloat());
+
                 //--------- Add playlist to enemy
                 auto enemyPlaylsitComponent = enemy->addComponent<PlaylistComponent>();
                 

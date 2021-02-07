@@ -46,7 +46,7 @@ Main::Main()
 
     //new way - MusicBuffer is now a singleton
     MusicBuffer * myMusicBuffer = MusicBuffer::Get(); // Initialise music buffer 
-    myMusicBuffer->Load(R"(.\assets\music\68-Gerudo_Valley.wav)"); // Start playing a music track. First music track played should use "Load()"
+    myMusicBuffer->Load(R"(.\assets\music\The Tread of War - MP3.wav)"); // Start playing a music track. First music track played should use "Load()"
 
 
     auto fonts = ImGui::GetIO().Fonts;
