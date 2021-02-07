@@ -50,6 +50,7 @@ public:
 
 private:
     Transform * parent = nullptr;
+    // make it shared
     std::vector<Transform*> children;
     std::shared_ptr<ModelRenderer> modelRenderer;
     std::shared_ptr<Animator> animator;

@@ -31,13 +31,20 @@ Scriptable::Scriptable(bool enabled)
     auto component_type = lua.new_usertype<Component>("Component",
                                                       "getGameObject", &Component::getGameObject);
 
+    // i'm hella impressed with the guy who developed sol
     auto vec3_type = lua.new_usertype<glm::vec3> ("vec3",
                                                   sol::constructors<glm::vec3(float, float, float)>(),
+                                                  sol::meta_function::addition,  sol::resolve<glm::vec<3, float, glm::highp>(glm::vec<3, float, glm::highp> const&, glm::vec<3, float, glm::highp> const&)>(&glm::operator+),
+                                                  sol::meta_function::subtraction,  sol::resolve<glm::vec<3, float, glm::highp>(glm::vec<3, float, glm::highp> const&, glm::vec<3, float, glm::highp> const&)>(&glm::operator-),
+                                                  sol::meta_function::multiplication, sol::overload(
+                                                          sol::resolve<glm::vec<3, float, glm::highp>(glm::vec<3, float, glm::highp> const&, glm::vec<3, float, glm::highp> const&)>(&glm::operator*),
+                                                          sol::resolve<glm::vec<3, float, glm::highp>(glm::vec<3, float, glm::highp> const&, float)>(&glm::operator*),
+                                                          sol::resolve<glm::vec<3, float, glm::highp>(float, glm::vec<3, float, glm::highp> const&)>(&glm::operator*)),
                                                   "x", &glm::vec3::x,
                                                   "y", &glm::vec3::y,
-                                                  "z", &glm::vec3::z
+                                                  "z", &glm::vec3::z,
+                                                  "normalize", sol::resolve<glm::vec<3, float, glm::highp>(glm::vec<3, float, glm::highp> const&)>(&glm::normalize)
     );
-
     auto vec2_type = lua.new_usertype<glm::vec2> ("vec2",
                                                   sol::constructors<glm::vec2(float, float)>(),
                                                   "x", &glm::vec2::x,

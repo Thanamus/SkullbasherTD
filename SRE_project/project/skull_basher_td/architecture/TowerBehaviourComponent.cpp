@@ -10,6 +10,11 @@
 
 TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         : Component(gameObject) {
+    projectileStart = gameObject->getComponent<Transform>()->globalPosition();
+    auto bounds = gameObject->getComponent<ModelRenderer>()->getMesh()->getBoundsMinMax();
+    auto xOffset = abs(bounds[0].x - bounds[1].x)/2.f;
+    auto zOffset = abs(bounds[0].z - bounds[1].z)/2.f;
+    projectileStart = glm::vec3(projectileStart.x + xOffset, projectileStart.y + 2, projectileStart.z - zOffset);
     lua.set_function("getGameObject", [&]()->GameObject* {
         return getGameObject();
     });
@@ -41,7 +46,12 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
                                      "getGameObject", &EnemyComponent::getGameObject); // must be bound again
 
     auto pathfinder_type = lua.new_usertype<Pathfinder>("Pathfinder",
-                                 "getCurrentPathIndex", &Pathfinder::getCurrentPathIndex);
+                                 "getCurrentPathIndex", &Pathfinder::getCurrentPathIndex,
+                                 "getStartPoint", &Pathfinder::getStartPathPoint,
+                                 "getNextPoint", &Pathfinder::getNextPathPoint,
+                                 "getMoveSpeed", &Pathfinder::getMoveSpeed,
+                                 "getDirection", &Pathfinder::getDirection,
+                                 "previewPoint", &Pathfinder::previewPathPoint);
 
     // workaround since lua and templates don't like each other very much
 
@@ -60,9 +70,18 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         return setTarget(_target);
     });
 
+    lua.set_function("getTarget", [&]() -> GameObject* {
+        return getTarget();
+    });
+
     lua.set_function("targetInRange", [&]() -> bool {
         return targetInRange();
     });
+
+    lua.set_function("setAimPos", [&](glm::vec3 _aimPos) -> void {
+        return setAimPos(_aimPos);
+    });
+
 
     lua.set_function("inCircle", [&](glm::vec2 point, glm::vec2 center, float radius) -> bool {
         return inCircle(point, center, radius);
@@ -78,32 +97,35 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
     actions[TB_SHOOTING] = "shooting";
 
     loadScript(actions[TB_TARGETING], R"(.\scripts\targeting.lua)", true);
-//    loadScript(actions[TB_AIMING], "", true);
+    loadScript(actions[TB_AIMING], R"(.\scripts\aiming.lua)", true);
 //    loadScript(actions[TB_SHOOTING], "", true);
 //    loadScript(actions[TB_RELOADING], "", true);
 }
 
 void TowerBehaviourComponent::update() {
+    bool hasTargetInRange = targetInRange();
+    if(!hasTargetInRange) // if target leaves range
+        target = nullptr;
 
     //first of all, tower reloads if needed
     if (!readyToShoot)
 //        run(actions[TB_RELOADING]);
         std::cout << actions[TB_RELOADING] << std::endl;
     // if tower doesn't have a live target in range, get a new one
-    else if(!targetInRange()) {
-        std::cout << "targeting... " << std::endl;
+    else if(!hasTargetInRange) {
         run(actions[TB_TARGETING], gameObject->getScene()->getEnemies()); //
+        if(target)
+            std::cout << "Targeting skull named " << target->getName() << std::endl;
     }
     // if the tower is ready to shoot and has a target, but hasn't aimed yet, then calc where to shoot
-    else if (aimPos == glm::vec3(-1))
+    else if (hasTargetInRange && readyToShoot) {
         std::cout << actions[TB_AIMING] << std::endl;
-        //run(actions[TB_AIMING]);
+        run(actions[TB_AIMING], target->getComponent<EnemyComponent>());
+    }
     // if tower is ready and has calculated where to shoot, then shoot away!
     else if (aimPos != glm::vec3(-1) && readyToShoot)
         std::cout << actions[TB_SHOOTING] << std::endl;
     //run(actions[TB_SHOOTING]);
-    if(target)
-        std::cout << std::endl << "Targeting skull with enemy id " << target->getComponent<EnemyComponent>()->getEnemyNumber() << " and set number " << target->getComponent<EnemyComponent>()->getEnemySetNumber() << std::endl;
 }
 
 float TowerBehaviourComponent::getRange() const {
@@ -151,6 +173,7 @@ const glm::vec3 &TowerBehaviourComponent::getAimPos() const {
 }
 
 void TowerBehaviourComponent::setAimPos(const glm::vec3 &_aimPos) {
+    std::cout << "aimpos x: " << _aimPos.x << " y: " << _aimPos.y << " z: " << _aimPos.z <<std::endl;
     TowerBehaviourComponent::aimPos = _aimPos;
 }
 

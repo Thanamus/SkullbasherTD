@@ -45,13 +45,14 @@ public:
 
 private:
     glm::vec3 aimPos = glm::vec3(-1);
+    glm::vec3 projectileStart = glm::vec3(0);
 
     // simply maps enum actions to strings
     std::map<TowerAction, std::string> actions;
 
     // attributes
     // TODO: shift to reading from json once it's all done
-    float range = 5.f;
+    float range = 10.f;
     bool readyToShoot = true;
     float projectileSpeed = 2.f;
     float reloadSpeed = 3.f;

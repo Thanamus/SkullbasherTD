@@ -30,7 +30,7 @@ public:
             if(script->function.valid())
             {
                 // attempts to run script with expanded argument pack
-                auto result = script->function(&args...);
+                auto result = script->function(args...);
                 // if result is not valid, return error and stop
                 if(!result.valid())
                 {

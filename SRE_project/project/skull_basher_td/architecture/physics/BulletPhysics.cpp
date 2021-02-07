@@ -28,7 +28,7 @@ namespace {
  Scene* scene;
 
  bool sceneContains(GameObject* ptr){
-     for (const auto& go : scene->getGameObjects()){
+     for (const auto& go : scene->getGameObjects()) {
          if (go.get() == ptr) {
              return true;
          }
@@ -51,7 +51,6 @@ bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
 //        std::cout << "collision on: " << name0 << std::endl;
 //        auto name1 = rigidBody1->getGameObject()->getName();
 //        std::cout << "collision on: " << name1 << std::endl;
-
         cp.m_userPersistentData = new CollisionId(collisionId, rigidBody0->getGameObject(), rigidBody1->getGameObject()); //original
     }
     auto* id = (CollisionId*)cp.m_userPersistentData;

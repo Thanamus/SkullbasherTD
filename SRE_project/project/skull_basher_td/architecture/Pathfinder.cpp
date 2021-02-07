@@ -21,10 +21,9 @@ Pathfinder::Pathfinder(GameObject* _gameObject)
 }
 
 void Pathfinder::fetchNextPathPoint(){
-    nextPathPoint = GameManager::getInstance().getNextPathPoint(currentPathIndex);
-    //update current path index
     if (currentPathIndex > 0)
         currentPathIndex -= 1;
+    nextPathPoint = GameManager::getInstance().getPathPoint(currentPathIndex);
 }
 
 void Pathfinder::update(float deltaTime) {
@@ -142,7 +141,6 @@ float Pathfinder::getMoveSpeed() const {
 
 void Pathfinder::setMoveSpeed(float moveSpeed_) {
     Pathfinder::moveSpeed = moveSpeed_;
-    std::cout <<"-------------------"<< moveSpeed << std::endl;
 }
 
 const vec3 &Pathfinder::getStartPathPoint() const {
@@ -155,6 +153,10 @@ const vec3 &Pathfinder::getNextPathPoint() const {
 
 const vec3 &Pathfinder::getDirection() const {
     return direction;
+}
+
+glm::vec3 Pathfinder::previewPathPoint(int pathIndex) {
+    return GameManager::getInstance().getPathPoint(pathIndex);
 }
 
 //    void Pathfinder::setMoveSpeed(float incoming_move_speed){

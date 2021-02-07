@@ -40,7 +40,7 @@ public:
     void onKey(SDL_Event &event);
     void onMouse(SDL_Event &event);
     void TogglePause();
-    void ToggleLockMouse();
+    void ToggleLockMouse() const;
     bool quit = false;
     bool buildModeActive = false;
 
@@ -62,7 +62,7 @@ public:
     void setPath(std::vector<glm::vec3> pathToBe);
     std::vector<glm::vec3> getPath();
     int getFirstPathIndex();
-    glm::vec3 getNextPathPoint(int currentPathIndex);
+    glm::vec3 getPathPoint(int index);
 
     std::shared_ptr<CrystalHealth> crystal;
 
@@ -75,7 +75,7 @@ public:
     int getEnemyAmountWave();
     waveScheduleDetails getCurrentTimeBetweenWaves();
 
-    void setCurrentEnemy(int currentEnemy);
+//    void setCurrentEnemy(int currentEnemy);
     void addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails);
 
     bool updateAllWaveStats();

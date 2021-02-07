@@ -19,6 +19,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <utility>
 
 using namespace sre;
 using namespace glm;
@@ -191,8 +192,8 @@ void GameManager::updateTowerIndicator()
 
     auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
 
-    auto path =  ".\\assets\\"+ selectedTower->getMesh();
-    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName(selectedTower->getMesh()).build();
+    auto path_ = ".\\assets\\" + selectedTower->getMesh();
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path_).withName(selectedTower->getMesh()).build();
 
     towerIndicator->getComponent<ModelRenderer>()->setModel(modelHolder);
     towerIndicator->getComponent<ModelRenderer>()->active = true;
@@ -205,7 +206,7 @@ void GameManager::TogglePause()
     ToggleLockMouse();
 }
 
-void GameManager::ToggleLockMouse()
+void GameManager::ToggleLockMouse() const
 {
     auto r = SDLRenderer::instance;
     SDL_SetWindowGrab(r->getSDLWindow(), paused ? SDL_FALSE : SDL_TRUE);
@@ -213,17 +214,17 @@ void GameManager::ToggleLockMouse()
 }
 
 void GameManager::setPath(std::vector<glm::vec3> pathToBe){
-    path = pathToBe;
+    path = std::move(pathToBe);
 }
 
 std::vector<glm::vec3> GameManager::getPath() {
     return path;
 }
 
-glm::vec3 GameManager::getNextPathPoint(int currentPathIndex){
+glm::vec3 GameManager::getPathPoint(int index){
     //path should count down from end of vector to 0
-    return (currentPathIndex != 0 && currentPathIndex <= (path.size()-1)) ?
-    path[currentPathIndex-1] :
+    return (index > 0 && index <= (path.size()-1)) ?
+    path[index] :
     path[0];
 }
 

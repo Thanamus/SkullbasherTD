@@ -11,6 +11,7 @@ public:
     void update(float deltaTime);
 
     void fetchNextPathPoint();
+    static glm::vec3 previewPathPoint(int pathIndex);
 
     void setMoving(bool incomingMovingStatus);
     bool isMoving() const;

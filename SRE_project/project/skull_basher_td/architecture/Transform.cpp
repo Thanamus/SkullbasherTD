@@ -125,6 +125,7 @@ glm::vec3 Transform::globalPosition() const {
 }
 
 Transform::~Transform() {
+    children.clear();
     parent = nullptr;
     animator.reset();
     modelRenderer.reset();
