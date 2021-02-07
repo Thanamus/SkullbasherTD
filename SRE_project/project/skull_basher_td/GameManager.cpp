@@ -158,25 +158,67 @@ void GameManager::onMouse(SDL_Event &event)
         auto personController = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
         if(personController->allowedToBuild)
         {
-            auto tower = sceneManager->currentScene->createGameObject(selectedTower->getName());
-            auto towerTR = tower->getComponent<Transform>();
+            //todo: re-enable
+//            auto tower = sceneManager->currentScene->createGameObject(selectedTower->getName());
+//            auto towerTR = tower->getComponent<Transform>();
+//            towerTR->position = personController->tower->getComponent<Transform>()->position;
+//            towerTR->rotation = personController->tower->getComponent<Transform>()->rotation;
+//            towerTR->scale = {0.5f,0.5f,0.5f};
+//
+//            auto towerMR = tower->addComponent<ModelRenderer>();
+//            auto towerAN = tower->addComponent<Animator>();
+//
+//            towerTR->setModelRenderer(towerMR);
+//            towerTR->setAnimator(towerAN);
+//
+//            auto towerTB = tower->addComponent<TowerBehaviourComponent>();
+//            towerTB->setEnabled(true);
+//            auto path_ = ".\\assets\\" + selectedTower->getMesh();
+//            std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path_).withName(selectedTower->getMesh()).build();
+//            //towerMR->setMesh(personController->tower->getComponent<ModelRenderer>()->getMesh());
+//            towerMR->setModel(modelHolder);
+            auto model = Model::create().withOBJ(R"(.\assets\Forest Arena\catapult_base.obj)").build();
+            auto catapult = sceneManager->currentScene->createGameObject(selectedTower->getName());
+            auto arm = sceneManager->currentScene->createGameObject("Arm");
+            arm->setParent(catapult.get());
+            auto ball = sceneManager->currentScene->createGameObject("Ball");
+            ball->setParent(arm.get());
+
+            auto towerTR = catapult->getComponent<Transform>();
             towerTR->position = personController->tower->getComponent<Transform>()->position;
+            towerTR->position.y += 0.8;
             towerTR->rotation = personController->tower->getComponent<Transform>()->rotation;
             towerTR->scale = {0.5f,0.5f,0.5f};
 
-            auto towerMR = tower->addComponent<ModelRenderer>();
-            auto towerAN = tower->addComponent<Animator>();
+            auto catMR = catapult->addComponent<ModelRenderer>();
+            catMR->setModel(model);
+            catapult->getComponent<Transform>()->setModelRenderer(catMR);
+            model = Model::create().withOBJ(R"(.\assets\Forest Arena\catapult_arm.obj)").build();
 
-            towerTR->setModelRenderer(towerMR);
-            towerTR->setAnimator(towerAN);
+            auto armMR = arm->addComponent<ModelRenderer>();
+            armMR->setModel(model);
+            auto armAN = arm->addComponent<Animator>();
+            arm->getComponent<Transform>()->setModelRenderer(armMR);
+            arm->getComponent<Transform>()->setAnimator(armAN);
+            std::shared_ptr<Animation> launch = std::make_shared<Animation>(false);
+            launch->addFrame(glm::vec3(0), glm::vec3(1), glm::vec3(-90, 0, 0), 1.f);
+            armAN->addAnimation("launch", launch);
+            std::shared_ptr<Animation> reload = std::make_shared<Animation>(true);
+            reload->addFrame(glm::vec3(0), glm::vec3(1), glm::vec3(90, 0, 0), 2.f);
+            armAN->addAnimation("reload", reload);
+            auto catTR = catapult->getComponent<Transform>();
+            auto armTR = arm->getComponent<Transform>();
+            auto ballTR = ball->getComponent<Transform>();
+            model = Model::create().withOBJ(R"(.\assets\Forest Arena\ball.obj)").build();
+            auto ballMR = ball->addComponent<ModelRenderer>();
+            ballMR->setModel(model);
+            ball->getComponent<Transform>()->setModelRenderer(ballMR);
 
-            auto towerTB = tower->addComponent<TowerBehaviourComponent>();
+            armMR->getModel()->setTransform(glm::translate(glm::vec3(0, 1, -0.5)));
+            ballMR->getModel()->setTransform(glm::translate(glm::vec3(0, 0.4, 1.6)));
+
+            auto towerTB = catapult->addComponent<TowerBehaviourComponent>();
             towerTB->setEnabled(true);
-            auto path =  ".\\assets\\"+ selectedTower->getMesh();
-            std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName(selectedTower->getMesh()).build();
-            //towerMR->setMesh(personController->tower->getComponent<ModelRenderer>()->getMesh());
-            towerMR->setModel(modelHolder);
-
             score -= selectedTower->getBuildCost();
 
             personController->targetBlock->getComponent<WorldObject>()->setBuildable(false);

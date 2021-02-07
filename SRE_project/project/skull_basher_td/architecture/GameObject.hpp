@@ -13,7 +13,7 @@
 
 class Component;
 
-class GameObject : std::enable_shared_from_this<GameObject> {
+class GameObject : public std::enable_shared_from_this<GameObject> {
 public:
     ~GameObject();
     template<typename C>
@@ -40,7 +40,7 @@ public:
     // TODO:  getter/setter
     bool isQueuedForDeletion() const;
 
-    void setQueuedForDeletion(bool queuedForDeletion);
+    void setQueuedForDeletion(bool queuedForDeletion_);
 
 private:
     std::string name;

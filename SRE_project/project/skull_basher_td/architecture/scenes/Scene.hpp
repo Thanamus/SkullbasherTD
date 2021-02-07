@@ -12,6 +12,7 @@
 #include "../RenderableGui.hpp"
 #include "../Scriptable.hpp"
 #include "../EnemyComponent.hpp"
+#include "../Targetable.hpp"
 
 #include <vector>
 #include <string>
@@ -69,6 +70,7 @@ protected:
     std::vector<Scriptable*> scriptables;
     std::vector<RigidBody*> rigidBodies;
     std::vector<EnemyComponent*> enemies;
+    std::vector<Targetable*> targetables;
     std::vector<Light*> lights;
     sre::WorldLights worldLights;
 

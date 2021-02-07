@@ -68,8 +68,8 @@ GameObject* GameObject::getParent() const {
 }
 
 void GameObject::setParent(GameObject *parent_) {
-    if (parent_) {
-        auto parentChildren = GameObject::parent->children;
+    if (parent) {
+        auto parentChildren = parent->getChildren();
         parentChildren.erase(std::remove(parentChildren.begin(), parentChildren.end(), shared_from_this()), parentChildren.end());
     }
     parent = parent_;
@@ -92,7 +92,7 @@ bool GameObject::isQueuedForDeletion() const {
     return queuedForDeletion;
 }
 
-void GameObject::setQueuedForDeletion(bool queuedForDeletion) {
-    GameObject::queuedForDeletion = queuedForDeletion;
+void GameObject::setQueuedForDeletion(bool queuedForDeletion_) {
+    GameObject::queuedForDeletion = queuedForDeletion_;
 }
 

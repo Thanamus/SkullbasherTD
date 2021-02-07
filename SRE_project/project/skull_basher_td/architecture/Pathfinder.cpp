@@ -49,7 +49,7 @@ void Pathfinder::update(float deltaTime) {
 
         // get nextposition
         // if (currentPosition.x == nextPathPoint.x && currentPosition.z == nextPathPoint.z)
-        auto error = 0.3f;
+        auto error = 0.5f;
         if (abs(currentPosition.x - nextPathPoint.x) <= error && abs(currentPosition.z - nextPathPoint.z) <= error) {
             startPathPoint = nextPathPoint;
             fetchNextPathPoint();

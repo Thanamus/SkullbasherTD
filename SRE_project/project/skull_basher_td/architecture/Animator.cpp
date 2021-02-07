@@ -97,4 +97,8 @@ glm::mat4 Animator::getSQTMatrix() const {
     return SQTMatrix;
 }
 
+std::shared_ptr<Animation> Animator::getAnimationForState(const std::string& state) {
+    return animations.find(state)->second;
+};
+
 
