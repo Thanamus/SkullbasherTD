@@ -19,7 +19,6 @@ float HealthComponent::getHealth()
 void HealthComponent::setHealth(float health)
 {
     this->health = health;
-    HandleHealthChange();
 }
 
 void HealthComponent::addHealth(float health)

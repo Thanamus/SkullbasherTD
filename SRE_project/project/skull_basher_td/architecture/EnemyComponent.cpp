@@ -73,7 +73,7 @@ void EnemyComponent::HandleHealthChange() {
     else
     {
         std::string  hitSound;
-        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("hit", &hitSound);
+        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("hit", hitSound);
 
         SourceManager::Get()->playMyJam(hitSound, this->gameObject->getComponent<Transform>()->position, 20);
         //play sound or animate, or something

@@ -21,6 +21,7 @@
 #include <iostream>
 #include <utility>
 #include "architecture/music/MusicBuffer.hpp"
+#include "architecture/WorldObject.hpp"
 
 using namespace sre;
 using namespace glm;
@@ -177,6 +178,8 @@ void GameManager::onMouse(SDL_Event &event)
             towerMR->setModel(modelHolder);
 
             score -= selectedTower->getBuildCost();
+
+            personController->targetBlock->getComponent<WorldObject>()->setBuildable(false);
         }
     }
 }

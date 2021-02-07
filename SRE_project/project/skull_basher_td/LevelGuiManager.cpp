@@ -215,11 +215,11 @@ void LevelGuiManager::guiWaveInfo()
     ImGui::Spacing();
 
     //Enermy
-    std::string enemies = "Enemies";
+    std::string enemies = "Enemies Remaining";
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enemies)); // align center
     ImGui::Text(enemies.c_str());
 
-    std::string enermyText = std::to_string(GameManager::getInstance().getCurrentEnemy()) + "/" + std::to_string(GameManager::getInstance().getTotalEnemiesInCurrentSet());
+    std::string enermyText = std::to_string(GameManager::getInstance().getTotalEnemies());
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), enermyText)); // align center
     ImGui::Text(enermyText.c_str());
 

@@ -562,7 +562,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyEC->setWave(wave);
                 enemyEC->setEnemySetNumber(currentEnemySet);
                 enemyEC->getPathfinder()->setMoveSpeed(enemyMoveSpeed);
-                enemyEC->addHealth(d["enemyLookup"][enemyTypeChar]["health"].GetFloat());
+                enemyEC->setHealth(d["enemyLookup"][enemyTypeChar]["health"].GetFloat());
                 enemyEC->setMoney(d["enemyLookup"][enemyTypeChar]["money"].GetFloat());
                 enemyEC->setDamage(d["enemyLookup"][enemyTypeChar]["damage"].GetFloat());
 
