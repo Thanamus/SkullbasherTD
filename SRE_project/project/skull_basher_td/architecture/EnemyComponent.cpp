@@ -59,7 +59,7 @@ void EnemyComponent::HandleHealthChange() {
     if(this->getHealth() <= 0) {
 
         std::string  deathSound; 
-        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("death", &deathSound);
+        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("death", deathSound);
 
         SourceManager::Get()->playMyJam(deathSound, this->gameObject->getComponent<Transform>()->position, 20);
         GameManager::getInstance().setTotalEnemies(GameManager::getInstance().getTotalEnemies() - 1);

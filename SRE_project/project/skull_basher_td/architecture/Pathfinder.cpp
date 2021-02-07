@@ -118,7 +118,7 @@ void Pathfinder::setMoving(bool incomingMovingStatus){
     {
         // TODO check if sound can be moved to a memeber variable for better performance
         std::string moveSound;
-        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("spawn", &moveSound);
+        gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("spawn", moveSound);
         /* play sound */
         SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
         mySourceManager->playMyJam(moveSound, currentPosition, 40.f);

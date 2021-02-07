@@ -16,7 +16,7 @@ void PlaylistComponent::addSoundEffect(std::string soundEffectCode, std::string 
 }
 
 // bool PlaylistComponent::getSoundEffectName(std::string soundEffectCode, std::weak_ptr<std::string> const &nameToReturn){
-bool PlaylistComponent::getSoundEffectName(std::string soundEffectCode, std::string* const &nameToReturn){
+bool PlaylistComponent::getSoundEffectName(std::string soundEffectCode, std::string &nameToReturn){
 // bool PlaylistComponent::getSoundEffectName(std::string soundEffectCode, std::string nameToReturn){
 
     std::map<std::string, std::string>::iterator itr;
@@ -26,7 +26,7 @@ bool PlaylistComponent::getSoundEffectName(std::string soundEffectCode, std::str
     if (itr != playlist.end())
     {
         // TODO check if this can be a weak ptr instead
-        *nameToReturn = playlist[soundEffectCode];
+        nameToReturn = playlist[soundEffectCode];
         return true;
     } else {
         std::cout << "ERROR: soundEffect: " << soundEffectCode << " for gameObject: " << gameObject->getName() <<
