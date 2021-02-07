@@ -1,8 +1,5 @@
-//
-// Created by Morten Nobel Jørgensen on 2018-11-08.
-//
-
 #pragma once
+class GameObject;
 
 class Targetable {
 public:
@@ -12,10 +9,10 @@ public:
         return target;
     }
 
-    void setTarget(GameObject *target) {
-        Targetable::target = target;
+    void setTarget(GameObject *target_) {
+        Targetable::target = target_;
     }
 
-private:
+protected:
     GameObject* target = nullptr;
 };

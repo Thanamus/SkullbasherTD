@@ -184,8 +184,8 @@ std::vector<EnemyComponent *> Scene::getEnemies() {
 void Scene::deleteGameObject(const std::shared_ptr<GameObject>& gameObject) {
     // look for gameObject to delete
     for(const auto& t : targetables)
-        if(t->target == gameObject.get())
-            t->target = nullptr;
+        if(t->getTarget() == gameObject.get())
+            t->setTarget(nullptr);
     auto it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
     // if found, release the managed object and remove it from the array
     if(it != gameObjects.end())

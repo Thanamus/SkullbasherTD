@@ -1,17 +1,26 @@
-function aiming()
-    local towerTR =  getTransform(getGameObject());
-    local currPos = getTransform(getTarget()):getGlobalPosition()
-    towerTR:lookAt(vec3(currPos.x, towerTR:getGlobalPosition().y, currPos.z))
---    local nextPoint = target:getNextPoint()
---    local dist = math.sqrt(math.pow(nextPoint.x - currPos.x, 2) + math.pow(nextPoint.z - currPos.z, 2))
---    local speed = target:getSpeed();
---    local timeToNext = dist/speed;
---    local aimPos = currPos;
---    if (timeToNext > getTravelTime()) then
---        leftover = getTravelTime() - timeToNext
---        nextNextPoint = target:getNextNextPoint();
---        nextDir = normalize(nextNextPoint - nextPoint)
---        aimPos = nextPoint + nextDir*vel*leftover
---    else
---    end
+function aiming(enemy)
+    local aimPos = enemy:getPosition()
+    local airTime = getProjectileAirTime()
+    local pf = enemy:getPathfinder()
+    local nextPos = pf:getNextPoint()
+    local dist = distanceXZ(nextPos, aimPos)
+    local dir = pf:getDirection()
+    local speed = pf:getSpeed();
+    local timeToNext = dist/speed;
+    local index = pf:getCurrentPathIndex()
+    while (timeToNext < airTime) do
+        airTime = airTime - timeToNext
+        aimPos = nextPos
+        index = index - 1
+        nextPos = Pathfinder.previewPoint(index)
+        dir = vec3.normalize(nextPos - aimPos)
+        dist = distanceXZ(nextPos, aimPos)
+        timeToNext = dist/speed;
+    end
+    aimPos = aimPos + airTime*dir*speed
+    setAimPos(aimPos)
+end
+
+function distanceXZ(a, b)
+    return math.sqrt(((a.x - b.x)^2) + ((a.z - b.z) ^ 2))
 end

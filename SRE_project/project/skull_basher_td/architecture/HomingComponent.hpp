@@ -6,7 +6,7 @@
 #include "Updatable.hpp"
 #include "GameObject.hpp"
 
-class HomingComponent : public Component, public Targetable, public Updatable {
+class HomingComponent : public Component, public Updatable, Targetable {
 public:
     explicit HomingComponent(GameObject* gameObject_);
     void update(float deltaTime) override;
