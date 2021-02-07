@@ -67,11 +67,11 @@ private:
     const float slowMovespeed = 2.5f;
     const float normalMovespeed = 5.f;
     // float sensitivity = 1.7f;
-    float sensitivity = 50.0f;
+    float sensitivity = 35.0f;
 
     std::chrono::steady_clock::time_point start_reload_lockout;
     std::chrono::steady_clock::time_point kickOffTime_reload;
-    int reload_lockout_millisec = 5000;
+    int reload_lockout_millisec = 2500;
 public:
     int getReloadLockoutMillisec() const;
 

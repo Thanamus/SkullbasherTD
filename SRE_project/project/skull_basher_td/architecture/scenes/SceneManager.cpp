@@ -95,7 +95,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     hand->getComponent<Transform>()->setAnimator(handAN);
     auto handReload = std::make_shared<Animation>(false);
     float resetAnimationTime = 0.2f;
-    handReload->addFrame(glm::vec3( 0,-0.75,0), glm::vec3(1), glm::vec3(-15,0,0), (cameraObj->getComponent<PersonController>()->getReloadLockoutMillisec() / 1000) - resetAnimationTime);
+    handReload->addFrame(glm::vec3( 0,-0.75,0), glm::vec3(1), glm::vec3(-15,0,0), (cameraObj->getComponent<PersonController>()->getReloadLockoutMillisec() / 1000));
     handReload->addFrame(glm::vec3( 0,0,0), glm::vec3(1), glm::vec3(0,0,0), resetAnimationTime);
     handAN->addAnimation("reload", handReload);
 
