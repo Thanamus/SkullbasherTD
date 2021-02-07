@@ -63,9 +63,20 @@ private:
     glm::vec3 original_camera_dir;
 
     // float movespeed = 8.f;
-    float movespeed = 5.f;
+    float currentMovespeed = 5.f;
+    const float slowMovespeed = 2.5f;
+    const float normalMovespeed = 5.f;
     // float sensitivity = 1.7f;
     float sensitivity = 50.0f;
+
+    std::chrono::steady_clock::time_point start_reload_lockout;
+    std::chrono::steady_clock::time_point kickOffTime_reload;
+    int reload_lockout_millisec = 5000;
+public:
+    int getReloadLockoutMillisec() const;
+
+private:
+    bool shootable = true;
 
     float jumpHeight = 7.f;
 

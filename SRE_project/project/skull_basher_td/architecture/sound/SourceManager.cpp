@@ -178,10 +178,11 @@ void SourceManager::playMyJam_global(std::string sound_to_play){
 				AL_CheckAndThrow();
 		}
 		alSourcePlay(oalSource->source); // play sound
+        std::cout << "playing a global sound from source Manager: " << sound_to_play << std::endl;
 	}
 	
 
-	// std::cout << "playing a global sound from source Manager: " << p_buffer << std::endl;
+	//std::cout << "playing a global sound from source Manager: " << sound_to_play << std::endl;
 	AL_CheckAndThrow();
 }
 

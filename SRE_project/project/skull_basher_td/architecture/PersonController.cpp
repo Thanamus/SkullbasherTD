@@ -57,6 +57,7 @@ PersonController::PersonController(GameObject* gameObject)
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
 
     // start_footstep_lockout = std::chrono::steady_clock::now(); // initalise the first footstep lockout
+    start_reload_lockout = std::chrono::steady_clock::now();
 
 }
 
@@ -141,6 +142,22 @@ void PersonController::update(float deltaTime)
     SoundDevice::Get()->SetOrientation(camera_front.x, camera_front.y, camera_front.z,
                                         world_up.x, world_up.y, world_up.z);
 // --------------- end update Listener
+
+    if(!shootable)
+    {
+        kickOffTime_reload = std::chrono::steady_clock::now();
+        int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(kickOffTime_reload - start_reload_lockout).count();
+
+        // TODO match offset to player colision size
+        if (time_elapsed_milli > reload_lockout_millisec)
+        {
+            shootable = true;
+            currentMovespeed = normalMovespeed;
+            // restart footstep lockout
+            start_reload_lockout = std::chrono::steady_clock::now();
+        }
+    }
+
 }
 
 void PersonController::updateVectors()
@@ -154,7 +171,7 @@ void PersonController::updateVectors()
 void PersonController::updateInput(float deltaTime)
 {
     // updates the rotation, pitch and position variables of the player, based on inputs
-    float velocity = movespeed * deltaTime;
+    float velocity = currentMovespeed * deltaTime;
     
     // bool rigidBodyCheck = false;
     
@@ -321,19 +338,27 @@ void PersonController::onMouse(SDL_Event &event)
             camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());*/
     }
 
-    if (event.type == SDL_MOUSEBUTTONDOWN)
+    if (shootable)
     {
-        // TODO get paused and isRunning states from GameManager before shooting
-        if (GameManager::getInstance().levelRunning && !GameManager::getInstance().paused)
+        if(event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
         {
-            if(!GameManager::getInstance().buildModeActive)
+            // TODO get paused and isRunning states from GameManager before shooting
+            if (GameManager::getInstance().levelRunning && !GameManager::getInstance().paused)
             {
-                std::cout << "mouse clicked" << std::endl;
-                fire_projectile();
+                if(!GameManager::getInstance().buildModeActive)
+                {
+                    shootable = false;
+                    start_reload_lockout = std::chrono::steady_clock::now();
+                    std::cout << "mouse clicked" << std::endl;
+                    fire_projectile();
+                    SourceManager::Get()->playMyJam_global("crossbow_reload.wav");
+                    if(hand->getComponent<Animator>()->getAnimationState() != "reload")
+                        hand->getComponent<Animator>()->setAnimationState("reload");
+                    currentMovespeed = slowMovespeed;
+                }
             }
         }
     }
-    
 }
 
 void PersonController::setInitialPosition(glm::vec2 position, float rotation)
@@ -410,6 +435,11 @@ void PersonController::updateHandModel(std::string modelFileName) {
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
 
     hand->getComponent<ModelRenderer>()->setModel(modelHolder);
+    hand->getComponent<Animator>()->setAnimationState("none");
+}
+
+int PersonController::getReloadLockoutMillisec() const {
+    return reload_lockout_millisec;
 }
 
 

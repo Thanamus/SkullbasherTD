@@ -54,6 +54,7 @@ void ScheduleManager::update(float deltaTime){
                         int currentEnemyWaveNumber = enemy->getWave();
                         int currentEnemyNumber = enemy->getEnemyNumber();
                         int currentEnemySetNumber = enemy->getEnemySetNumber();
+                        enemy->setHitable(true);
 
                         // std::cout << "current Enemy Set " << currentEnemySetNumber << std::endl;
                         // std::cout << "looking for: enemy:" << enemyToGoGoGo << ", set: " << enemySetToGoGoGo << " wave: " << enemyWaveToGoGoGo << std::endl;

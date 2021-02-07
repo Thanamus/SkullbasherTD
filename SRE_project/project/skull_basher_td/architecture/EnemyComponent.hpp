@@ -37,6 +37,10 @@ public:
     float getMoney() const;
 
     void setMoney(float money);
+
+    float getDamage() const;
+
+    void setDamage(float damage);
 private:
     Pathfinder* pathfinder;
 
@@ -46,10 +50,11 @@ private:
     int enemySetNumber = 0;
     float money = 0;
     float damage = 0;
+    bool hitable = false;
 public:
-    float getDamage() const;
+    bool isHitable() const;
 
-    void setDamage(float damage);
+    void setHitable(bool hitable);
 };
 
 

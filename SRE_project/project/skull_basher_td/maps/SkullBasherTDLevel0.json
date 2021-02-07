@@ -713,6 +713,10 @@
             {
                 "name": "coin.wav",
                 "location": ".\\assets\\soundEffects\\inventory\\coin.wav"
+            },
+            {
+                "name": "wood-hammering.wav",
+                "location": ".\\assets\\soundEffects\\inventory\\wood-hammering.wav"
             }
         ]
 }

@@ -321,7 +321,6 @@ void LevelGuiManager::onGui() {
     guiGameInfo();
     guiTowers();
     guiWaveInfo();
-
 }
 
 LevelGuiManager::~LevelGuiManager() = default;

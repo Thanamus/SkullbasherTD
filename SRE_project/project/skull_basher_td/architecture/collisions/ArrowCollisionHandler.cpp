@@ -30,7 +30,11 @@ void ArrowCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
         */
         // auto soundeffect = SourceManager::Get(); // get sound effect player
         auto enemy = other->getComponent<EnemyComponent>();
+
         if (enemy) {
+            if(!enemy->isHitable())
+                return;
+
             stopCollisions = true;
             gameObject->setQueuedForDeletion(true);
             enemy->decreaseHealth(1);

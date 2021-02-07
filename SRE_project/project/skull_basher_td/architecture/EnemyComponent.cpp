@@ -95,3 +95,11 @@ float EnemyComponent::getDamage() const {
 void EnemyComponent::setDamage(float damage) {
     EnemyComponent::damage = damage;
 }
+
+bool EnemyComponent::isHitable() const {
+    return hitable;
+}
+
+void EnemyComponent::setHitable(bool hitable) {
+    EnemyComponent::hitable = hitable;
+}

@@ -22,12 +22,13 @@
 #include <utility>
 #include "architecture/music/MusicBuffer.hpp"
 #include "architecture/WorldObject.hpp"
+#include "architecture/sound/SourceManager.hpp"
 
 using namespace sre;
 using namespace glm;
 
 void GameManager::init() {
-    if(sceneManager == nullptr)
+    /*if(sceneManager == nullptr)
         sceneManager = std::make_unique<SceneManager>();
     towers.clear();
     loadTowers("data/towers.json");
@@ -57,6 +58,46 @@ void GameManager::init() {
     enemyAmountWave = 0;
     waveAndEnemies.clear();
     waveAndTimeBetweens.clear();
+    lastEnemy = false;*/
+
+    ////////////////////////
+    if(sceneManager == nullptr)
+        sceneManager = std::make_unique<SceneManager>();
+    towers.clear();
+    loadTowers("data/towers.json");
+    selectedTower = towers[0];
+    quit = false;
+    buildModeActive = false;
+
+    bool levelRunning = true;
+    bool won = false;
+    bool paused = false;
+
+    crystal = nullptr;
+
+    // Player stats
+    int score = 40;
+
+    //path
+    path.clear();
+    waveAndEnemies.clear();
+    waveAndTimeBetweens.clear();
+
+    currentWave = 0;
+    totalWavesInLevel = 0;
+
+    enemySetsAmount = 0; //assuming this means how many waves
+
+    currentEnemySet = 0;
+    totalEnemySetsInCurrentWave = 0;
+
+    currentEnemy = 0;
+    totalEnemiesInCurrentSet = 0;
+
+    enemyAmountWave = 0;
+
+    totalEnemiesSpawned = 0;
+    totalEnemies = 0;
     lastEnemy = false;
 }
 
@@ -137,16 +178,17 @@ void GameManager::onKey(SDL_Event &event)
     if(pressed && selectedTowerIndex <= towers.size())
     {
         selectedTower = towers[selectedTowerIndex];
+        auto player = sceneManager->getCurrentScene()->cameras[0]->getGameObject()->getComponent<PersonController>();
         if(buildModeActive)
         {
             updateTowerIndicator();
-            sceneManager->getCurrentScene()->cameras[0]->getGameObject()->getComponent<PersonController>()->updateHandModel("hammer");
+            player->updateHandModel("hammer");
         }
         else {
             auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
             towerIndicator->getComponent<ModelRenderer>()->active = false;
 
-            sceneManager->getCurrentScene()->cameras[0]->getGameObject()->getComponent<PersonController>()->updateHandModel("lowpoly_crossbow_2_5");
+            player->updateHandModel("lowpoly_crossbow_2_5");
         }
     }
 }
@@ -180,6 +222,10 @@ void GameManager::onMouse(SDL_Event &event)
             score -= selectedTower->getBuildCost();
 
             personController->targetBlock->getComponent<WorldObject>()->setBuildable(false);
+            if(personController->hand->getComponent<Animator>()->getAnimationState() != "build")
+                personController->hand->getComponent<Animator>()->setAnimationState("build");
+
+            SourceManager::Get()->playMyJam_global("wood-hammering.wav");
         }
     }
 }

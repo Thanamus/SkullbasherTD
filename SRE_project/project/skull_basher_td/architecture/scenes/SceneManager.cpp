@@ -91,6 +91,21 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     auto handMR = hand->addComponent<ModelRenderer>();
     auto path =  ".\\assets\\lowpoly_crossbow_2_5.obj";
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
+    auto handAN = hand->addComponent<Animator>();
+    hand->getComponent<Transform>()->setAnimator(handAN);
+    auto handReload = std::make_shared<Animation>(false);
+    float resetAnimationTime = 0.2f;
+    handReload->addFrame(glm::vec3( 0,-0.75,0), glm::vec3(1), glm::vec3(-15,0,0), (cameraObj->getComponent<PersonController>()->getReloadLockoutMillisec() / 1000) - resetAnimationTime);
+    handReload->addFrame(glm::vec3( 0,0,0), glm::vec3(1), glm::vec3(0,0,0), resetAnimationTime);
+    handAN->addAnimation("reload", handReload);
+
+    auto handBuild = std::make_shared<Animation>(false);
+    handBuild->addFrame(glm::vec3( 0,0.5,0), glm::vec3(1), glm::vec3(30,0,0), 1.f);
+    handBuild->addFrame(glm::vec3( 0,-0.5,0), glm::vec3(1), glm::vec3(-30,0,0), 1.f);
+    handBuild->addFrame(glm::vec3( 0,0.5,0), glm::vec3(1), glm::vec3(30,0,0), 1.f);
+    handBuild->addFrame(glm::vec3( 0,-0.5,0), glm::vec3(1), glm::vec3(-30,0,0), 1.f);
+    handBuild->addFrame(glm::vec3( 0,0,0), glm::vec3(1), glm::vec3(0,0,0), 1.f);
+    handAN->addAnimation("build", handBuild);
 
     //handMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     handMR->setModel(modelHolder);
@@ -110,11 +125,6 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     auto crystalAN = crystal->addComponent<Animator>();
     crystalTR->setAnimator(crystalAN);
     crystalTR->setModelRenderer(crystalMR);
-//    auto crystalRotate = std::make_shared<Animation>(true);
-//    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(0), 5.f);
-//    crystalRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(360), 5.f);
-//    crystalAN->addAnimation("rotate", crystalRotate);
-//    crystalAN->setAnimationState("rotate");
 
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     // ---- set crystal collision group and flags
