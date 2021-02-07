@@ -518,6 +518,7 @@
       },
       "moveSpeed": 4,
       "health": 2.0,
+      "money": 2.0,
       "soundEffectsPlaylist": [
         {
           "soundEffectCode": "death",
@@ -549,6 +550,7 @@
       },
       "moveSpeed": 5,
       "health": 1.0,
+      "money": 5.0,
       "soundEffectsPlaylist": [
         {
           "soundEffectCode": "death",
@@ -580,6 +582,7 @@
       },
       "moveSpeed": 3,
       "health": 3.0,
+      "money": 10.0,
       "soundEffectsPlaylist": [
         {
           "soundEffectCode": "death",
@@ -611,6 +614,7 @@
       },
       "moveSpeed": 2,
       "health": 5.0,
+      "money": 20.0,
       "soundEffectsPlaylist": [
         {
           "soundEffectCode": "death",

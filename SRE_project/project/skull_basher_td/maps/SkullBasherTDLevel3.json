@@ -332,7 +332,7 @@
         {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":1,"quantity":2}], "timeBetweenEnemy":1, "timeBetweenWaves":10},
         {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":5, "timeBetweenWaves":10}
     ],
-    "enemyLookup":{
+    "enemyLookup": {
         "1": {
             "object": "Skull03.obj",
             "rotation": 0,
@@ -349,14 +349,17 @@
             },
             "moveSpeed": 4,
             "health": 2.0,
+            "money": 2.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
                     "soundEffectName": "deathd.wav"
-                },                {
+                },
+                {
                     "soundEffectCode": "spawn",
                     "soundEffectName": "pestilence.wav"
-                },                {
+                },
+                {
                     "soundEffectCode": "hit",
                     "soundEffectName": "mnstr9.wav"
                 }
@@ -378,6 +381,7 @@
             },
             "moveSpeed": 5,
             "health": 1.0,
+            "money": 5.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -409,6 +413,7 @@
             },
             "moveSpeed": 3,
             "health": 3.0,
+            "money": 10.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -440,6 +445,7 @@
             },
             "moveSpeed": 2,
             "health": 5.0,
+            "money": 20.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
