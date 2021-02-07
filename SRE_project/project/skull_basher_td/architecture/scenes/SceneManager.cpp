@@ -536,6 +536,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyTR->scale = scaleHolder;
                 auto bounds = enemyMR->getMesh()->getBoundsMinMax();
 
+                std::cout << "adding collisions to enemy" << std::endl;
                 collisionHolder.x = d["enemyLookup"][enemyTypeChar]["collision"]["x"].GetFloat();
                 collisionHolder.y = d["enemyLookup"][enemyTypeChar]["collision"]["y"].GetFloat();
                 collisionHolder.z = d["enemyLookup"][enemyTypeChar]["collision"]["z"].GetFloat();
@@ -554,6 +555,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyRB->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
                 enemy->addComponent<EnemyCollisionHandler>();
 
+                 std::cout << "adding enemy component to enemy" << std::endl;
                 //Add EnemyComponent to Skull
                 auto enemyEC = enemy->addComponent<EnemyComponent>();
                 enemyEC->setEnemyNumber(anEnemy);
@@ -565,6 +567,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyEC->setDamage(d["enemyLookup"][enemyTypeChar]["damage"].GetFloat());
 
                 //--------- Add playlist to enemy
+                 std::cout << "adding playlist to enemy" << std::endl;
                 auto enemyPlaylsitComponent = enemy->addComponent<PlaylistComponent>();
                 
                 int howManySoundEffects = d["enemyLookup"][enemyTypeChar]["soundEffectsPlaylist"].GetArray().Size();
