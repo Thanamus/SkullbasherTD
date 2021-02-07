@@ -89,5 +89,8 @@ bool Scriptable::isEnabled() const {
 }
 
 void Scriptable::setEnabled(bool _enabled) {
-    Scriptable::enabled = _enabled;
+    enabled = _enabled;
+}
+
+Scriptable::~Scriptable() {
 }

@@ -52,7 +52,7 @@ private:
     // TODO: shift to reading from json once it's all done
     float range = 10.f;
     bool readyToShoot = true;
-    float projectileAirTime = 2.f;
+    float projectileAirTime = 0.5f;
     float reloadSpeed = 3.f;
 
     void shoot(float deltaTime);

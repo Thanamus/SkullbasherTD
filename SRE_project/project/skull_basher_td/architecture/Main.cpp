@@ -52,8 +52,7 @@ Main::Main()
     fonts->AddFontDefault();
     //-------------- handshaking
     GameManager::getInstance().init();
-    for (const auto& levelData : GameManager::getInstance().getSceneManager()->getLevelsData())
-    {
+    for (const auto& levelData : GameManager::getInstance().getSceneManager()->getLevelsData()) {
         if(levelData->sceneType != 1)
             continue;
 

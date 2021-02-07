@@ -125,6 +125,7 @@ void TowerBehaviourComponent::update(float deltaTime) {
     }
     // if the tower is ready to shoot and has a target, but hasn't aimed yet, then calc where to shoot
     if (hasTargetInRange && aimPos == glm::vec3(-1)) {
+        std::cout << "currpos x: " << target->getComponent<Transform>()->position.x << " y: " << target->getComponent<Transform>()->position.y << " z: " << target->getComponent<Transform>()->position.z << std::endl;
         std::cout << actions[TB_AIMING] << std::endl;
         run(actions[TB_AIMING], target->getComponent<EnemyComponent>());
     }
@@ -235,18 +236,18 @@ void TowerBehaviourComponent::shoot(float deltaTime) {
             arrowMR->setMesh(sre::Mesh::create().withCube(0.99).build());
             arrowMR->setModel(modelHolder);
             auto arrowBody = arrow->addComponent<RigidBody>();
-            arrowBody->initRigidBodyWithBox({0.01,0.01,0.1}, 0.1, PROJECTILES, BUILDINGS | ENEMIES);
+            arrowBody->initRigidBodyWithBox({0.01,0.01,0.5}, 0.1, PROJECTILES, ENEMIES);
             auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();
             arrowRigidBody->setGravity({0,0,0});
             arrowRigidBody->setAngularVelocity({0,0,0});
             btVector3 arrowSpeed = {direction.x, direction.y, direction.z};
 
+            // ALL CALCULATIONS HERE WORK!
             // arrowForce *= 2;
             arrowSpeed *= distance/projectileAirTime; // get required speed
-            std::cout << "proj x: " << projectileStart.x << " y: " << projectileStart.y << " z: " << projectileStart.z <<std::endl;
-            std::cout << "distance " << distance << std::endl;
-            std::cout << "dir x: " << direction.x << " y: " << direction.y << " z: " << direction.z <<std::endl;
-            std::cout << "force x: " << arrowSpeed.x() << " y: " << arrowSpeed.y() << " z: " << arrowSpeed.z() <<std::endl;
+            auto actual = target->getComponent<Transform>()->position;
+            auto projdir = target->getComponent<EnemyComponent>()->getPathfinder()->getDirection();
+            auto projected = actual + projdir*4.f*0.5f;
 
             arrowRigidBody->setLinearVelocity(arrowSpeed);
             // to make sure the arrow doesn't spin in the air

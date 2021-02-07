@@ -186,7 +186,7 @@ void GameManager::onMouse(SDL_Event &event)
 
             auto towerTR = catapult->getComponent<Transform>();
             towerTR->position = personController->tower->getComponent<Transform>()->position;
-            towerTR->position.y += 0.8;
+            towerTR->position.y += 0.5;
             towerTR->rotation = personController->tower->getComponent<Transform>()->rotation;
             towerTR->scale = {0.5f,0.5f,0.5f};
 
