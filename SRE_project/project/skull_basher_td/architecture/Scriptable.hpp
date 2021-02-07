@@ -14,6 +14,7 @@
 class Scriptable {
 public:
     explicit Scriptable(bool enabled = false);
+    ~Scriptable();
 
     // run is called with a parameter pack, allowing for scripts to be ran with variable parameters
     // this allows to run a generic script which comes in quite handy
@@ -42,7 +43,7 @@ public:
         }
     }
 
-    virtual void update() = 0;
+    virtual void update(float deltaTime) = 0;
 
     bool loadScript(const std::string &name, const std::string &scriptSource, bool isFilename);
 

@@ -80,6 +80,10 @@ void Scene::addComponent(const std::shared_ptr<Component>& component) {
     if (scriptable) {
         scriptables.push_back(scriptable);
     }
+    auto targetable = dynamic_cast<Targetable*>(componentRawPtr);
+    if (targetable) {
+        targetables.push_back(targetable);
+    }
     auto enemy = dynamic_cast<EnemyComponent*>(componentRawPtr);
     if (enemy) {
         enemies.push_back(enemy);
@@ -125,6 +129,12 @@ void Scene::removeComponent(const std::shared_ptr<Component>& component) {
     if (scriptable) {
         if(!scriptables.empty()) {
             scriptables.erase(std::remove(scriptables.begin(), scriptables.end(), scriptable), scriptables.end());
+        }
+    }
+    auto targetable = dynamic_cast<Targetable*>(componentRawPtr);
+    if (targetable) {
+        if(!targetables.empty()) {
+            targetables.erase(std::remove(targetables.begin(), targetables.end(), targetable), targetables.end());
         }
     }
     auto enemy = dynamic_cast<EnemyComponent*>(componentRawPtr);
@@ -173,6 +183,9 @@ std::vector<EnemyComponent *> Scene::getEnemies() {
 
 void Scene::deleteGameObject(const std::shared_ptr<GameObject>& gameObject) {
     // look for gameObject to delete
+    for(const auto& t : targetables)
+        if(t->getTarget() == gameObject.get())
+            t->setTarget(nullptr);
     auto it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
     // if found, release the managed object and remove it from the array
     if(it != gameObjects.end())

@@ -40,18 +40,18 @@ public:
 
     void debugGUI() override;
 
-    Transform *getParent() const;
-
-    void setParent(Transform *_parent);
-    const std::vector<Transform*> & getChildren();
+//    Transform *getParent() const;
+//
+//    void setParent(Transform *_parent);
+//    const std::vector<Transform*> & getChildren();
 
     void lookAt(glm::vec3 at,glm::vec3 up);
     void lookAt(Transform* at,glm::vec3 up);
 
 private:
-    Transform * parent = nullptr;
-    // make it shared
-    std::vector<Transform*> children;
+//    Transform * parent = nullptr;
+//    // make it shared
+//    std::vector<Transform*> children;
     std::shared_ptr<ModelRenderer> modelRenderer;
     std::shared_ptr<Animator> animator;
 };

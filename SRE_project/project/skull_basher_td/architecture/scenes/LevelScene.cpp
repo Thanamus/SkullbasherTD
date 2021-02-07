@@ -62,7 +62,7 @@ void LevelScene::update(float deltaTime){
         p->updateTransformFromPhysicsWorld();
     for (auto& s : scriptables)
         if(s->isEnabled())
-            s->update();
+            s->update(deltaTime);
     scheduleManager->update(deltaTime); //has to be updated separately from the rest
 }
 

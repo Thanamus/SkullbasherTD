@@ -8,9 +8,10 @@
 #include "Scriptable.hpp"
 #include "Component.hpp"
 #include "GameObject.hpp"
+#include "Targetable.hpp"
 #include "glm/glm.hpp"
 
-class TowerBehaviourComponent : public Component, public Scriptable {
+class TowerBehaviourComponent : public Component, public Scriptable, Targetable {
     using Scriptable::Scriptable;
 public:
     enum TowerAction {
@@ -21,7 +22,7 @@ public:
     };
 
     explicit TowerBehaviourComponent(GameObject* gameObject);
-    void update() override;
+    void update(float deltaTime) override;
 
     float getRange() const;
     void setRange(float _range);
@@ -29,17 +30,14 @@ public:
     bool isReadyToShoot() const;
     void setReadyToShoot(bool readyToShoot);
 
-    float getProjectileSpeed() const;
-    void setProjectileSpeed(float _projectileSpeed);
+    float getProjectileAirTime() const;
+    void setProjectileAirTime(float projectileAirTime_);
 
     float getReloadSpeed() const;
-    void setReloadSpeed(float _reloadSpeed);
-
-    GameObject *getTarget() const;
-    void setTarget(GameObject *_target);
+    void setReloadSpeed(float reloadSpeed_);
 
     const glm::vec3 &getAimPos() const;
-    void setAimPos(const glm::vec3 &_aimPos);
+    void setAimPos(const glm::vec3 &aimPos_);
 
     bool targetInRange() const;
 
@@ -54,12 +52,10 @@ private:
     // TODO: shift to reading from json once it's all done
     float range = 10.f;
     bool readyToShoot = true;
-    float projectileSpeed = 2.f;
+    float projectileAirTime = 0.5f;
     float reloadSpeed = 3.f;
 
-    // targeting stuff
-    GameObject* target = nullptr;
-
+    void shoot(float deltaTime);
     static bool inCircle(glm::vec2 point, glm::vec2 center, float radius) ;
 };
 

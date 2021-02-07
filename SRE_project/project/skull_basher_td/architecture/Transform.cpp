@@ -8,21 +8,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <imgui.h>
 #include <algorithm>
+#include <utility>
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/euler_angles.hpp"
 #include "glm/gtx/string_cast.hpp"
 
 using namespace sre;
 
-Transform::Transform(GameObject* gameObject)
-        : Component(gameObject) {
-    if(gameObject->getParent() && gameObject->getComponent<Transform>().get()) {
-        setParent(gameObject->getComponent<Transform>().get());
-    }
-
+Transform::Transform(GameObject* gameObject) : Component(gameObject) {
     // sets animator and renderer pointers (if found)
-    setAnimator(gameObject->getComponent<Animator>());
-    setModelRenderer(gameObject->getComponent<ModelRenderer>());
+//    setAnimator(gameObject->getComponent<Animator>());
+//    setModelRenderer(gameObject->getComponent<ModelRenderer>());
 }
 
 std::shared_ptr<ModelRenderer> Transform::getModelRenderer() const {
@@ -30,7 +26,7 @@ std::shared_ptr<ModelRenderer> Transform::getModelRenderer() const {
 }
 
 void Transform::setModelRenderer(std::shared_ptr<ModelRenderer> _modelRenderer) {
-    Transform::modelRenderer = _modelRenderer;
+    Transform::modelRenderer = std::move(_modelRenderer);
 }
 
 std::shared_ptr<Animator> Transform::getAnimator() const {
@@ -38,7 +34,7 @@ std::shared_ptr<Animator> Transform::getAnimator() const {
 }
 
 void Transform::setAnimator(std::shared_ptr<Animator> _animator) {
-    Transform::animator = _animator;
+    Transform::animator = std::move(_animator);
 }
 
 
@@ -57,8 +53,13 @@ glm::mat4 Transform::localTransform() const {
 }
 
 glm::mat4 Transform::globalTransform() const {
-    if (parent){
-        return parent->globalTransform() * localTransform() ;
+    // want to factor in the parent's global transform
+    auto parentGameObj = gameObject->getParent();
+    if (parentGameObj) {
+        auto parentTransform = parentGameObj->getComponent<Transform>();
+        if(parentTransform){
+            return parentTransform->globalTransform() * localTransform() ;
+        }
     }
 
     return localTransform();
@@ -73,27 +74,27 @@ void Transform::debugGUI() {
     }
 }
 
-Transform *Transform::getParent() const {
-    return parent;
-}
+//Transform *Transform::getParent() const {
+//    return parent;
+//}
 
-void Transform::setParent(Transform *_parent) {
-    if (Transform::parent != nullptr){
-        auto& parentChildren = Transform::parent->children;
-        auto pos = std::find(parentChildren.begin(), parentChildren.end(), this);
-        if (pos != parentChildren.end()){
-            parentChildren.erase(pos);
-        }
-    }
-    Transform::parent = _parent;
-    if (_parent != nullptr){
-        _parent->children.push_back(this);
-    }
-}
-
-const std::vector<Transform *> &Transform::getChildren() {
-    return children;
-}
+//void Transform::setParent(Transform *_parent) {
+//    if (Transform::parent != nullptr){
+//        auto& parentChildren = Transform::parent->children;
+//        auto pos = std::find(parentChildren.begin(), parentChildren.end(), this);
+//        if (pos != parentChildren.end()){
+//            parentChildren.erase(pos);
+//        }
+//    }
+//    Transform::parent = _parent;
+//    if (_parent != nullptr){
+//        _parent->children.push_back(this);
+//    }
+//}
+//
+//const std::vector<Transform *> &Transform::getChildren() {
+//    return children;
+//}
 
 void Transform::lookAt(glm::vec3 at,glm::vec3 up){
     auto lookAtMat = glm::lookAt(position, at, up);
@@ -125,8 +126,6 @@ glm::vec3 Transform::globalPosition() const {
 }
 
 Transform::~Transform() {
-    children.clear();
-    parent = nullptr;
     animator.reset();
     modelRenderer.reset();
 }

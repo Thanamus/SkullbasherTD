@@ -24,6 +24,8 @@ public:
     void setAnimationState(const std::string& state);
     const std::string& getAnimationState() const;
 
+    std::shared_ptr<Animation> getAnimationForState(const std::string& state);
+
     glm::mat4 getSQTMatrix() const;
 
 private:
