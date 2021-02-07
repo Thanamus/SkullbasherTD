@@ -53,7 +53,7 @@ glm::vec3 EnemyComponent::getPosition() {
 }
 
 void EnemyComponent::HandleHealthChange() {
-    if (!GameManager::getInstance().levelRunning)
+    if (!GameManager::getInstance().levelRunning || gameObject->isQueuedForDeletion())
         return;
 
     if(this->getHealth() <= 0) {
@@ -61,12 +61,25 @@ void EnemyComponent::HandleHealthChange() {
         std::string  deathSound; 
         gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("death", &deathSound);
 
-        // SourceManager::Get()->playMyJam("deathd.wav", this->gameObject->getComponent<Transform>()->position, 20);
         SourceManager::Get()->playMyJam(deathSound, this->gameObject->getComponent<Transform>()->position, 20);
+        GameManager::getInstance().setTotalEnemies(GameManager::getInstance().getTotalEnemies() - 1);
         gameObject->setQueuedForDeletion(true);
+        GameManager::getInstance().getSceneManager()->SpawnCoin(money, this->getGameObject()->getComponent<Transform>()->position);
+        if(GameManager::getInstance().getTotalEnemies() <= 0)
+        {
+            GameManager::getInstance().toggleWinState(true);
+        }
     }
     else
     {
         //play sound or animate, or something
     }
+}
+
+float EnemyComponent::getMoney() const {
+    return money;
+}
+
+void EnemyComponent::setMoney(float money) {
+    EnemyComponent::money = money;
 }

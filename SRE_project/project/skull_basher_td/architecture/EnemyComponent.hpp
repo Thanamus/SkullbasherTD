@@ -34,6 +34,9 @@ public:
 
     void update(float deltaTime) override;
 
+    float getMoney() const;
+
+    void setMoney(float money);
 private:
     Pathfinder* pathfinder;
 
@@ -41,6 +44,7 @@ private:
     int waveNumber = 0;
     int enemyNumber = 0;
     int enemySetNumber = 0;
+    float money = 0;
 };
 
 

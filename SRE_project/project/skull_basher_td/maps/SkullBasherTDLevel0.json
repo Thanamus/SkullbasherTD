@@ -448,6 +448,31 @@
                     "z": 0.0
                 }
         },
+        "131": {
+            "object": "box.obj",
+            "material": "..\\Assets\\WorldMapAssets\\box.mtl",
+            "isbuildable": false,
+            "isPath": true,
+            "rotation": 0,
+            "scaleFactors": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "collision": {
+                "type": "box",
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "posOffset":
+            {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "reversePathBuffer":true
+        },
         "20": {
             "object": "Step01D.obj",
             "material": "..\\Assets\\WorldMapAssets\\Step01D.mtl",
@@ -531,6 +556,7 @@
             },
             "moveSpeed": 4,
             "health": 2.0,
+            "money": 2.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -560,6 +586,7 @@
             },
             "moveSpeed": 5,
             "health": 1.0,
+            "money": 5.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -591,6 +618,7 @@
             },
             "moveSpeed": 3,
             "health": 3.0,
+            "money": 10.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -622,6 +650,7 @@
             },
             "moveSpeed": 2,
             "health": 5.0,
+            "money": 20.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",

@@ -72,10 +72,6 @@ void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
                 }
             }
         }
-        else if (other->getName() == "Coin")
-        {
-            GameManager::getInstance().addScore(10);
-        }
     }
 }
 

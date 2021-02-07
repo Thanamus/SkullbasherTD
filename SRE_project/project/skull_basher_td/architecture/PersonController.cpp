@@ -405,6 +405,13 @@ void PersonController::fire_projectile(){
     SourceManager::Get()->playMyJam_global("Bow.wav");
 }
 
+void PersonController::updateHandModel(std::string modelFileName) {
+    auto path =  ".\\assets\\"+ modelFileName +".obj";
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
+
+    hand->getComponent<ModelRenderer>()->setModel(modelHolder);
+}
+
 
 // Moved to PlayerCollisionHandler 
 // void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){

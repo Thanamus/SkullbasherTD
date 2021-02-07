@@ -24,6 +24,8 @@
 #include "LevelScene.hpp"
 #include "../../GameManager.hpp"
 #include "../ModelRenderer.hpp"
+#include "../CoinComponent.hpp"
+#include "../collisions/CoinCollisionHandler.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
@@ -133,38 +135,6 @@ void LevelScene::render(){
             ImGui::End();
         }
     }
-}
-
-void LevelScene::SpawnCoin(glm::vec3 position) {
-    auto coin = this->createGameObject("Coin");
-    auto coinTR = coin->getComponent<Transform>();
-    coinTR->position = position;
-    coinTR->rotation = {0,0,0};
-    coinTR->scale = {0.4f,0.4f,0.4f};
-    auto coinMR = coin->addComponent<ModelRenderer>();
-    auto coinPath =  ".\\assets\\Coins.obj";
-
-    //TODO: review animation
-    auto coinAN = coin->addComponent<Animator>();
-    coinTR->setAnimator(coinAN);
-    auto coinRotate = std::make_shared<Animation>(true);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(1), 5.f);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(359), 5.f);
-    coinAN->addAnimation("rotate", coinRotate);
-    coinAN->setAnimationState("rotate");
-    coinMR->setModel(Model::create().withOBJ(coinPath).withName("coin").build());
-    auto bounds = coinMR->getMesh()->getBoundsMinMax();
-
-    float length = (fabs(bounds[0].z) + fabs(bounds[1].z));
-    float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/5;
-    float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/12;
-
-    auto coinRigidBody = coin->addComponent<RigidBody>();
-    coinRigidBody->initRigidBodyWithBox({length,width,height}, 1, COINS, PLAYER ); // crystal needs to be sphere -> skull collision only works with box
-
-    // ---- making sure that Coin can't move if hit
-    coinRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
-    coinRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
 }
 
 #pragma clang diagnostic pop

@@ -35,6 +35,9 @@
 #include "../collisions/PlayerCollisionHandler.hpp"
 
 #include "../Pathfinder.hpp"
+#include "../CoinComponent.hpp"
+#include "../collisions/CoinCollisionHandler.hpp"
+#include "../lifespans/ArrowLifespanComponent.hpp"
 
 #include <iostream>
 #include <utility>
@@ -89,7 +92,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     auto path =  ".\\assets\\lowpoly_crossbow_2_5.obj";
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
 
-    handMR->setMesh(sre::Mesh::create().withCube(0.99).build());
+    //handMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     handMR->setModel(modelHolder);
 
     cameraObj->getComponent<PersonController>()->hand = hand;
@@ -125,8 +128,6 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     GameManager::getInstance().crystal = crystal->getComponent<CrystalHealth>();
 
     crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
-
-    res->SpawnCoin({4,0,4});
 
     return res;
 };
@@ -487,6 +488,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
             //put the set into the enemySetHolder to be sent to GameManager later
             tempEnemySet.enemyType = enemyTypeInt;
             tempEnemySet.quantity = howManyOfEnemyType;
+            GameManager::getInstance().setTotalEnemies(GameManager::getInstance().getTotalEnemies() + howManyOfEnemyType);
             enemySetsHolder.push_back(tempEnemySet);
 
 
@@ -560,6 +562,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyEC->setEnemySetNumber(currentEnemySet);
                 enemyEC->getPathfinder()->setMoveSpeed(enemyMoveSpeed);
                 enemyEC->addHealth(d["enemyLookup"][enemyTypeChar]["health"].GetFloat());
+                enemyEC->setMoney(d["enemyLookup"][enemyTypeChar]["money"].GetFloat());
                 
                 //--------- Add playlist to enemy
                 auto enemyPlaylsitComponent = enemy->addComponent<PlaylistComponent>();
@@ -587,6 +590,44 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
         //send the wave details to the Game Manager
         GameManager::getInstance().addWave(wave, enemySetsHolder, waveScheduleDetailHolder);
     }
+}
+
+void SceneManager::SpawnCoin(float money,glm::vec3 position) {
+    auto coin = currentScene->createGameObject("Coin");
+    auto coinTR = coin->getComponent<Transform>();
+    coinTR->position = position;
+    coinTR->rotation = {0,0,0};
+    coinTR->scale = {0.4f,0.4f,0.4f};
+    auto coinMR = coin->addComponent<ModelRenderer>();
+    auto coinPath =  ".\\assets\\Coins.obj";
+
+    //TODO: review animation
+    auto coinAN = coin->addComponent<Animator>();
+    coinTR->setAnimator(coinAN);
+    auto coinRotate = std::make_shared<Animation>(true);
+    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(1), 5.f);
+    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(359), 5.f);
+    coinAN->addAnimation("rotate", coinRotate);
+    coinAN->setAnimationState("rotate");
+    coinMR->setModel(Model::create().withOBJ(coinPath).withName("coin").build());
+    auto bounds = coinMR->getMesh()->getBoundsMinMax();
+
+    float length = (fabs(bounds[0].z) + fabs(bounds[1].z));
+    float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/5;
+    float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/12;
+
+    auto coinRigidBody = coin->addComponent<RigidBody>();
+    coinRigidBody->initRigidBodyWithBox({length,width,height}, 1, COINS, PLAYER ); // crystal needs to be sphere -> skull collision only works with box
+
+    // ---- making sure that Coin can't move if hit
+    coinRigidBody->getRigidBody()->setAngularFactor(btVector3(0,0,0));
+    coinRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
+
+    coin->addComponent<CoinComponent>();
+    coin->getComponent<CoinComponent>()->setMoney(money);
+    coin->addComponent<CoinCollisionHandler>();
+    coin->addComponent<ArrowLifespanComponent>();
+    coin->getComponent<ArrowLifespanComponent>()->setLifespan(20000);
 }
 
 #pragma clang diagnostic pop

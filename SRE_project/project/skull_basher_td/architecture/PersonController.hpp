@@ -41,6 +41,7 @@ public:
     std::shared_ptr<GameObject> tower;
     std::shared_ptr<GameObject> targetBlock;
     bool allowedToBuild = false;
+    void updateHandModel(std::string modelFileName);
 
     //------ customCollision Component Override
 

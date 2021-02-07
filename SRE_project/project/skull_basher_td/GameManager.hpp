@@ -82,11 +82,8 @@ public:
     void setInitialWaveStats();
     const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
     int getTotalEnemiesInCurrentSet() const;
-
-//    void addEnemy(const std::shared_ptr<GameObject>& enemy);
-//    void removeEnemy(const std::shared_ptr<GameObject>& enemy);
+    void toggleWinState(bool winState);
     const std::unique_ptr<SceneManager> &getSceneManager() const;
-
 private:
     GameManager() {}
 
@@ -115,6 +112,18 @@ private:
     int totalEnemiesInCurrentSet = 0;
 
     int enemyAmountWave = 0;
+    int totalEnemiesSpawned = 0;
+    int totalEnemies = 0;
+public:
+    int getTotalEnemiesSpawned() const;
+
+    void setTotalEnemiesSpawned(int totalEnemiesSpawned);
+
+    int getTotalEnemies() const;
+
+    void setTotalEnemies(int totalEnemies);
+
+private:
 
     void checkAndUpdateEnemyNumber();
     void checkAndUpdateEnemySetNumber();

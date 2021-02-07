@@ -70,6 +70,7 @@ public:
     std::string getMapsFolderLoc();
 
     const std::vector<std::shared_ptr<LevelData>> &getLevelsData() const;
+    void SpawnCoin(float money,glm::vec3 position);
 private:
     std::vector<std::shared_ptr<LevelData>> levelsData;
     void loadLevelsData();
