@@ -35,6 +35,7 @@ public:
 
     const std::vector<std::shared_ptr<GameObject>> & getChildren() const;
     std::shared_ptr<GameObject> getChildByName(const std::string& childName);
+    void removeChild(const std::shared_ptr<GameObject>& ptr);
 
     // TODO:  getter/setter
     bool isQueuedForDeletion() const;
