@@ -67,6 +67,10 @@ public:
 
     void setProjectile(const Projectile &projectile);
 
+    float getRange() const;
+
+    void setRange(float range);
+
 private:
     int id{};
     std::string name;
@@ -76,6 +80,7 @@ private:
     int buildCost{};
     float constructionTime{};
     float delay{};
+    float range{};
     float launchTime{};
     float reloadTime{};
     float projectileAirTime{};

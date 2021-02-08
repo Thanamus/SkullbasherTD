@@ -207,6 +207,8 @@ bool TowerBehaviourComponent::inCircle(glm::vec2 point, glm::vec2 center, float 
 void TowerBehaviourComponent::shoot(float deltaTime) {
     auto transform = gameObject->getComponent<Transform>();
     transform->lookAt(glm::vec3{aimPos.x, transform->globalPosition().y, aimPos.z}, glm::vec3(0,1,0));
+    std::cout << "making dat projectile baby" << std::endl;
+    makeProjectile();
 //    auto arm = gameObject->getChildByName("Arm");
 //    if(!arm) {
 //        std::cout << "no arm!" << std::endl;
@@ -301,5 +303,14 @@ std::shared_ptr<GameObject> TowerBehaviourComponent::makeProjectile() {
     projectileTR->position = projectile.position;
     projectileTR->scale = projectile.scale;
     projectileTR->rotation = projectile.rotation;
+    projectileTR->setModelRenderer(projectileMR);
     return projectile_;
+}
+
+const Projectile &TowerBehaviourComponent::getProjectile() const {
+    return projectile;
+}
+
+void TowerBehaviourComponent::setProjectile(const Projectile &projectile) {
+    TowerBehaviourComponent::projectile = projectile;
 }

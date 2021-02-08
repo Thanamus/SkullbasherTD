@@ -68,6 +68,11 @@ public:
         return this;
     }
 
+    const TowerBuilder* withRange(float range) const {
+        tower->setRange(range);
+        return this;
+    }
+
     const TowerBuilder* withReloadTime(float reloadTime) const {
         tower->setReloadTime(reloadTime);
         return this;

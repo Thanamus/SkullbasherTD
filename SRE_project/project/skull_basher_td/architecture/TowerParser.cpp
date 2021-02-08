@@ -26,6 +26,7 @@ std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::s
         int buildCost = towerRow["buildCost"].GetInt();
         float constructionTime = towerRow["constructionTime"].GetFloat();
         float delay = towerRow["delay"].GetFloat();
+        float range = towerRow["range"].GetFloat();
         float launchTime = towerRow["launchTime"].GetFloat();
         float reloadTime = towerRow["reloadTime"].GetFloat();
         float projectileAirTime = towerRow["projectileAirTime"].GetFloat();
@@ -73,6 +74,7 @@ std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::s
                 ->withBuildCost(buildCost)
                 ->withConstructionTime(constructionTime)
                 ->withDelay(delay)
+                ->withRange(range)
                 ->withLaunchTime(launchTime)
                 ->withReloadTime(reloadTime)
                 ->withProjectileAirTime(projectileAirTime)
@@ -126,6 +128,12 @@ std::shared_ptr<GameObject> TowerParser::addTowerToScene(const std::shared_ptr<T
     towerTR->setModelRenderer(towerMR);
     towerTR->setAnimator(towerAN);
     auto towerTB = towerGO->addComponent<TowerBehaviourComponent>();
+    towerTB->setReloadTime(tower->getReloadTime());
+    towerTB->setRange(tower->getRange());
+    towerTB->setProjectileAirTime(tower->getProjectileAirTime());
+    towerTB->setLaunchTime(tower->getLaunchTime());
+    towerTB->setProjectile(tower->getProjectile());
+    towerTB->setEnabled(true);
     return towerGO;
 }
 

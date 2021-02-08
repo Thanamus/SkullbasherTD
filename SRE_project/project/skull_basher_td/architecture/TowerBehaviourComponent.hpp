@@ -43,6 +43,10 @@ public:
     const glm::vec3 &getAimPos() const;
     void setAimPos(const glm::vec3 &aimPos_);
 
+    const Projectile &getProjectile() const;
+
+    void setProjectile(const Projectile &projectile);
+
     bool targetInRange() const;
 
 private:

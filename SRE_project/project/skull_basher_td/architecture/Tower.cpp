@@ -142,3 +142,11 @@ void Tower::setProjectile(const Projectile &projectile) {
     Tower::projectile = projectile;
 }
 
+float Tower::getRange() const {
+    return range;
+}
+
+void Tower::setRange(float range) {
+    Tower::range = range;
+}
+
