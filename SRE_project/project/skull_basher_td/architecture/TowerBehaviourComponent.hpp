@@ -43,9 +43,9 @@ public:
     const glm::vec3 &getAimPos() const;
     void setAimPos(const glm::vec3 &aimPos_);
 
-    const Projectile &getProjectile() const;
+    const TowerProjectile &getProjectile() const;
 
-    void setProjectile(const Projectile &projectile);
+    void setProjectile(const TowerProjectile &projectile);
 
     bool targetInRange() const;
 
@@ -64,7 +64,7 @@ private:
     float reloadTime = 1.f;
     float launchTime = 0.f;
 
-    Projectile projectile;
+    TowerProjectile projectile;
 
     void shoot(float deltaTime);
     std::shared_ptr<GameObject> makeProjectile();

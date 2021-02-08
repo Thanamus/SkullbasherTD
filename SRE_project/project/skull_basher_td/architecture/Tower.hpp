@@ -3,16 +3,7 @@
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
 
-struct TowerPart {
-    std::string name;
-    std::string model;
-    glm::vec3 position;
-    glm::vec3 scale;
-    glm::vec3 rotation;
-    std::vector<TowerPart> parts;
-};
-
-struct Projectile {
+struct TowerProjectile {
     std::string model;
     float damage;
     float mass;
@@ -23,6 +14,30 @@ struct Projectile {
     glm::vec3 hitboxSize;
     float radius;
 };
+
+struct TowerAnimationFrame {
+    float duration;
+    glm::vec3 translate;
+    glm::vec3 scale;
+    glm::vec3 rotate;
+};
+
+struct TowerAnimation {
+    std::string name;
+    bool looping;
+    std::vector<TowerAnimationFrame> frames;
+};
+
+struct TowerPart {
+    std::string name;
+    std::string model;
+    glm::vec3 position;
+    glm::vec3 scale;
+    glm::vec3 rotation;
+    std::vector<TowerPart> parts;
+    std::vector<TowerAnimation> animations;
+};
+
 
 class Tower
 {
@@ -63,13 +78,17 @@ public:
 
     void setIndicator(const std::string &indicator);
 
-    const Projectile &getProjectile() const;
+    const TowerProjectile &getProjectile() const;
 
-    void setProjectile(const Projectile &projectile);
+    void setProjectile(const TowerProjectile &projectile);
 
     float getRange() const;
 
     void setRange(float range);
+
+    const std::vector<TowerAnimation> &getAnimations() const;
+
+    void setAnimations(const std::vector<TowerAnimation> &animations);
 
 private:
     int id{};
@@ -84,9 +103,10 @@ private:
     float launchTime{};
     float reloadTime{};
     float projectileAirTime{};
-    Projectile projectile;
+    TowerProjectile projectile;
     glm::vec3 position{};
     glm::vec3 scale{};
     glm::vec3 rotation{};
     std::vector<TowerPart> parts;
+    std::vector<TowerAnimation> animations;
 };

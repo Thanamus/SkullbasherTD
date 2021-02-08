@@ -16,26 +16,11 @@
 TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         : Component(gameObject) {
     auto transform = gameObject->getComponent<Transform>();
-    auto arm = gameObject->getChildByName("Arm");
-    if(arm) {
-        auto armAN = arm->getComponent<Animator>();
-        std::shared_ptr<Animation> launch = std::make_shared<Animation>(false);
-        launch->addFrame(glm::vec3(0), glm::vec3(1), glm::vec3(-90, 0, 0), 1.f);
-        armAN->addAnimation("launch", launch);
-        std::shared_ptr<Animation> reload = std::make_shared<Animation>(true);
-        reload->addFrame(glm::vec3(0), glm::vec3(1), glm::vec3(90, 0, 0), 2.f);
-        armAN->addAnimation("reload", reload);
-    }
 //    glm::vec3 offset = {0*transform->scale.x, 1.2*transform->scale.y, 2*transform->scale.z};
 //    projectileStart = transform->globalPosition() + offset;
     lua.set_function("getGameObject", [&]()->GameObject* {
         return getGameObject();
     });
-
-    // extend GameObject definition
-    // ugly but needed to use a template function
-//   lua["usertype"]["GameObject"]["getTransform"] = &GameObject::getComponent<Transform>;
-//    lua["usertype"]["GameObject"]["getAnimator"] = &GameObject::getComponent<Animator>;
 
     //Incomplete implementation of Animator
     auto animator_type = lua.new_usertype<Animator>( "Animator",
@@ -309,7 +294,7 @@ void TowerBehaviourComponent::setLaunchTime(float launchTime) {
 }
 
 std::shared_ptr<GameObject> TowerBehaviourComponent::makeProjectile() {
-    auto projectile_ = gameObject->getScene()->createGameObject(gameObject->getName() + "Projectile");
+    auto projectile_ = gameObject->getScene()->createGameObject(gameObject->getName() + "TowerProjectile");
     projectile_->setParent(gameObject);
     auto projectileTR = projectile_->getComponent<Transform>();
     projectileTR->position = projectile.position;
@@ -328,10 +313,10 @@ std::shared_ptr<GameObject> TowerBehaviourComponent::makeProjectile() {
     return projectile_;
 }
 
-const Projectile &TowerBehaviourComponent::getProjectile() const {
+const TowerProjectile &TowerBehaviourComponent::getProjectile() const {
     return projectile;
 }
 
-void TowerBehaviourComponent::setProjectile(const Projectile &projectile) {
+void TowerBehaviourComponent::setProjectile(const TowerProjectile &projectile) {
     TowerBehaviourComponent::projectile = projectile;
 }

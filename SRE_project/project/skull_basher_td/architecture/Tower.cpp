@@ -134,11 +134,11 @@ void Tower::setIndicator(const std::string &indicator) {
     Tower::indicator = indicator;
 }
 
-const Projectile &Tower::getProjectile() const {
+const TowerProjectile &Tower::getProjectile() const {
     return projectile;
 }
 
-void Tower::setProjectile(const Projectile &projectile) {
+void Tower::setProjectile(const TowerProjectile &projectile) {
     Tower::projectile = projectile;
 }
 
@@ -148,5 +148,13 @@ float Tower::getRange() const {
 
 void Tower::setRange(float range) {
     Tower::range = range;
+}
+
+const std::vector<TowerAnimation> &Tower::getAnimations() const {
+    return animations;
+}
+
+void Tower::setAnimations(const std::vector<TowerAnimation> &animations) {
+    Tower::animations = animations;
 }
 

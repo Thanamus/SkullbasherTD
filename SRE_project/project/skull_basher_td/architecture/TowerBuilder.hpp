@@ -98,13 +98,18 @@ public:
         return this;
     }
 
-    const TowerBuilder* withProjectile(Projectile projectile) const {
+    const TowerBuilder* withProjectile(TowerProjectile projectile) const {
         tower->setProjectile(projectile);
         return this;
     }
 
     const TowerBuilder* withParts(const std::vector<TowerPart>& parts) const {
         tower->setParts(parts);
+        return this;
+    }
+
+    const TowerBuilder* withAnimations(const std::vector<TowerAnimation>& animations) const {
+        tower->setAnimations(animations);
         return this;
     }
 
