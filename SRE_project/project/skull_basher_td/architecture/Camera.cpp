@@ -123,7 +123,7 @@ void Camera::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, s
     }
     cout << "CloseBlocksAmount: " << closeBlocks.size() << endl;*/
 
-    for(auto gameObject : gameObjects)
+    for(const auto& gameObject : gameObjects)
     {
         if(gameObject->getComponent<WorldObject>() == nullptr)
             continue;
@@ -176,7 +176,7 @@ void Camera::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, s
         {
             materials[0]->setColor(colors[0]);
         }
-        tower->getComponent<ModelRenderer>()->setMaterials(materials);
+        tower->getComponent<ModelRenderer>()->getModel()->setMaterials(materials);
     }
 }
 

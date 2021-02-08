@@ -15,7 +15,6 @@
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
-#include "architecture/TowerBehaviourComponent.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -23,6 +22,9 @@
 #include "architecture/music/MusicBuffer.hpp"
 #include "architecture/WorldObject.hpp"
 #include "architecture/sound/SourceManager.hpp"
+#include "architecture/TowerBehaviourComponent.hpp"
+#include "architecture/TowerParser.hpp"
+
 
 using namespace sre;
 using namespace glm;
@@ -102,31 +104,12 @@ void GameManager::init() {
 }
 
 void GameManager::loadTowers(std::string filename) {
-    using namespace rapidjson;
-    std::ifstream fis(filename);
-    IStreamWrapper isw(fis);
-    Document d;
-    d.ParseStream(isw);
-
-    int rowArrayCount = d["Towers"].GetArray().Size(); //get the tile map key, the array size is the outset loop's size
-    std::cout << "rowArrayCount: " << rowArrayCount << "\n";
-    for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
-    {
-        int id = d["Towers"][row]["id"].GetInt();
-        std::string name = d["Towers"][row]["name"].GetString();
-        std::string icon = d["Towers"][row]["icon"].GetString();
-        std::string mesh = d["Towers"][row]["mesh"].GetString();
-        float buildCost = d["Towers"][row]["buildCost"].GetFloat();
-        float constructionTime = d["Towers"][row]["constructionTime"].GetFloat();
-        float delay = d["Towers"][row]["delay"].GetFloat();
-        towers.push_back(std::make_shared<Tower>(id, name, icon, mesh, buildCost, constructionTime, delay));
-    }
+    towers = std::move(TowerParser::readTowersFromFile(filename));
 }
 
 std::vector<std::shared_ptr<Tower>> GameManager::GetTowers() {
     return this->towers;
 }
-
 
 void GameManager::onKey(SDL_Event &event)
 {
@@ -147,11 +130,11 @@ void GameManager::onKey(SDL_Event &event)
             pressed = true;
             buildModeActive = true;
             break;
-        case SDLK_3:
-            selectedTowerIndex = 2;
-            pressed = true;
-            buildModeActive = true;
-            break;
+//        case SDLK_3:
+//            selectedTowerIndex = 2;
+//            pressed = true;
+//            buildModeActive = true;
+//            break;
         case SDLK_ESCAPE:
             if(buildModeActive)
             {
@@ -200,7 +183,7 @@ void GameManager::onMouse(SDL_Event &event)
         auto personController = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
         if(personController->allowedToBuild)
         {
-            //todo: re-enable
+//            //todo: re-enable
 //            auto tower = sceneManager->currentScene->createGameObject(selectedTower->getName());
 //            auto towerTR = tower->getComponent<Transform>();
 //            towerTR->position = personController->tower->getComponent<Transform>()->position;
@@ -285,11 +268,15 @@ void GameManager::updateTowerIndicator()
     if(sceneManager->currentScene == nullptr)
         return;
 
+    // todo: fix to use actual composite model!
     auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
 
-    auto path_ = ".\\assets\\" + selectedTower->getMesh();
-    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path_).withName(selectedTower->getMesh()).build();
-
+    auto path_ = ".\\assets\\" + selectedTower->getIndicator();
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path_).withName(selectedTower->getIndicator()).build();
+    std::cout << "mesh name: " << selectedTower->getIndicator() << std::endl;
+    std::cout << "mesh indices size: " << modelHolder->getMesh()->getIndices().size() << std::endl;
+    std::cout << "materials size: " << modelHolder->getMaterials().size() << std::endl;
+    std::cout << modelHolder->getMesh()->getIndices().size() << std::endl;
     towerIndicator->getComponent<ModelRenderer>()->setModel(modelHolder);
     towerIndicator->getComponent<ModelRenderer>()->active = true;
 }
@@ -450,7 +437,7 @@ void GameManager::setTotalEnemiesInCurrentSet() {
     totalEnemiesInCurrentSet = waveAndEnemies[currentWave][currentEnemySet].quantity - 1; //minus one, because counting starts at 1, not 0
 }
 
-const std::map<int, std::vector<enemySetsInWave>> &GameManager::getWaveAndEnemys() const {
+const std::map<int, std::vector<enemySetsInWave>> &GameManager::getWaveAndEnemies() const {
     return waveAndEnemies;
 }
 

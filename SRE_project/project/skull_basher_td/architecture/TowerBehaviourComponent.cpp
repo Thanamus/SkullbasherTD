@@ -8,7 +8,7 @@
 #include "Animator.hpp"
 #include "EnemyComponent.hpp"
 #include "Pathfinder.hpp"
-#include "collisions/ArrowCollisionHandler.hpp"
+#include "collisions/ProjectileCollisionHandler.hpp"
 #include "lifespans/ArrowLifespanComponent.hpp"
 #include "physics/RigidBody.hpp"
 #include "HomingComponent.hpp"
@@ -251,7 +251,7 @@ void TowerBehaviourComponent::shoot(float deltaTime) {
 
             arrowRigidBody->setLinearVelocity(arrowSpeed);
             // to make sure the arrow doesn't spin in the air
-            arrow->addComponent<ArrowCollisionHandler>();
+            arrow->addComponent<ProjectileCollisionHandler>();
             arrow->addComponent<ArrowLifespanComponent>();
 //            auto homie = arrow->addComponent<HomingComponent>();
 //            homie->target = target;

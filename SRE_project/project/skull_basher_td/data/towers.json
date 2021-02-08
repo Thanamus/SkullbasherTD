@@ -1,23 +1,115 @@
 {
-  "Towers":
+  "towers":
   [
     {
       "id": 0,
       "name":"Arrow Tower",
       "icon": "arrow_tower.bmp",
-      "mesh": "ArrowTower.obj",
+      "indicator": "ArrowTower.obj",
+      "model": "ArrowTower.obj",
       "buildCost": 10,
       "constructionTime": 5,
-      "delay": 5
+      "delay": 5,
+      "launchTime": 0,
+      "reloadTime": 1,
+      "projectileAirTime": 0.25,
+      "damage": 1,
+      "position":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "rotation":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
     },
     {
       "id": 1,
       "name":"Catapult Tower",
       "icon": "catapult_tower.bmp",
-      "mesh": "Floating_Banner.obj",
+      "indicator": "Floating_Banner.obj",
+      "model": "catapult_base.obj",
       "buildCost": 10,
       "constructionTime": 5,
-      "delay": 5
+      "delay": 5,
+      "launchTime": 1,
+      "reloadTime": 2,
+      "projectileAirTime": 0.5,
+      "damage": 2,
+      "position":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "rotation":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "parts":
+      [
+        {
+          "name": "Catapult Arm",
+          "model": "catapult_arm.obj",
+          "position":
+          {
+            "x": 0.0,
+            "y": 1.0,
+            "z": -0.5
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          },
+          "rotation":
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "parts":
+          [
+            {
+              "name": "Ball",
+              "model": "ball.obj",
+              "position":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "rotation":
+              {
+                "x": 0.0,
+                "y": 0.4,
+                "z": 1.6
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

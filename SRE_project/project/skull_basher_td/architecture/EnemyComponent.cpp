@@ -96,10 +96,10 @@ void EnemyComponent::setDamage(float damage) {
     EnemyComponent::damage = damage;
 }
 
-bool EnemyComponent::isHitable() const {
-    return hitable;
+bool EnemyComponent::isHittable() const {
+    return hittable;
 }
 
-void EnemyComponent::setHitable(bool hitable) {
-    EnemyComponent::hitable = hitable;
+void EnemyComponent::setHittable(bool hittable_) {
+    EnemyComponent::hittable = hittable_;
 }
