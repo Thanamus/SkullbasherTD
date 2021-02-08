@@ -16,6 +16,16 @@
 TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         : Component(gameObject) {
     auto transform = gameObject->getComponent<Transform>();
+    auto arm = gameObject->getChildByName("Arm");
+    if(arm) {
+        auto armAN = arm->getComponent<Animator>();
+        std::shared_ptr<Animation> launch = std::make_shared<Animation>(false);
+        launch->addFrame(glm::vec3(0), glm::vec3(1), glm::vec3(-90, 0, 0), 1.f);
+        armAN->addAnimation("launch", launch);
+        std::shared_ptr<Animation> reload = std::make_shared<Animation>(true);
+        reload->addFrame(glm::vec3(0), glm::vec3(1), glm::vec3(90, 0, 0), 2.f);
+        armAN->addAnimation("reload", reload);
+    }
 //    glm::vec3 offset = {0*transform->scale.x, 1.2*transform->scale.y, 2*transform->scale.z};
 //    projectileStart = transform->globalPosition() + offset;
     lua.set_function("getGameObject", [&]()->GameObject* {
@@ -205,10 +215,19 @@ bool TowerBehaviourComponent::inCircle(glm::vec2 point, glm::vec2 center, float 
 }
 
 void TowerBehaviourComponent::shoot(float deltaTime) {
+    if(!readyToShoot)
+        return;
+    auto arm = gameObject->getChildByName("Arm");
+    if(arm) {
+        auto armAN = arm->getComponent<Animator>();
+        if(armAN->getAnimationState() != "launch")
+            armAN->setAnimationState("launch");
+    }
     auto transform = gameObject->getComponent<Transform>();
     transform->lookAt(glm::vec3{aimPos.x, transform->globalPosition().y, aimPos.z}, glm::vec3(0,1,0));
-    std::cout << "making dat projectile baby" << std::endl;
     makeProjectile();
+    std::cout << "making dat projectile baby" << std::endl;
+    setReadyToShoot(false);
 //    auto arm = gameObject->getChildByName("Arm");
 //    if(!arm) {
 //        std::cout << "no arm!" << std::endl;
@@ -292,6 +311,10 @@ void TowerBehaviourComponent::setLaunchTime(float launchTime) {
 std::shared_ptr<GameObject> TowerBehaviourComponent::makeProjectile() {
     auto projectile_ = gameObject->getScene()->createGameObject(gameObject->getName() + "Projectile");
     projectile_->setParent(gameObject);
+    auto projectileTR = projectile_->getComponent<Transform>();
+    projectileTR->position = projectile.position;
+    projectileTR->scale = projectile.scale;
+    projectileTR->rotation = projectile.rotation;
     auto projectileMR = projectile_->addComponent<ModelRenderer>();
     projectileMR->setModel(Model::create().withOBJ(projectile.model).build());
     auto projectileRB = projectile_->addComponent<RigidBody>();
@@ -299,10 +322,8 @@ std::shared_ptr<GameObject> TowerBehaviourComponent::makeProjectile() {
         projectileRB->initRigidBodyWithBox(projectile.hitboxSize, projectile.mass, PROJECTILES, ENEMIES);
     else if (projectile.hitboxType == "sphere")
         projectileRB->initRigidBodyWithSphere(projectile.radius, projectile.mass, PROJECTILES, ENEMIES);
-    auto projectileTR = projectile_->getComponent<Transform>();
-    projectileTR->position = projectile.position;
-    projectileTR->scale = projectile.scale;
-    projectileTR->rotation = projectile.rotation;
+    projectileRB->getRigidBody()->setAngularFactor({0, 0, 0});
+    projectileRB->getRigidBody()->setGravity({0, 0, 0});
     projectileTR->setModelRenderer(projectileMR);
     return projectile_;
 }

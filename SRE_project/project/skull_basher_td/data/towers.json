@@ -38,7 +38,7 @@
         "position":
         {
           "x": 0.0,
-          "y": 0.0,
+          "y": 4.5,
           "z": 0.0
         },
         "scale": {
@@ -97,8 +97,8 @@
         "position":
         {
           "x": 0.0,
-          "y": 1.2,
-          "z": 2.0
+          "y": 3.1,
+          "z": -0.9
         },
         "scale": {
           "x": 1.0,
@@ -113,13 +113,13 @@
         },
         "hitbox": {
           "type": "sphere",
-          "radius": 1.0
+          "radius": 3.0
         }
       },
       "parts":
       [
         {
-          "name": "Catapult Arm",
+          "name": "Arm",
           "model": ".\\assets\\catapult_arm.obj",
           "position":
           {
