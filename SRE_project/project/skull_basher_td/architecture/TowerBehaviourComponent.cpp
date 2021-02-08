@@ -305,8 +305,10 @@ std::shared_ptr<GameObject> TowerBehaviourComponent::makeProjectile() {
     auto projectileRB = projectile_->addComponent<RigidBody>();
     if (projectile.hitboxType == "box")
         projectileRB->initRigidBodyWithBox(projectile.hitboxSize, projectile.mass, PROJECTILES, ENEMIES);
-    else if (projectile.hitboxType == "sphere")
+    else if (projectile.hitboxType == "sphere") {
+        std::cout << projectile.radius << std::endl;
         projectileRB->initRigidBodyWithSphere(projectile.radius, projectile.mass, PROJECTILES, ENEMIES);
+    }
     projectileRB->getRigidBody()->setAngularFactor({0, 0, 0});
     projectileRB->getRigidBody()->setGravity({0, 0, 0});
     projectileTR->setModelRenderer(projectileMR);

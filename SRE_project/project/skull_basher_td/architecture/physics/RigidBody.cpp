@@ -127,7 +127,7 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
     delete shape;
     shape = new btSphereShape(radius);
     shape->setMargin(0.004);
-    auto pos = transform->position;
+    auto pos = transform->globalPosition();;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
 
@@ -166,7 +166,7 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, s
     shape = new btSphereShape(radius);
     shape->setMargin(0.004);
 
-    auto pos = transform->position;
+    auto pos = transform->globalPosition();
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
 
@@ -214,7 +214,7 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
     delete shape;
     shape = new btBoxShape({halfExtend.x, halfExtend.y, halfExtend.z});
     shape->setMargin(0.004);
-    auto pos = transform->position;
+    auto pos = transform->globalPosition();;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
 
@@ -237,7 +237,7 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short gro
     delete shape;
     shape = new btBoxShape({halfExtend.x, halfExtend.y, halfExtend.z});
     shape->setMargin(0.004);
-    auto pos = transform->position;
+    auto pos = transform->globalPosition();;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
 
@@ -269,7 +269,7 @@ void RigidBody::initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeD
     delete fallMotionState;
     delete shape;
     shape = new btStaticPlaneShape({planeNormal.x, planeNormal.y, planeNormal.z}, planeDist);
-    auto pos = transform->position;
+    auto pos = transform->globalPosition();;
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
 
