@@ -17,7 +17,8 @@ Scriptable::Scriptable(bool enabled)
                                                          "setName", &GameObject::setName,
                                                          "getName", &GameObject::getName,
                                                          "getParent", &GameObject::getParent,
-                                                         "getChildren", &GameObject::getChildren
+                                                         "getChildren", &GameObject::getChildren,
+                                                         "getChildByName", &GameObject::getChildByName
     );
 
     auto component_type = lua.new_usertype<Component>("Component",
