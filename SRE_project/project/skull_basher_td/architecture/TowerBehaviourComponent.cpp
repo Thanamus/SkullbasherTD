@@ -144,7 +144,7 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
     loadScript(actions[TB_TARGETING], R"(.\scripts\targeting.lua)", true);
     loadScript(actions[TB_AIMING], R"(.\scripts\aiming.lua)", true);
     loadScript(actions[TB_SHOOTING], R"(.\scripts\shooting.lua)", true);
-//    loadScript(actions[TB_RELOADING], "", true);
+    loadScript(actions[TB_RELOADING], R"(.\scripts\reloading.lua)", true);
 }
 
 void TowerBehaviourComponent::update(float deltaTime) {
@@ -157,9 +157,7 @@ void TowerBehaviourComponent::update(float deltaTime) {
     }
     //first of all, tower reloads if needed
     if (!readyToShoot)
-        auto kek = 2;
-//        run(actions[TB_RELOADING]);
-//        std::cout << actions[TB_RELOADING] << std::endl;
+        run(actions[TB_RELOADING], deltaTime);
     // if tower doesn't have a live target in range, get a new one
     if(!target)
         run(actions[TB_TARGETING], gameObject->getScene()->getEnemies());
@@ -167,8 +165,10 @@ void TowerBehaviourComponent::update(float deltaTime) {
     if (hasTargetInRange && aimPos == glm::vec3(-1))
         run(actions[TB_AIMING], target->getComponent<EnemyComponent>());
     // if tower is ready and has calculated where to shoot, then shoot away!
-    if (aimPos != glm::vec3(-1) && readyToShoot)
+    if (aimPos != glm::vec3(-1) && readyToShoot) {
+        std::cout << "aimpos " << aimPos.x << " " <<  aimPos.z <<std::endl;
         run(actions[TB_SHOOTING], deltaTime);
+    }
     //
 }
 
