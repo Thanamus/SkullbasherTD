@@ -42,6 +42,10 @@ void RigidBody::updateTransformFromPhysicsWorld(){
             pTransform  = rigidBody->getWorldTransform();
             auto & origin = pTransform.getOrigin();
             if(transform) {
+                // update taking into account how child transforms work
+//                glm::vec3 prevGlobalPos = transform->globalPosition();
+//                glm::vec3 newGlobalPos = {origin.x(), origin.y(), origin.z()};
+//                transform->position += (newGlobalPos - prevGlobalPos);
                 transform->position = {origin.x(), origin.y(), origin.z()};
                 auto pRot = pTransform.getRotation();
                 glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
@@ -127,7 +131,7 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
     delete shape;
     shape = new btSphereShape(radius);
     shape->setMargin(0.004);
-    auto pos = transform->globalPosition();;
+    auto pos = transform->globalPosition();
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
 
@@ -237,7 +241,7 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short gro
     delete shape;
     shape = new btBoxShape({halfExtend.x, halfExtend.y, halfExtend.z});
     shape->setMargin(0.004);
-    auto pos = transform->globalPosition();;
+    auto pos = transform->globalPosition();
     auto rot = transform->localRotation();
     glm::quat rotQ = glm::quat_cast(rot);
 
@@ -248,8 +252,6 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short gro
     shape->calculateLocalInertia(mass, fallInertia);
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, shape, fallInertia);
     initRigidBody(fallRigidBodyCI, group, mask);
-
-    
     // set group to group of objects this thing (the object) belongs to
     // mask to the bitwise (PLAYER | BUILDING | WALL)
     // constructor needs to take in which group and object to collide with

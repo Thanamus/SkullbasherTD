@@ -151,6 +151,10 @@ void TowerBehaviourComponent::update(float deltaTime) {
     bool hasTargetInRange = targetInRange();
     if(!hasTargetInRange) // if target leaves range
         target = nullptr;
+    else {
+        auto tarPos = target->getComponent<Transform>()->globalPosition();
+        gameObject->getComponent<Transform>()->lookAt({tarPos.x, gameObject->getComponent<Transform>()->position.y, tarPos.z}, glm::vec3(0, 1, 0));
+    }
     //first of all, tower reloads if needed
     if (!readyToShoot)
         auto kek = 2;
@@ -158,16 +162,13 @@ void TowerBehaviourComponent::update(float deltaTime) {
 //        std::cout << actions[TB_RELOADING] << std::endl;
     // if tower doesn't have a live target in range, get a new one
     if(!target)
-        run(actions[TB_TARGETING], gameObject->getScene()->getEnemies()); //
+        run(actions[TB_TARGETING], gameObject->getScene()->getEnemies());
     // if the tower is ready to shoot and has a target, but hasn't aimed yet, then calc where to shoot
     if (hasTargetInRange && aimPos == glm::vec3(-1))
         run(actions[TB_AIMING], target->getComponent<EnemyComponent>());
-    if(aimPos != glm::vec3(-1))
-        gameObject->getComponent<Transform>()->lookAt({aimPos.x, gameObject->getComponent<Transform>()->position.y, aimPos.z}, glm::vec3(0, 1, 0));
     // if tower is ready and has calculated where to shoot, then shoot away!
     if (aimPos != glm::vec3(-1) && readyToShoot)
         run(actions[TB_SHOOTING], deltaTime);
-//
     //
 }
 
@@ -279,13 +280,14 @@ void TowerBehaviourComponent::setLaunchTime(float launchTime) {
 }
 
 GameObject* TowerBehaviourComponent::makeProjectile() {
-    auto projectile_ = gameObject->getScene()->createGameObject(gameObject->getName() + "TowerProjectile");
-    projectile_->setParent(gameObject);
+    auto projectile_ = gameObject->getScene()->createGameObject(gameObject->getName() + " Projectile");
     auto projectileTR = projectile_->getComponent<Transform>();
-    projectileTR->position = projectile.position;
-    projectileTR->scale = projectile.scale;
+    // right place at the right time
+    auto turretTR = gameObject->getComponent<Transform>();
+    projectileTR->position = projectile.position * turretTR->scale + turretTR->position;
+    projectileTR->scale = projectile.scale * turretTR->scale;
     projectileTR->rotation = projectile.rotation;
-//    projectileTR->lookAt(aimPos, {0, 1, 0});
+    projectileTR->lookAt(aimPos, {0, 1, 0});
     auto projectileMR = projectile_->addComponent<ModelRenderer>();
     projectileMR->setModel(Model::create().withOBJ(projectile.model).build());
     auto projectileRB = projectile_->addComponent<RigidBody>();
@@ -293,13 +295,16 @@ GameObject* TowerBehaviourComponent::makeProjectile() {
         projectileRB->initRigidBodyWithBox(projectile.hitboxSize, projectile.mass, PROJECTILES, ENEMIES);
     else if (projectile.hitboxType == "sphere")
         projectileRB->initRigidBodyWithSphere(projectile.radius, projectile.mass, PROJECTILES, ENEMIES);
-    projectileRB->getRigidBody()->setAngularFactor({0, 0, 0});
-    projectileRB->getRigidBody()->setGravity({0, 0, 0});
+    auto rigidBody = projectileRB->getRigidBody();
+    if (rigidBody) {
+        rigidBody->setAngularFactor({0, 0, 0});
+        rigidBody->setAngularVelocity({0,0,0});
+        rigidBody->setGravity({0, 0, 0});
+    }
     projectileTR->setModelRenderer(projectileMR);
     auto projectileCH = projectile_->addComponent<ProjectileCollisionHandler>();
     projectileCH->setDamage(projectile.damage);
     projectile_->addComponent<ProjectileLifespanComponent>();
-    std::cout << "use counts on create: "<<projectile_.use_count() << std::endl;
     return projectile_.get();
 }
 

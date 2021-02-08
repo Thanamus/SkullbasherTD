@@ -1,5 +1,7 @@
 function shooting(time)
     local turr = getGameObject()
+    local turrTR = getTransform(turr)
+    turrTR:lookAt(vec3.new(getAimPos().x, turrTR:globalPosition().y, getAimPos().z), vec3.new(0, 1, 0))
     local arm = turr:getChildByName("Arm")
     local animator
     if (arm) then
@@ -16,7 +18,6 @@ function shooting(time)
             local velocity = btVector3.new(direction.x, direction.y, direction.z)
             velocity = velocity * (distance / getProjectileAirTime())
             setVelocity(projectile, velocity)
-            projectile = nil
             setReadyToShoot(false)
             setAimPos(vec3.new(-1, -1, -1))
         end
