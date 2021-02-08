@@ -1,5 +1,4 @@
 function aiming(enemy)
-    print("aiming...")
     local pf = enemy:getPathfinder()
     local index = pf:getCurrentPathIndex()
     local currPos = enemy:getPosition()
