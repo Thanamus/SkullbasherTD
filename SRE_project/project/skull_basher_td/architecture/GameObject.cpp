@@ -48,9 +48,10 @@ void GameObject::removeComponent(const std::shared_ptr<Component>& ptr) {
 
 void GameObject::removeChild(const std::shared_ptr<GameObject>& ptr) {
     auto iter = std::find(children.begin(), children.end(), ptr);
-    if(iter != children.end())
-        scene->deleteGameObject(ptr);
-        children.erase(std::remove(children.begin(),children.end(), ptr), children.end());
+    if(iter != children.end()) {
+        ptr->setParent(nullptr);
+        children.erase(std::remove(children.begin(), children.end(), ptr), children.end());
+    }
 }
 
 

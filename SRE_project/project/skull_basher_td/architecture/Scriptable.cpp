@@ -87,5 +87,4 @@ void Scriptable::setEnabled(bool _enabled) {
 
 Scriptable::~Scriptable() {
     lua.collect_garbage();
-    std::cout << "deleted scriptable correctly!" << std::endl;
 }
