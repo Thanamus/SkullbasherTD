@@ -12,7 +12,7 @@
 
 class Component;
 
-class GameObject : public std::enable_shared_from_this<GameObject> {
+class GameObject {
 public:
     ~GameObject();
     template<typename C>
@@ -33,9 +33,9 @@ public:
     GameObject* getParent() const;
     void setParent(GameObject *parent_);
 
-    const std::vector<std::shared_ptr<GameObject>> & getChildren() const;
-    std::shared_ptr<GameObject> getChildByName(const std::string& childName);
-    void removeChild(const std::shared_ptr<GameObject>& ptr);
+    const std::vector<GameObject*> & getChildren() const;
+    GameObject* getChildByName(const std::string& childName);
+    void removeChild(GameObject* ptr);
 
     // TODO:  getter/setter
     bool isQueuedForDeletion() const;
@@ -46,7 +46,7 @@ private:
     std::string name;
     Scene* scene = nullptr;
     GameObject* parent = nullptr;
-    std::vector<std::shared_ptr<GameObject>> children = {};
+    std::vector<GameObject*> children = {};
     std::vector<std::shared_ptr<Component>> components = {};
     std::vector<CollisionHandler*> collisionHandlers = {};
     bool queuedForDeletion = false;

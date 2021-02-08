@@ -68,7 +68,7 @@ private:
     TowerProjectile projectile;
 
     void shoot(float deltaTime);
-    std::shared_ptr<GameObject> makeProjectile();
+    GameObject* makeProjectile();
     static bool inCircle(glm::vec2 point, glm::vec2 center, float radius) ;
 };
 

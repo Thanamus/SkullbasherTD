@@ -35,7 +35,7 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
                                 "getAnimationForState", &Animator::getAnimationForState
     );
 
-    auto modelrenderer_type = lua.new_usertype<ModelRenderer>("ModelRenderer",
+    auto modelRenderer_type = lua.new_usertype<ModelRenderer>("ModelRenderer",
                                                               "active", &ModelRenderer::active
                                                               );
 
@@ -124,7 +124,7 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         return inCircle(point, center, radius);
     });
 
-    lua.set_function("makeProjectile", [&]() -> std::shared_ptr<GameObject> {
+    lua.set_function("makeProjectile", [&]() -> GameObject* {
         return makeProjectile();
     });
 
@@ -153,8 +153,9 @@ void TowerBehaviourComponent::update(float deltaTime) {
         target = nullptr;
     //first of all, tower reloads if needed
     if (!readyToShoot)
+        auto kek = 2;
 //        run(actions[TB_RELOADING]);
-        std::cout << actions[TB_RELOADING] << std::endl;
+//        std::cout << actions[TB_RELOADING] << std::endl;
     // if tower doesn't have a live target in range, get a new one
     if(!target)
         run(actions[TB_TARGETING], gameObject->getScene()->getEnemies()); //
@@ -232,20 +233,19 @@ bool TowerBehaviourComponent::inCircle(glm::vec2 point, glm::vec2 center, float 
 }
 
 void TowerBehaviourComponent::shoot(float deltaTime) {
-    if(!readyToShoot)
-        return;
-    auto arm = gameObject->getChildByName("Arm");
-    if(arm) {
-        auto armAN = arm->getComponent<Animator>();
-        if(armAN->getAnimationState() != "launch")
-            armAN->setAnimationState("launch");
-    }
-    auto transform = gameObject->getComponent<Transform>();
-    transform->lookAt(glm::vec3{aimPos.x, transform->globalPosition().y, aimPos.z}, glm::vec3(0,1,0));
-    auto proj = makeProjectile();
-    std::cout << "making dat projectile baby" << std::endl;
-    gameObject->getScene()->deleteGameObject(proj);
-    setReadyToShoot(false);
+//    if(!readyToShoot)
+//        return;
+//    auto arm = gameObject->getChildByName("Arm");
+//    if(arm) {
+//        auto armAN = arm->getComponent<Animator>();
+//        if(armAN->getAnimationState() != "launch")
+//            armAN->setAnimationState("launch");
+//    }
+//    auto transform = gameObject->getComponent<Transform>();
+//    transform->lookAt(glm::vec3{aimPos.x, transform->globalPosition().y, aimPos.z}, glm::vec3(0,1,0));
+//    auto proj = makeProjectile();
+//    std::cout << "making dat projectile baby" << std::endl;
+//    setReadyToShoot(false);
 //    auto arm = gameObject->getChildByName("Arm");
 //    if(!arm) {
 //        std::cout << "no arm!" << std::endl;
@@ -278,7 +278,7 @@ void TowerBehaviourComponent::setLaunchTime(float launchTime) {
     TowerBehaviourComponent::launchTime = launchTime;
 }
 
-std::shared_ptr<GameObject> TowerBehaviourComponent::makeProjectile() {
+GameObject* TowerBehaviourComponent::makeProjectile() {
     auto projectile_ = gameObject->getScene()->createGameObject(gameObject->getName() + "TowerProjectile");
     projectile_->setParent(gameObject);
     auto projectileTR = projectile_->getComponent<Transform>();
@@ -299,8 +299,8 @@ std::shared_ptr<GameObject> TowerBehaviourComponent::makeProjectile() {
     auto projectileCH = projectile_->addComponent<ProjectileCollisionHandler>();
     projectileCH->setDamage(projectile.damage);
     projectile_->addComponent<ProjectileLifespanComponent>();
-
-    return projectile_;
+    std::cout << "use counts on create: "<<projectile_.use_count() << std::endl;
+    return projectile_.get();
 }
 
 const TowerProjectile &TowerBehaviourComponent::getProjectile() const {

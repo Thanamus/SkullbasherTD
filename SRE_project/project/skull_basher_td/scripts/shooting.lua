@@ -16,6 +16,7 @@ function shooting(time)
             local velocity = btVector3.new(direction.x, direction.y, direction.z)
             velocity = velocity * (distance / getProjectileAirTime())
             setVelocity(projectile, velocity)
+            projectile = nil
             setReadyToShoot(false)
             setAimPos(vec3.new(-1, -1, -1))
         end

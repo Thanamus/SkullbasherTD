@@ -11,6 +11,7 @@ GameObject::GameObject(std::string name_, Scene* scene_) : name(std::move(name_)
 }
 
 GameObject::~GameObject() {
+    std::cout << "deleting " << name << std::endl;
     while(!components.empty()) {
         removeComponent(*(components.begin()));
     }
@@ -46,7 +47,7 @@ void GameObject::removeComponent(const std::shared_ptr<Component>& ptr) {
 }
 
 
-void GameObject::removeChild(const std::shared_ptr<GameObject>& ptr) {
+void GameObject::removeChild(GameObject* ptr) {
     auto iter = std::find(children.begin(), children.end(), ptr);
     if(iter != children.end()) {
         ptr->setParent(nullptr);
@@ -70,18 +71,18 @@ GameObject* GameObject::getParent() const {
 void GameObject::setParent(GameObject *parent_) {
     if (parent) {
         auto parentChildren = parent->getChildren();
-        parentChildren.erase(std::remove(parentChildren.begin(), parentChildren.end(), shared_from_this()), parentChildren.end());
+        parentChildren.erase(std::remove(parentChildren.begin(), parentChildren.end(), this), parentChildren.end());
     }
     parent = parent_;
     if(parent)
-        parent->children.push_back(shared_from_this());
+        parent->children.push_back(this);
 }
 
-const std::vector<std::shared_ptr<GameObject>> &GameObject::getChildren() const {
+const std::vector<GameObject*> &GameObject::getChildren() const {
     return children;
 }
 
-std::shared_ptr<GameObject> GameObject::getChildByName(const std::string& childName) {
+GameObject* GameObject::getChildByName(const std::string& childName) {
     for(const auto& c : children)
         if (c->getName() == childName)
             return c;
