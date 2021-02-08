@@ -8,16 +8,16 @@
 
 class GameObject;
 /*
-    ArrowLifespanComponent is a simple component to help manage a gameObject lifespan
+    ProjectileLifespanComponent is a simple component to help manage a gameObject lifespan
     Although not as ideal as a pool, it does help cut down the number of objects 
     needing updates (especially physics updates)
 */
 
 
-class ArrowLifespanComponent : public Component, public Updatable {
+class ProjectileLifespanComponent : public Component, public Updatable {
 public:
-    explicit ArrowLifespanComponent(GameObject *gameObject);
-    ~ArrowLifespanComponent();
+    explicit ProjectileLifespanComponent(GameObject *gameObject);
+    ~ProjectileLifespanComponent();
 
     void update(float deltaTime) override;
 

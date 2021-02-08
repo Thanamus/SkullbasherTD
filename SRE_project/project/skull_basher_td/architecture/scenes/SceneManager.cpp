@@ -37,7 +37,7 @@
 #include "../Pathfinder.hpp"
 #include "../CoinComponent.hpp"
 #include "../collisions/CoinCollisionHandler.hpp"
-#include "../lifespans/ArrowLifespanComponent.hpp"
+#include "../lifespans/ProjectileLifespanComponent.hpp"
 
 #include <iostream>
 #include <utility>
@@ -79,9 +79,6 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     tower->getComponent<Transform>()->scale = {0.2f,0.2f,0.2f};
     auto towerMR = tower->addComponent<ModelRenderer>();
     towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    auto towerTB = tower->addComponent<TowerBehaviourComponent>();
-    towerTB->setEnabled(false);
-
     cameraObj->getComponent<PersonController>()->tower = tower;
 
     auto hand = res->createGameObject("Hand");
@@ -639,8 +636,8 @@ void SceneManager::SpawnCoin(float money,glm::vec3 position) {
     coin->addComponent<CoinComponent>();
     coin->getComponent<CoinComponent>()->setMoney(money);
     coin->addComponent<CoinCollisionHandler>();
-    coin->addComponent<ArrowLifespanComponent>();
-    coin->getComponent<ArrowLifespanComponent>()->setLifespan(20000);
+    coin->addComponent<ProjectileLifespanComponent>();
+    coin->getComponent<ProjectileLifespanComponent>()->setLifespan(20000);
 }
 
 #pragma clang diagnostic pop

@@ -177,7 +177,7 @@ const std::vector<std::shared_ptr<GameObject>>& Scene::getGameObjects() const {
     return gameObjects;
 }
 
-std::vector<EnemyComponent *> Scene::getEnemies() {
+const std::vector<EnemyComponent*>& Scene::getEnemies() {
     return enemies;
 }
 

@@ -9,7 +9,6 @@
 #include <memory>
 #include "scenes/Scene.hpp"
 #include "./collisions/CollisionHandler.hpp"
-#include "MyStackWalker.h"
 
 class Component;
 

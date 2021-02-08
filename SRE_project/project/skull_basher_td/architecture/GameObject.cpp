@@ -11,6 +11,7 @@ GameObject::GameObject(std::string name_, Scene* scene_) : name(std::move(name_)
 }
 
 GameObject::~GameObject() {
+    std::cout << "deleting gameobject " << name << std::endl;
     while(!components.empty())
         removeComponent(*(components.begin()));
     components.clear();
@@ -26,6 +27,7 @@ GameObject::~GameObject() {
         parent = nullptr;
     }
     scene = nullptr;
+    std::cout << "finished gameobject" << std::endl;
 }
 
 void GameObject::setName(const std::string &name_) {

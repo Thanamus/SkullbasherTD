@@ -177,7 +177,7 @@ find_package(SndFile)
 add_subdirectory(thirdparty/All/OpenAL-soft)
 find_package(OpenAL)
 
-add_subdirectory(thirdparty/All/StackWalker-master)
+#add_subdirectory(thirdparty/All/StackWalker-master)
 
 
 

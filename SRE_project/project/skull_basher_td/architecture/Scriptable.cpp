@@ -8,17 +8,9 @@
 #include "GameObject.hpp"
 #include "Transform.hpp"
 
-int my_panic( lua_State* L ) {
-    // Do whatever you like.
-    std::string err = sol::stack::get<std::string>(L, -1);
-    std::cerr << err << std::endl;
-    return -1;
-}
-
 Scriptable::Scriptable(bool enabled)
         : enabled(enabled) {
     lua.open_libraries(sol::lib::base, sol::lib::string, sol::lib::package, sol::lib::math);
-    lua.set_panic(my_panic);
 
     //Incomplete implementation of GameObject
     auto gameObject_type = lua.new_usertype<GameObject>( "GameObject",
@@ -43,7 +35,8 @@ Scriptable::Scriptable(bool enabled)
                                                   "x", &glm::vec3::x,
                                                   "y", &glm::vec3::y,
                                                   "z", &glm::vec3::z,
-                                                  "normalize", sol::resolve<glm::vec<3, float, glm::highp>(glm::vec<3, float, glm::highp> const&)>(&glm::normalize)
+                                                  "normalize", sol::resolve<glm::vec<3, float, glm::highp>(glm::vec<3, float, glm::highp> const&)>(&glm::normalize),
+                                                  "length", sol::resolve<float(glm::vec<3, float, glm::highp> const&)>(&glm::length)
     );
     auto vec2_type = lua.new_usertype<glm::vec2> ("vec2",
                                                   sol::constructors<glm::vec2(float, float)>(),
@@ -61,7 +54,7 @@ bool Scriptable::loadScript(const std::string& name, const std::string& scriptSo
     script->data = (isFilename) ? sre::Resource::loadText(scriptSource) : script->data = scriptSource;
 
     //load the script
-    auto result = lua.script(script->data, [](lua_State* L, sol::protected_function_result pfr) {
+    auto result = lua.safe_script(script->data, [](lua_State* L, sol::protected_function_result pfr) {
         // pfr will contain things that went wrong, for either loading or executing the script
         return pfr;}
     );     // evaluate lua script
@@ -93,4 +86,6 @@ void Scriptable::setEnabled(bool _enabled) {
 }
 
 Scriptable::~Scriptable() {
+    lua.collect_garbage();
+    std::cout << "deleted scriptable correctly!" << std::endl;
 }

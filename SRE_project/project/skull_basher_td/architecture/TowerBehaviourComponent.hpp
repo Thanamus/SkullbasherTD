@@ -23,6 +23,8 @@ public:
     };
 
     explicit TowerBehaviourComponent(GameObject* gameObject);
+    ~TowerBehaviourComponent() {
+        std::cout << "deleted tower correctly!" << std::endl; };
     void update(float deltaTime) override;
 
     float getRange() const;

@@ -16,4 +16,5 @@ function targeting(enemies)
     if(new_target) then
         setTarget(new_target:getGameObject())
     end
+    return
 end
