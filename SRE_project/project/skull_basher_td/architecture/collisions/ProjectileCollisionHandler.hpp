@@ -17,4 +17,11 @@ public:
     void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
 
     void onCollisionEnd(size_t collisionId, GameObject *other) override;
+
+    float getDamage() const;
+
+    void setDamage(float damage);
+
+private:
+    float damage = 1.f;
 };

@@ -5,6 +5,8 @@
 #include "Tower.hpp"
 #include "sre/Texture.hpp"
 
+class Scene;
+
 class TowerBuilder {
 public:
 
@@ -31,7 +33,7 @@ public:
     }
 
     const TowerBuilder *withIcon(std::string icon) const {
-        auto iconSprite = sre::Texture::create().withFile("assets/" + icon).withFilterSampling(false).build();
+        auto iconSprite = sre::Texture::create().withFile(icon).withFilterSampling(false).build();
         tower->setIcon(iconSprite);
         return this;
     }
@@ -76,11 +78,6 @@ public:
         return this;
     }
 
-    const TowerBuilder* withDamage(float damage) const {
-        tower->setDamage(damage);
-        return this;
-    }
-
     const TowerBuilder* withPosition(glm::vec3 position) const {
         tower->setPosition(position);
         return this;
@@ -93,6 +90,11 @@ public:
 
     const TowerBuilder* withRotation(glm::vec3 rotation) const {
         tower->setRotation(rotation);
+        return this;
+    }
+
+    const TowerBuilder* withProjectile(Projectile projectile) const {
+        tower->setProjectile(projectile);
         return this;
     }
 

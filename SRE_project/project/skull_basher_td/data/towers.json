@@ -4,16 +4,15 @@
     {
       "id": 0,
       "name":"Arrow Tower",
-      "icon": "arrow_tower.bmp",
-      "indicator": "ArrowTower.obj",
-      "model": "ArrowTower.obj",
+      "icon": ".\\assets\\arrow_tower.bmp",
+      "indicator": ".\\assets\\ArrowTower.obj",
+      "model": ".\\assets\\ArrowTower.obj",
       "buildCost": 10,
       "constructionTime": 5,
       "delay": 5,
       "launchTime": 0,
       "reloadTime": 1,
       "projectileAirTime": 0.25,
-      "damage": 1,
       "position":
       {
         "x": 0.0,
@@ -30,21 +29,48 @@
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
+      },
+      "projectile": {
+        "damage": 1,
+        "model": ".\\assets\\crossbow_bolt_2.obj",
+        "mass": 0.1,
+        "position":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 2.0,
+          "y": 2.0,
+          "z": 2.0
+        },
+        "rotation":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "hitbox": {
+          "type": "box",
+          "x": 0.1,
+          "y": 0.1,
+          "z": 1.0
+        }
       }
     },
     {
       "id": 1,
       "name":"Catapult Tower",
-      "icon": "catapult_tower.bmp",
-      "indicator": "Floating_Banner.obj",
-      "model": "catapult_base.obj",
+      "icon": ".\\assets\\catapult_tower.bmp",
+      "indicator": ".\\assets\\catapult_indicator.obj",
+      "model": ".\\assets\\catapult_base.obj",
       "buildCost": 10,
       "constructionTime": 5,
       "delay": 5,
       "launchTime": 1,
       "reloadTime": 2,
       "projectileAirTime": 0.5,
-      "damage": 2,
       "position":
       {
         "x": 0.0,
@@ -52,9 +78,9 @@
         "z": 0.0
       },
       "scale": {
-        "x": 1.0,
-        "y": 1.0,
-        "z": 1.0
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
       },
       "rotation":
       {
@@ -62,21 +88,47 @@
         "y": 0.0,
         "z": 0.0
       },
+      "projectile": {
+        "damage": 2.0,
+        "model": ".\\assets\\ball.obj",
+        "mass": 1.0,
+        "position":
+        {
+          "x": 0.0,
+          "y": 1.2,
+          "z": 2.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "rotation":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "hitbox": {
+          "type": "sphere",
+          "radius": 1.0
+        }
+      },
       "parts":
       [
         {
           "name": "Catapult Arm",
-          "model": "catapult_arm.obj",
+          "model": ".\\assets\\catapult_arm.obj",
           "position":
           {
             "x": 0.0,
-            "y": 1.0,
+            "y": 1.5,
             "z": -0.5
           },
           "scale": {
-            "x": 0.5,
-            "y": 0.5,
-            "z": 0.5
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
           },
           "rotation":
           {
@@ -88,12 +140,12 @@
           [
             {
               "name": "Ball",
-              "model": "ball.obj",
+              "model": ".\\assets\\ball.obj",
               "position":
               {
                 "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "y": 0.4,
+                "z": 1.6
               },
               "scale": {
                 "x": 1.0,
@@ -103,8 +155,8 @@
               "rotation":
               {
                 "x": 0.0,
-                "y": 0.4,
-                "z": 1.6
+                "y": 0.0,
+                "z": 0.0
               }
             }
           ]

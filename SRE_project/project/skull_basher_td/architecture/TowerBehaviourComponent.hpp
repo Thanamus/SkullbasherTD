@@ -10,6 +10,7 @@
 #include "GameObject.hpp"
 #include "Targetable.hpp"
 #include "glm/glm.hpp"
+#include "Tower.hpp"
 
 class TowerBehaviourComponent : public Component, public Scriptable, Targetable {
     using Scriptable::Scriptable;
@@ -33,8 +34,11 @@ public:
     float getProjectileAirTime() const;
     void setProjectileAirTime(float projectileAirTime_);
 
-    float getReloadSpeed() const;
-    void setReloadSpeed(float reloadSpeed_);
+    float getReloadTime() const;
+    void setReloadTime(float reloadTime_);
+
+    float getLaunchTime() const;
+    void setLaunchTime(float launchTime);
 
     const glm::vec3 &getAimPos() const;
     void setAimPos(const glm::vec3 &aimPos_);
@@ -53,9 +57,13 @@ private:
     float range = 10.f;
     bool readyToShoot = true;
     float projectileAirTime = 0.5f;
-    float reloadSpeed = 3.f;
+    float reloadTime = 1.f;
+    float launchTime = 0.f;
+
+    Projectile projectile;
 
     void shoot(float deltaTime);
+    std::shared_ptr<GameObject> makeProjectile();
     static bool inCircle(glm::vec2 point, glm::vec2 center, float radius) ;
 };
 

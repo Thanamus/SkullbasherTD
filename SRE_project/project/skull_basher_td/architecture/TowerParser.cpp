@@ -3,9 +3,9 @@
 //
 
 #include "TowerParser.hpp"
-#ifdef _MSC_VER
-#undef GetObject
-#endif
+#include "scenes/Scene.hpp"
+#include "Model.hpp"
+#include "Transform.hpp"
 
 std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::string& path) {
     using namespace rapidjson;
@@ -29,7 +29,6 @@ std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::s
         float launchTime = towerRow["launchTime"].GetFloat();
         float reloadTime = towerRow["reloadTime"].GetFloat();
         float projectileAirTime = towerRow["projectileAirTime"].GetFloat();
-        float damage = towerRow["damage"].GetFloat();
         glm::vec3 position = glm::vec3(towerRow["position"]["x"].GetFloat(),
                                        towerRow["position"]["y"].GetFloat(),
                                        towerRow["position"]["z"].GetFloat());
@@ -39,6 +38,26 @@ std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::s
         glm::vec3 rotation = glm::vec3(towerRow["rotation"]["x"].GetFloat(),
                                        towerRow["rotation"]["y"].GetFloat(),
                                        towerRow["rotation"]["z"].GetFloat());
+        Projectile projectile;
+        projectile.damage = towerRow["projectile"]["damage"].GetFloat();
+        projectile.model = towerRow["projectile"]["model"].GetString();
+        projectile.mass = towerRow["projectile"]["mass"].GetFloat();
+        projectile.position = glm::vec3(towerRow["projectile"]["position"]["x"].GetFloat(),
+                                        towerRow["projectile"]["position"]["y"].GetFloat(),
+                                        towerRow["projectile"]["position"]["z"].GetFloat());
+        projectile.scale = glm::vec3(towerRow["projectile"]["scale"]["x"].GetFloat(),
+                                     towerRow["projectile"]["scale"]["y"].GetFloat(),
+                                     towerRow["projectile"]["scale"]["z"].GetFloat());
+        projectile.rotation = glm::vec3(towerRow["projectile"]["rotation"]["x"].GetFloat(),
+                                        towerRow["projectile"]["rotation"]["y"].GetFloat(),
+                                        towerRow["projectile"]["rotation"]["z"].GetFloat());
+        projectile.hitboxType = towerRow["projectile"]["hitbox"]["type"].GetString();
+        if(projectile.hitboxType == "box")
+            projectile.hitboxSize = glm::vec3(towerRow["projectile"]["hitbox"]["x"].GetFloat(),
+                                            towerRow["projectile"]["hitbox"]["y"].GetFloat(),
+                                            towerRow["projectile"]["hitbox"]["z"].GetFloat());
+        else if (projectile.hitboxType == "sphere")
+            projectile.radius = towerRow["projectile"]["hitbox"]["radius"].GetFloat();
         auto partsIter = towerRow.FindMember("parts");
         std::vector<TowerPart> parts;
         if(partsIter != towerRow.MemberEnd() && partsIter->value.IsArray() && partsIter->value.GetArray().Size() > 0)
@@ -57,7 +76,7 @@ std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::s
                 ->withLaunchTime(launchTime)
                 ->withReloadTime(reloadTime)
                 ->withProjectileAirTime(projectileAirTime)
-                ->withDamage(damage)
+                ->withProjectile(projectile)
                 ->withPosition(position)
                 ->withScale(scale)
                 ->withRotation(rotation)
@@ -92,6 +111,37 @@ std::vector<TowerPart> TowerParser::parseParts(const Value& partsArray) {
     return parts;
 }
 
-std::shared_ptr<GameObject> TowerParser::addTowerToScene(const Tower &tower, Scene *scene) {
-    return std::shared_ptr<GameObject>();
+std::shared_ptr<GameObject> TowerParser::addTowerToScene(const std::shared_ptr<Tower>& tower, const std::shared_ptr<Scene>& scene) {
+    auto model = Model::create().withOBJ(tower->getModel()).build();
+    auto towerGO = scene->createGameObject(tower->getName());
+    auto towerTR = towerGO->getComponent<Transform>();
+    towerTR->position = tower->getPosition();
+    towerTR->scale = tower->getScale();
+    towerTR->rotation = tower->getRotation();
+    for(const auto& p : tower->getParts())
+        addPart(towerGO, p);
+    auto towerMR = towerGO->addComponent<ModelRenderer>();
+    towerMR->setModel(model);
+    auto towerAN = towerGO->addComponent<Animator>();
+    towerTR->setModelRenderer(towerMR);
+    towerTR->setAnimator(towerAN);
+    auto towerTB = towerGO->addComponent<TowerBehaviourComponent>();
+    return towerGO;
+}
+
+void TowerParser::addPart(const std::shared_ptr<GameObject>& parent, const TowerPart& part) {
+    auto model = Model::create().withOBJ(part.model).build();
+    auto partGO = parent->getScene()->createGameObject(part.name);
+    partGO->setParent(parent.get());
+    auto partTR = partGO->getComponent<Transform>();
+    partTR->position = part.position;
+    partTR->scale = part.scale;
+    partTR->rotation = part.rotation;
+    auto partMR = partGO->addComponent<ModelRenderer>();
+    partMR->setModel(model);
+    auto partAN = partGO->addComponent<Animator>();
+    partTR->setModelRenderer(partMR);
+    partTR->setAnimator(partAN);
+    for(const auto& p : part.parts) // recursively add parts
+        addPart(partGO, p);
 }

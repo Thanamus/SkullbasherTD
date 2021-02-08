@@ -54,10 +54,6 @@ float Tower::getProjectileAirTime() const {
     return projectileAirTime;
 }
 
-float Tower::getDamage() const {
-    return damage;
-}
-
 const vec3 &Tower::getPosition() const {
     return position;
 }
@@ -118,10 +114,6 @@ void Tower::setProjectileAirTime(float projectileAirTime) {
     Tower::projectileAirTime = projectileAirTime;
 }
 
-void Tower::setDamage(float damage) {
-    Tower::damage = damage;
-}
-
 void Tower::setPosition(const vec3 &position) {
     Tower::position = position;
 }
@@ -140,5 +132,13 @@ void Tower::setParts(const std::vector<TowerPart> &parts) {
 
 void Tower::setIndicator(const std::string &indicator) {
     Tower::indicator = indicator;
+}
+
+const Projectile &Tower::getProjectile() const {
+    return projectile;
+}
+
+void Tower::setProjectile(const Projectile &projectile) {
+    Tower::projectile = projectile;
 }
 

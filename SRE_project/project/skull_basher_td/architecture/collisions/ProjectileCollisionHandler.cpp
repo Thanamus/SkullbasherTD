@@ -28,10 +28,18 @@ void ProjectileCollisionHandler::onCollision(size_t collisionId, GameObject* oth
                 return;
             stopCollisions = true;
             gameObject->setQueuedForDeletion(true);
-            enemy->decreaseHealth(1);
+            enemy->decreaseHealth(damage);
         }
     }
 }
 
 void ProjectileCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
+}
+
+float ProjectileCollisionHandler::getDamage() const {
+    return damage;
+}
+
+void ProjectileCollisionHandler::setDamage(float damage) {
+    ProjectileCollisionHandler::damage = damage;
 }
