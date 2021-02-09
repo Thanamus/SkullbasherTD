@@ -24,6 +24,7 @@ glm::mat4 TransformComponent::localTransform() const {
     glm::mat4 scaleMat = glm::scale(glm::mat4(1), scale);
 
     auto compositeTransform = translateMat*localRotation()*scaleMat;
+
     auto modelRenderer = gameObject->getComponent<ModelRendererComponent>();
     if(modelRenderer && modelRenderer->getModel())
         compositeTransform *= modelRenderer->getModel()->getTransform();
@@ -39,10 +40,9 @@ glm::mat4 TransformComponent::globalTransform() {
     if (parentGameObj) {
         auto parentTransform = parentGameObj->getComponent<TransformComponent>();
         if(parentTransform)
-            global = parentTransform->globalTransform();
+           return parentTransform->globalTransform() * localTransform();
     }
-    // if the gameObject is unlinked from its parent, it keeps applying the last global transform it had!
-    return global*localTransform();
+    return localTransform();
 }
 
 void TransformComponent::debugGUI() {

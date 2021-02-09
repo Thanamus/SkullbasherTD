@@ -41,12 +41,6 @@ public:
 
     void lookAt(glm::vec3 at,glm::vec3 up);
     void lookAt(TransformComponent* at,glm::vec3 up);
-
-private:
-//    Transform * parent = nullptr;
-//    // make it shared
-//    std::vector<Transform*> children;
-    glm::mat4 global = glm::mat4(1.);
 };
 
 
