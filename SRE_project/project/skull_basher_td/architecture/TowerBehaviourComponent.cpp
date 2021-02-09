@@ -239,7 +239,12 @@ void TowerBehaviourComponent::setLaunchTime(float launchTime) {
     TowerBehaviourComponent::launchTime = launchTime;
 }
 
+/*
+ *  this method instantiates a GameObject acting as the tower projectile by reading from the Projectile class holding
+    its information
+ */
 GameObject* TowerBehaviourComponent::makeProjectile() {
+    // adds projectile to scene
     auto projectile_ = gameObject->getScene()->createGameObject(gameObject->getName() + " Projectile");
     auto projectileTR = projectile_->getComponent<Transform>();
     // right place at the right time
@@ -261,7 +266,6 @@ GameObject* TowerBehaviourComponent::makeProjectile() {
         rigidBody->setAngularVelocity({0,0,0});
         rigidBody->setGravity({0, 0, 0});
     }
-    projectileTR->setModelRenderer(projectileMR);
     auto projectileCH = projectile_->addComponent<ProjectileCollisionHandler>();
     projectileCH->setDamage(projectile.damage);
     projectile_->addComponent<ProjectileLifespanComponent>();

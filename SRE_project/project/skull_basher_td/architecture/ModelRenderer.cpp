@@ -70,4 +70,6 @@ void ModelRenderer::debugGUI() {
 }
 
 ModelRenderer::~ModelRenderer() {
+    model.reset();
 }
+

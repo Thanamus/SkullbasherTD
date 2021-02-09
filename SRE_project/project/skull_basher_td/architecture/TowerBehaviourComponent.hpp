@@ -66,8 +66,6 @@ private:
     float launchTime = 0.f;
 
     TowerProjectile projectile;
-
-    void shoot(float deltaTime);
     GameObject* makeProjectile();
     static bool inCircle(glm::vec2 point, glm::vec2 center, float radius) ;
 };

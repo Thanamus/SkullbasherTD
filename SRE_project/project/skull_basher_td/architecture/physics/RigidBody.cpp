@@ -46,7 +46,7 @@ void RigidBody::updateTransformFromPhysicsWorld(){
 //                glm::vec3 prevGlobalPos = transform->globalPosition();
 //                glm::vec3 newGlobalPos = {origin.x(), origin.y(), origin.z()};
 //                transform->position += (newGlobalPos - prevGlobalPos);
-                transform->position = {origin.x(), origin.y(), origin.z()};
+                transform->position = { origin.x(), origin.y(), origin.z() };
                 auto pRot = pTransform.getRotation();
                 glm::quat inputQuat(pRot.w(), pRot.x(), pRot.y(), pRot.z());
                 transform->rotation = glm::degrees(glm::eulerAngles(inputQuat));

@@ -32,13 +32,6 @@ public:
     glm::vec3 globalPosition();
     glm::mat4 globalTransform();
 
-    std::shared_ptr<Animator> getAnimator() const;
-    void setAnimator(std::shared_ptr<Animator> _animator);
-
-    std::shared_ptr<ModelRenderer> getModelRenderer() const;
-    void setModelRenderer(std::shared_ptr<ModelRenderer> _modelRenderer);
-
-
     void debugGUI() override;
 
 //    Transform *getParent() const;
@@ -54,8 +47,6 @@ private:
 //    // make it shared
 //    std::vector<Transform*> children;
     glm::mat4 global = glm::mat4(1.);
-    std::shared_ptr<ModelRenderer> modelRenderer;
-    std::shared_ptr<Animator> animator;
 };
 
 

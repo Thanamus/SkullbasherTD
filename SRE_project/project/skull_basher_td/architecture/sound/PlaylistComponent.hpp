@@ -25,5 +25,4 @@ public:
 
 private:
     std::map<std::string, std::string> playlist;
-    
 };

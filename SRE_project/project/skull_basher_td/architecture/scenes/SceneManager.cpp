@@ -89,7 +89,6 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     auto path =  ".\\assets\\lowpoly_crossbow_2_5.obj";
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
     auto handAN = hand->addComponent<Animator>();
-    hand->getComponent<Transform>()->setAnimator(handAN);
     auto handReload = std::make_shared<Animation>(false);
     float resetAnimationTime = 0.2f;
     handReload->addFrame(glm::vec3( 0,-0.75,0), glm::vec3(1), glm::vec3(-15,0,0), (cameraObj->getComponent<PersonController>()->getReloadLockoutMillisec() / 1000));
@@ -120,8 +119,6 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     auto crystalPath =  ".\\assets\\crystal.obj";
     //TODO: review animation
     auto crystalAN = crystal->addComponent<Animator>();
-    crystalTR->setAnimator(crystalAN);
-    crystalTR->setModelRenderer(crystalMR);
 
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     // ---- set crystal collision group and flags
@@ -475,6 +472,11 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
     std::shared_ptr<sre::Mesh> meshHolder;
     std::shared_ptr<sre::Material> matHolder;
     std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
+    auto floatingAnimation = std::make_shared<Animation>(true);
+    floatingAnimation->addFrame(glm::vec3(0, 0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
+    floatingAnimation->addFrame(glm::vec3(0, 0, 0), glm::vec3(1), glm::vec3(0), .5f);
+    floatingAnimation->addFrame(glm::vec3(0, -0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
+    floatingAnimation->addFrame(glm::vec3(0, 0, 0), glm::vec3(1), glm::vec3(0), .5f);
 
     for (size_t wave = 0; wave < howManyWaves; wave++) { //wave level
         //get the number of enemyTypes and quantities in order
@@ -531,15 +533,9 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 auto enemyMR = enemy->addComponent<ModelRenderer>();
                 auto enemyAN = enemy->addComponent<Animator>();
                 enemyMR->setModel(modelHolder);
-                enemyTR->setModelRenderer(enemyMR);
-                enemyTR->setAnimator(enemyAN);
-
                 // set the enemies animation
-                auto idleAnimation = std::make_shared<Animation>(true);
-                idleAnimation->addFrame(glm::vec3(0, 0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
-                idleAnimation->addFrame(glm::vec3(0, -0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
-                enemyAN->addAnimation("idle", idleAnimation);
-                enemyAN->setAnimationState("idle");
+//                enemyAN->addAnimation("floating", floatingAnimation);
+//                enemyAN->setAnimationState("floating");
 
                 // set the enemies transform
                 enemyTR->position = positionHolder;
@@ -563,6 +559,8 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 // skulls should not be moved by external forces
                 enemyRB->getRigidBody()->setLinearFactor({0,0,0});
                 enemyRB->getRigidBody()->setAngularFactor({0,0,0});
+                enemyRB->getRigidBody()->setLinearVelocity({0,0,0});
+                enemyRB->getRigidBody()->setAngularVelocity({0,0,0});
                 // skulls should never deactivate - this might be changed for improved performance
                 enemyRB->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
                 enemy->addComponent<EnemyCollisionHandler>();
@@ -620,10 +618,9 @@ void SceneManager::SpawnCoin(float money,glm::vec3 position) {
 
     //TODO: review animation
     auto coinAN = coin->addComponent<Animator>();
-    coinTR->setAnimator(coinAN);
     auto coinRotate = std::make_shared<Animation>(true);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(1), 5.f);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(359), 5.f);
+    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(1), 3.f);
+    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(359), 3.f);
     coinAN->addAnimation("rotate", coinRotate);
     coinAN->setAnimationState("rotate");
     coinMR->setModel(Model::create().withOBJ(coinPath).withName("coin").build());

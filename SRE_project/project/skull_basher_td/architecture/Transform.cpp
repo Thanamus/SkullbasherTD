@@ -18,34 +18,18 @@ using namespace sre;
 Transform::Transform(GameObject* gameObject) : Component(gameObject) {
 }
 
-std::shared_ptr<ModelRenderer> Transform::getModelRenderer() const {
-    return modelRenderer;
-}
-
-void Transform::setModelRenderer(std::shared_ptr<ModelRenderer> _modelRenderer) {
-    Transform::modelRenderer = std::move(_modelRenderer);
-}
-
-std::shared_ptr<Animator> Transform::getAnimator() const {
-    return animator;
-}
-
-void Transform::setAnimator(std::shared_ptr<Animator> _animator) {
-    Transform::animator = std::move(_animator);
-}
-
-
 glm::mat4 Transform::localTransform() const {
     glm::mat4 translateMat = glm::translate(glm::mat4(1), position);
 
     glm::mat4 scaleMat = glm::scale(glm::mat4(1), scale);
 
     auto compositeTransform = translateMat*localRotation()*scaleMat;
+    auto modelRenderer = gameObject->getComponent<ModelRenderer>();
     if(modelRenderer && modelRenderer->getModel())
         compositeTransform *= modelRenderer->getModel()->getTransform();
+    auto animator = gameObject->getComponent<Animator>();
     if(animator)
         compositeTransform *= animator->getSQTMatrix();
-
     return compositeTransform;
 }
 
@@ -133,8 +117,5 @@ glm::vec3 Transform::globalPosition() {
     return glm::vec3(globalTransform()[3]);
 }
 
-Transform::~Transform() {
-    animator.reset();
-    modelRenderer.reset();
-}
+Transform::~Transform() = default;
 

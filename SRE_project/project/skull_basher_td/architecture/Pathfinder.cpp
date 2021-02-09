@@ -7,17 +7,21 @@
 // sound includes
 #include "./sound/SourceManager.hpp"
 #include "./sound/PlaylistComponent.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
 using namespace glm;
 Pathfinder::Pathfinder(GameObject* _gameObject)
 : gameObject(_gameObject) {
-
-    // initialise pathfinder
+    // initialize pathfinder
     currentPathIndex = GameManager::getInstance().getFirstPathIndex(); // get the first index (can change depending on how long the path is)
     fetchNextPathPoint();
     currentPosition = gameObject->getComponent<Transform>()->position;
     startPathPoint = currentPosition;
-    direction = glm::normalize(nextPathPoint-startPathPoint);
+    distance = glm::length(glm::vec2(nextPathPoint.x, nextPathPoint.z) - glm::vec2(startPathPoint.x, startPathPoint.z));
+    direction = glm::normalize(nextPathPoint - startPathPoint);
+    glm::mat4 lookAtMat = glm::lookAt(startPathPoint, nextPathPoint, {0, 1, 0});
+    auto cosYAngle = (float)sqrt(pow(lookAtMat[0][0], 2) + pow(lookAtMat[1][0], 2));
+    rotY = atan2(lookAtMat[2][0], cosYAngle);
 }
 
 void Pathfinder::fetchNextPathPoint(){
@@ -48,7 +52,12 @@ void Pathfinder::update(float deltaTime) {
             currentPosition = transformComp->position; // no rigid body, use Transform instead
 
         auto error = 0.5f;
-        if (abs(currentPosition.x - nextPathPoint.x) <= error && abs(currentPosition.z - nextPathPoint.z) <= error) {
+
+        // check if movement has gone too far, prevents the skulls heading off into the sunset
+        float newDistance = glm::length(glm::vec2(nextPathPoint.x, nextPathPoint.z) - glm::vec2(currentPosition.x, currentPosition.z));
+        bool movedPast = newDistance > distance;
+        bool closeToNext = (abs(currentPosition.x - nextPathPoint.x) <= error && abs(currentPosition.z - nextPathPoint.z) <= error);
+        if (movedPast || closeToNext) {
             startPathPoint = nextPathPoint;
             fetchNextPathPoint();
             if(currentPathIndex == 0 && startPathPoint == nextPathPoint) { // has finished moving
@@ -59,29 +68,32 @@ void Pathfinder::update(float deltaTime) {
             currentPosition = startPathPoint;
             currentPosition.y = 0;
             direction =  glm::normalize(nextPathPoint - startPathPoint);
-        }
+            distance = glm::length(nextPathPoint - startPathPoint);
+            glm::mat4 lookAtMat = glm::lookAt(startPathPoint, nextPathPoint, {0, 1, 0});
+            auto cosYAngle = (float)sqrt(pow(lookAtMat[0][0], 2) + pow(lookAtMat[1][0], 2));
+            rotY = atan2(lookAtMat[2][0], cosYAngle);
+            if(direction.z < 0) // workaround
+                rotY += M_PI;
+        } else
+            distance = newDistance;
 
-
-        // mix currentposition with next path point and delta time
-        // TODO: review
+        // move forward along the current direction
         nextPosition = currentPosition + moveSpeed * direction * deltaTime;
         nextPosition.y = 0; // make sure it's on ground
 
         // update the world transform of the skull (make it move)
         if (rigidBody) {
-            // convert Transform vriables to bullet variables
+            // convert Transform variables to bullet variables
             btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};
             btTransform transform = rigidBody->getWorldTransform();
             transform.setOrigin(nextBtPosition);
-
-            if (transformComp) {
-                // Set orientation
-                float newRotation = transformComp->rotation.y;
-                btQuaternion aroundX;
-                aroundX.setRotation(btVector3(0,-1,0), radians(newRotation)); // works, but the objects face the wrong way?
-                transform.setRotation(aroundX);
-                rigidBody->setCenterOfMassTransform(transform);
+            // Set orientation
+            if(!glm::isnan(rotY)) {
+                btQuaternion aroundY;
+                aroundY.setRotation(btVector3(0,1,0), rotY);
+                transform.setRotation(aroundY);
             }
+            rigidBody->setCenterOfMassTransform(transform);
             rigidBody->getMotionState()->setWorldTransform(transform); 
             rigidBody->activate(true); // activate skull (to make sure it collides with things)
         }

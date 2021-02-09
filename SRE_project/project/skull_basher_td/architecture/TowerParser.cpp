@@ -186,8 +186,6 @@ std::shared_ptr<GameObject> TowerParser::addTowerToScene(const std::shared_ptr<T
     auto towerMR = towerGO->addComponent<ModelRenderer>();
     towerMR->setModel(model);
     auto towerAN = towerGO->addComponent<Animator>();
-    towerTR->setModelRenderer(towerMR);
-    towerTR->setAnimator(towerAN);
     for(const auto& a: tower->getAnimations()) {
         auto animation = std::make_shared<Animation>(a.looping);
         for(const auto& f : a.frames)
@@ -221,8 +219,6 @@ void TowerParser::addPart(const std::shared_ptr<GameObject>& parent, const Tower
             animation->addFrame(f.translate, f.scale, f.rotate, f.duration);
         partAN->addAnimation(a.name, animation);
     }
-    partTR->setModelRenderer(partMR);
-    partTR->setAnimator(partAN);
     for(const auto& p : part.parts) // recursively add parts
         addPart(partGO, p);
 }
