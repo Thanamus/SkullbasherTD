@@ -10,10 +10,10 @@
 #include "GameObject.hpp"
 #include "Renderable.hpp"
 
-class ModelRenderer : public Component, public Renderable {
+class ModelRendererComponent : public Component, public Renderable {
 public:
-    explicit ModelRenderer(GameObject* gameObject);
-    ~ModelRenderer();
+    explicit ModelRendererComponent(GameObject* gameObject);
+    ~ModelRendererComponent();
 
     void setModel(std::shared_ptr<Model> model);
     std::shared_ptr<Model> getModel();

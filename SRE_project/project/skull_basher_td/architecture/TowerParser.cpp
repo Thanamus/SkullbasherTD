@@ -5,7 +5,7 @@
 #include "TowerParser.hpp"
 #include "scenes/Scene.hpp"
 #include "Model.hpp"
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 
 std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::string& path) {
     using namespace rapidjson;
@@ -173,15 +173,15 @@ std::vector<TowerPart> TowerParser::parseParts(const Value& partsArray) {
 std::shared_ptr<GameObject> TowerParser::addTowerToScene(const std::shared_ptr<Tower>& tower, const std::shared_ptr<Scene>& scene) {
     auto model = tower->getModel();
     auto towerGO = scene->createGameObject(tower->getName());
-    auto towerTR = towerGO->getComponent<Transform>();
+    auto towerTR = towerGO->getComponent<TransformComponent>();
     towerTR->position = tower->getPosition();
     towerTR->scale = tower->getScale();
     towerTR->rotation = tower->getRotation();
     for(const auto& p : tower->getParts())
         addPart(towerGO, p);
-    auto towerMR = towerGO->addComponent<ModelRenderer>();
+    auto towerMR = towerGO->addComponent<ModelRendererComponent>();
     towerMR->setModel(model);
-    auto towerAN = towerGO->addComponent<Animator>();
+    auto towerAN = towerGO->addComponent<AnimatorComponent>();
     for(const auto& a: tower->getAnimations()) {
         towerAN->addAnimation(a.first, a.second);
     }
@@ -199,13 +199,13 @@ void TowerParser::addPart(const std::shared_ptr<GameObject>& parent, const Tower
     auto model = part.model;
     auto partGO = parent->getScene()->createGameObject(part.name);
     partGO->setParent(parent.get());
-    auto partTR = partGO->getComponent<Transform>();
+    auto partTR = partGO->getComponent<TransformComponent>();
     partTR->position = part.position;
     partTR->scale = part.scale;
     partTR->rotation = part.rotation;
-    auto partMR = partGO->addComponent<ModelRenderer>();
+    auto partMR = partGO->addComponent<ModelRendererComponent>();
     partMR->setModel(model);
-    auto partAN = partGO->addComponent<Animator>();
+    auto partAN = partGO->addComponent<AnimatorComponent>();
     for(const auto& a: part.animations) {
         partAN->addAnimation(a.first, a.second);
     }

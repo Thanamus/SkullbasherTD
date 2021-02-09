@@ -9,7 +9,7 @@
 // #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 
 
-class Transform;
+class TransformComponent;
 class btGhostObject;
 class btPairCachingGhostObject;
 
@@ -31,7 +31,7 @@ private:
 
     // btPairCachingGhostObject* ghostObject = nullptr;
     btGhostObject* ghostObject = nullptr;
-    Transform* transform;
+    TransformComponent* transform;
 
     btCollisionShape* shape = nullptr;
 

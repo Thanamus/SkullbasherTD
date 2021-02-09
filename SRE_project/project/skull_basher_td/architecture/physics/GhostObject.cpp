@@ -4,7 +4,7 @@
 
 #include "GhostObject.hpp"
 #include "../GameObject.hpp"
-#include "../Transform.hpp"
+#include "../TransformComponent.hpp"
 #include "BulletPhysics.hpp"
 #include "glm/glm.hpp"
 #include <glm/gtc/quaternion.hpp>
@@ -19,7 +19,7 @@
 */
 
 GhostObject::GhostObject(GameObject* gameObject) : Component(gameObject) {
-    transform = gameObject->getComponent<Transform>().get(); // attaches the ghost object to a game object
+    transform = gameObject->getComponent<TransformComponent>().get(); // attaches the ghost object to a game object
 
 }
 

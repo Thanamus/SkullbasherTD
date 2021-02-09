@@ -9,14 +9,14 @@
 #include <vector>
 #include "Component.hpp"
 #include "GameObject.hpp"
-#include "Animator.hpp"
-#include "ModelRenderer.hpp"
+#include "AnimatorComponent.hpp"
+#include "ModelRendererComponent.hpp"
 
 
-class Transform : public Component {
+class TransformComponent : public Component {
 public:
-    explicit Transform(GameObject* gameObject);
-    ~Transform();
+    explicit TransformComponent(GameObject* gameObject);
+    ~TransformComponent();
 
     std::string name;
 
@@ -40,7 +40,7 @@ public:
 //    const std::vector<Transform*> & getChildren();
 
     void lookAt(glm::vec3 at,glm::vec3 up);
-    void lookAt(Transform* at,glm::vec3 up);
+    void lookAt(TransformComponent* at,glm::vec3 up);
 
 private:
 //    Transform * parent = nullptr;

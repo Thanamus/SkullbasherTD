@@ -8,14 +8,14 @@
 #include <sre/Camera.hpp>
 #include "GameObject.hpp"
 #include <sre/Material.hpp>
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 #include "Renderable.hpp"
 #include "Ray.hpp"
 
-class Camera : public Component {
+class CameraComponent : public Component {
 public:
-    explicit Camera(GameObject* gameObject);
-    ~Camera();
+    explicit CameraComponent(GameObject* gameObject);
+    ~CameraComponent();
 
     void bind();
 
@@ -51,7 +51,7 @@ public:
     void resetTowerCursor(std::shared_ptr<GameObject> tower, glm::vec3 position);
     glm::vec3 calcTowerCursorPosition(glm::vec3 front);
 private:
-    Transform* transform = nullptr;
+    TransformComponent* transform = nullptr;
     sre::Camera camera;
     friend class Engine;
     friend class Scene;

@@ -4,10 +4,10 @@
 
 #include "GameObject.hpp"
 #include <utility>
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 
 GameObject::GameObject(std::string name_, Scene* scene_) : name(std::move(name_)), scene(scene_) {
-    addComponent<Transform>();
+    addComponent<TransformComponent>();
 }
 
 GameObject::~GameObject() {

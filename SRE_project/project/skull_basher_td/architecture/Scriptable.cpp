@@ -6,7 +6,7 @@
 #include <sre/Resource.hpp>
 #include "Scriptable.hpp"
 #include "GameObject.hpp"
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 
 Scriptable::Scriptable(bool enabled)
         : enabled(enabled) {

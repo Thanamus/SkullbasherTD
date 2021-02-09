@@ -18,10 +18,10 @@
 #include <string>
 
 
-class Camera;
+class CameraComponent;
 class GameObject;
 class Component;
-class Light;
+class LightComponent;
 class BulletPhysics;
 class RigidBody;
 class ScheduleManager;

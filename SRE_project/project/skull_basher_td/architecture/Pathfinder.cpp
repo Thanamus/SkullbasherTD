@@ -1,6 +1,6 @@
 
 #include "Pathfinder.hpp"
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 
 #include "./physics/RigidBody.hpp"
 
@@ -15,7 +15,7 @@ Pathfinder::Pathfinder(GameObject* _gameObject)
     // initialize pathfinder
     currentPathIndex = GameManager::getInstance().getFirstPathIndex(); // get the first index (can change depending on how long the path is)
     fetchNextPathPoint();
-    currentPosition = gameObject->getComponent<Transform>()->position;
+    currentPosition = gameObject->getComponent<TransformComponent>()->position;
     startPathPoint = currentPosition;
     distance = glm::length(glm::vec2(nextPathPoint.x, nextPathPoint.z) - glm::vec2(startPathPoint.x, startPathPoint.z));
     direction = glm::normalize(nextPathPoint - startPathPoint);
@@ -37,7 +37,7 @@ void Pathfinder::update(float deltaTime) {
         
         btRigidBody* rigidBody = nullptr; // init a rigid body
 
-        auto transformComp = gameObject->getComponent<Transform>();
+        auto transformComp = gameObject->getComponent<TransformComponent>();
         auto rigidBodyComp = gameObject->getComponent<RigidBody>();
 
         if(rigidBodyComp)

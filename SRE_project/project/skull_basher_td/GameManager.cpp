@@ -6,9 +6,9 @@
 #include <sre/Renderer.hpp>
 #include "sre/SpriteAtlas.hpp"
 #include "GameManager.hpp"
-#include "./architecture/Camera.hpp"
-#include "./architecture/PersonController.hpp"
-#include "./architecture/ModelRenderer.hpp"
+#include "./architecture/CameraComponent.hpp"
+#include "./architecture/PersonControllerComponent.hpp"
+#include "./architecture/ModelRendererComponent.hpp"
 
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -20,7 +20,7 @@
 #include <iostream>
 #include <utility>
 #include "architecture/music/MusicBuffer.hpp"
-#include "architecture/WorldObject.hpp"
+#include "architecture/WorldObjectComponent.hpp"
 #include "architecture/sound/SourceManager.hpp"
 #include "architecture/TowerBehaviourComponent.hpp"
 #include "architecture/TowerParser.hpp"
@@ -161,15 +161,15 @@ void GameManager::onKey(SDL_Event &event)
     if(pressed && selectedTowerIndex <= towers.size())
     {
         selectedTower = towers[selectedTowerIndex];
-        auto player = sceneManager->getCurrentScene()->cameras[0]->getGameObject()->getComponent<PersonController>();
+        auto player = sceneManager->getCurrentScene()->cameras[0]->getGameObject()->getComponent<PersonControllerComponent>();
         if(buildModeActive)
         {
             updateTowerIndicator();
             player->updateHandModel("hammer");
         }
         else {
-            auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
-            towerIndicator->getComponent<ModelRenderer>()->active = false;
+            auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonControllerComponent>()->tower;
+            towerIndicator->getComponent<ModelRendererComponent>()->active = false;
 
             player->updateHandModel("crossbow");
         }
@@ -180,16 +180,16 @@ void GameManager::onMouse(SDL_Event &event)
 {
     if(event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
     {
-        auto personController = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
+        auto personController = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonControllerComponent>();
         if(personController->allowedToBuild)
         {
             auto tower = TowerParser::addTowerToScene(selectedTower, sceneManager->currentScene);
-            auto towerTR = tower->getComponent<Transform>();
-            towerTR->position = personController->tower->getComponent<Transform>()->position;
-            towerTR->rotation = personController->tower->getComponent<Transform>()->rotation;
-            personController->targetBlock->getComponent<WorldObject>()->setBuildable(false);
-            if(personController->hand->getComponent<Animator>()->getAnimationState() != "build")
-                personController->hand->getComponent<Animator>()->setAnimationState("build");
+            auto towerTR = tower->getComponent<TransformComponent>();
+            towerTR->position = personController->tower->getComponent<TransformComponent>()->position;
+            towerTR->rotation = personController->tower->getComponent<TransformComponent>()->rotation;
+            personController->targetBlock->getComponent<WorldObjectComponent>()->setBuildable(false);
+            if(personController->hand->getComponent<AnimatorComponent>()->getAnimationState() != "build")
+                personController->hand->getComponent<AnimatorComponent>()->setAnimationState("build");
             score -= selectedTower->getBuildCost();
             SourceManager::Get()->playMyJam_global("wood-hammering.wav");
         }
@@ -209,9 +209,9 @@ void GameManager::updateTowerIndicator()
     if(sceneManager->currentScene == nullptr)
         return;
 
-    auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
-    towerIndicator->getComponent<ModelRenderer>()->setModel(selectedTower->getIndicator());
-    towerIndicator->getComponent<ModelRenderer>()->active = true;
+    auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonControllerComponent>()->tower;
+    towerIndicator->getComponent<ModelRendererComponent>()->setModel(selectedTower->getIndicator());
+    towerIndicator->getComponent<ModelRendererComponent>()->active = true;
 }
 
 

@@ -4,12 +4,12 @@
 
 #include "../GameObject.hpp"
 #include "../Component.hpp"
-#include "../Transform.hpp"
+#include "../TransformComponent.hpp"
 
 
 #include "../physics/RigidBody.hpp"
 
-#include "../PersonController.hpp"
+#include "../PersonControllerComponent.hpp"
 
 // sound includes
 #include "../sound/SoundDevice.hpp"
@@ -18,14 +18,14 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
-#include "../WorldObject.hpp"
+#include "../WorldObjectComponent.hpp"
 #include "../../GameManager.hpp"
 
 class GameObject; // needed for referencing the game object
 class Component;
 
 /*
-    PlayerCollisionHandler handles collisions that happen on the PersonController (when correctly attached)
+    PlayerCollisionHandler handles collisions that happen on the PersonControllerComponent (when correctly attached)
 */
 
 PlayerCollisionHandler::PlayerCollisionHandler(GameObject* gameObject) : Component(gameObject) {
@@ -40,13 +40,13 @@ void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
 
 
         // check if the other object is a world object
-        if(other->getComponent<WorldObject>())
+        if(other->getComponent<WorldObjectComponent>())
         {
 
             // other object is a world object, get the objects name
             std::string otherObjectName = other->getName();
-            glm::vec3 playerPosition = gameObject->getComponent<Transform>()->position; // TODO check can be removed
-            bool& isGrounded = gameObject->getComponent<PersonController>()->isGrounded; // check if grounded
+            glm::vec3 playerPosition = gameObject->getComponent<TransformComponent>()->position; // TODO check can be removed
+            bool& isGrounded = gameObject->getComponent<PersonControllerComponent>()->isGrounded; // check if grounded
             
             // debugging couts
             // std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;

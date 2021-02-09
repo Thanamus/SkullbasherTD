@@ -4,7 +4,7 @@
 
 #include "RigidBody.hpp"
 #include "../GameObject.hpp"
-#include "../Transform.hpp"
+#include "../TransformComponent.hpp"
 #include "BulletPhysics.hpp"
 #include "glm/glm.hpp"
 #include <glm/gtc/quaternion.hpp>
@@ -16,7 +16,7 @@
 
 
 RigidBody::RigidBody(GameObject* gameObject) : Component(gameObject) {
-    transform = gameObject->getComponent<Transform>().get(); // sets up the new rigid body to use the game objects Transform
+    transform = gameObject->getComponent<TransformComponent>().get(); // sets up the new rigid body to use the game objects Transform
 }
 
 // remove the (bulet) rigid body from the dynamics world when deleting the component

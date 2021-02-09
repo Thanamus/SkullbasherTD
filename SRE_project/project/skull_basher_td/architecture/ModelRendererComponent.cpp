@@ -2,13 +2,13 @@
 // Created by Morten Nobel Jørgensen on 2018-11-06.
 //
 
-#include "ModelRenderer.hpp"
+#include "ModelRendererComponent.hpp"
 #include <imgui.h>
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 
 using namespace sre;
 
-ModelRenderer::ModelRenderer(GameObject* gameObject)
+ModelRendererComponent::ModelRendererComponent(GameObject* gameObject)
 : Component(gameObject) {
     std::vector<std::shared_ptr<Material>> materials;
     materials.push_back(sre::Shader::getStandardBlinnPhong()->createMaterial());
@@ -16,38 +16,38 @@ ModelRenderer::ModelRenderer(GameObject* gameObject)
     model = Model::create().withMesh(sharedMeshCube).withMaterials(materials).build();
 }
 
-void ModelRenderer::setModel(std::shared_ptr<Model> model) {
-    ModelRenderer::model = std::move(model);
+void ModelRendererComponent::setModel(std::shared_ptr<Model> model) {
+    ModelRendererComponent::model = std::move(model);
 }
 
-std::shared_ptr<Model> ModelRenderer::getModel() {
+std::shared_ptr<Model> ModelRendererComponent::getModel() {
     return model;
 }
 
 
 // kept for utility purposes
-void ModelRenderer::setMesh(std::shared_ptr<sre::Mesh> mesh) {
+void ModelRendererComponent::setMesh(std::shared_ptr<sre::Mesh> mesh) {
     model->setMesh(mesh);
 }
-std::shared_ptr<sre::Mesh> ModelRenderer::getMesh(){
+std::shared_ptr<sre::Mesh> ModelRendererComponent::getMesh(){
     return model->getMesh();
 }
 
-std::vector<std::shared_ptr<sre::Material>> ModelRenderer::getMaterials() {
+std::vector<std::shared_ptr<sre::Material>> ModelRendererComponent::getMaterials() {
     return model->getMaterials();
 }
-void ModelRenderer::setMaterials(std::vector<std::shared_ptr<sre::Material>> materials) {
+void ModelRendererComponent::setMaterials(std::vector<std::shared_ptr<sre::Material>> materials) {
     model->setMaterials(materials);
 }
 
-void ModelRenderer::draw(sre::RenderPass* renderPass) {
+void ModelRendererComponent::draw(sre::RenderPass* renderPass) {
     if(!active)
         return;
-    renderPass->draw(model->getMesh(), gameObject->getComponent<Transform>()->globalTransform(), model->getMaterials());
+    renderPass->draw(model->getMesh(), gameObject->getComponent<TransformComponent>()->globalTransform(), model->getMaterials());
 }
 
-void ModelRenderer::debugGUI() {
-    if (ImGui::TreeNode("ModelRenderer")) {
+void ModelRendererComponent::debugGUI() {
+    if (ImGui::TreeNode("ModelRendererComponent")) {
         if (ImGui::TreeNode("Materials")) {
             for(const auto& material : getMaterials()) {
                 ImGui::LabelText("Material", "%s", material->getName().c_str());
@@ -69,7 +69,7 @@ void ModelRenderer::debugGUI() {
     }
 }
 
-ModelRenderer::~ModelRenderer() {
+ModelRendererComponent::~ModelRendererComponent() {
     model.reset();
 }
 

@@ -3,14 +3,14 @@
 #include "scenes/Scene.hpp"
 #include "scenes/SceneManager.hpp"
 #include "GameObject.hpp"
-#include "Camera.hpp"
-#include "ModelRenderer.hpp"
-#include "Light.hpp"
+#include "CameraComponent.hpp"
+#include "ModelRendererComponent.hpp"
+#include "LightComponent.hpp"
 
 #include "./physics/RigidBody.hpp"
 #include "./collisions/CustomCollisionHandler.hpp"
 
-#include "PersonController.hpp"
+#include "PersonControllerComponent.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 #include "./physics/BulletPhysics.hpp"

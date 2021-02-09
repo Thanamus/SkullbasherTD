@@ -28,15 +28,15 @@
 
 
 /*
-    WorldObject is a simple component class that holds some extra information on the map tiles that make up the levels
+    WorldObjectComponent is a simple component class that holds some extra information on the map tiles that make up the levels
 */
 
 
-class WorldObject : public Component  {
+class WorldObjectComponent : public Component  {
 public:
-    explicit WorldObject(GameObject* gameObject);
+    explicit WorldObjectComponent(GameObject* gameObject);
 
-    ~WorldObject();
+    ~WorldObjectComponent();
 
     void setBuildable(bool isBuildable);
     void setIsPath(bool isPath);

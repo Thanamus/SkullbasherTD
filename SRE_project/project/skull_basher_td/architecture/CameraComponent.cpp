@@ -2,24 +2,24 @@
 // Created by Morten Nobel Jørgensen on 2018-11-08.
 //
 
-#include "Camera.hpp"
+#include "CameraComponent.hpp"
 #include "sre/Renderer.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 #include "glm/gtx/rotate_vector.hpp"
-#include "WorldObject.hpp"
-#include "ModelRenderer.hpp"
-#include "PersonController.hpp"
+#include "WorldObjectComponent.hpp"
+#include "ModelRendererComponent.hpp"
+#include "PersonControllerComponent.hpp"
 #include "../GameManager.hpp"
 
 
 using namespace std;
 using namespace glm;
 #include <functional>   // std::ref
-Camera::Camera(GameObject* gameObject)
+CameraComponent::CameraComponent(GameObject* gameObject)
 :Component(gameObject)
 {
-    transform = gameObject->getComponent<Transform>().get();
+    transform = gameObject->getComponent<TransformComponent>().get();
     colors = {
             {1, 0, 0, 0.5},
             {0, 1, 0, 0.5},
@@ -28,7 +28,7 @@ Camera::Camera(GameObject* gameObject)
     materials = {sre::Shader::getUnlit()->createMaterial()};
 }
 
-void Camera::bind() {
+void CameraComponent::bind() {
     if (perspective){
         camera.setPerspectiveProjection(fovY,nearPlane, farPlane);
     } else {
@@ -38,7 +38,7 @@ void Camera::bind() {
     camera.setViewTransform(glm::inverse(transform->globalTransform()));
 }
 
-void Camera::debugGUI() {
+void CameraComponent::debugGUI() {
     ImGui::PushID(this);
     if (ImGui::TreeNode("Camera")) {
         ImGui::Checkbox("Perspective camera",&perspective);
@@ -59,7 +59,7 @@ void Camera::debugGUI() {
     ImGui::PopID();
 }
 
-Ray Camera::screenPointToRay(glm::vec2 p) {
+Ray CameraComponent::screenPointToRay(glm::vec2 p) {
     auto size = sre::Renderer::instance->getDrawableSize();
     glm::vec3 screenPoint1 = glm::vec3(p.x, size.y-p.y, 0.f);
     glm::vec3 screenPoint2 = glm::vec3(p.x, size.y-p.y, 1.f);
@@ -72,31 +72,31 @@ Ray Camera::screenPointToRay(glm::vec2 p) {
     return ray;
 }
 
-void Camera::moveHandCursor(glm::vec3 front, std::shared_ptr<GameObject> hand)
+void CameraComponent::moveHandCursor(glm::vec3 front, std::shared_ptr<GameObject> hand)
 {
     glm::vec3 handCursorPosition = transform->position+glm::normalize(front)*0.75f;
 
-    hand->getComponent<Transform>()->position = handCursorPosition;
-    hand->getComponent<Transform>()->position.y -= 0.25f;
+    hand->getComponent<TransformComponent>()->position = handCursorPosition;
+    hand->getComponent<TransformComponent>()->position.y -= 0.25f;
     //hand->getComponent<Transform>()->position.x -= 0.5f;
 
-    hand->getComponent<Transform>()->lookAt(hand->getComponent<Transform>()->position + front, glm::vec3(0, 1, 0));
+    hand->getComponent<TransformComponent>()->lookAt(hand->getComponent<TransformComponent>()->position + front, glm::vec3(0, 1, 0));
     // hand->getComponent<Transform>()->rotation = transform->rotation;
 }
 
-void Camera::moveTowerCursor(glm::vec3 front, std::shared_ptr<GameObject> tower)
+void CameraComponent::moveTowerCursor(glm::vec3 front, std::shared_ptr<GameObject> tower)
 {
-    if(this->getGameObject()->getComponent<PersonController>()->targetBlock != nullptr)
+    if(this->getGameObject()->getComponent<PersonControllerComponent>()->targetBlock != nullptr)
         return;
 
     glm::vec3 towerCursorPosition = calcTowerCursorPosition(front);
 
-    tower->getComponent<Transform>()->position = towerCursorPosition;
-    tower->getComponent<Transform>()->lookAt(camera.getPosition(), glm::vec3(0, 1, 0));
+    tower->getComponent<TransformComponent>()->position = towerCursorPosition;
+    tower->getComponent<TransformComponent>()->lookAt(camera.getPosition(), glm::vec3(0, 1, 0));
 }
 
 //http://www.3dkingdoms.com/weekly/weekly.php?a=3
-void Camera::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, std::vector<std::shared_ptr<GameObject>> gameObjects)
+void CameraComponent::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, std::vector<std::shared_ptr<GameObject>> gameObjects)
 {
     glm::vec3 towerCursorPosition = calcTowerCursorPosition(front);
     resetTowerCursor(tower, towerCursorPosition);
@@ -109,7 +109,7 @@ void Camera::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, s
 
     for(auto gameObject : gameObjects)
     {
-        if(gameObject->getComponent<WorldObject>() == nullptr)
+        if(gameObject->getComponent<WorldObjectComponent>() == nullptr)
             continue;
 
         auto blockPosition = gameObject->getComponent<Transform>()->position;
@@ -125,10 +125,10 @@ void Camera::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, s
 
     for(const auto& gameObject : gameObjects)
     {
-        if(gameObject->getComponent<WorldObject>() == nullptr)
+        if(gameObject->getComponent<WorldObjectComponent>() == nullptr)
             continue;
 
-        auto blockPosition = gameObject->getComponent<Transform>()->position;
+        auto blockPosition = gameObject->getComponent<TransformComponent>()->position;
         glm::vec3 Hit;
         bool intersect = CheckIntersection(blockPosition, towerCursorPosition, Hit);
         if(!intersect)
@@ -160,34 +160,34 @@ void Camera::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject> tower, s
     }
     else
     {
-        tower->getComponent<Transform>()->position = block->getComponent<Transform>()->position;
-        tower->getComponent<Transform>()->position.y = tower->getComponent<Transform>()->position.y + 1;
+        tower->getComponent<TransformComponent>()->position = block->getComponent<TransformComponent>()->position;
+        tower->getComponent<TransformComponent>()->position.y = tower->getComponent<TransformComponent>()->position.y + 1;
 
-        tower->getComponent<Transform>()->rotation = block->getComponent<Transform>()->rotation;
-        this->getGameObject()->getComponent<PersonController>()->targetBlock = block;
+        tower->getComponent<TransformComponent>()->rotation = block->getComponent<TransformComponent>()->rotation;
+        this->getGameObject()->getComponent<PersonControllerComponent>()->targetBlock = block;
 
         if(checkBuildableStatus(block))
         {
             materials[0]->setColor(colors[1]);
 
-            this->getGameObject()->getComponent<PersonController>()->allowedToBuild = true;
+            this->getGameObject()->getComponent<PersonControllerComponent>()->allowedToBuild = true;
         }
         else
         {
             materials[0]->setColor(colors[0]);
         }
-        tower->getComponent<ModelRenderer>()->getModel()->setMaterials(materials);
+        tower->getComponent<ModelRendererComponent>()->getModel()->setMaterials(materials);
     }
 }
 
-int inline Camera::GetIntersection( float fDst1, float fDst2, glm::vec3 P1, glm::vec3 P2, glm::vec3 &Hit) {
+int inline CameraComponent::GetIntersection(float fDst1, float fDst2, glm::vec3 P1, glm::vec3 P2, glm::vec3 &Hit) {
     if ( (fDst1 * fDst2) >= 0.0f) return 0;
     if ( fDst1 == fDst2) return 0;
     Hit = P1 + (P2-P1) * ( -fDst1/(fDst2-fDst1) );
     return 1;
 }
 
-int inline Camera::InBox( glm::vec3 Hit, glm::vec3 B1, glm::vec3 B2, const int Axis) {
+int inline CameraComponent::InBox(glm::vec3 Hit, glm::vec3 B1, glm::vec3 B2, const int Axis) {
     if ( Axis==1 && Hit.z > B1.z && Hit.z < B2.z && Hit.y > B1.y && Hit.y < B2.y) return 1;
     if ( Axis==2 && Hit.z > B1.z && Hit.z < B2.z && Hit.x > B1.x && Hit.x < B2.x) return 1;
     if ( Axis==3 && Hit.x > B1.x && Hit.x < B2.x && Hit.y > B1.y && Hit.y < B2.y) return 1;
@@ -196,7 +196,7 @@ int inline Camera::InBox( glm::vec3 Hit, glm::vec3 B1, glm::vec3 B2, const int A
 
 // returns true if line (L1, L2) intersects with the box (B1, B2)
 // returns intersection point in Hit
-int Camera::CheckLineBox( glm::vec3 B1, glm::vec3 B2, glm::vec3 L1, glm::vec3 L2, glm::vec3 &Hit)
+int CameraComponent::CheckLineBox(glm::vec3 B1, glm::vec3 B2, glm::vec3 L1, glm::vec3 L2, glm::vec3 &Hit)
 {
     if (L2.x < B1.x && L1.x < B1.x) return false;
     if (L2.x > B2.x && L1.x > B2.x) return false;
@@ -220,28 +220,28 @@ int Camera::CheckLineBox( glm::vec3 B1, glm::vec3 B2, glm::vec3 L1, glm::vec3 L2
     return false;
 }
 
-int Camera::CheckIntersection(glm::vec3 blockPosition, glm::vec3 towerCursorPosition, glm::vec3 &Hit)
+int CameraComponent::CheckIntersection(glm::vec3 blockPosition, glm::vec3 towerCursorPosition, glm::vec3 &Hit)
 {
     glm::vec3 b1 = glm::vec3( blockPosition.x -0.5f, blockPosition.y -0.5f, blockPosition.z-0.5f);
     glm::vec3 b2 = glm::vec3( blockPosition.x + 0.5f, blockPosition.y + 0.5f, blockPosition.z+ 0.5f);
     return CheckLineBox( b1, b2, this->transform->position, towerCursorPosition, Hit);
 }
 
-void Camera::resetTowerCursor(std::shared_ptr<GameObject> tower, glm::vec3 position) {
-    this->getGameObject()->getComponent<PersonController>()->allowedToBuild = false;
-    this->getGameObject()->getComponent<PersonController>()->targetBlock = nullptr;
+void CameraComponent::resetTowerCursor(std::shared_ptr<GameObject> tower, glm::vec3 position) {
+    this->getGameObject()->getComponent<PersonControllerComponent>()->allowedToBuild = false;
+    this->getGameObject()->getComponent<PersonControllerComponent>()->targetBlock = nullptr;
     materials[0]->setColor(colors[0]);
-    tower->getComponent<ModelRenderer>()->setMaterials(materials);
+    tower->getComponent<ModelRendererComponent>()->setMaterials(materials);
     /*tower->getComponent<Transform>()->position = position;
     tower->getComponent<Transform>()->lookAt(camera.getPosition(), glm::vec3(0, 1, 0));*/
 }
 
-glm::vec3 Camera::calcTowerCursorPosition(glm::vec3 front) {
+glm::vec3 CameraComponent::calcTowerCursorPosition(glm::vec3 front) {
     glm::vec3 towerCursorPosition = transform->position+glm::normalize(front)*5.0f;
     return towerCursorPosition;
 }
 
-double Camera::calcDistance(glm::vec3 pos1, glm::vec3 pos2) {
+double CameraComponent::calcDistance(glm::vec3 pos1, glm::vec3 pos2) {
     float x1 = pos1.x;
     float y1 = pos1.y;
     float z1 = pos1.z;
@@ -253,8 +253,8 @@ double Camera::calcDistance(glm::vec3 pos1, glm::vec3 pos2) {
     return distance;
 }
 
-bool Camera::checkBuildableStatus(shared_ptr<GameObject> block) {
-    if(!block->getComponent<WorldObject>()->getBuildableStatus())
+bool CameraComponent::checkBuildableStatus(shared_ptr<GameObject> block) {
+    if(!block->getComponent<WorldObjectComponent>()->getBuildableStatus())
         return false;
 
     bool canAfford = GameManager::getInstance().getScore() >= GameManager::getInstance().selectedTower->getBuildCost();
@@ -264,16 +264,16 @@ bool Camera::checkBuildableStatus(shared_ptr<GameObject> block) {
     return true;
 }
 
-sre::Camera Camera::getCamera() {
+sre::Camera CameraComponent::getCamera() {
     return camera;
 }
 
-void Camera::update(float deltaTime)
+void CameraComponent::update(float deltaTime)
 {
 
 }
 
-Camera::~Camera() {
+CameraComponent::~CameraComponent() {
     transform = nullptr;
     materials.clear();
 }

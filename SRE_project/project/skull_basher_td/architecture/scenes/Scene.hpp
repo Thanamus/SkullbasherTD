@@ -18,10 +18,10 @@
 #include <string>
 
 
-class Camera;
+class CameraComponent;
 class GameObject;
 class Component;
-class Light;
+class LightComponent;
 class BulletPhysics;
 class RigidBody;
 class ScheduleManager;
@@ -53,7 +53,7 @@ public:
     // load map()
     // add stuff we need for load map
 
-    std::vector<Camera*> cameras;
+    std::vector<CameraComponent*> cameras;
     std::shared_ptr<GuiManager> guiManager;
     //std::shared_ptr<SceneManager> sceneManager;
     std::shared_ptr<ScheduleManager> scheduleManager;
@@ -71,7 +71,7 @@ protected:
     std::vector<RigidBody*> rigidBodies;
     std::vector<EnemyComponent*> enemies;
     std::vector<Targetable*> targetables;
-    std::vector<Light*> lights;
+    std::vector<LightComponent*> lights;
     sre::WorldLights worldLights;
 
     void addComponent(const std::shared_ptr<Component>& component);

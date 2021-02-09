@@ -2,17 +2,17 @@
 // Created by Morten Nobel Jørgensen on 2018-11-08.
 //
 
-#include "Light.hpp"
+#include "LightComponent.hpp"
 
-Light::Light(GameObject* gameObject)
+LightComponent::LightComponent(GameObject* gameObject)
 :Component(gameObject), light(light.create().withDirectionalLight({0,-1,0}).build()),
- transform(gameObject->getComponent<Transform>().get())
+ transform(gameObject->getComponent<TransformComponent>().get())
 {
 }
 
 
 
-void Light::debugGUI() {
+void LightComponent::debugGUI() {
     if (ImGui::TreeNode("Light")) {
         int lt = (int)light.lightType;
         ImGui::RadioButton("Point", &lt, 0); ImGui::SameLine();
@@ -27,7 +27,7 @@ void Light::debugGUI() {
     }
 }
 
-sre::Light &Light::getLight() {
+sre::Light &LightComponent::getLight() {
     if (light.lightType == sre::LightType::Directional){
         auto res = transform->globalTransform() * glm::vec4(0,0,-1,0);
         light.direction = glm::vec3{res.x,res.y,res.z};

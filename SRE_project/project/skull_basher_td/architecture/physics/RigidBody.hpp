@@ -10,7 +10,7 @@
     rigid body sets up and adds a (bullet) rigid body to the dynamics world
 */
 
-class Transform;
+class TransformComponent;
 
 // SB is an enum for setting the collision groups and masks
 // both objects need to have the collision masks to collide with each other
@@ -62,7 +62,7 @@ private:
     int collisionStartEndFrameId{};
     void updateTransformFromPhysicsWorld();
     btRigidBody* rigidBody = nullptr;
-    Transform* transform = nullptr;
+    TransformComponent* transform = nullptr;
 
     short group = -99;
     short mask = -99;

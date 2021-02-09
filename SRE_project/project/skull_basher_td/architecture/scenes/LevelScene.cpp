@@ -3,17 +3,17 @@
 //
 
 #include <sre/Renderer.hpp>
-#include "../Camera.hpp"
+#include "../CameraComponent.hpp"
 #include "../physics/RigidBody.hpp"
-#include "../Light.hpp"
+#include "../LightComponent.hpp"
 #include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
-#include "../PersonController.hpp"
+#include "../PersonControllerComponent.hpp"
 
 //WorldMap Imports
-    //WorldObject
-#include "../WorldObject.hpp"
+    //WorldObjectComponent
+#include "../WorldObjectComponent.hpp"
 
 #include "../sound/SoundEffectsLibrary.hpp"
 
@@ -23,7 +23,7 @@
 #include <iostream>
 #include "LevelScene.hpp"
 #include "../../GameManager.hpp"
-#include "../ModelRenderer.hpp"
+#include "../ModelRendererComponent.hpp"
 #include "../CoinComponent.hpp"
 #include "../collisions/CoinCollisionHandler.hpp"
 
@@ -48,7 +48,7 @@ void LevelScene::update(float deltaTime){
         return;
     bulletPhysics->step(this);
     auto tempCam = this->cameras[0]->getGameObject();
-    tempCam->getComponent<PersonController>()->update(deltaTime); // TODO could probably remove this by making PersonController inherit from Updateable
+    tempCam->getComponent<PersonControllerComponent>()->update(deltaTime); // TODO could probably remove this by making PersonControllerComponent inherit from Updateable
     bulletPhysics->step(this);
     for (const auto& g : gameObjects)
         if (g && g->isQueuedForDeletion())// looks for queuedForDeletion flag on the game object, if true, then remove the gameObject
@@ -65,13 +65,13 @@ void LevelScene::update(float deltaTime){
 
 void LevelScene::onKey(SDL_Event &event){
     auto tempCam = this->cameras[0]->getGameObject(); // gets the main camera object and gets the game object from that
-    tempCam->getComponent<PersonController>()->onKey(event); //camera game object has a PersonController
+    tempCam->getComponent<PersonControllerComponent>()->onKey(event); //camera game object has a PersonControllerComponent
     GameManager::getInstance().onKey(event);
 }
 
 void LevelScene::onMouse(SDL_Event &event){
     auto tempCam = this->cameras[0]->getGameObject(); //gets the main camera
-    tempCam->getComponent<PersonController>()->onMouse(event); //triggers the onMouse event handling in the Person controller
+    tempCam->getComponent<PersonControllerComponent>()->onMouse(event); //triggers the onMouse event handling in the Person controller
     GameManager::getInstance().onMouse(event);
 }
 

@@ -2,23 +2,23 @@
 // Created by kb on 09/12/2020.
 //
 
-#include "Animator.hpp"
-#include "WorldObject.hpp"
+#include "AnimatorComponent.hpp"
+#include "WorldObjectComponent.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/euler_angles.hpp"
 #include "glm/gtx/string_cast.hpp"
 
-Animator::Animator(GameObject* gameObject)
+AnimatorComponent::AnimatorComponent(GameObject* gameObject)
 : Component(gameObject), currentAnimation("none", new Animation())
 {
     animations.insert(currentAnimation);
 }
 
-void Animator::addAnimation(std::string state, std::shared_ptr<Animation> animation) {
+void AnimatorComponent::addAnimation(std::string state, std::shared_ptr<Animation> animation) {
     animations.insert(std::make_pair(std::move(state), std::move(animation)));
 }
 
-void Animator::setAnimationState(const std::string& state) {
+void AnimatorComponent::setAnimationState(const std::string& state) {
     if (currentAnimation.first == state)
         return;
 
@@ -30,7 +30,7 @@ void Animator::setAnimationState(const std::string& state) {
     }
 }
 
-void Animator::update(float deltaTime) {
+void AnimatorComponent::update(float deltaTime) {
     if(currentAnimation.first == "none")
         return;
 
@@ -65,39 +65,39 @@ void Animator::update(float deltaTime) {
     }
 }
 
-const std::string &Animator::getAnimationState() const {
+const std::string &AnimatorComponent::getAnimationState() const {
     return currentAnimation.first;
 }
 
-TransformData Animator::initTransformData(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
+TransformData AnimatorComponent::initTransformData(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
     return {position, scale, rotation};
 }
 
 
-glm::mat4 Animator::getQuaternionRotation(glm::vec3 rotation) {
+glm::mat4 AnimatorComponent::getQuaternionRotation(glm::vec3 rotation) {
     glm::mat4 rotZ = glm::eulerAngleZ(glm::radians(rotation.z));
     glm::mat4 rotY = glm::eulerAngleY(glm::radians(rotation.y));
     glm::mat4 rotX = glm::eulerAngleX(glm::radians(rotation.x));
     return rotZ*rotY*rotX;
 }
 
-void Animator::updateSQTMatrix() {
+void AnimatorComponent::updateSQTMatrix() {
     glm::mat4 translateMat = glm::translate(glm::mat4(1), currentTransform.position);
     glm::mat4 scaleMat = glm::scale(glm::mat4(1), currentTransform.scale);
     SQTMatrix = translateMat*getQuaternionRotation(currentTransform.rotation)*scaleMat;
 }
 
-void Animator::resetVectors() {
+void AnimatorComponent::resetVectors() {
     startTransform = initTransformData(glm::vec3(0), glm::vec3(1), glm::vec3(0));
     currentTransform = startTransform;
     targetTransform = initTransformData(glm::vec3(0), glm::vec3(1), glm::vec3(0));
 }
 
-glm::mat4 Animator::getSQTMatrix() const {
+glm::mat4 AnimatorComponent::getSQTMatrix() const {
     return SQTMatrix;
 }
 
-std::shared_ptr<Animation> Animator::getAnimationForState(const std::string& state) {
+std::shared_ptr<Animation> AnimatorComponent::getAnimationForState(const std::string& state) {
     return animations.find(state)->second;
 };
 

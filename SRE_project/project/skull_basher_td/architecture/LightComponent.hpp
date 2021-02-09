@@ -9,18 +9,18 @@
 #include <sre/Light.hpp>
 #include "GameObject.hpp"
 #include <sre/Material.hpp>
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 #include "Updatable.hpp"
 
-class Light : public Component {
+class LightComponent : public Component {
 public:
-    Light(GameObject* gameObject);
-    ~Light() { transform = nullptr; }
+    LightComponent(GameObject* gameObject);
+    ~LightComponent() { transform = nullptr; }
     void debugGUI() override ;
 
     sre::Light& getLight();
 private:
-    Transform* transform;
+    TransformComponent* transform;
 
     sre::Light light;
 };

@@ -3,10 +3,10 @@
 //
 
 #include <SDL_events.h>
-#include "Camera.hpp"
+#include "CameraComponent.hpp"
 
 #include "Component.hpp"
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 #include "GameObject.hpp"
 
 // #include "./collisions/CollisionHandler.hpp"
@@ -16,11 +16,11 @@
 class PlayerCollisionController;
 
 
-// class PersonController : public Component, public CollisionHandler {
-class PersonController : public Component {
+// class PersonControllerComponent : public Component, public CollisionHandler {
+class PersonControllerComponent : public Component {
 public:
-    explicit PersonController(GameObject* GameObject);
-    virtual ~PersonController();
+    explicit PersonControllerComponent(GameObject* GameObject);
+    virtual ~PersonControllerComponent();
 
     void debugGUI() override ;
 
@@ -36,7 +36,7 @@ public:
     float rotation = -90.f;
     glm::vec3 position;
     bool quit = false;
-    std::shared_ptr<Camera> camera;
+    std::shared_ptr<CameraComponent> camera;
     std::shared_ptr<GameObject> hand;
     std::shared_ptr<GameObject> tower;
     std::shared_ptr<GameObject> targetBlock;

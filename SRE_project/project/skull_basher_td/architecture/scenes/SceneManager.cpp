@@ -3,24 +3,24 @@
 //
 
 #include "SceneManager.hpp"
-#include "../Camera.hpp"
+#include "../CameraComponent.hpp"
 #include "../physics/RigidBody.hpp"
 #include "../physics/GhostObject.hpp"
 
-#include "../ModelRenderer.hpp"
-#include "../Light.hpp"
+#include "../ModelRendererComponent.hpp"
+#include "../LightComponent.hpp"
 #include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
-#include "../PersonController.hpp"
+#include "../PersonControllerComponent.hpp"
 
 // coin stuff
 #include "../Model.hpp"
 #include "../Animation.hpp"
 
 //WorldMap Imports
-//WorldObject
-#include "../WorldObject.hpp"
+//WorldObjectComponent
+#include "../WorldObjectComponent.hpp"
 
 // Sound imports
 #include "../sound/SoundEffectsLibrary.hpp"
@@ -66,37 +66,37 @@ SceneManager::~SceneManager()= default;
 std::shared_ptr<Scene> SceneManager::createScene(){
     auto res = std::make_shared<LevelScene>();
     auto cameraObj = res->createGameObject("Camera");
-    cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = playerSpawnPoint;
-    cameraObj->getComponent<Transform>()->rotation = {0,190,0};
+    cameraObj->addComponent<CameraComponent>()->clearColor = {0.2, 0.2, 0.2};
+    cameraObj->getComponent<TransformComponent>()->position = playerSpawnPoint;
+    cameraObj->getComponent<TransformComponent>()->rotation = {0,190,0};
     cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | CRYSTAL | COINS); // Dynamic physics object
 
     //--- end setting cameras
 
-    auto person = cameraObj->addComponent<PersonController>();
+    auto person = cameraObj->addComponent<PersonControllerComponent>();
     cameraObj->addComponent<PlayerCollisionHandler>();
 
     auto lightObj = res->createGameObject("Light");
-    lightObj->getComponent<Transform>()->rotation = {30,30,0};
-    lightObj->addComponent<Light>();
+    lightObj->getComponent<TransformComponent>()->rotation = {30,30,0};
+    lightObj->addComponent<LightComponent>();
 
     auto tower = res->createGameObject("Tower");
-    tower->getComponent<Transform>()->position = {0,0,0};
-    tower->getComponent<Transform>()->rotation = {0,0,0};
-    tower->getComponent<Transform>()->scale = {0.2f,0.2f,0.2f};
-    auto towerMR = tower->addComponent<ModelRenderer>();
+    tower->getComponent<TransformComponent>()->position = {0,0,0};
+    tower->getComponent<TransformComponent>()->rotation = {0,0,0};
+    tower->getComponent<TransformComponent>()->scale = {0.2f,0.2f,0.2f};
+    auto towerMR = tower->addComponent<ModelRendererComponent>();
     towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    cameraObj->getComponent<PersonController>()->tower = tower;
+    cameraObj->getComponent<PersonControllerComponent>()->tower = tower;
 
     auto hand = res->createGameObject("Hand");
-    hand->getComponent<Transform>()->position = {0,0,0};
-    hand->getComponent<Transform>()->rotation = {0,0,0};
-    hand->getComponent<Transform>()->scale = {0.1f,0.1f,0.1f};
-    auto handMR = hand->addComponent<ModelRenderer>();
-    auto handAN = hand->addComponent<Animator>();
+    hand->getComponent<TransformComponent>()->position = {0,0,0};
+    hand->getComponent<TransformComponent>()->rotation = {0,0,0};
+    hand->getComponent<TransformComponent>()->scale = {0.1f,0.1f,0.1f};
+    auto handMR = hand->addComponent<ModelRendererComponent>();
+    auto handAN = hand->addComponent<AnimatorComponent>();
     auto handReload = std::make_shared<Animation>(false);
     float resetAnimationTime = 0.2f;
-    handReload->addFrame(glm::vec3( 0,-0.75,0), glm::vec3(1), glm::vec3(-15,0,0), (cameraObj->getComponent<PersonController>()->getReloadLockoutMillisec() / 1000));
+    handReload->addFrame(glm::vec3( 0,-0.75,0), glm::vec3(1), glm::vec3(-15,0,0), (cameraObj->getComponent<PersonControllerComponent>()->getReloadLockoutMillisec() / 1000));
     handReload->addFrame(glm::vec3( 0,0,0), glm::vec3(1), glm::vec3(0,0,0), resetAnimationTime);
     handAN->addAnimation("reload", handReload);
 
@@ -111,18 +111,18 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     //handMR->setMesh(sre::Mesh::create().withCube(0.99).build());
     handMR->setModel(person->getHandModels().find("crossbow")->second);
 
-    cameraObj->getComponent<PersonController>()->hand = hand;
+    cameraObj->getComponent<PersonControllerComponent>()->hand = hand;
 
     auto crystal = res->createGameObject("Crystal");
-    auto crystalTR = crystal->getComponent<Transform>();
+    auto crystalTR = crystal->getComponent<TransformComponent>();
     crystalTR->position = {3,-0.5,7};
     crystalTR->rotation = {0,0,0};
     crystalTR->scale = {0.4f,0.4f,0.4f};
     crystal->addComponent<CrystalHealth>();
     crystal->getComponent<CrystalHealth>()->setHealth(100);
-    auto crystalMR = crystal->addComponent<ModelRenderer>();
+    auto crystalMR = crystal->addComponent<ModelRendererComponent>();
     auto crystalPath =  ".\\assets\\crystal.obj";
-    auto crystalAN = crystal->addComponent<Animator>();
+    auto crystalAN = crystal->addComponent<AnimatorComponent>();
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     // ---- set crystal collision group and flags
     crystalRigidBody->initRigidBodyWithSphere(0.7f, 1, CRYSTAL, ENEMIES | PROJECTILES); // crystal needs to be sphere -> skull collision only works with box
@@ -142,13 +142,13 @@ std::shared_ptr<Scene> SceneManager::createScene(){
 std::shared_ptr<Scene> SceneManager::createMainMenuScene(){
     auto res = std::make_shared<MainMenuScene>();
     auto cameraObj = res->createGameObject("Camera");
-    cameraObj->addComponent<Camera>()->clearColor = {0.2,0.2,0.2};
-    cameraObj->getComponent<Transform>()->position = {20,1.0f,11};
-    cameraObj->getComponent<Transform>()->rotation = {0,190,0};
+    cameraObj->addComponent<CameraComponent>()->clearColor = {0.2, 0.2, 0.2};
+    cameraObj->getComponent<TransformComponent>()->position = {20,1.0f,11};
+    cameraObj->getComponent<TransformComponent>()->rotation = {0,190,0};
 
     auto lightObj = res->createGameObject("Light");
-    lightObj->getComponent<Transform>()->rotation = {30,30,0};
-    lightObj->addComponent<Light>();
+    lightObj->getComponent<TransformComponent>()->rotation = {30,30,0};
+    lightObj->addComponent<LightComponent>();
 
     return res;
 };
@@ -289,17 +289,17 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
 
 //---------------- put the player on the spawn point
     auto tempCam = currentScene->cameras[0]->getGameObject();
-    tempCam->getComponent<Transform>()->position = playerSpawnPoint;
-    tempCam->getComponent<Transform>()->rotation.y = playerSpawnRotation;
+    tempCam->getComponent<TransformComponent>()->position = playerSpawnPoint;
+    tempCam->getComponent<TransformComponent>()->rotation.y = playerSpawnRotation;
 
 //----------- setup camera positioning
-    glm::vec3 glmCameraPosition =  tempCam->getComponent<Transform>()->position;
+    glm::vec3 glmCameraPosition =  tempCam->getComponent<TransformComponent>()->position;
     btTransform transform;
     btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
     transform.setOrigin(btCameraPosition);
 
     // std::cout << " spawnPointRotation is actually:  " << tempCam->getComponent<Transform>()->rotation.y << std::endl;
-    glm::quat inputQuat = glm::quat(tempCam->getComponent<Transform>()->rotation);
+    glm::quat inputQuat = glm::quat(tempCam->getComponent<TransformComponent>()->rotation);
     btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
     transform.setRotation(btInputQuat);
 
@@ -382,10 +382,10 @@ std::cout << "loading tiles" << std::endl;
 
                     //create game object
                     auto mapTile = res->createGameObject(modelName);
-                    auto mapTileMR = mapTile->addComponent<ModelRenderer>();
-                    mapTile->addComponent<WorldObject>();
-                    mapTile->getComponent<WorldObject>()->setBuildable(isBuildableHolder);
-                    mapTile->getComponent<WorldObject>()->setIsPath(isPathHolder);
+                    auto mapTileMR = mapTile->addComponent<ModelRendererComponent>();
+                    mapTile->addComponent<WorldObjectComponent>();
+                    mapTile->getComponent<WorldObjectComponent>()->setBuildable(isBuildableHolder);
+                    mapTile->getComponent<WorldObjectComponent>()->setIsPath(isPathHolder);
 
                     // NEW
                     mapTileMR->setModel(modelHolder);
@@ -401,9 +401,9 @@ std::cout << "loading tiles" << std::endl;
                     positionHolder.z += zOffset;
 
                     // set the position, rotation and scale of the tile
-                    mapTile->getComponent<Transform>()->position = positionHolder;
-                    mapTile->getComponent<Transform>()->rotation.y = rotationHolder;
-                    mapTile->getComponent<Transform>()->scale = scaleHolder;
+                    mapTile->getComponent<TransformComponent>()->position = positionHolder;
+                    mapTile->getComponent<TransformComponent>()->rotation.y = rotationHolder;
+                    mapTile->getComponent<TransformComponent>()->scale = scaleHolder;
                     auto bounds = mapTileMR->getMesh()->getBoundsMinMax();
                     
                     // add rigid body to the tile
@@ -452,7 +452,7 @@ std::cout << "loading tiles" << std::endl;
     std::cout << "loading crystal" << std::endl;
     auto crystal = GameManager::getInstance().crystal->getGameObject();
     auto path = GameManager::getInstance().getPath();
-    crystal->getComponent<Transform>()->position = path[0];
+    crystal->getComponent<TransformComponent>()->position = path[0];
 }
 
 void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_ptr<Scene> res) {
@@ -532,9 +532,9 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
             for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++) {
                 //create game object
                 auto enemy = res->createGameObject(modelName);
-                auto enemyTR = enemy->getComponent<Transform>();
-                auto enemyMR = enemy->addComponent<ModelRenderer>();
-                auto enemyAN = enemy->addComponent<Animator>();
+                auto enemyTR = enemy->getComponent<TransformComponent>();
+                auto enemyMR = enemy->addComponent<ModelRendererComponent>();
+                auto enemyAN = enemy->addComponent<AnimatorComponent>();
                 enemyMR->setModel(modelHolder);
                 // set the enemies animation
 //                enemyAN->addAnimation("floating", floatingAnimation);
@@ -612,15 +612,15 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
 // spawns a coin object
 void SceneManager::SpawnCoin(float money,glm::vec3 position) {
     auto coin = currentScene->createGameObject("Coin");
-    auto coinTR = coin->getComponent<Transform>();
+    auto coinTR = coin->getComponent<TransformComponent>();
     coinTR->position = position;
     coinTR->rotation = {0,0,0};
     coinTR->scale = {0.4f,0.4f,0.4f};
-    auto coinMR = coin->addComponent<ModelRenderer>();
+    auto coinMR = coin->addComponent<ModelRendererComponent>();
     coinMR->setModel(coinModel);
     //TODO: review animation
 
-    auto coinAN = coin->addComponent<Animator>();
+    auto coinAN = coin->addComponent<AnimatorComponent>();
     coinAN->addAnimation("rotate", coinAnimation);
     coinAN->setAnimationState("rotate");
     auto bounds = coinMR->getMesh()->getBoundsMinMax();

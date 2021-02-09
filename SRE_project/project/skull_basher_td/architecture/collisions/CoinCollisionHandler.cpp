@@ -7,11 +7,11 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 #include "CoinCollisionHandler.hpp"
-#include "../PersonController.hpp"
+#include "../PersonControllerComponent.hpp"
 
 // Sound Effects _Include
 #include "../sound/SourceManager.hpp"
-#include "../Transform.hpp"
+#include "../TransformComponent.hpp"
 #include "../CoinComponent.hpp"
 #include "../../GameManager.hpp"
 
@@ -30,7 +30,7 @@ void CoinCollisionHandler::onCollision(size_t collisionId, GameObject* other, gl
     if (begin ) {
         
         // if the other object is the person controller
-        auto player = other->getComponent<PersonController>();
+        auto player = other->getComponent<PersonControllerComponent>();
         if(player)
         {
             stopCollisions = true; // so the player only gets money once (even if there are mulitple contact points registered in bullet)

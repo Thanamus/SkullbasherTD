@@ -2,7 +2,7 @@
 // Created by Morten Nobel-Jørgensen on 29/09/2017.
 //
 
-#include "PersonController.hpp"
+#include "PersonControllerComponent.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -15,7 +15,7 @@
 #include "./sound/SourceManager.hpp"
 
 // transform include
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 
 
 // physics indludes
@@ -26,7 +26,7 @@
 #include "glm/gtx/string_cast.hpp"
 
 // collision handler include
-#include "./ModelRenderer.hpp"
+#include "./ModelRendererComponent.hpp"
 
 // Arrow Collision Hanlder include
 #include "./collisions/ProjectileCollisionHandler.hpp"
@@ -40,17 +40,17 @@
 //using namespace sre;
 using namespace glm;
 
-PersonController::PersonController(GameObject* gameObject)
+PersonControllerComponent::PersonControllerComponent(GameObject* gameObject)
  : Component(gameObject)
 {
-    camera = gameObject->getComponent<Camera>(); // sync the camera variable to the camera component
+    camera = gameObject->getComponent<CameraComponent>(); // sync the camera variable to the camera component
 
     // get rigid body 
     btRigidBody* myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
     myBody->setAngularFactor({0,0,0}); // disable angular factor (otherwise player could tip over)
     myBody->setActivationState(DISABLE_DEACTIVATION); // disable deactivation
 
-    camera_front = gameObject->getComponent<Transform>()->rotation;  // set initial target of the camera on the negative Z axis (default)
+    camera_front = gameObject->getComponent<TransformComponent>()->rotation;  // set initial target of the camera on the negative Z axis (default)
     
     // set initial target of the camera on the negative Z axis (default)
     camera_dir = normalize(position - camera_front);       // sets the camera direction with a positive Z axis
@@ -64,22 +64,22 @@ PersonController::PersonController(GameObject* gameObject)
     arrowModel = Model::create().withOBJ(path).withName("arrow").build();
 }
 
-PersonController::~PersonController() {
+PersonControllerComponent::~PersonControllerComponent() {
     for(auto& h : handModels)
         h.second.reset();
 }
 
 // debug gui info for Person Controller
-void PersonController::debugGUI() {
+void PersonControllerComponent::debugGUI() {
     ImGui::PushID(this);
-    if (ImGui::TreeNode("PersonController")) {
+    if (ImGui::TreeNode("PersonControllerComponent")) {
         ImGui::Checkbox("AllowedToBuild", &allowedToBuild);
         ImGui::TreePop();
     }
     ImGui::PopID();
 }
 
-void PersonController::update(float deltaTime)
+void PersonControllerComponent::update(float deltaTime)
 {
     updateVectors(); // updates the camera vectors, camera_right, camera_fwd, camera_dir
     updateInput(deltaTime); // Updates position and rotation based on inputs from mouse / keyboard
@@ -140,7 +140,7 @@ void PersonController::update(float deltaTime)
 // ------------- end Update the rigid body   
 
 // set the Transform orientation
-    this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
+    this->getGameObject()->getComponent<TransformComponent>()->lookAt(position + camera_front, world_up);
     
 //--------------- update Listener
     SoundDevice::Get()->SetLocation(position.x, position.y, position.z);
@@ -170,7 +170,7 @@ void PersonController::update(float deltaTime)
 }
 
 // updats the camera vectors used in camera calculations
-void PersonController::updateVectors()
+void PersonControllerComponent::updateVectors()
 {
     camera_dir = normalize(position - camera_front); // sets the camera direction with a positive Z axis
     // camera_right = normalize(cross(world_up, camera_dir));
@@ -179,8 +179,8 @@ void PersonController::updateVectors()
     camera_fwd = normalize(cross(camera_right,world_up));
 }
 
-// update the transform (rotation and translation) of the PersonController's Transform and RigidBody
-void PersonController::updateInput(float deltaTime)
+// update the transform (rotation and translation) of the PersonControllerComponent's Transform and RigidBody
+void PersonControllerComponent::updateInput(float deltaTime)
 {
     // updates the rotation, pitch and position variables of the player, based on inputs
     float velocity = currentMovespeed * deltaTime;
@@ -303,7 +303,7 @@ void PersonController::updateInput(float deltaTime)
     
 }
 
-void PersonController::onKey(SDL_Event &event)
+void PersonControllerComponent::onKey(SDL_Event &event)
 {
     switch (event.key.keysym.sym)
     {
@@ -337,7 +337,7 @@ void PersonController::onKey(SDL_Event &event)
     }
 }
 
-void PersonController::onMouse(SDL_Event &event)
+void PersonControllerComponent::onMouse(SDL_Event &event)
 {
     if (event.type == SDL_MOUSEMOTION)
     {
@@ -367,8 +367,8 @@ void PersonController::onMouse(SDL_Event &event)
                     SourceManager::Get()->playMyJam_global("crossbow_reload.wav");
 
                     // start the reload animation
-                    if(hand->getComponent<Animator>()->getAnimationState() != "reload")
-                        hand->getComponent<Animator>()->setAnimationState("reload");
+                    if(hand->getComponent<AnimatorComponent>()->getAnimationState() != "reload")
+                        hand->getComponent<AnimatorComponent>()->setAnimationState("reload");
                     currentMovespeed = slowMovespeed; // artificially slow down player when reloading. Running while reloading is just unrealistic ;-)
                 }
             }
@@ -377,23 +377,23 @@ void PersonController::onMouse(SDL_Event &event)
 }
 
 // not sure if used anymore
-void PersonController::setInitialPosition(glm::vec2 position, float rotation)
+void PersonControllerComponent::setInitialPosition(glm::vec2 position, float rotation)
 {
     this->position = glm::vec3(position.x, 0, position.y);
     this->rotation = rotation;
 }
 
-void PersonController::fireProjectile(){
+void PersonControllerComponent::fireProjectile(){
     // make the arrow game object
     auto arrow = gameObject->getScene()->createGameObject("arrow");
-    arrow->getComponent<Transform>()->position = hand->getComponent<Transform>()->position; // set the arrow position to the crossbow
+    arrow->getComponent<TransformComponent>()->position = hand->getComponent<TransformComponent>()->position; // set the arrow position to the crossbow
     // arrow->getComponent<Transform>()->position = position; // get the location to shoot from
 
     // set the direction for the arrow to travel in
-    arrow->getComponent<Transform>()->lookAt(arrow->getComponent<Transform>()->position + camera_front, glm::vec3(0, 1, 0));
+    arrow->getComponent<TransformComponent>()->lookAt(arrow->getComponent<TransformComponent>()->position + camera_front, glm::vec3(0, 1, 0));
 
     // add a model and mesh to the arrow
-    auto arrowMR = arrow->addComponent<ModelRenderer>();
+    auto arrowMR = arrow->addComponent<ModelRendererComponent>();
     arrowMR->setModel(arrowModel);
 
     // add a rigid body to the arrow
@@ -435,19 +435,19 @@ void PersonController::fireProjectile(){
 }
 
 
-void PersonController::updateHandModel(std::string model) {
-    hand->getComponent<ModelRenderer>()->setModel(handModels[model]);
-    hand->getComponent<Animator>()->setAnimationState("none");
+void PersonControllerComponent::updateHandModel(std::string model) {
+    hand->getComponent<ModelRendererComponent>()->setModel(handModels[model]);
+    hand->getComponent<AnimatorComponent>()->setAnimationState("none");
 }
 
-int PersonController::getReloadLockoutMillisec() const {
+int PersonControllerComponent::getReloadLockoutMillisec() const {
     return reload_lockout_millisec;
 }
 
-const std::map<std::string, std::shared_ptr<Model>> &PersonController::getHandModels() const {
+const std::map<std::string, std::shared_ptr<Model>> &PersonControllerComponent::getHandModels() const {
     return handModels;
 }
 
-void PersonController::setHandModels(const std::map<std::string, std::shared_ptr<Model>> &handModels) {
-    PersonController::handModels = handModels;
+void PersonControllerComponent::setHandModels(const std::map<std::string, std::shared_ptr<Model>> &handModels) {
+    PersonControllerComponent::handModels = handModels;
 }

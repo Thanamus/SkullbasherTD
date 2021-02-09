@@ -4,17 +4,17 @@
 
 #include "Scene.hpp"
 #include <algorithm>
-#include "../Camera.hpp"
+#include "../CameraComponent.hpp"
 #include "../physics/RigidBody.hpp"
-#include "../Light.hpp"
+#include "../LightComponent.hpp"
 #include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
-#include "../PersonController.hpp"
+#include "../PersonControllerComponent.hpp"
 
 //WorldMap Imports
-    //WorldObject
-#include "../WorldObject.hpp"
+    //WorldObjectComponent
+#include "../WorldObjectComponent.hpp"
 
 #include "../sound/SoundEffectsLibrary.hpp"
 #include "../sound/SourceManager.hpp"
@@ -60,7 +60,7 @@ std::shared_ptr<GameObject> Scene::createGameObject(std::string name_){
 
 void Scene::addComponent(const std::shared_ptr<Component>& component) {
     auto componentRawPtr = component.get();
-    auto camera = dynamic_cast<Camera*>(componentRawPtr);
+    auto camera = dynamic_cast<CameraComponent*>(componentRawPtr);
     if (camera){
         cameras.push_back(camera);
     }
@@ -88,7 +88,7 @@ void Scene::addComponent(const std::shared_ptr<Component>& component) {
     if (enemy) {
         enemies.push_back(enemy);
     }
-    auto light = dynamic_cast<Light*>(componentRawPtr);
+    auto light = dynamic_cast<LightComponent*>(componentRawPtr);
     if (light) {
         lights.push_back(light);
     }
@@ -101,7 +101,7 @@ void Scene::addComponent(const std::shared_ptr<Component>& component) {
 void Scene::removeComponent(const std::shared_ptr<Component>& component) {
     auto componentRawPtr = component.get();
     //NOTE: updated to use the erase-remove idiom (https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Erase-Remove)
-    auto camera = dynamic_cast<Camera*>(componentRawPtr);
+    auto camera = dynamic_cast<CameraComponent*>(componentRawPtr);
     if (camera) {
         if (!cameras.empty()) {
             cameras.erase(std::remove(cameras.begin(), cameras.end(), camera), cameras.end());
@@ -143,7 +143,7 @@ void Scene::removeComponent(const std::shared_ptr<Component>& component) {
             enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
         }
     }
-    auto light = dynamic_cast<Light*>(componentRawPtr);
+    auto light = dynamic_cast<LightComponent*>(componentRawPtr);
     if (light) {
         if (!lights.empty()) {
             lights.erase(std::remove(lights.begin(), lights.end(), light), lights.end());

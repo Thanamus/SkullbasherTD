@@ -13,9 +13,9 @@ struct TransformData {
     glm::vec3 rotation;
 };
 
-class Animator : public Component, public Updatable {
+class AnimatorComponent : public Component, public Updatable {
 public:
-    explicit Animator(GameObject* gameObject);
+    explicit AnimatorComponent(GameObject* gameObject);
 
     void update(float deltaTime) override;
 

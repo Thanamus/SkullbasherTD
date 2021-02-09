@@ -4,7 +4,7 @@
 
 #include "EnemyComponent.hpp"
 #include "Pathfinder.hpp"
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 #include "sound/SourceManager.hpp"
 #include "./sound/PlaylistComponent.hpp"
 
@@ -49,7 +49,7 @@ Pathfinder *EnemyComponent::getPathfinder() const {
 }
 
 glm::vec3 EnemyComponent::getPosition() {
-    return getGameObject()->getComponent<Transform>()->globalPosition();
+    return getGameObject()->getComponent<TransformComponent>()->globalPosition();
 }
 
 void EnemyComponent::HandleHealthChange() {
@@ -61,10 +61,10 @@ void EnemyComponent::HandleHealthChange() {
         std::string  deathSound; 
         gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("death", deathSound);
 
-        SourceManager::Get()->playMyJam(deathSound, this->gameObject->getComponent<Transform>()->position, 20);
+        SourceManager::Get()->playMyJam(deathSound, this->gameObject->getComponent<TransformComponent>()->position, 20);
         GameManager::getInstance().setTotalEnemies(GameManager::getInstance().getTotalEnemies() - 1);
         gameObject->setQueuedForDeletion(true);
-        GameManager::getInstance().getSceneManager()->SpawnCoin(money, this->getGameObject()->getComponent<Transform>()->position);
+        GameManager::getInstance().getSceneManager()->SpawnCoin(money, this->getGameObject()->getComponent<TransformComponent>()->position);
         if(GameManager::getInstance().getTotalEnemies() <= 0)
         {
             GameManager::getInstance().toggleWinState(true);
@@ -75,7 +75,7 @@ void EnemyComponent::HandleHealthChange() {
         std::string  hitSound;
         gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("hit", hitSound);
 
-        SourceManager::Get()->playMyJam(hitSound, this->gameObject->getComponent<Transform>()->position, 20);
+        SourceManager::Get()->playMyJam(hitSound, this->gameObject->getComponent<TransformComponent>()->position, 20);
         //play sound or animate, or something
     }
 }

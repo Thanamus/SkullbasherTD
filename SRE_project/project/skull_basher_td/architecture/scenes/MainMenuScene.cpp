@@ -2,17 +2,17 @@
 // Created by Morten Nobel Jørgensen on 2018-11-08.
 //
 #include <sre/Renderer.hpp>
-#include "../Camera.hpp"
+#include "../CameraComponent.hpp"
 #include "../physics/RigidBody.hpp"
-#include "../Light.hpp"
+#include "../LightComponent.hpp"
 #include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
-#include "../PersonController.hpp"
+#include "../PersonControllerComponent.hpp"
 
 //WorldMap Imports
-//WorldObject
-#include "../WorldObject.hpp"
+//WorldObjectComponent
+#include "../WorldObjectComponent.hpp"
 #include "../sound/SoundEffectsLibrary.hpp"
 
 //rapidjson imports

@@ -2,7 +2,7 @@
 // Created by Morten Nobel Jørgensen on 2018-11-06.
 //
 
-#include "Transform.hpp"
+#include "TransformComponent.hpp"
 
 #include <sre/Renderer.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -15,29 +15,29 @@
 
 using namespace sre;
 
-Transform::Transform(GameObject* gameObject) : Component(gameObject) {
+TransformComponent::TransformComponent(GameObject* gameObject) : Component(gameObject) {
 }
 
-glm::mat4 Transform::localTransform() const {
+glm::mat4 TransformComponent::localTransform() const {
     glm::mat4 translateMat = glm::translate(glm::mat4(1), position);
 
     glm::mat4 scaleMat = glm::scale(glm::mat4(1), scale);
 
     auto compositeTransform = translateMat*localRotation()*scaleMat;
-    auto modelRenderer = gameObject->getComponent<ModelRenderer>();
+    auto modelRenderer = gameObject->getComponent<ModelRendererComponent>();
     if(modelRenderer && modelRenderer->getModel())
         compositeTransform *= modelRenderer->getModel()->getTransform();
-    auto animator = gameObject->getComponent<Animator>();
+    auto animator = gameObject->getComponent<AnimatorComponent>();
     if(animator)
         compositeTransform *= animator->getSQTMatrix();
     return compositeTransform;
 }
 
-glm::mat4 Transform::globalTransform() {
+glm::mat4 TransformComponent::globalTransform() {
     // want to factor in the parent's global transform
     auto parentGameObj = gameObject->getParent();
     if (parentGameObj) {
-        auto parentTransform = parentGameObj->getComponent<Transform>();
+        auto parentTransform = parentGameObj->getComponent<TransformComponent>();
         if(parentTransform)
             global = parentTransform->globalTransform();
     }
@@ -45,7 +45,7 @@ glm::mat4 Transform::globalTransform() {
     return global*localTransform();
 }
 
-void Transform::debugGUI() {
+void TransformComponent::debugGUI() {
     if (ImGui::TreeNode("Transform")) {
         ImGui::DragFloat3("position", &(position.x));
         ImGui::DragFloat3("rotation", &(rotation.x));
@@ -76,7 +76,7 @@ void Transform::debugGUI() {
 //    return children;
 //}
 
-void Transform::lookAt(glm::vec3 at,glm::vec3 up){
+void TransformComponent::lookAt(glm::vec3 at,glm::vec3 up){
     auto lookAtMat = glm::lookAt(globalPosition(), at, up);
     float rotXangle, rotYangle, rotZangle;
     // http://gamedev.stackexchange.com/a/112271
@@ -89,18 +89,18 @@ void Transform::lookAt(glm::vec3 at,glm::vec3 up){
     this->rotation = -glm::degrees(glm::vec3{rotXangle, rotYangle, rotZangle});
 }
 
-void Transform::lookAt(Transform* at,glm::vec3 up){
+void TransformComponent::lookAt(TransformComponent* at,glm::vec3 up){
     lookAt(at->position, up);
 }
 
-glm::mat4 Transform::localRotation() const {
+glm::mat4 TransformComponent::localRotation() const {
     glm::mat4 rotZ = glm::eulerAngleZ(glm::radians(rotation.z));
     glm::mat4 rotY = glm::eulerAngleY(glm::radians(rotation.y));
     glm::mat4 rotX = glm::eulerAngleX(glm::radians(rotation.x));
     return rotZ*rotY*rotX;
 }
 
-glm::vec3 Transform::globalRotation() {
+glm::vec3 TransformComponent::globalRotation() {
     auto transform = globalTransform();
     // remove translation
     transform[3] = glm::vec4(0, 0, 0, 1);
@@ -112,10 +112,10 @@ glm::vec3 Transform::globalRotation() {
     return glm::degrees(glm::eulerAngles(glm::quat_cast(transform)));
 }
 
-glm::vec3 Transform::globalPosition() {
+glm::vec3 TransformComponent::globalPosition() {
     // returns translation vector from the global matrix
     return glm::vec3(globalTransform()[3]);
 }
 
-Transform::~Transform() = default;
+TransformComponent::~TransformComponent() = default;
 
