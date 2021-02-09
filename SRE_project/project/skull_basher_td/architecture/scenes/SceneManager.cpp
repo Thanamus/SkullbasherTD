@@ -5,11 +5,9 @@
 #include "SceneManager.hpp"
 #include "../Camera.hpp"
 #include "../physics/RigidBody.hpp"
-#include "../physics/GhostObject.hpp"
 
 #include "../ModelRenderer.hpp"
 #include "../Light.hpp"
-#include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
 #include "../PersonController.hpp"
@@ -20,7 +18,6 @@
 
 // Sound imports
 #include "../sound/SoundEffectsLibrary.hpp"
-#include "../sound/SourceManager.hpp"
 #include "../sound/PlaylistComponent.hpp"
 
 //rapidjson imports
