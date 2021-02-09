@@ -51,11 +51,12 @@ void Pathfinder::update(float deltaTime) {
         } else if (transformComp)
             currentPosition = transformComp->position; // no rigid body, use Transform instead
 
-        auto error = 0.5f;
+        auto error = 0.1f;
 
         // check if movement has gone too far, prevents the skulls heading off into the sunset
         float newDistance = glm::length(glm::vec2(nextPathPoint.x, nextPathPoint.z) - glm::vec2(currentPosition.x, currentPosition.z));
         bool movedPast = newDistance > distance;
+        std::cout << movedPast << " from " << currentPathIndex << std::endl;
         bool closeToNext = (abs(currentPosition.x - nextPathPoint.x) <= error && abs(currentPosition.z - nextPathPoint.z) <= error);
         if (movedPast || closeToNext) {
             startPathPoint = nextPathPoint;
@@ -64,8 +65,8 @@ void Pathfinder::update(float deltaTime) {
                 moving = false;
                 return;
             }
-            // prevent cascading errors
-            currentPosition = startPathPoint;
+            // slightly corrects cascading errors
+            currentPosition = glm::mix(currentPosition, startPathPoint, 0.5);
             currentPosition.y = 0;
             direction =  glm::normalize(nextPathPoint - startPathPoint);
             distance = glm::length(nextPathPoint - startPathPoint);
