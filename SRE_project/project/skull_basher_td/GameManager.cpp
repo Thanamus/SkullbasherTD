@@ -171,7 +171,7 @@ void GameManager::onKey(SDL_Event &event)
             auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
             towerIndicator->getComponent<ModelRenderer>()->active = false;
 
-            player->updateHandModel("lowpoly_crossbow_2_5");
+            player->updateHandModel("crossbow");
         }
     }
 }
@@ -210,10 +210,7 @@ void GameManager::updateTowerIndicator()
         return;
 
     auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
-
-    auto path_ = selectedTower->getIndicator();
-    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path_).withName(selectedTower->getIndicator()).build();
-    towerIndicator->getComponent<ModelRenderer>()->setModel(modelHolder);
+    towerIndicator->getComponent<ModelRenderer>()->setModel(selectedTower->getIndicator());
     towerIndicator->getComponent<ModelRenderer>()->active = true;
 }
 

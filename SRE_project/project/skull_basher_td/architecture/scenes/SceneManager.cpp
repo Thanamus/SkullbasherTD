@@ -14,6 +14,10 @@
 //fps camera stuff
 #include "../PersonController.hpp"
 
+// coin stuff
+#include "../Model.hpp"
+#include "../Animation.hpp"
+
 //WorldMap Imports
 //WorldObject
 #include "../WorldObject.hpp"
@@ -52,6 +56,9 @@
 SceneManager::SceneManager()
 {
     loadLevelsData();
+    coinAnimation = std::make_shared<Animation>(true);
+    coinAnimation->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(360), 3.f);
+    coinModel = Model::create().withOBJ(".\\assets\\Coins.obj").withName("coin").build();
 }
 
 SceneManager::~SceneManager()= default;
@@ -66,7 +73,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
 
     //--- end setting cameras
 
-    cameraObj->addComponent<PersonController>();
+    auto person = cameraObj->addComponent<PersonController>();
     cameraObj->addComponent<PlayerCollisionHandler>();
 
     auto lightObj = res->createGameObject("Light");
@@ -86,8 +93,6 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     hand->getComponent<Transform>()->rotation = {0,0,0};
     hand->getComponent<Transform>()->scale = {0.1f,0.1f,0.1f};
     auto handMR = hand->addComponent<ModelRenderer>();
-    auto path =  ".\\assets\\lowpoly_crossbow_2_5.obj";
-    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
     auto handAN = hand->addComponent<Animator>();
     auto handReload = std::make_shared<Animation>(false);
     float resetAnimationTime = 0.2f;
@@ -104,7 +109,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     handAN->addAnimation("build", handBuild);
 
     //handMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    handMR->setModel(modelHolder);
+    handMR->setModel(person->getHandModels().find("crossbow")->second);
 
     cameraObj->getComponent<PersonController>()->hand = hand;
 
@@ -117,9 +122,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     crystal->getComponent<CrystalHealth>()->setHealth(100);
     auto crystalMR = crystal->addComponent<ModelRenderer>();
     auto crystalPath =  ".\\assets\\crystal.obj";
-    //TODO: review animation
     auto crystalAN = crystal->addComponent<Animator>();
-
     auto crystalRigidBody = crystal->addComponent<RigidBody>();
     // ---- set crystal collision group and flags
     crystalRigidBody->initRigidBodyWithSphere(0.7f, 1, CRYSTAL, ENEMIES | PROJECTILES); // crystal needs to be sphere -> skull collision only works with box
@@ -614,16 +617,12 @@ void SceneManager::SpawnCoin(float money,glm::vec3 position) {
     coinTR->rotation = {0,0,0};
     coinTR->scale = {0.4f,0.4f,0.4f};
     auto coinMR = coin->addComponent<ModelRenderer>();
-    auto coinPath =  ".\\assets\\Coins.obj";
-
+    coinMR->setModel(coinModel);
     //TODO: review animation
+
     auto coinAN = coin->addComponent<Animator>();
-    auto coinRotate = std::make_shared<Animation>(true);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(1), 3.f);
-    coinRotate->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(359), 3.f);
-    coinAN->addAnimation("rotate", coinRotate);
+    coinAN->addAnimation("rotate", coinAnimation);
     coinAN->setAnimationState("rotate");
-    coinMR->setModel(Model::create().withOBJ(coinPath).withName("coin").build());
     auto bounds = coinMR->getMesh()->getBoundsMinMax();
 
     float length = (fabs(bounds[0].z) + fabs(bounds[1].z));

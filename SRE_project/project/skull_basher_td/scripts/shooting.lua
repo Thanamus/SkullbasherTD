@@ -1,5 +1,4 @@
 function shooting(time)
-    print("shooting...")
     local turr = getGameObject()
     local turrTR = getTransform(turr)
     turrTR:lookAt(vec3.new(getAimPos().x, turrTR:globalPosition().y, getAimPos().z), vec3.new(0, 1, 0))

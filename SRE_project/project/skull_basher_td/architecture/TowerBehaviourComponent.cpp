@@ -254,7 +254,7 @@ GameObject* TowerBehaviourComponent::makeProjectile() {
     projectileTR->rotation = projectile.rotation;
     projectileTR->lookAt(aimPos, {0, 1, 0});
     auto projectileMR = projectile_->addComponent<ModelRenderer>();
-    projectileMR->setModel(Model::create().withOBJ(projectile.model).build());
+    projectileMR->setModel(projectile.model);
     auto projectileRB = projectile_->addComponent<RigidBody>();
     if (projectile.hitboxType == "box")
         projectileRB->initRigidBodyWithBox(projectile.hitboxSize, projectile.mass, PROJECTILES, ENEMIES);

@@ -38,12 +38,12 @@ public:
         return this;
     }
 
-    const TowerBuilder* withModel(std::string model) const {
+    const TowerBuilder* withModel(std::shared_ptr<Model> model) const {
         tower->setModel(model);
         return this;
     }
 
-    const TowerBuilder* withIndicator(std::string indicator) const {
+    const TowerBuilder* withIndicator(std::shared_ptr<Model> indicator) const {
         tower->setIndicator(indicator);
         return this;
     }
@@ -108,7 +108,7 @@ public:
         return this;
     }
 
-    const TowerBuilder* withAnimations(const std::vector<TowerAnimation>& animations) const {
+    const TowerBuilder* withAnimations(const std::map<std::string, std::shared_ptr<Animation>>& animations) const {
         tower->setAnimations(animations);
         return this;
     }

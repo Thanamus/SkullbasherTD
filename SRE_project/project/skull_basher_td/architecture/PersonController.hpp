@@ -41,18 +41,20 @@ public:
     std::shared_ptr<GameObject> tower;
     std::shared_ptr<GameObject> targetBlock;
     bool allowedToBuild = false;
-    void updateHandModel(std::string modelFileName);
-
-    //------ customCollision Component Override
-
-    // void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override;
-    // // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
-    // // void onCollisionEnd(size_t collisionId); 
-    // void onCollisionEnd(size_t collisionId) override; 
+    void updateHandModel(std::string model);
+    int getReloadLockoutMillisec() const;
     friend class PlayerCollisionHandler;
+
+
+    const std::map<std::string, std::shared_ptr<Model>> &getHandModels() const;
+
+    void setHandModels(const std::map<std::string, std::shared_ptr<Model>> &handModels);
+
 private:
 
-    void fire_projectile();
+    void fireProjectile();
+    std::map<std::string, std::shared_ptr<Model>> handModels;
+    std::shared_ptr<Model> arrowModel;
 
     glm::vec3 world_up = glm::vec3(0, 1, 0);
     glm::vec3 camera_front;
@@ -72,10 +74,7 @@ private:
     std::chrono::steady_clock::time_point start_reload_lockout;
     std::chrono::steady_clock::time_point kickOffTime_reload;
     int reload_lockout_millisec = 2500;
-public:
-    int getReloadLockoutMillisec() const;
 
-private:
     bool shootable = true;
 
     float jumpHeight = 7.f;

@@ -57,12 +57,16 @@ PersonController::PersonController(GameObject* gameObject)
     camera_right = normalize(cross(world_up, camera_dir)); // get a right vector perpendicular to the Y axis and the Z axis
 
     // start_footstep_lockout = std::chrono::steady_clock::now(); // initalise the first footstep lockout
-    start_reload_lockout = std::chrono::steady_clock::now();
+    handModels.insert(std::make_pair("crossbow",  Model::create().withOBJ(".\\assets\\lowpoly_crossbow_2_5.obj").build()));
+    handModels.insert(std::make_pair("hammer",  Model::create().withOBJ(".\\assets\\hammer.obj").build()));
 
+    auto path = ".\\assets\\crossbow_bolt_2.obj";
+    arrowModel = Model::create().withOBJ(path).withName("arrow").build();
 }
 
-PersonController::~PersonController(){
-
+PersonController::~PersonController() {
+    for(auto& h : handModels)
+        h.second.reset();
 }
 
 // debug gui info for Person Controller
@@ -357,7 +361,7 @@ void PersonController::onMouse(SDL_Event &event)
 
                     start_reload_lockout = std::chrono::steady_clock::now(); // init a reload lockout
                     // std::cout << "mouse clicked" << std::endl;
-                    fire_projectile(); // shoot!
+                    fireProjectile(); // shoot!
 
                     // play the reloading sound
                     SourceManager::Get()->playMyJam_global("crossbow_reload.wav");
@@ -379,8 +383,7 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
     this->rotation = rotation;
 }
 
-void PersonController::fire_projectile(){
-
+void PersonController::fireProjectile(){
     // make the arrow game object
     auto arrow = gameObject->getScene()->createGameObject("arrow");
     arrow->getComponent<Transform>()->position = hand->getComponent<Transform>()->position; // set the arrow position to the crossbow
@@ -391,10 +394,7 @@ void PersonController::fire_projectile(){
 
     // add a model and mesh to the arrow
     auto arrowMR = arrow->addComponent<ModelRenderer>();
-    auto path = ".\\assets\\crossbow_bolt_2.obj";
-    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("arrow").build();
-    arrowMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    arrowMR->setModel(modelHolder);
+    arrowMR->setModel(arrowModel);
 
     // add a rigid body to the arrow
     auto arrowBody = arrow->addComponent<RigidBody>();
@@ -435,14 +435,19 @@ void PersonController::fire_projectile(){
 }
 
 
-void PersonController::updateHandModel(std::string modelFileName) {
-    auto path =  ".\\assets\\"+ modelFileName +".obj";
-    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("hand").build();
-
-    hand->getComponent<ModelRenderer>()->setModel(modelHolder);
+void PersonController::updateHandModel(std::string model) {
+    hand->getComponent<ModelRenderer>()->setModel(handModels[model]);
     hand->getComponent<Animator>()->setAnimationState("none");
 }
 
 int PersonController::getReloadLockoutMillisec() const {
     return reload_lockout_millisec;
+}
+
+const std::map<std::string, std::shared_ptr<Model>> &PersonController::getHandModels() const {
+    return handModels;
+}
+
+void PersonController::setHandModels(const std::map<std::string, std::shared_ptr<Model>> &handModels) {
+    PersonController::handModels = handModels;
 }

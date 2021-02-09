@@ -27,7 +27,7 @@ const std::shared_ptr<sre::Texture> &Tower::getIcon() const {
     return icon;
 }
 
-const std::string &Tower::getModel() const { return model;
+std::shared_ptr<Model> Tower::getModel() const { return model;
 }
 
 int Tower::getBuildCost() const {
@@ -70,7 +70,7 @@ const std::vector<TowerPart> &Tower::getParts() const {
     return parts;
 }
 
-const std::string &Tower::getIndicator() const {
+std::shared_ptr<Model> Tower::getIndicator() const {
     return indicator;
 }
 
@@ -86,7 +86,7 @@ void Tower::setIcon(const std::shared_ptr<sre::Texture> &icon) {
     Tower::icon = icon;
 }
 
-void Tower::setModel(const std::string &model) {
+void Tower::setModel(const std::shared_ptr<Model> &model) {
     Tower::model = model;
 }
 
@@ -130,7 +130,7 @@ void Tower::setParts(const std::vector<TowerPart> &parts) {
     Tower::parts = parts;
 }
 
-void Tower::setIndicator(const std::string &indicator) {
+void Tower::setIndicator(const std::shared_ptr<Model> &indicator) {
     Tower::indicator = indicator;
 }
 
@@ -150,11 +150,11 @@ void Tower::setRange(float range) {
     Tower::range = range;
 }
 
-const std::vector<TowerAnimation> &Tower::getAnimations() const {
+const std::map<std::string, std::shared_ptr<Animation>> &Tower::getAnimations() const {
     return animations;
 }
 
-void Tower::setAnimations(const std::vector<TowerAnimation> &animations) {
+void Tower::setAnimations(const std::map<std::string, std::shared_ptr<Animation>> &animations) {
     Tower::animations = animations;
 }
 

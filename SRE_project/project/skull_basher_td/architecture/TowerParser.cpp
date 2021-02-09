@@ -21,8 +21,8 @@ std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::s
         int id = towerRow["id"].GetInt();
         std::string name = towerRow["name"].GetString();
         std::string icon = towerRow["icon"].GetString();
-        std::string indicator = towerRow["indicator"].GetString();
-        std::string model = towerRow["model"].GetString();
+        auto indicator = Model::create().withOBJ(towerRow["indicator"].GetString()).withName(name).build();
+        auto model = Model::create().withOBJ(towerRow["model"].GetString()).withName(name).build();
         int buildCost = towerRow["buildCost"].GetInt();
         float constructionTime = towerRow["constructionTime"].GetFloat();
         float delay = towerRow["delay"].GetFloat();
@@ -41,7 +41,7 @@ std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::s
                                        towerRow["rotation"]["z"].GetFloat());
         TowerProjectile projectile;
         projectile.damage = towerRow["projectile"]["damage"].GetFloat();
-        projectile.model = towerRow["projectile"]["model"].GetString();
+        projectile.model = Model::create().withOBJ(towerRow["projectile"]["model"].GetString()).withName(name).build();
         projectile.mass = towerRow["projectile"]["mass"].GetFloat();
         projectile.position = glm::vec3(towerRow["projectile"]["position"]["x"].GetFloat(),
                                         towerRow["projectile"]["position"]["y"].GetFloat(),
@@ -59,34 +59,32 @@ std::vector<std::shared_ptr<Tower>> TowerParser::readTowersFromFile(const std::s
                                             towerRow["projectile"]["hitbox"]["z"].GetFloat());
         else if (projectile.hitboxType == "sphere")
             projectile.radius = towerRow["projectile"]["hitbox"]["radius"].GetFloat();
-        std::vector<TowerAnimation> animations;
+        std::map<std::string, std::shared_ptr<Animation>> animations;
         auto anIter = towerRow.FindMember("animations");
         if(anIter != towerRow.MemberEnd()) {
             int aniRows = towerRow["animations"].GetArray().Size();
             for (size_t aRow = 0; aRow < aniRows; aRow++) {
-                TowerAnimation animation{};
-                animation.name = towerRow["animations"][aRow]["name"].GetString();
-                animation.looping = towerRow["animations"][aRow]["looping"].GetBool();
+                std::pair<std::string, std::shared_ptr<Animation>> animation =  std::make_pair(towerRow["animations"][aRow]["name"].GetString(), std::make_shared<Animation>());
+                animation.second->setLooping(towerRow["animations"][aRow]["looping"].GetBool());
                 auto frIter = towerRow["animations"][aRow].FindMember("frames");
                 if(frIter != towerRow.MemberEnd()) {
                     int frRows = towerRow["animations"][aRow]["frames"].GetArray().Size();
                     for (size_t fRow = 0; fRow < frRows; fRow++) {
-                        TowerAnimationFrame frame{};
-                        frame.duration = towerRow["animations"][aRow]["frames"][fRow]["duration"].GetFloat();
-                        frame.translate = glm::vec3(
+                        auto duration = towerRow["animations"][aRow]["frames"][fRow]["duration"].GetFloat();
+                        auto anTranslate = glm::vec3(
                                 towerRow["animations"][aRow]["frames"][fRow]["translate"]["x"].GetFloat(),
                                 towerRow["animations"][aRow]["frames"][fRow]["translate"]["y"].GetFloat(),
                                 towerRow["animations"][aRow]["frames"][fRow]["translate"]["z"].GetFloat());
-                        frame.scale = glm::vec3(towerRow["animations"][aRow]["frames"][fRow]["scale"]["x"].GetFloat(),
-                                                towerRow["animations"][aRow]["frames"][fRow]["scale"]["y"].GetFloat(),
-                                                towerRow["animations"][aRow]["frames"][fRow]["scale"]["z"].GetFloat());
-                        frame.rotate = glm::vec3(towerRow["animations"][aRow]["frames"][fRow]["rotate"]["x"].GetFloat(),
-                                                 towerRow["animations"][aRow]["frames"][fRow]["rotate"]["y"].GetFloat(),
-                                                 towerRow["animations"][aRow]["frames"][fRow]["rotate"]["z"].GetFloat());
-                        animation.frames.push_back(frame);
+                        auto anScale = glm::vec3(towerRow["animations"][aRow]["frames"][fRow]["scale"]["x"].GetFloat(),
+                                               towerRow["animations"][aRow]["frames"][fRow]["scale"]["y"].GetFloat(),
+                                               towerRow["animations"][aRow]["frames"][fRow]["scale"]["z"].GetFloat());
+                        auto anRotate = glm::vec3(towerRow["animations"][aRow]["frames"][fRow]["rotate"]["x"].GetFloat(),
+                                                towerRow["animations"][aRow]["frames"][fRow]["rotate"]["y"].GetFloat(),
+                                                towerRow["animations"][aRow]["frames"][fRow]["rotate"]["z"].GetFloat());
+                        animation.second->addFrame(anTranslate, anScale, anRotate, duration);
                     }
                 }
-                animations.push_back(animation);
+                animations.insert(animation);
             }
         }
         auto partsIter = towerRow.FindMember("parts");
@@ -126,7 +124,7 @@ std::vector<TowerPart> TowerParser::parseParts(const Value& partsArray) {
         TowerPart part;
         const Value& partRow = partsArray[row];
         part.name = partRow["name"].GetString();
-        part.model = partRow["model"].GetString();
+        part.model = Model::create().withOBJ(partRow["model"].GetString()).withName(part.name).build();
         part.position = glm::vec3(partRow["position"]["x"].GetFloat(),
                                   partRow["position"]["y"].GetFloat(),
                                   partRow["position"]["z"].GetFloat());
@@ -140,29 +138,27 @@ std::vector<TowerPart> TowerParser::parseParts(const Value& partsArray) {
         if(anIter != partRow.MemberEnd()) {
             int aniRows = partRow["animations"].GetArray().Size();
             for (size_t aRow = 0; aRow < aniRows; aRow++) {
-                TowerAnimation animation{};
-                animation.name = partRow["animations"][aRow]["name"].GetString();
-                animation.looping = partRow["animations"][aRow]["looping"].GetBool();
+                std::pair<std::string, std::shared_ptr<Animation>> animation =  std::make_pair(partRow["animations"][aRow]["name"].GetString(), std::make_shared<Animation>());
+                animation.second->setLooping(partRow["animations"][aRow]["looping"].GetBool());
                 auto frIter = partRow["animations"][aRow].FindMember("frames");
                 if(frIter != partRow.MemberEnd()) {
                     int frRows = partRow["animations"][aRow]["frames"].GetArray().Size();
                     for (size_t fRow = 0; fRow < frRows; fRow++) {
-                        TowerAnimationFrame frame{};
-                        frame.duration = partRow["animations"][aRow]["frames"][fRow]["duration"].GetFloat();
-                        frame.translate = glm::vec3(
+                        auto duration = partRow["animations"][aRow]["frames"][fRow]["duration"].GetFloat();
+                        auto translate = glm::vec3(
                                 partRow["animations"][aRow]["frames"][fRow]["translate"]["x"].GetFloat(),
                                 partRow["animations"][aRow]["frames"][fRow]["translate"]["y"].GetFloat(),
                                 partRow["animations"][aRow]["frames"][fRow]["translate"]["z"].GetFloat());
-                        frame.scale = glm::vec3(partRow["animations"][aRow]["frames"][fRow]["scale"]["x"].GetFloat(),
+                        auto scale = glm::vec3(partRow["animations"][aRow]["frames"][fRow]["scale"]["x"].GetFloat(),
                                                 partRow["animations"][aRow]["frames"][fRow]["scale"]["y"].GetFloat(),
                                                 partRow["animations"][aRow]["frames"][fRow]["scale"]["z"].GetFloat());
-                        frame.rotate = glm::vec3(partRow["animations"][aRow]["frames"][fRow]["rotate"]["x"].GetFloat(),
+                        auto rotate = glm::vec3(partRow["animations"][aRow]["frames"][fRow]["rotate"]["x"].GetFloat(),
                                                  partRow["animations"][aRow]["frames"][fRow]["rotate"]["y"].GetFloat(),
                                                  partRow["animations"][aRow]["frames"][fRow]["rotate"]["z"].GetFloat());
-                        animation.frames.push_back(frame);
+                        animation.second->addFrame(translate, scale, rotate, duration);
                     }
                 }
-                part.animations.push_back(animation);
+                part.animations.insert(animation);
             }
         }
         std::cout << "read correctly all animations: " << part.animations.size() << std::endl;
@@ -175,7 +171,7 @@ std::vector<TowerPart> TowerParser::parseParts(const Value& partsArray) {
 }
 
 std::shared_ptr<GameObject> TowerParser::addTowerToScene(const std::shared_ptr<Tower>& tower, const std::shared_ptr<Scene>& scene) {
-    auto model = Model::create().withOBJ(tower->getModel()).build();
+    auto model = tower->getModel();
     auto towerGO = scene->createGameObject(tower->getName());
     auto towerTR = towerGO->getComponent<Transform>();
     towerTR->position = tower->getPosition();
@@ -187,10 +183,7 @@ std::shared_ptr<GameObject> TowerParser::addTowerToScene(const std::shared_ptr<T
     towerMR->setModel(model);
     auto towerAN = towerGO->addComponent<Animator>();
     for(const auto& a: tower->getAnimations()) {
-        auto animation = std::make_shared<Animation>(a.looping);
-        for(const auto& f : a.frames)
-            animation->addFrame(f.translate, f.scale, f.rotate, f.duration);
-        towerAN->addAnimation(a.name, animation);
+        towerAN->addAnimation(a.first, a.second);
     }
     auto towerTB = towerGO->addComponent<TowerBehaviourComponent>();
     towerTB->setReloadTime(tower->getReloadTime());
@@ -203,7 +196,7 @@ std::shared_ptr<GameObject> TowerParser::addTowerToScene(const std::shared_ptr<T
 }
 
 void TowerParser::addPart(const std::shared_ptr<GameObject>& parent, const TowerPart& part) {
-    auto model = Model::create().withOBJ(part.model).build();
+    auto model = part.model;
     auto partGO = parent->getScene()->createGameObject(part.name);
     partGO->setParent(parent.get());
     auto partTR = partGO->getComponent<Transform>();
@@ -214,10 +207,7 @@ void TowerParser::addPart(const std::shared_ptr<GameObject>& parent, const Tower
     partMR->setModel(model);
     auto partAN = partGO->addComponent<Animator>();
     for(const auto& a: part.animations) {
-        auto animation = std::make_shared<Animation>(a.looping);
-        for(const auto& f : a.frames)
-            animation->addFrame(f.translate, f.scale, f.rotate, f.duration);
-        partAN->addAnimation(a.name, animation);
+        partAN->addAnimation(a.first, a.second);
     }
     for(const auto& p : part.parts) // recursively add parts
         addPart(partGO, p);

@@ -26,6 +26,8 @@ class BulletPhysics;
 class RigidBody;
 class ScheduleManager;
 class GameManager;
+class Model;
+class Animation;
 
 class GuiManager;
 class MainMenuGuiManager;
@@ -72,6 +74,8 @@ public:
     const std::vector<std::shared_ptr<LevelData>> &getLevelsData() const;
     void SpawnCoin(float money,glm::vec3 position);
 private:
+    std::shared_ptr<Model> coinModel;
+    std::shared_ptr<Animation> coinAnimation;
     std::vector<std::shared_ptr<LevelData>> levelsData;
     void loadLevelsData();
     void loadLevelsMap(const std::string& filename, std::shared_ptr<Scene> res);

@@ -2,9 +2,11 @@
 
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
+#include "Model.hpp"
+#include "Animation.hpp"
 
 struct TowerProjectile {
-    std::string model;
+    std::shared_ptr<Model> model;
     float damage;
     float mass;
     glm::vec3 position;
@@ -15,27 +17,14 @@ struct TowerProjectile {
     float radius;
 };
 
-struct TowerAnimationFrame {
-    float duration;
-    glm::vec3 translate;
-    glm::vec3 scale;
-    glm::vec3 rotate;
-};
-
-struct TowerAnimation {
-    std::string name;
-    bool looping;
-    std::vector<TowerAnimationFrame> frames;
-};
-
 struct TowerPart {
     std::string name;
-    std::string model;
+    std::shared_ptr<Model> model;
     glm::vec3 position;
     glm::vec3 scale;
     glm::vec3 rotation;
     std::vector<TowerPart> parts;
-    std::vector<TowerAnimation> animations;
+    std::map<std::string, std::shared_ptr<Animation>> animations;
 };
 
 
@@ -47,7 +36,7 @@ public:
     int getId() const;
     const std::string &getName() const;
     const std::shared_ptr<sre::Texture> &getIcon() const;
-    const std::string &getModel() const;
+    std::shared_ptr<Model> getModel() const;
     int getBuildCost() const;
     float getConstructionTime() const;
     float getDelay() const;
@@ -62,7 +51,7 @@ public:
     void setId(int id);
     void setName(const std::string &name);
     void setIcon(const std::shared_ptr<sre::Texture> &icon);
-    void setModel(const std::string &model);
+    void setModel(const std::shared_ptr<Model> &model);
     void setBuildCost(int buildCost);
     void setConstructionTime(float constructionTime);
     void setDelay(float delay);
@@ -74,9 +63,9 @@ public:
     void setRotation(const glm::vec3 &rotation);
     void setParts(const std::vector<TowerPart> &parts);
 
-    const std::string &getIndicator() const;
+    std::shared_ptr<Model> getIndicator() const;
 
-    void setIndicator(const std::string &indicator);
+    void setIndicator(const std::shared_ptr<Model> &indicator);
 
     const TowerProjectile &getProjectile() const;
 
@@ -86,16 +75,16 @@ public:
 
     void setRange(float range);
 
-    const std::vector<TowerAnimation> &getAnimations() const;
+    const std::map<std::string, std::shared_ptr<Animation>> &getAnimations() const;
 
-    void setAnimations(const std::vector<TowerAnimation> &animations);
+    void setAnimations(const std::map<std::string, std::shared_ptr<Animation>> &animations);
 
 private:
     int id{};
     std::string name;
     std::shared_ptr<sre::Texture> icon;
-    std::string indicator;
-    std::string model;
+    std::shared_ptr<Model> indicator;
+    std::shared_ptr<Model> model;
     int buildCost{};
     float constructionTime{};
     float delay{};
@@ -108,5 +97,5 @@ private:
     glm::vec3 scale{};
     glm::vec3 rotation{};
     std::vector<TowerPart> parts;
-    std::vector<TowerAnimation> animations;
+    std::map<std::string, std::shared_ptr<Animation>> animations;
 };
