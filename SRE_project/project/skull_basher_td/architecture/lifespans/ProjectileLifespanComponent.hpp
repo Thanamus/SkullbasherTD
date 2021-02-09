@@ -3,7 +3,6 @@
 #include "../Component.hpp"
 #include "../Updatable.hpp"
 
-// #include "glm/glm.hpp"
 #include <chrono>
 
 class GameObject;

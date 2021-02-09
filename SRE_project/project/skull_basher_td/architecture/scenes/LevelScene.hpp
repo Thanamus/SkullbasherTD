@@ -8,7 +8,6 @@
 #include "../Updatable.hpp"
 #include "glm/glm.hpp"
 #include "../../GuiManager.hpp"
-#include "../ScheduleManager.hpp"
 #include "Scene.hpp"
 
 #include <vector>

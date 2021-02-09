@@ -1,31 +1,24 @@
 //
 // Created by Morten Nobel Jørgensen on 2018-11-08.
 //
+#include "LevelScene.hpp"
+#include <iostream>
 
 #include <sre/Renderer.hpp>
+#include <sre/Inspector.hpp>
+
 #include "../Camera.hpp"
-#include "../physics/RigidBody.hpp"
 #include "../Light.hpp"
+#include "../physics/RigidBody.hpp"
 #include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
 #include "../PersonController.hpp"
 
-//WorldMap Imports
-    //WorldObject
-#include "../WorldObject.hpp"
+#include "../ScheduleManager.hpp"
 
-#include "../sound/SoundEffectsLibrary.hpp"
-
-//rapidjson imports
-#include "../rapidjson/rapidjson.h"
-
-#include <iostream>
-#include "LevelScene.hpp"
 #include "../../GameManager.hpp"
-#include "../ModelRenderer.hpp"
-#include "../CoinComponent.hpp"
-#include "../collisions/CoinCollisionHandler.hpp"
+
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
