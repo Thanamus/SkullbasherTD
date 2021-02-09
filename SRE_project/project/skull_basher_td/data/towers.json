@@ -1,23 +1,273 @@
 {
-  "Towers":
+  "towers":
   [
     {
       "id": 0,
       "name":"Arrow Tower",
-      "icon": "arrow_tower.bmp",
-      "mesh": "ArrowTower.obj",
+      "icon": ".\\assets\\arrow_tower.bmp",
+      "indicator": ".\\assets\\ArrowTower.obj",
+      "model": ".\\assets\\ArrowTower.obj",
       "buildCost": 10,
       "constructionTime": 5,
-      "delay": 5
+      "delay": 5,
+      "range": 10.0,
+      "launchTime": 0,
+      "reloadTime": 1,
+      "projectileAirTime": 0.25,
+      "position":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "rotation":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "animations":
+      [
+        {
+          "name": "reload",
+          "looping": false,
+          "frames": [
+            {
+              "duration": 0.7,
+              "translate":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.5
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "rotate":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              }
+            },
+            {
+              "duration": 0.3,
+              "translate":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "rotate":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              }
+            }
+          ]
+        }
+      ],
+      "projectile": {
+        "damage": 1,
+        "model": ".\\assets\\crossbow_bolt_2.obj",
+        "mass": 0.1,
+        "position":
+        {
+          "x": 0.0,
+          "y": 4.5,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 4.0,
+          "y": 4.0,
+          "z": 4.0
+        },
+        "rotation":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "hitbox": {
+          "type": "box",
+          "x": 0.1,
+          "y": 0.1,
+          "z": 1.0
+        }
+      }
     },
     {
       "id": 1,
       "name":"Catapult Tower",
-      "icon": "catapult_tower.bmp",
-      "mesh": "Floating_Banner.obj",
+      "icon": ".\\assets\\catapult_tower.bmp",
+      "indicator": ".\\assets\\catapult_indicator.obj",
+      "model": ".\\assets\\catapult_base.obj",
       "buildCost": 10,
       "constructionTime": 5,
-      "delay": 5
+      "delay": 5,
+      "range": 10.0,
+      "launchTime": 1,
+      "reloadTime": 2,
+      "projectileAirTime": 0.5,
+      "position":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+      },
+      "rotation":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "projectile": {
+        "damage": 2.0,
+        "model": ".\\assets\\ball.obj",
+        "mass": 1.0,
+        "position":
+        {
+          "x": 0.0,
+          "y": 3.1,
+          "z": -0.9
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "rotation":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "hitbox": {
+          "type": "sphere",
+          "radius": 0.3
+        }
+      },
+      "parts":
+      [
+        {
+          "name": "Arm",
+          "model": ".\\assets\\catapult_arm.obj",
+          "position":
+          {
+            "x": 0.0,
+            "y": 1.5,
+            "z": -0.5
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "rotation":
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "animations":
+          [
+            {
+              "name": "launch",
+              "looping": false,
+              "frames": [
+                {
+                  "duration": 1.0,
+                  "translate":
+                  {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  },
+                  "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                  },
+                  "rotate":
+                  {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                }
+              ]
+            },
+            {
+              "name": "reload",
+              "looping": false,
+              "frames": [
+                {
+                  "duration": 2.0,
+                  "translate":
+                  {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  },
+                  "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                  },
+                  "rotate":
+                  {
+                    "x": 90.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                }
+              ]
+            }
+          ],
+          "parts":
+          [
+            {
+              "name": "Ball",
+              "model": ".\\assets\\ball.obj",
+              "position":
+              {
+                "x": 0.0,
+                "y": 0.4,
+                "z": 1.6
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "rotation":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

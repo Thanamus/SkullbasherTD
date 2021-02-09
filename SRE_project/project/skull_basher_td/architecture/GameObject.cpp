@@ -11,20 +11,11 @@ GameObject::GameObject(std::string name_, Scene* scene_) : name(std::move(name_)
 }
 
 GameObject::~GameObject() {
-    while(!components.empty())
+    while(!components.empty()) {
         removeComponent(*(components.begin()));
-    components.clear();
-
-    while(!children.empty())
-        scene->deleteGameObject(*children.begin());
-    children.clear();
-
-    if (parent) {
-        auto parentChildren = GameObject::parent->children;
-        if(!parentChildren.empty())
-            parentChildren.erase(std::remove(parentChildren.begin(), parentChildren.end(), shared_from_this()), parentChildren.end());
-        parent = nullptr;
     }
+    while(!children.empty())
+        removeChild(*(children.begin()));
     scene = nullptr;
 }
 
@@ -54,6 +45,16 @@ void GameObject::removeComponent(const std::shared_ptr<Component>& ptr) {
     }
 }
 
+
+void GameObject::removeChild(GameObject* ptr) {
+    auto iter = std::find(children.begin(), children.end(), ptr);
+    if(iter != children.end()) {
+        ptr->setParent(nullptr);
+        children.erase(std::remove(children.begin(), children.end(), ptr), children.end());
+    }
+}
+
+
 const std::vector<std::shared_ptr<Component>> & GameObject::getComponents() const{
     return components;
 }
@@ -69,18 +70,18 @@ GameObject* GameObject::getParent() const {
 void GameObject::setParent(GameObject *parent_) {
     if (parent) {
         auto parentChildren = parent->getChildren();
-        parentChildren.erase(std::remove(parentChildren.begin(), parentChildren.end(), shared_from_this()), parentChildren.end());
+        parentChildren.erase(std::remove(parentChildren.begin(), parentChildren.end(), this), parentChildren.end());
     }
     parent = parent_;
     if(parent)
-        parent->children.push_back(shared_from_this());
+        parent->children.push_back(this);
 }
 
-const std::vector<std::shared_ptr<GameObject>> &GameObject::getChildren() const {
+const std::vector<GameObject*> &GameObject::getChildren() const {
     return children;
 }
 
-std::shared_ptr<GameObject> GameObject::getChildByName(const std::string& childName) {
+GameObject* GameObject::getChildByName(const std::string& childName) {
     for(const auto& c : children)
         if (c->getName() == childName)
             return c;

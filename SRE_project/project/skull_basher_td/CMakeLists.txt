@@ -50,7 +50,7 @@ find_package(SDL2 REQUIRED)
 
 add_executable(skull_basher_td ${SkullBasherTD})
 
-target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile OpenAL StackWalker)
+target_link_libraries(skull_basher_td ${all_libs} ${EXTRA_LIBS} SndFile::sndfile OpenAL)
 
 
 

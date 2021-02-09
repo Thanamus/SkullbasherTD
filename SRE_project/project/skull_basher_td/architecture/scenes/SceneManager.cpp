@@ -37,7 +37,7 @@
 #include "../Pathfinder.hpp"
 #include "../CoinComponent.hpp"
 #include "../collisions/CoinCollisionHandler.hpp"
-#include "../lifespans/ArrowLifespanComponent.hpp"
+#include "../lifespans/ProjectileLifespanComponent.hpp"
 
 #include <iostream>
 #include <utility>
@@ -79,9 +79,6 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     tower->getComponent<Transform>()->scale = {0.2f,0.2f,0.2f};
     auto towerMR = tower->addComponent<ModelRenderer>();
     towerMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-    auto towerTB = tower->addComponent<TowerBehaviourComponent>();
-    towerTB->setEnabled(false);
-
     cameraObj->getComponent<PersonController>()->tower = tower;
 
     auto hand = res->createGameObject("Hand");
@@ -375,7 +372,7 @@ std::cout << "loading tiles" << std::endl;
 
                     modelName = d["MapLookup"][c]["object"].GetString();
 
-                    //Load the mesh from file
+                    //Load the model from file
                     auto filePath = mapAssetFolderLoc + "\\" + modelName;
                     //auto filePath = ".\\assets\\skull.obj";
                     modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
@@ -516,7 +513,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
 
             modelName = d["enemyLookup"][enemyTypeChar]["object"].GetString();
 
-            //Load the mesh from file
+            //Load the model from file
             auto filePath = enemiesAssetFolderLoc + "\\" + modelName;
             modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
             std::cout << "Asset folder: " << filePath << "\n";
@@ -528,7 +525,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 //create game object
                 auto enemy = res->createGameObject(modelName);
                 auto enemyTR = enemy->getComponent<Transform>();
-                // std::cout << "mesh Name: " << modelName << "\n";
+                // std::cout << "model Name: " << modelName << "\n";
                 auto enemyMR = enemy->addComponent<ModelRenderer>();
                 auto enemyAN = enemy->addComponent<Animator>();
                 enemyMR->setModel(modelHolder);
@@ -639,8 +636,8 @@ void SceneManager::SpawnCoin(float money,glm::vec3 position) {
     coin->addComponent<CoinComponent>();
     coin->getComponent<CoinComponent>()->setMoney(money);
     coin->addComponent<CoinCollisionHandler>();
-    coin->addComponent<ArrowLifespanComponent>();
-    coin->getComponent<ArrowLifespanComponent>()->setLifespan(20000);
+    coin->addComponent<ProjectileLifespanComponent>();
+    coin->getComponent<ProjectileLifespanComponent>()->setLifespan(20000);
 }
 
 #pragma clang diagnostic pop

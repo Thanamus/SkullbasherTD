@@ -18,7 +18,6 @@ EnemyCollisionHandler::EnemyCollisionHandler(GameObject* gameObject) : Component
 
 void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
     if (begin && !stopCollisions){
-        std::cout << "EnemyCollisionHandler collided with "  << other->getComponent<RigidBody>()->getGroupID() << std::endl;
         auto crystal = other->getComponent<CrystalHealth>();
 //        std::cout << "crystal " << crystal <<std::endl;
         if(crystal != nullptr)

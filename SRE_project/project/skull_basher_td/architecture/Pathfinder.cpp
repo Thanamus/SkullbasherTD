@@ -105,11 +105,7 @@ void Pathfinder::update(float deltaTime) {
         // gameObject->getComponent<Transform>()->position = nextPosition; 
 
         //currentTransform->position = nextPosition;
-        
     }
-    
-
-
 }
 
 void Pathfinder::setMoving(bool incomingMovingStatus){

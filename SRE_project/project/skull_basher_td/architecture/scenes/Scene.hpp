@@ -46,7 +46,7 @@ public:
 
     void setAmbientColor(const glm::vec3 &ambientColor);
     const std::vector<std::shared_ptr<GameObject>>& getGameObjects() const;
-    std::vector<EnemyComponent*> getEnemies();
+    const std::vector<EnemyComponent*>& getEnemies();
 
     //World Map stuff
     //void loadMap(std::string filename, std::shared_ptr<Scene> res);

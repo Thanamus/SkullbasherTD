@@ -3,7 +3,7 @@ class GameObject;
 
 class Targetable {
 public:
-    ~Targetable() = default;
+    ~Targetable() { target = nullptr; };
 
     GameObject *getTarget() const {
         return target;

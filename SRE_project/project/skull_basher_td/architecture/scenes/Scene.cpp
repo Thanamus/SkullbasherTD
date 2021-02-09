@@ -177,7 +177,7 @@ const std::vector<std::shared_ptr<GameObject>>& Scene::getGameObjects() const {
     return gameObjects;
 }
 
-std::vector<EnemyComponent *> Scene::getEnemies() {
+const std::vector<EnemyComponent*>& Scene::getEnemies() {
     return enemies;
 }
 
@@ -188,8 +188,13 @@ void Scene::deleteGameObject(const std::shared_ptr<GameObject>& gameObject) {
             t->setTarget(nullptr);
     auto it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
     // if found, release the managed object and remove it from the array
-    if(it != gameObjects.end())
+    if(it != gameObjects.end()) {
+        auto parent = gameObject->getParent();
+        if(parent)
+            parent->removeChild(gameObject.get());
         gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
+    }
+
 }
 
 #pragma clang diagnostic pop

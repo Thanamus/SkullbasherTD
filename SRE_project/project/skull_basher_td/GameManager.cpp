@@ -15,7 +15,6 @@
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
-#include "architecture/TowerBehaviourComponent.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -23,6 +22,9 @@
 #include "architecture/music/MusicBuffer.hpp"
 #include "architecture/WorldObject.hpp"
 #include "architecture/sound/SourceManager.hpp"
+#include "architecture/TowerBehaviourComponent.hpp"
+#include "architecture/TowerParser.hpp"
+
 
 using namespace sre;
 using namespace glm;
@@ -102,31 +104,12 @@ void GameManager::init() {
 }
 
 void GameManager::loadTowers(std::string filename) {
-    using namespace rapidjson;
-    std::ifstream fis(filename);
-    IStreamWrapper isw(fis);
-    Document d;
-    d.ParseStream(isw);
-
-    int rowArrayCount = d["Towers"].GetArray().Size(); //get the tile map key, the array size is the outset loop's size
-    std::cout << "rowArrayCount: " << rowArrayCount << "\n";
-    for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
-    {
-        int id = d["Towers"][row]["id"].GetInt();
-        std::string name = d["Towers"][row]["name"].GetString();
-        std::string icon = d["Towers"][row]["icon"].GetString();
-        std::string mesh = d["Towers"][row]["mesh"].GetString();
-        float buildCost = d["Towers"][row]["buildCost"].GetFloat();
-        float constructionTime = d["Towers"][row]["constructionTime"].GetFloat();
-        float delay = d["Towers"][row]["delay"].GetFloat();
-        towers.push_back(std::make_shared<Tower>(id, name, icon, mesh, buildCost, constructionTime, delay));
-    }
+    towers = std::move(TowerParser::readTowersFromFile(filename));
 }
 
 std::vector<std::shared_ptr<Tower>> GameManager::GetTowers() {
     return this->towers;
 }
-
 
 void GameManager::onKey(SDL_Event &event)
 {
@@ -147,11 +130,11 @@ void GameManager::onKey(SDL_Event &event)
             pressed = true;
             buildModeActive = true;
             break;
-        case SDLK_3:
-            selectedTowerIndex = 2;
-            pressed = true;
-            buildModeActive = true;
-            break;
+//        case SDLK_3:
+//            selectedTowerIndex = 2;
+//            pressed = true;
+//            buildModeActive = true;
+//            break;
         case SDLK_ESCAPE:
             if(buildModeActive)
             {
@@ -200,73 +183,14 @@ void GameManager::onMouse(SDL_Event &event)
         auto personController = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>();
         if(personController->allowedToBuild)
         {
-            //todo: re-enable
-//            auto tower = sceneManager->currentScene->createGameObject(selectedTower->getName());
-//            auto towerTR = tower->getComponent<Transform>();
-//            towerTR->position = personController->tower->getComponent<Transform>()->position;
-//            towerTR->rotation = personController->tower->getComponent<Transform>()->rotation;
-//            towerTR->scale = {0.5f,0.5f,0.5f};
-//
-//            auto towerMR = tower->addComponent<ModelRenderer>();
-//            auto towerAN = tower->addComponent<Animator>();
-//
-//            towerTR->setModelRenderer(towerMR);
-//            towerTR->setAnimator(towerAN);
-//
-//            auto towerTB = tower->addComponent<TowerBehaviourComponent>();
-//            towerTB->setEnabled(true);
-//            auto path_ = ".\\assets\\" + selectedTower->getMesh();
-//            std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path_).withName(selectedTower->getMesh()).build();
-//            //towerMR->setMesh(personController->tower->getComponent<ModelRenderer>()->getMesh());
-//            towerMR->setModel(modelHolder);
-            auto model = Model::create().withOBJ(R"(.\assets\Forest Arena\catapult_base.obj)").build();
-            auto catapult = sceneManager->currentScene->createGameObject(selectedTower->getName());
-            auto arm = sceneManager->currentScene->createGameObject("Arm");
-            arm->setParent(catapult.get());
-            auto ball = sceneManager->currentScene->createGameObject("Ball");
-            ball->setParent(arm.get());
-
-            auto towerTR = catapult->getComponent<Transform>();
+            auto tower = TowerParser::addTowerToScene(selectedTower, sceneManager->currentScene);
+            auto towerTR = tower->getComponent<Transform>();
             towerTR->position = personController->tower->getComponent<Transform>()->position;
-            towerTR->position.y += 0.5;
             towerTR->rotation = personController->tower->getComponent<Transform>()->rotation;
-            towerTR->scale = {0.5f,0.5f,0.5f};
-
-            auto catMR = catapult->addComponent<ModelRenderer>();
-            catMR->setModel(model);
-            catapult->getComponent<Transform>()->setModelRenderer(catMR);
-            model = Model::create().withOBJ(R"(.\assets\Forest Arena\catapult_arm.obj)").build();
-
-            auto armMR = arm->addComponent<ModelRenderer>();
-            armMR->setModel(model);
-            auto armAN = arm->addComponent<Animator>();
-            arm->getComponent<Transform>()->setModelRenderer(armMR);
-            arm->getComponent<Transform>()->setAnimator(armAN);
-            std::shared_ptr<Animation> launch = std::make_shared<Animation>(false);
-            launch->addFrame(glm::vec3(0), glm::vec3(1), glm::vec3(-90, 0, 0), 1.f);
-            armAN->addAnimation("launch", launch);
-            std::shared_ptr<Animation> reload = std::make_shared<Animation>(true);
-            reload->addFrame(glm::vec3(0), glm::vec3(1), glm::vec3(90, 0, 0), 2.f);
-            armAN->addAnimation("reload", reload);
-            auto catTR = catapult->getComponent<Transform>();
-            auto armTR = arm->getComponent<Transform>();
-            auto ballTR = ball->getComponent<Transform>();
-            model = Model::create().withOBJ(R"(.\assets\Forest Arena\ball.obj)").build();
-            auto ballMR = ball->addComponent<ModelRenderer>();
-            ballMR->setModel(model);
-            ball->getComponent<Transform>()->setModelRenderer(ballMR);
-
-            armMR->getModel()->setTransform(glm::translate(glm::vec3(0, 1, -0.5)));
-            ballMR->getModel()->setTransform(glm::translate(glm::vec3(0, 0.4, 1.6)));
-
-            auto towerTB = catapult->addComponent<TowerBehaviourComponent>();
-            towerTB->setEnabled(true);
-            score -= selectedTower->getBuildCost();
-
             personController->targetBlock->getComponent<WorldObject>()->setBuildable(false);
             if(personController->hand->getComponent<Animator>()->getAnimationState() != "build")
                 personController->hand->getComponent<Animator>()->setAnimationState("build");
-
+            score -= selectedTower->getBuildCost();
             SourceManager::Get()->playMyJam_global("wood-hammering.wav");
         }
     }
@@ -287,9 +211,8 @@ void GameManager::updateTowerIndicator()
 
     auto towerIndicator = sceneManager->currentScene->cameras[0]->getGameObject()->getComponent<PersonController>()->tower;
 
-    auto path_ = ".\\assets\\" + selectedTower->getMesh();
-    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path_).withName(selectedTower->getMesh()).build();
-
+    auto path_ = selectedTower->getIndicator();
+    std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path_).withName(selectedTower->getIndicator()).build();
     towerIndicator->getComponent<ModelRenderer>()->setModel(modelHolder);
     towerIndicator->getComponent<ModelRenderer>()->active = true;
 }
@@ -450,7 +373,7 @@ void GameManager::setTotalEnemiesInCurrentSet() {
     totalEnemiesInCurrentSet = waveAndEnemies[currentWave][currentEnemySet].quantity - 1; //minus one, because counting starts at 1, not 0
 }
 
-const std::map<int, std::vector<enemySetsInWave>> &GameManager::getWaveAndEnemys() const {
+const std::map<int, std::vector<enemySetsInWave>> &GameManager::getWaveAndEnemies() const {
     return waveAndEnemies;
 }
 

@@ -2,7 +2,7 @@
 
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
-#include "Tower.hpp"
+#include "architecture/Tower.hpp"
 #include "architecture/health/CrystalHealth.hpp"
 #include "architecture/scenes/SceneManager.hpp"
 
@@ -80,7 +80,7 @@ public:
 
     bool updateAllWaveStats();
     void setInitialWaveStats();
-    const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemys() const;
+    const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemies() const;
     int getTotalEnemiesInCurrentSet() const;
     void toggleWinState(bool winState);
     const std::unique_ptr<SceneManager> &getSceneManager() const;

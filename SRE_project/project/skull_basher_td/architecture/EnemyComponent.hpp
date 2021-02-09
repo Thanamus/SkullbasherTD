@@ -50,11 +50,11 @@ private:
     int enemySetNumber = 0;
     float money = 0;
     float damage = 0;
-    bool hitable = false;
+    bool hittable = false;
 public:
-    bool isHitable() const;
+    bool isHittable() const;
 
-    void setHitable(bool hitable);
+    void setHittable(bool hitable);
 };
 
 

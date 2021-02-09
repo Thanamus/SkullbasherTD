@@ -8,10 +8,9 @@
 #include "Animator.hpp"
 #include "EnemyComponent.hpp"
 #include "Pathfinder.hpp"
-#include "collisions/ArrowCollisionHandler.hpp"
-#include "lifespans/ArrowLifespanComponent.hpp"
+#include "collisions/ProjectileCollisionHandler.hpp"
+#include "lifespans/ProjectileLifespanComponent.hpp"
 #include "physics/RigidBody.hpp"
-#include "HomingComponent.hpp"
 
 TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         : Component(gameObject) {
@@ -22,19 +21,30 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         return getGameObject();
     });
 
-    // extend GameObject definition
-    // ugly but needed to use a template function
-//   lua["usertype"]["GameObject"]["getTransform"] = &GameObject::getComponent<Transform>;
-//    lua["usertype"]["GameObject"]["getAnimator"] = &GameObject::getComponent<Animator>;
-
+    auto btVector_type = lua.new_usertype<btVector3>("btVector3",
+                                                     sol::constructors<btVector3(float, float, float)>(),
+                                                     sol::meta_function::multiplication, sol::overload(
+                                                             sol::resolve<btVector3&(const btScalar&)>(&btVector3::operator*=),
+                                                             sol::resolve<btVector3&(const btVector3&)>(&btVector3::operator*=)
+                                                             )
+                                                     );
     //Incomplete implementation of Animator
     auto animator_type = lua.new_usertype<Animator>( "Animator",
                                 "setAnimationState", &Animator::setAnimationState,
-                                "getAnimationState", &Animator::getAnimationState
+                                "getAnimationState", &Animator::getAnimationState,
+                                "getAnimationForState", &Animator::getAnimationForState
+    );
+
+    auto modelRenderer_type = lua.new_usertype<ModelRenderer>("ModelRenderer",
+                                                              "active", &ModelRenderer::active
+                                                              );
+
+    auto animation_type = lua.new_usertype<Animation>( "Animation",
+                                                     "hasEnded", &Animation::hasEnded
     );
 
     //Incomplete implementation of Transform
-    auto transform_type =lua.new_usertype<Transform>( "Transform",
+    auto transform_type = lua.new_usertype<Transform>( "Transform",
                                  "globalTransform", &Transform::globalTransform,
                                  "lookAt", sol::overload(
                                          static_cast<void (Transform::*)(glm::vec3, glm::vec3)>(&Transform::lookAt),
@@ -69,6 +79,14 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         return _gameObj->getComponent<Transform>().get();
     });
 
+    lua.set_function("getRigidBody", [&](GameObject* _gameObj) -> RigidBody* {
+        return _gameObj->getComponent<RigidBody>().get();
+    });
+
+    lua.set_function("getModelRenderer", [&](GameObject* _gameObj) -> ModelRenderer* {
+        return _gameObj->getComponent<ModelRenderer>().get();
+    });
+
     lua.set_function("setTarget", [&](GameObject* _target) -> void {
         return setTarget(_target);
     });
@@ -81,17 +99,37 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         return getProjectileAirTime();
     });
 
+    lua.set_function("getLaunchTime", [&]() -> float {
+        return getLaunchTime();
+    });
+
     lua.set_function("targetInRange", [&]() -> bool {
         return targetInRange();
     });
+
+    lua.set_function("getAimPos", [&]() -> glm::vec3 {
+        return getAimPos();
+    });
+
 
     lua.set_function("setAimPos", [&](glm::vec3 _aimPos) -> void {
         return setAimPos(_aimPos);
     });
 
+    lua.set_function("setReadyToShoot", [&](bool ready) -> void {
+        return setReadyToShoot(ready);
+    });
 
     lua.set_function("inCircle", [&](glm::vec2 point, glm::vec2 center, float radius) -> bool {
         return inCircle(point, center, radius);
+    });
+
+    lua.set_function("makeProjectile", [&]() -> GameObject* {
+        return makeProjectile();
+    });
+
+    lua.set_function("setVelocity", [&](GameObject* object, btVector3 velocity) -> void {
+        object->getComponent<RigidBody>()->getRigidBody()->setLinearVelocity(velocity);
     });
 
     lua["variables"] = lua.create_table_with(
@@ -105,35 +143,31 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
 
     loadScript(actions[TB_TARGETING], R"(.\scripts\targeting.lua)", true);
     loadScript(actions[TB_AIMING], R"(.\scripts\aiming.lua)", true);
-//    loadScript(actions[TB_SHOOTING], "", true);
-//    loadScript(actions[TB_RELOADING], "", true);
+    loadScript(actions[TB_SHOOTING], R"(.\scripts\shooting.lua)", true);
+    loadScript(actions[TB_RELOADING], R"(.\scripts\reloading.lua)", true);
 }
 
 void TowerBehaviourComponent::update(float deltaTime) {
     bool hasTargetInRange = targetInRange();
     if(!hasTargetInRange) // if target leaves range
         target = nullptr;
-
+    else {
+        auto tarPos = target->getComponent<Transform>()->globalPosition();
+        gameObject->getComponent<Transform>()->lookAt({tarPos.x, gameObject->getComponent<Transform>()->position.y, tarPos.z}, glm::vec3(0, 1, 0));
+    }
     //first of all, tower reloads if needed
     if (!readyToShoot)
-        auto kek = 2;
-//        run(actions[TB_RELOADING]);
-//        std::cout << actions[TB_RELOADING] << std::endl;
+        run(actions[TB_RELOADING], deltaTime);
     // if tower doesn't have a live target in range, get a new one
-    if(!target) {
-        run(actions[TB_TARGETING], gameObject->getScene()->getEnemies()); //
-    }
+    if(!target)
+        run(actions[TB_TARGETING], gameObject->getScene()->getEnemies());
     // if the tower is ready to shoot and has a target, but hasn't aimed yet, then calc where to shoot
-    if (hasTargetInRange && aimPos == glm::vec3(-1)) {
-        std::cout << "currpos x: " << target->getComponent<Transform>()->position.x << " y: " << target->getComponent<Transform>()->position.y << " z: " << target->getComponent<Transform>()->position.z << std::endl;
-        std::cout << actions[TB_AIMING] << std::endl;
+    if (hasTargetInRange && aimPos == glm::vec3(-1))
         run(actions[TB_AIMING], target->getComponent<EnemyComponent>());
-    }
     // if tower is ready and has calculated where to shoot, then shoot away!
     if (aimPos != glm::vec3(-1) && readyToShoot)
-        shoot(deltaTime);
-
-    //run(actions[TB_SHOOTING]);
+        run(actions[TB_SHOOTING], deltaTime);
+    //
 }
 
 float TowerBehaviourComponent::getRange() const {
@@ -160,28 +194,19 @@ void TowerBehaviourComponent::setProjectileAirTime(float projectileAirTime_) {
     TowerBehaviourComponent::projectileAirTime = projectileAirTime_;
 }
 
-float TowerBehaviourComponent::getReloadSpeed() const {
-    return reloadSpeed;
+float TowerBehaviourComponent::getReloadTime() const {
+    return reloadTime;
 }
 
-void TowerBehaviourComponent::setReloadSpeed(float reloadSpeed_) {
-    TowerBehaviourComponent::reloadSpeed = reloadSpeed_;
+void TowerBehaviourComponent::setReloadTime(float reloadTime_) {
+    TowerBehaviourComponent::reloadTime = reloadTime_;
 }
-
-//GameObject *TowerBehaviourComponent::getTarget() const {
-//    return target;
-//}
-//
-//void TowerBehaviourComponent::setTarget(GameObject *_target) {
-//    TowerBehaviourComponent::target = _target;
-//}
 
 const glm::vec3 &TowerBehaviourComponent::getAimPos() const {
     return aimPos;
 }
 
 void TowerBehaviourComponent::setAimPos(const glm::vec3 &aimPos_) {
-    std::cout << "aimpos x: " << aimPos_.x << " y: " << aimPos_.y << " z: " << aimPos_.z << std::endl;
     TowerBehaviourComponent::aimPos = aimPos_;
 }
 
@@ -206,59 +231,47 @@ bool TowerBehaviourComponent::inCircle(glm::vec2 point, glm::vec2 center, float 
     return pow(dX, 2) + pow(dY, 2) < pow(radius, 2);
 }
 
-void TowerBehaviourComponent::shoot(float deltaTime) {
-    auto transform = gameObject->getComponent<Transform>();
-    transform->lookAt(glm::vec3{aimPos.x, transform->globalPosition().y, aimPos.z}, glm::vec3(0,1,0));
-    auto arm = gameObject->getChildByName("Arm");
-    if(!arm) {
-        std::cout << "no arm!" << std::endl;
-        return;
+float TowerBehaviourComponent::getLaunchTime() const {
+    return launchTime;
+}
+
+void TowerBehaviourComponent::setLaunchTime(float launchTime) {
+    TowerBehaviourComponent::launchTime = launchTime;
+}
+
+GameObject* TowerBehaviourComponent::makeProjectile() {
+    auto projectile_ = gameObject->getScene()->createGameObject(gameObject->getName() + " Projectile");
+    auto projectileTR = projectile_->getComponent<Transform>();
+    // right place at the right time
+    auto turretTR = gameObject->getComponent<Transform>();
+    projectileTR->position = projectile.position * turretTR->scale + turretTR->position;
+    projectileTR->scale = projectile.scale * turretTR->scale;
+    projectileTR->rotation = projectile.rotation;
+    projectileTR->lookAt(aimPos, {0, 1, 0});
+    auto projectileMR = projectile_->addComponent<ModelRenderer>();
+    projectileMR->setModel(Model::create().withOBJ(projectile.model).build());
+    auto projectileRB = projectile_->addComponent<RigidBody>();
+    if (projectile.hitboxType == "box")
+        projectileRB->initRigidBodyWithBox(projectile.hitboxSize, projectile.mass, PROJECTILES, ENEMIES);
+    else if (projectile.hitboxType == "sphere")
+        projectileRB->initRigidBodyWithSphere(projectile.radius, projectile.mass, PROJECTILES, ENEMIES);
+    auto rigidBody = projectileRB->getRigidBody();
+    if (rigidBody) {
+        rigidBody->setAngularFactor({0, 0, 0});
+        rigidBody->setAngularVelocity({0,0,0});
+        rigidBody->setGravity({0, 0, 0});
     }
-    auto animator = arm->getComponent<Animator>();
-    if(animator) {
-        if(animator->getAnimationState() != "launch")
-            animator->setAnimationState("launch");
-        else if(animator->getAnimationForState("launch")->hasEnded(deltaTime)) {
-//             make the arrow game object
-            glm::vec3 offset = {0*transform->scale.x, 1.2*transform->scale.y, 2*transform->scale.z};
-            projectileStart = transform->globalPosition() + offset;
-            auto direction = glm::normalize(aimPos - projectileStart);
-            auto distance = fabs(glm::length(aimPos - projectileStart));
-            auto arrow = gameObject->getScene()->createGameObject("arrow");
-            arrow->getComponent<Transform>()->position = projectileStart;
-            arrow->getComponent<Transform>()->lookAt(aimPos, glm::vec3(0, 1, 0));
-            // arrow->getComponent<Transform>()->rotation = camera_front;
+    projectileTR->setModelRenderer(projectileMR);
+    auto projectileCH = projectile_->addComponent<ProjectileCollisionHandler>();
+    projectileCH->setDamage(projectile.damage);
+    projectile_->addComponent<ProjectileLifespanComponent>();
+    return projectile_.get();
+}
 
-            // add a model and mesh to the arrow
-            auto arrowMR = arrow->addComponent<ModelRenderer>();
-            auto path = ".\\assets\\crossbow_bolt_2.obj";
-            std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("arrow").build();
-            arrowMR->setMesh(sre::Mesh::create().withCube(0.99).build());
-            arrowMR->setModel(modelHolder);
-            auto arrowBody = arrow->addComponent<RigidBody>();
-            arrowBody->initRigidBodyWithBox({0.01,0.01,0.5}, 0.1, PROJECTILES, ENEMIES);
-            auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();
-            arrowRigidBody->setGravity({0,0,0});
-            arrowRigidBody->setAngularVelocity({0,0,0});
-            btVector3 arrowSpeed = {direction.x, direction.y, direction.z};
+const TowerProjectile &TowerBehaviourComponent::getProjectile() const {
+    return projectile;
+}
 
-            // ALL CALCULATIONS HERE WORK!
-            // arrowForce *= 2;
-            arrowSpeed *= distance/projectileAirTime; // get required speed
-            auto actual = target->getComponent<Transform>()->position;
-            auto projdir = target->getComponent<EnemyComponent>()->getPathfinder()->getDirection();
-            auto projected = actual + projdir*4.f*0.5f;
-
-            arrowRigidBody->setLinearVelocity(arrowSpeed);
-            // to make sure the arrow doesn't spin in the air
-            arrow->addComponent<ArrowCollisionHandler>();
-            arrow->addComponent<ArrowLifespanComponent>();
-//            auto homie = arrow->addComponent<HomingComponent>();
-//            homie->target = target;
-//            homie->setSpeed(20);
-            readyToShoot = false;
-            aimPos = glm::vec3(-1);
-        }
-
-    }
+void TowerBehaviourComponent::setProjectile(const TowerProjectile &projectile) {
+    TowerBehaviourComponent::projectile = projectile;
 }

@@ -53,7 +53,7 @@ public:
 protected:
     struct Script {
         std::string data;
-        sol::function function;
+        sol::protected_function function;
         bool isLoaded = false;
     };
 

@@ -16,9 +16,6 @@
 using namespace sre;
 
 Transform::Transform(GameObject* gameObject) : Component(gameObject) {
-    // sets animator and renderer pointers (if found)
-//    setAnimator(gameObject->getComponent<Animator>());
-//    setModelRenderer(gameObject->getComponent<ModelRenderer>());
 }
 
 std::shared_ptr<ModelRenderer> Transform::getModelRenderer() const {
@@ -52,17 +49,16 @@ glm::mat4 Transform::localTransform() const {
     return compositeTransform;
 }
 
-glm::mat4 Transform::globalTransform() const {
+glm::mat4 Transform::globalTransform() {
     // want to factor in the parent's global transform
     auto parentGameObj = gameObject->getParent();
     if (parentGameObj) {
         auto parentTransform = parentGameObj->getComponent<Transform>();
-        if(parentTransform){
-            return parentTransform->globalTransform() * localTransform() ;
-        }
+        if(parentTransform)
+            global = parentTransform->globalTransform();
     }
-
-    return localTransform();
+    // if the gameObject is unlinked from its parent, it keeps applying the last global transform it had!
+    return global*localTransform();
 }
 
 void Transform::debugGUI() {
@@ -97,7 +93,7 @@ void Transform::debugGUI() {
 //}
 
 void Transform::lookAt(glm::vec3 at,glm::vec3 up){
-    auto lookAtMat = glm::lookAt(position, at, up);
+    auto lookAtMat = glm::lookAt(globalPosition(), at, up);
     float rotXangle, rotYangle, rotZangle;
     // http://gamedev.stackexchange.com/a/112271
     rotXangle = atan2(-lookAtMat[2][1], lookAtMat[2][2]);
@@ -120,7 +116,19 @@ glm::mat4 Transform::localRotation() const {
     return rotZ*rotY*rotX;
 }
 
-glm::vec3 Transform::globalPosition() const {
+glm::vec3 Transform::globalRotation() {
+    auto transform = globalTransform();
+    // remove translation
+    transform[3] = glm::vec4(0, 0, 0, 1);
+    for(short int i = 0; i < 3; i++) {
+        auto scaleF = glm::length(transform[i]);
+        if(scaleF > 0)
+            transform[i] /= scaleF;
+    }
+    return glm::degrees(glm::eulerAngles(glm::quat_cast(transform)));
+}
+
+glm::vec3 Transform::globalPosition() {
     // returns translation vector from the global matrix
     return glm::vec3(globalTransform()[3]);
 }

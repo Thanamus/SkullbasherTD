@@ -29,13 +29,13 @@
 #include "./ModelRenderer.hpp"
 
 // Arrow Collision Hanlder include
-#include "./collisions/ArrowCollisionHandler.hpp"
+#include "./collisions/ProjectileCollisionHandler.hpp"
 
 // game manager include
 #include "../GameManager.hpp"
 
 // expirable include (for arrow)
-#include "./lifespans/ArrowLifespanComponent.hpp"
+#include "./lifespans/ProjectileLifespanComponent.hpp"
 
 //using namespace sre;
 using namespace glm;
@@ -380,7 +380,7 @@ void PersonController::fire_projectile(){
 
     // arrow->getComponent<Transform>()->rotation = camera_front;
 
-    // add a model and mesh to the arrow
+    // add a model and model to the arrow
     auto arrowMR = arrow->addComponent<ModelRenderer>();
     auto path = ".\\assets\\crossbow_bolt_2.obj";
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("arrow").build();
@@ -421,10 +421,10 @@ void PersonController::fire_projectile(){
     // -------- end arrow bouncing
 
     // add the collision handler for the arrow
-    arrow->addComponent<ArrowCollisionHandler>();
+    arrow->addComponent<ProjectileCollisionHandler>();
 
     // give the arrow a lifespan
-    arrow->addComponent<ArrowLifespanComponent>();
+    arrow->addComponent<ProjectileLifespanComponent>();
 
 
     SourceManager::Get()->playMyJam_global("Bow.wav");
