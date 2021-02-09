@@ -6,6 +6,7 @@
 #include "sre/SpriteAtlas.hpp"
 #include "GuiManager.hpp"
 #include "LevelGuiManager.hpp"
+#include "GameManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
