@@ -189,16 +189,10 @@ void Scene::deleteGameObject(const std::shared_ptr<GameObject>& gameObject) {
     auto it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
     // if found, release the managed object and remove it from the array
     if(it != gameObjects.end()) {
-        std::cout << gameObject->getName() << std::endl;
-        std::cout << "use counts before: "<<gameObject.use_count() << std::endl;
         auto parent = gameObject->getParent();
-        if(parent) {
-            std::cout << "child before: " << parent->getChildren().size() << std::endl;
+        if(parent)
             parent->removeChild(gameObject.get());
-            std::cout << "child after: "<< parent->getChildren().size() << std::endl;
-        }
         gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
-        std::cout << "use counts after: "<<gameObject.use_count() << std::endl;
     }
 
 }

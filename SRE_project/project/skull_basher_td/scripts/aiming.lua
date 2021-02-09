@@ -11,7 +11,9 @@ function aiming(enemy)
     local speed = pf:getMoveSpeed();
     local timeToNext = dist/speed;
     while (timeToNext < airTime) do
+        print(timeToNext)
         airTime = airTime - timeToNext
+        print(airTime)
         aimPos = nextPos
         index = index - 1
         nextPos = Pathfinder.previewPoint(index)
@@ -22,5 +24,5 @@ function aiming(enemy)
     end
     aimPos = vec3.new(aimPos.x, 0, aimPos.z) + airTime*dir*speed
     setAimPos(aimPos)
-    return
+    print(aimPos.x, aimPos.z)
 end

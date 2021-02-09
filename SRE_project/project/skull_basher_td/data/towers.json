@@ -31,6 +31,55 @@
         "y": 0.0,
         "z": 0.0
       },
+      "animations":
+      [
+        {
+          "name": "reload",
+          "looping": false,
+          "frames": [
+            {
+              "duration": 0.7,
+              "translate":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.5
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "rotate":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              }
+            },
+            {
+              "duration": 0.3,
+              "translate":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "rotate":
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              }
+            }
+          ]
+        }
+      ],
       "projectile": {
         "damage": 1,
         "model": ".\\assets\\crossbow_bolt_2.obj",
@@ -42,9 +91,9 @@
           "z": 0.0
         },
         "scale": {
-          "x": 2.0,
-          "y": 2.0,
-          "z": 2.0
+          "x": 4.0,
+          "y": 4.0,
+          "z": 4.0
         },
         "rotation":
         {

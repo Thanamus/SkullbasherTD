@@ -11,7 +11,6 @@ GameObject::GameObject(std::string name_, Scene* scene_) : name(std::move(name_)
 }
 
 GameObject::~GameObject() {
-    std::cout << "deleting " << name << std::endl;
     while(!components.empty()) {
         removeComponent(*(components.begin()));
     }
