@@ -6,17 +6,12 @@
 #include "Camera.hpp"
 
 #include "Component.hpp"
-#include "Transform.hpp"
-#include "GameObject.hpp"
-
-// #include "./collisions/CollisionHandler.hpp"
 
 #include <chrono>
 
+class GameObject;
 class PlayerCollisionController;
 
-
-// class PersonController : public Component, public CollisionHandler {
 class PersonController : public Component {
 public:
     explicit PersonController(GameObject* GameObject);

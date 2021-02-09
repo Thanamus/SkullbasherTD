@@ -17,6 +17,7 @@
 // transform include
 #include "Transform.hpp"
 
+#include "GameObject.hpp"
 
 // physics indludes
 #include "./physics/RigidBody.hpp"
