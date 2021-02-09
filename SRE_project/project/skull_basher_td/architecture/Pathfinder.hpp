@@ -1,6 +1,6 @@
 
 #pragma once
-#include "GameObject.hpp"
+// #include "GameObject.hpp"
 #include "glm/glm.hpp"
 #include "../GameManager.hpp"
 
@@ -8,6 +8,7 @@
     Pathfinder moves the eneimes along the 'path'.
 */
 
+class GameObject;
 
 class Pathfinder {
 public:

@@ -2,6 +2,7 @@
 #include "Pathfinder.hpp"
 #include "Transform.hpp"
 
+#include "GameObject.hpp"
 #include "./physics/RigidBody.hpp"
 
 // sound includes
