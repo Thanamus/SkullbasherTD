@@ -8,7 +8,6 @@
 #include "Light.hpp"
 
 #include "./physics/RigidBody.hpp"
-#include "./collisions/CustomCollisionHandler.hpp"
 
 #include "PersonController.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
