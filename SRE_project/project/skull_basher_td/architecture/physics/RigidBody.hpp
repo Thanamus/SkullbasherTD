@@ -6,12 +6,13 @@
 #include "btBulletDynamicsCommon.h"
 #include "glm/glm.hpp"
 
-// #include "BulletCollision/CollisionDispatch/btGhostObject.h"
-
+/*
+    rigid body sets up and adds a (bullet) rigid body to the dynamics world
+*/
 
 class Transform;
 
-// Enum for setting the collision groups and masks
+// SB is an enum for setting the collision groups and masks
 // both objects need to have the collision masks to collide with each other
 // USE:
    // set group to group of objects this thing (the object) belongs to
