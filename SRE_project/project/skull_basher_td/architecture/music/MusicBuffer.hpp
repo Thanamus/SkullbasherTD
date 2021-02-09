@@ -59,8 +59,6 @@ private:
 	void fadeOutMusic();
 	float originalGain = 0.1f;
 
-	//MusicBuffer() = delete;
-
 	static void Init();
 
 	void ResetDecoders();

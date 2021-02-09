@@ -1,6 +1,8 @@
 //
 // Created by Morten Nobel Jørgensen on 2018-11-08.
 //
+#include <iostream>
+#include "LevelScene.hpp"
 
 #include <sre/Renderer.hpp>
 #include "../components/game_entities/player/CameraComponent.hpp"
@@ -14,14 +16,11 @@
 //WorldMap Imports
     //WorldObjectComponent
 #include "../components/game_entities/world/WorldObjectComponent.hpp"
-
 #include "../sound/SoundEffectsLibrary.hpp"
 
 //rapidjson imports
 #include "../rapidjson/rapidjson.h"
 
-#include <iostream>
-#include "LevelScene.hpp"
 #include "../managers/GameManager.hpp"
 #include "../components/rendering/ModelRendererComponent.hpp"
 #include "../components/game_entities/coins/CoinComponent.hpp"

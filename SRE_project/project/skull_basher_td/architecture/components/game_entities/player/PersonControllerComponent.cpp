@@ -7,26 +7,16 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/quaternion.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/quaternion.hpp>
+
 #include <iostream>
 
 // sound includes
 #include "../../../sound/SoundDevice.hpp"
 #include "../../../sound/SourceManager.hpp"
 
-// transform include
-#include "../../TransformComponent.hpp"
-
 
 // physics indludes
 #include "../../physics/RigidBodyComponent.hpp"
-
-// #include "CollisionHandler.hpp"
-#define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/string_cast.hpp"
-
-// collision handler include
-#include "../../rendering/ModelRendererComponent.hpp"
 
 // Arrow Collision Hanlder include
 #include "../../collisions/ProjectileCollisionHandlerComponent.hpp"

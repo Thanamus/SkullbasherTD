@@ -2,13 +2,11 @@
 #include "../physics/RigidBodyComponent.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/string_cast.hpp"
 #include "CoinCollisionHandlerComponent.hpp"
 #include "../game_entities/player/PersonControllerComponent.hpp"
 
 // Sound Effects _Include
 #include "../../sound/SourceManager.hpp"
-#include "../TransformComponent.hpp"
 #include "../game_entities/coins/CoinComponent.hpp"
 #include "../../managers/GameManager.hpp"
 

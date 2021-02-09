@@ -3,7 +3,6 @@
 #include "../Component.hpp"
 #include "../../mixins/Updatable.hpp"
 
-#include "glm/glm.hpp"
 #include <chrono>
 
 class GameObject;

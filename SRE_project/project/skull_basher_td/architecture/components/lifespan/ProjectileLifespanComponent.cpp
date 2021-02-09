@@ -3,7 +3,7 @@
 #include "../../scenes/GameObject.hpp"
 
 
-using namespace glm;
+// using namespace glm;
 ProjectileLifespanComponent::ProjectileLifespanComponent(GameObject* gameObject) : Component(gameObject)
 {
     start_life = std::chrono::steady_clock::now(); // initialises the internal timer

@@ -6,6 +6,7 @@
 #include "../components/health/CrystalHealthComponent.hpp"
 #include "SceneManager.hpp"
 
+
 struct enemySetsInWave {
     int enemyType;
     int quantity;

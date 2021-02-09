@@ -7,8 +7,9 @@
 
 #include "Model.hpp"
 #include "../Component.hpp"
-#include "../../scenes/GameObject.hpp"
+//#include "../../scenes/GameObject.hpp"
 #include "../../mixins/Renderable.hpp"
+class GameObject;
 
 class ModelRendererComponent : public Component, public Renderable {
 public:

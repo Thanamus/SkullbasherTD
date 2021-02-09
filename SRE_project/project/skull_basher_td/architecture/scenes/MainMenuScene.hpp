@@ -11,8 +11,7 @@
 #include "../managers/ScheduleManager.hpp"
 #include "Scene.hpp"
 
-#include <vector>
-#include <string>
+
 
 
 class CameraComponent;

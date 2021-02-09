@@ -72,4 +72,3 @@ void ModelRendererComponent::debugGUI() {
 ModelRendererComponent::~ModelRendererComponent() {
     model.reset();
 }
-
