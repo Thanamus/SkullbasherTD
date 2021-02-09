@@ -6,20 +6,14 @@
 #include "../Component.hpp"
 #include "../Transform.hpp"
 
-
-#include "../physics/RigidBody.hpp"
-
 #include "../PersonController.hpp"
 
 // sound includes
-#include "../sound/SoundDevice.hpp"
 #include "../sound/SourceManager.hpp"
-
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 #include "../WorldObject.hpp"
-#include "../../GameManager.hpp"
 
 class GameObject; // needed for referencing the game object
 class Component;
