@@ -3,6 +3,7 @@
     "levelName": "The Bad Level3",
     "levelDifficulty": 2,
     "sceneType": 0,
+    "startMoney": 0,
     "tileMap":[
         [
             [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10],
@@ -332,7 +333,7 @@
         {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":1,"quantity":2}], "timeBetweenEnemy":1, "timeBetweenWaves":10},
         {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":5, "timeBetweenWaves":10}
     ],
-    "enemyLookup": {
+    "enemyLookup":{
         "1": {
             "object": "Skull03.obj",
             "rotation": 0,
@@ -343,23 +344,22 @@
             },
             "collision": {
                 "type": "box",
-                "x": 0.3,
-                "y": 0.3,
-                "z": 0.3
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
             },
             "moveSpeed": 4,
             "health": 2.0,
-            "money": 2.0,
+            "money": 5.0,
+            "damage": 10.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
                     "soundEffectName": "deathd.wav"
-                },
-                {
+                },                {
                     "soundEffectCode": "spawn",
                     "soundEffectName": "pestilence.wav"
-                },
-                {
+                },                {
                     "soundEffectCode": "hit",
                     "soundEffectName": "mnstr9.wav"
                 }
@@ -381,7 +381,8 @@
             },
             "moveSpeed": 5,
             "health": 1.0,
-            "money": 5.0,
+            "money": 2.0,
+            "damage": 25.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -414,6 +415,7 @@
             "moveSpeed": 3,
             "health": 3.0,
             "money": 10.0,
+            "damage": 40.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -439,13 +441,14 @@
             },
             "collision": {
                 "type": "box",
-                "x": 0.8,
-                "y": 0.8,
-                "z": 0.8
+                "x": 3.5,
+                "y": 1.5,
+                "z": 2.5
             },
             "moveSpeed": 2,
             "health": 5.0,
             "money": 20.0,
+            "damage": 100.0,
             "soundEffectsPlaylist": [
                 {
                     "soundEffectCode": "death",
@@ -499,6 +502,14 @@
             {
                 "name": "crossbow_reload.wav",
                 "location": ".\\assets\\soundEffects\\battle\\crossbow_reload.wav"
+            },
+            {
+                "name": "coin.wav",
+                "location": ".\\assets\\soundEffects\\inventory\\coin.wav"
+            },
+            {
+                "name": "wood-hammering.wav",
+                "location": ".\\assets\\soundEffects\\inventory\\wood-hammering.wav"
             }
         ]
 }
