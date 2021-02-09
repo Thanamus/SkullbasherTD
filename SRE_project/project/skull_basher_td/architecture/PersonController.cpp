@@ -43,7 +43,7 @@ using namespace glm;
 PersonController::PersonController(GameObject* gameObject)
  : Component(gameObject)
 {
-    camera = gameObject->getComponent<Camera>();
+    camera = gameObject->getComponent<Camera>(); // sync the camera variable to the camera component
 
     // get rigid body 
     btRigidBody* myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
@@ -65,6 +65,7 @@ PersonController::~PersonController(){
 
 }
 
+// debug gui info for Person Controller
 void PersonController::debugGUI() {
     ImGui::PushID(this);
     if (ImGui::TreeNode("PersonController")) {
@@ -76,7 +77,7 @@ void PersonController::debugGUI() {
 
 void PersonController::update(float deltaTime)
 {
-    updateVectors(); // uupdates the camera vectors, camera_right, camera_fwd, camera_dir
+    updateVectors(); // updates the camera vectors, camera_right, camera_fwd, camera_dir
     updateInput(deltaTime); // Updates position and rotation based on inputs from mouse / keyboard
 
 
@@ -89,12 +90,15 @@ void PersonController::update(float deltaTime)
     // normalise the camera front again
     camera_front = glm::normalize(direction);
 
+// ------ update the 'hand'
+
     camera->moveHandCursor(camera_front, this->hand);
     if(GameManager::getInstance().buildModeActive)
     {
         camera->moveTowerCursor(camera_front, this->tower);
         camera->simpleRayCast(camera_front, this->tower, GameManager::getInstance().getSceneManager()->getCurrentScene()->getGameObjects());
     }
+//------- end update the 'hand'    
 
 // ----------------- Update the rigid body -------------------
 
@@ -123,7 +127,7 @@ void PersonController::update(float deltaTime)
     // set the new transform in the motion state, for physics to use
     myBody->getMotionState()->setWorldTransform(xform);
 
-    // can also just set the transform - but I think this way skips physics current frame processing
+    // can also just set the transform - but this way skips physics current frame processing
     // myBody->setWorldTransform(xform); //
 
     // set the center of mass transform as well as the world transform - bullet is weird
@@ -131,20 +135,20 @@ void PersonController::update(float deltaTime)
 
 // ------------- end Update the rigid body   
 
-    // std::cout << "rotation is: " << rotation << std::endl;
-
-    // camera->lookAt(position, position + camera_front, world_up);
+// set the Transform orientation
     this->getGameObject()->getComponent<Transform>()->lookAt(position + camera_front, world_up);
     
 //--------------- update Listener
-    // TODO make this into a helper function instead
     SoundDevice::Get()->SetLocation(position.x, position.y, position.z);
     SoundDevice::Get()->SetOrientation(camera_front.x, camera_front.y, camera_front.z,
                                         world_up.x, world_up.y, world_up.z);
 // --------------- end update Listener
 
+
+//-------------- reload the crossbow
     if(!shootable)
     {
+        // update the reload timer
         kickOffTime_reload = std::chrono::steady_clock::now();
         int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(kickOffTime_reload - start_reload_lockout).count();
 
@@ -153,33 +157,35 @@ void PersonController::update(float deltaTime)
         {
             shootable = true;
             currentMovespeed = normalMovespeed;
-            // restart footstep lockout
+            // restart reload lockout
             start_reload_lockout = std::chrono::steady_clock::now();
         }
     }
+//-------------- end reloading the crossbow
 
 }
 
+// updats the camera vectors used in camera calculations
 void PersonController::updateVectors()
 {
     camera_dir = normalize(position - camera_front); // sets the camera direction with a positive Z axis
     // camera_right = normalize(cross(world_up, camera_dir));
+
     camera_right = normalize(cross(world_up, camera_front));
     camera_fwd = normalize(cross(camera_right,world_up));
 }
 
+// update the transform (rotation and translation) of the PersonController's Transform and RigidBody
 void PersonController::updateInput(float deltaTime)
 {
     // updates the rotation, pitch and position variables of the player, based on inputs
     float velocity = currentMovespeed * deltaTime;
     
-    // bool rigidBodyCheck = false;
     
     // get the player's rigid body
     btRigidBody* hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
-    // btTransform transform = hasRigidBody->getWorldTransform();
 
-    // init a transform
+    // init a btTransform for storing transform manipulations
     btTransform transform;
 
     // assign transform to rigid body's current world transform
@@ -194,9 +200,8 @@ void PersonController::updateInput(float deltaTime)
 
 
     // update the rotation and pitch based on the mouse movements recorded
-    // NB: rotation is yaw, could update variable name
+    // NB: "rotation" is yaw, could update variable name
     rotation += mouse_offset.x * deltaTime;
-    // std::cout << "mouse offset: " << mouse_offset << std::endl;
     pitch += mouse_offset.y*deltaTime;
    
     // keep rotation in 360 degree range
@@ -218,7 +223,7 @@ void PersonController::updateInput(float deltaTime)
     // std::cout << "Pitch is: " << pitch << std::endl;
 
     // update position based on current keypresses
-    // using the camerafront vector allows to keep account of rotation automatically
+    // using the camera_front vector allows to keep account of rotation automatically
     // NB, changed above to use camera_fwd, a cross between up and camera_right
     // using camera_fwd keeps movement in the x-z axes only
 
@@ -242,6 +247,8 @@ void PersonController::updateInput(float deltaTime)
     if (key_right){
         position += velocity * cross(camera_front, world_up);
     }
+
+    // fly up and down removed for gameplay, could created a 'developer' mode and re-enable these 
     // if (key_flyUp){
     //     position += velocity * world_up; //works! fly's up
     // }
@@ -252,12 +259,11 @@ void PersonController::updateInput(float deltaTime)
     // Calculate the force to apply to the character
     glm::vec3 positionDifference = oldPosition - position;
     
-    // assign force to btVector3
+    // assign force to btVector3 (x-z plane only)
     force = {positionDifference.x, 0, positionDifference.z};
     
     // get the current total force (i.e current speed of the player)
     btScalar totalForce = hasRigidBody->getLinearVelocity().length();
-    // std::cout << "total Force is: " << totalForce << std::endl;
 
     // if speed (total force) is less than 'some value', apply force (speed up)
     if(totalForce <= 7) {
@@ -338,29 +344,35 @@ void PersonController::onMouse(SDL_Event &event)
             camera->simpleRayCast(camera_front, this->tower, currentScene->getGameObjects());*/
     }
 
+//------------- fire projectile on left click
     if (shootable)
     {
         if(event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
-        {
-            // TODO get paused and isRunning states from GameManager before shooting
+        {           
             if (GameManager::getInstance().levelRunning && !GameManager::getInstance().paused)
-            {
+            { // check the level is running and not pasued - don't shoot if paused
                 if(!GameManager::getInstance().buildModeActive)
-                {
+                { // check if build mode is active - don't shoot if building
                     shootable = false;
-                    start_reload_lockout = std::chrono::steady_clock::now();
-                    std::cout << "mouse clicked" << std::endl;
-                    fire_projectile();
+
+                    start_reload_lockout = std::chrono::steady_clock::now(); // init a reload lockout
+                    // std::cout << "mouse clicked" << std::endl;
+                    fire_projectile(); // shoot!
+
+                    // play the reloading sound
                     SourceManager::Get()->playMyJam_global("crossbow_reload.wav");
+
+                    // start the reload animation
                     if(hand->getComponent<Animator>()->getAnimationState() != "reload")
                         hand->getComponent<Animator>()->setAnimationState("reload");
-                    currentMovespeed = slowMovespeed;
+                    currentMovespeed = slowMovespeed; // artificially slow down player when reloading. Running while reloading is just unrealistic ;-)
                 }
             }
         }
     }
 }
 
+// not sure if used anymore
 void PersonController::setInitialPosition(glm::vec2 position, float rotation)
 {
     this->position = glm::vec3(position.x, 0, position.y);
@@ -368,7 +380,6 @@ void PersonController::setInitialPosition(glm::vec2 position, float rotation)
 }
 
 void PersonController::fire_projectile(){
-    // std::cout << "firing projectile" << std::endl;
 
     // make the arrow game object
     auto arrow = gameObject->getScene()->createGameObject("arrow");
@@ -378,9 +389,7 @@ void PersonController::fire_projectile(){
     // set the direction for the arrow to travel in
     arrow->getComponent<Transform>()->lookAt(arrow->getComponent<Transform>()->position + camera_front, glm::vec3(0, 1, 0));
 
-    // arrow->getComponent<Transform>()->rotation = camera_front;
-
-    // add a model and model to the arrow
+    // add a model and mesh to the arrow
     auto arrowMR = arrow->addComponent<ModelRenderer>();
     auto path = ".\\assets\\crossbow_bolt_2.obj";
     std::shared_ptr<Model> modelHolder = Model::create().withOBJ(path).withName("arrow").build();
@@ -405,11 +414,6 @@ void PersonController::fire_projectile(){
     // arrowRigidBody->setLinearVelocity(arrowForce);
     arrowRigidBody->applyCentralImpulse(arrowForce);
 
-    // arrowRigidBody->applyCentralForce(btVector3{camera_front.x+10,camera_front.y+10, camera_front.z+10});
-    // arrowRigidBody->applyCentralForce(btVector3{camera_front.x,camera_front.y, camera_front.z});
-    // arrowRigidBody->applyForce(btVector3{camera_front.x, camera_front.y, camera_front.z}, btVector3{position.x, position.y, position.z});
-    // arrowRigidBody->setAngularFactor({0,0,0});
-
     arrowRigidBody->setAngularVelocity({0,0,0}); // to make sure the arrow doesn't spin in the air
     // arrowRigidBody->setLinearFactor({0,0,0});
 
@@ -426,9 +430,10 @@ void PersonController::fire_projectile(){
     // give the arrow a lifespan
     arrow->addComponent<ProjectileLifespanComponent>();
 
-
+    // play the 'shooting' sound
     SourceManager::Get()->playMyJam_global("Bow.wav");
 }
+
 
 void PersonController::updateHandModel(std::string modelFileName) {
     auto path =  ".\\assets\\"+ modelFileName +".obj";
@@ -441,59 +446,3 @@ void PersonController::updateHandModel(std::string modelFileName) {
 int PersonController::getReloadLockoutMillisec() const {
     return reload_lockout_millisec;
 }
-
-
-// Moved to PlayerCollisionHandler 
-// void PersonController::onCollision(size_t collisionId, RigidBody* other, glm::vec3 col_position, bool begin){
-//     if (begin){
-//         std::string otherObjectName = other->getGameObject()->getName();
-//         std::cout << "Collision "<< collisionId <<" on "<< otherObjectName << " at "<<glm::to_string(col_position)<<std::endl;
-//         std::cout << "player position is: " << position.x << " , " << position.y << " , " << position.z << std::endl;
-       
-
-
-//         // std::cout << "time_elapsed :" << time_elapsed_milli << std::endl;        
-
-//         SourceManager * mySource = SourceManager::Get();
-//         //----- if colliding with ground, play ground sounds
-//         if (col_position.y < position.y-0.2f)
-//         {
-//             // collision happened below the player
-
-//             // check footstep time
-//             std::chrono::steady_clock::time_point time_now = std::chrono::steady_clock::now();
-//             int time_elapsed_milli = std::chrono::duration_cast<std::chrono::milliseconds>(time_now - start_footstep_lockout).count();
-            
-//             isGrounded = true; //player just collided with something on it's feet
-//             // so it could be considered grounded
-            
-//             // TODO match offset to player colision size 
-//             if (time_elapsed_milli > footstep_lockout_millisec)
-//             {
-//                 if (otherObjectName == "GrassBlock01D.obj")
-//                 {
-//                     mySource->playMyJam_global("gassy-footstep1.wav");
-//                     // std::cout << "playing grassy footstep" << std::endl;
-//                 } else if (otherObjectName == "Floor01.obj"){
-//                     mySource->playMyJam_global("stepwood_2.wav");
-//                 } else if (otherObjectName == "PathBlock01D.obj"){
-                    
-//                 } else if (otherObjectName == "Bridge01D.obj"){
-                    
-//                 }
-
-//                 // restart footstep lockout
-//                 start_footstep_lockout = std::chrono::steady_clock::now();
-//             }
-           
-//         }
-        
-        
-        
-//     }
-// }
-
-
-// void PersonController::onCollisionEnd(size_t collisionId) {
-//     std::cout << "Collision end "<<collisionId<<std::endl;
-// }
