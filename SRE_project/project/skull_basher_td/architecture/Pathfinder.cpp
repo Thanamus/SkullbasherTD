@@ -11,9 +11,9 @@
 using namespace glm;
 Pathfinder::Pathfinder(GameObject* _gameObject)
 : gameObject(_gameObject) {
-    // Pathfinder::moveSpeed = 0.1f; //not sure if the declaration in the .hpp file is working
-    currentPathIndex = GameManager::getInstance().getFirstPathIndex();
-    // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
+
+    // initialise pathfinder
+    currentPathIndex = GameManager::getInstance().getFirstPathIndex(); // get the first index (can change depending on how long the path is)
     fetchNextPathPoint();
     currentPosition = gameObject->getComponent<Transform>()->position;
     startPathPoint = currentPosition;
@@ -21,34 +21,32 @@ Pathfinder::Pathfinder(GameObject* _gameObject)
 }
 
 void Pathfinder::fetchNextPathPoint(){
+
     if (currentPathIndex > 0)
         currentPathIndex -= 1;
     nextPathPoint = GameManager::getInstance().getPathPoint(currentPathIndex);
 }
 
 void Pathfinder::update(float deltaTime) {
-    // std::cout << "delta time is: " << deltaTime << "\n";
-    // std::cout << "I am a skull, my current path index is: " << currentPathIndex << "\n";
     if (moving) {
-        //only if the skull has been set to moving it should move
-        //get current position
-//        bool rigidBodyCheck = false;
-        btRigidBody* rigidBody = nullptr;
+        //only if the skull has been set to moving it should move along the path
+        
+        btRigidBody* rigidBody = nullptr; // init a rigid body
 
         auto transformComp = gameObject->getComponent<Transform>();
         auto rigidBodyComp = gameObject->getComponent<RigidBody>();
+
         if(rigidBodyComp)
-            rigidBody = rigidBodyComp->getRigidBody();
+            rigidBody = rigidBodyComp->getRigidBody(); // if skull has rigid body, get it
+
         if (rigidBody) {
+            // skull has rigid body, get the current position of it
             btTransform currentTransform = rigidBody->getWorldTransform();
             auto & origin = currentTransform.getOrigin();
             currentPosition = {origin.x(), origin.y(), origin.z()};
         } else if (transformComp)
-            currentPosition = transformComp->position;
-        // std::cout << "I am a skull, my current position is: " << currentPosition.x << "\n";
+            currentPosition = transformComp->position; // no rigid body, use Transform instead
 
-        // get nextposition
-        // if (currentPosition.x == nextPathPoint.x && currentPosition.z == nextPathPoint.z)
         auto error = 0.5f;
         if (abs(currentPosition.x - nextPathPoint.x) <= error && abs(currentPosition.z - nextPathPoint.z) <= error) {
             startPathPoint = nextPathPoint;
@@ -62,26 +60,19 @@ void Pathfinder::update(float deltaTime) {
             currentPosition.y = 0;
             direction =  glm::normalize(nextPathPoint - startPathPoint);
         }
-        // std::cout << "I am a skull, I should be moving to: " << nextPathPoint.x << "\n";
-        // move skull
+
+
         // mix currentposition with next path point and delta time
         // TODO: review
         nextPosition = currentPosition + moveSpeed * direction * deltaTime;
         nextPosition.y = 0; // make sure it's on ground
 
-
-        // std::cout << "I am a skull, I should be moving to: " << nextPosition.x << "\n";
-        // gameObject->getComponent<Transform>()->lookAt(nextPosition, glm::vec3(0, 1, 0));
-
-////
-//        if(transformComp)
-//            transformComp->lookAt(nextPosition, glm::vec3(0, 1, 0));
-        //update transform
+        // update the world transform of the skull (make it move)
         if (rigidBody) {
+            // convert Transform vriables to bullet variables
             btVector3 nextBtPosition = {nextPosition.x, nextPosition.y, nextPosition.z};
             btTransform transform = rigidBody->getWorldTransform();
             transform.setOrigin(nextBtPosition);
-            // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
 
             if (transformComp) {
                 // Set orientation
@@ -89,26 +80,17 @@ void Pathfinder::update(float deltaTime) {
                 btQuaternion aroundX;
                 aroundX.setRotation(btVector3(0,-1,0), radians(newRotation)); // works, but the objects face the wrong way?
                 transform.setRotation(aroundX);
-                // hasRigidBody->applyCentralImpulse(btVector3{0.01, 0.01, 0.01});
-                // hasRigidBody->setWorldTransform(transform); // it works!!!!
                 rigidBody->setCenterOfMassTransform(transform);
-                // btScalar totalForce = hasRigidBody->getLinearVelocity().length();
-                // std::cout << "force on skull is: " << totalForce << std::endl;
-                // std::cout << "nest position should be: " << nextBtPosition.x() << std::endl;
-                /* code */
             }
-            rigidBody->getMotionState()->setWorldTransform(transform); // it works!!!!
-            rigidBody->activate(true);
-            // hasRigidBody->setActivationState(DISABLE_DEACTIVATION);
+            rigidBody->getMotionState()->setWorldTransform(transform); 
+            rigidBody->activate(true); // activate skull (to make sure it collides with things)
         }
-        /* I think position gets updated from RigidBody already*/
-        // gameObject->getComponent<Transform>()->position = nextPosition; 
-
-        //currentTransform->position = nextPosition;
     }
 }
 
 void Pathfinder::setMoving(bool incomingMovingStatus){
+    // change moving status and do special things on this event
+
     moving = incomingMovingStatus;
     if (moving == true)
     {
@@ -116,11 +98,10 @@ void Pathfinder::setMoving(bool incomingMovingStatus){
         std::string moveSound;
         gameObject->getComponent<PlaylistComponent>()->getSoundEffectName("spawn", moveSound);
         /* play sound */
-        SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
+        SourceManager * mySourceManager = SourceManager::Get();
         mySourceManager->playMyJam(moveSound, currentPosition, 40.f);
     }
 
-    //play sound
 }
 
 bool Pathfinder::isMoving() const{
@@ -154,11 +135,3 @@ const vec3 &Pathfinder::getDirection() const {
 glm::vec3 Pathfinder::previewPathPoint(int pathIndex) {
     return GameManager::getInstance().getPathPoint(pathIndex);
 }
-
-//    void Pathfinder::setMoveSpeed(float incoming_move_speed){
-//        moveSpeed = incoming_move_speed;
-//    }
-//
-//    float Pathfinder::getMoveSpeed(){
-//        return moveSpeed;
-//    }
