@@ -49,8 +49,8 @@
 SceneManager::SceneManager()
 {
     loadLevelsData();
-    coinAnimation = std::make_shared<Animation>(true);
-    coinAnimation->addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(360), 3.f);
+    coinAnimation.setLooping(true);
+    coinAnimation.addFrame(glm::vec3( 0), glm::vec3(1), glm::vec3(360), 3.f);
     coinModel = Model::create().withOBJ(".\\assets\\Coins.obj").withName("coin").build();
 }
 
@@ -614,7 +614,7 @@ void SceneManager::SpawnCoin(float money,glm::vec3 position) {
     //TODO: review animation
 
     auto coinAN = coin->addComponent<AnimatorComponent>();
-    coinAN->addAnimation("rotate", coinAnimation);
+    coinAN->addAnimation("rotate", std::make_shared<Animation>(coinAnimation));
     coinAN->setAnimationState("rotate");
     auto bounds = coinMR->getMesh()->getBoundsMinMax();
 

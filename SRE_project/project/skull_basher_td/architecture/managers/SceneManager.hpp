@@ -12,6 +12,7 @@
 #include "../scenes/LevelScene.hpp"
 #include "../scenes/MainMenuScene.hpp"
 #include "../rapidjson/document.h"
+#include "../components/animation/Animation.hpp"
 #include <utility>
 #include <vector>
 #include <string>
@@ -74,7 +75,7 @@ public:
     void SpawnCoin(float money,glm::vec3 position);
 private:
     std::shared_ptr<Model> coinModel;
-    std::shared_ptr<Animation> coinAnimation;
+    Animation coinAnimation;
     std::vector<std::shared_ptr<LevelData>> levelsData;
     void loadLevelsData();
     void loadLevelsMap(const std::string& filename, std::shared_ptr<Scene> res);
