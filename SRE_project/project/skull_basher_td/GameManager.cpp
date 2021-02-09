@@ -71,17 +71,17 @@ void GameManager::init() {
     quit = false;
     buildModeActive = false;
 
-    bool levelRunning = true;
-    bool won = false;
-    bool paused = false;
+    levelRunning = true;
+    won = false;
+    paused = false;
 
     crystal = nullptr;
 
     // Player stats
-    int score = 40;
+    score = 40;
 
     //path
-    path.clear();
+    //path.clear();
     waveAndEnemies.clear();
     waveAndTimeBetweens.clear();
 
