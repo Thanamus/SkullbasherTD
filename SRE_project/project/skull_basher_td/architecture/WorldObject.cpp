@@ -1,5 +1,6 @@
 
 #include "WorldObject.hpp"
+#include "./GameObject.hpp"
 
 WorldObject::WorldObject(GameObject* gameObject) : Component(gameObject)
 {

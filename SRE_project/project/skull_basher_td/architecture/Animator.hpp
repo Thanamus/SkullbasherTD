@@ -7,6 +7,12 @@
 #include "Updatable.hpp"
 #include "Component.hpp"
 
+#include "glm/glm.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+
 struct TransformData {
     glm::vec3 position;
     glm::vec3 scale;

@@ -44,6 +44,10 @@
 #include <iostream>
 #include <utility>
 
+#include <glm/gtc/quaternion.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
+
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
 
