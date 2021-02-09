@@ -7,8 +7,10 @@
 
 #include "Model.hpp"
 #include "Component.hpp"
-#include "GameObject.hpp"
+// #include "GameObject.hpp"
 #include "Renderable.hpp"
+
+class GameObject;
 
 class ModelRenderer : public Component, public Renderable {
 public:

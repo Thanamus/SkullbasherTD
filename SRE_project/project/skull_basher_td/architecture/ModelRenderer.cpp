@@ -5,6 +5,7 @@
 #include "ModelRenderer.hpp"
 #include <imgui.h>
 #include "Transform.hpp"
+#include "GameObject.hpp"
 
 using namespace sre;
 
