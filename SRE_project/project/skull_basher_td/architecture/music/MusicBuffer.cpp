@@ -13,6 +13,7 @@
 
 static MusicBuffer* _instance = nullptr;
 MusicBuffer * MusicBuffer::Get(){
+	// Singleton pattern
 	Init();
 	return _instance;
 }
@@ -22,6 +23,7 @@ void MusicBuffer::Init(){
 }
 
 void MusicBuffer::Load(const char* filename){
+	// load the file and open the decoder for processing the file
 	m_filename = filename;
 	OpenDecoder();
 }

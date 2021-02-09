@@ -27,6 +27,11 @@
 #include <sre/Inspector.hpp>
 
 
+/*
+    WorldObject is a simple component class that holds some extra information on the map tiles that make up the levels
+*/
+
+
 class WorldObject : public Component  {
 public:
     explicit WorldObject(GameObject* gameObject);
@@ -41,7 +46,7 @@ public:
 
 
 private:
-    bool isbuildable = false;
-    bool isPath = false;
+    bool isbuildable = false; // determines if the tile can be built on
+    bool isPath = false; // determines if the tile is part of the path
 };
 

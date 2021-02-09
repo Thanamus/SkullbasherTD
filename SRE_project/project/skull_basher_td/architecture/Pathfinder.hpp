@@ -4,6 +4,11 @@
 #include "glm/glm.hpp"
 #include "../GameManager.hpp"
 
+/*
+    Pathfinder moves the eneimes along the 'path'.
+*/
+
+
 class Pathfinder {
 public:
     explicit Pathfinder(GameObject* _gameObject);

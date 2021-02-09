@@ -14,30 +14,25 @@
 
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 
+/*
+    Ghost object is experimental. It was used as an attempt to get kinematic objects colliding
+*/
 
 GhostObject::GhostObject(GameObject* gameObject) : Component(gameObject) {
-    transform = gameObject->getComponent<Transform>().get();
+    transform = gameObject->getComponent<Transform>().get(); // attaches the ghost object to a game object
 
 }
 
 GhostObject::~GhostObject() {
-    // if (rigidBody){
-    //     delete fallMotionState;
-    //     delete shape;
-	// 	if (gameObject->getScene()->bulletPhysics){
-	// 		gameObject->getScene()->bulletPhysics->world->removeRigidBody(rigidBody);
-	// 	}
-    //     delete rigidBody;
-    // }
+
 }
 
-// btRigidBody* GhostObject::getRigidBody(){
-//     return rigidBody;
-// }
+
 
 void GhostObject::updateTransformFromPhysicsWorld(){
+    // if the game object moves in the physics world, it should update the game object's transform
     btTransform pTransform;
-    // ghostObject->getMotionState()->getWorldTransform(pTransform);
+
     pTransform = ghostObject->getWorldTransform();
     auto & origin = pTransform.getOrigin();
     transform->position = {origin.x(), origin.y(), origin.z()};
@@ -47,10 +42,11 @@ void GhostObject::updateTransformFromPhysicsWorld(){
 }
 
 void GhostObject::initGhostObjectWithSphere(float radius){
-        // ghostObject = new btGhostObject();
+
+        // ghostObject = new btGhostObject(); // not sure if btGhostObject or btPairCachingGhostObject is needed
         ghostObject = new btPairCachingGhostObject;
 		// ghostObject->setCollisionShape(new btBoxShape(btVector3(btScalar(50.),btScalar(50.),btScalar(50.))));
-		ghostObject->setCollisionShape(new btBoxShape(btVector3(btScalar(1.),btScalar(1.),btScalar(1.))));
+		ghostObject->setCollisionShape(new btBoxShape(btVector3(btScalar(1.),btScalar(1.),btScalar(1.)))); // Sphere shape not used. rembmer this is experimental and not used
 		
         // adding transform for ghost object
         auto pos = transform->position;
@@ -58,7 +54,7 @@ void GhostObject::initGhostObjectWithSphere(float radius){
         glm::quat rotQ = glm::quat_cast(rot);
 
         btTransform initialTransform =
-            btTransform(btQuaternion(rotQ.x, rotQ.y, rotQ.z, rotQ.w), btVector3(pos.x, pos.y, pos.z));
+        btTransform(btQuaternion(rotQ.x, rotQ.y, rotQ.z, rotQ.w), btVector3(pos.x, pos.y, pos.z));
         ghostObject->setWorldTransform(initialTransform);
         auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
 		// m_dynamicsWorld->addCollisionObject(ghostObject);
@@ -68,29 +64,10 @@ void GhostObject::initGhostObjectWithSphere(float radius){
         ghostObject->setUserPointer(this);
         ghostObject->setCollisionFlags(ghostObject->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
         ghostObject->setActivationState(DISABLE_DEACTIVATION);
-        // ghostObject->setCollisionFlags(ghostObject->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
-//    if (rigidBody){
-//         physicsWorld->removeRigidBody(rigidBody);
-//         delete rigidBody;
-//     }
-//     rigidBody = new btRigidBody(info);
-//     rigidBody->setUserPointer(this);
-
-    // physicsWorld->addRigidBody(rigidBody);
-    // physicsWorld->addRigidBody(ghostObject);
         
 }
 
 btGhostObject* GhostObject::getGhostObject(){
+    // return a pointer to the ghost object
     return ghostObject;
 }
-
-// void GhostObject::motorPreTickCallback (btDynamicsWorld *world, btScalar timeStep)
-// {
-    
-//   	for(int i = 0; i < ghostObject->getNumOverlappingObjects(); i++)
-//  	{
-//                 btRigidBody *pRigidBody = dynamic_cast<btRigidBody *>(ghostObject->getOverlappingObject(i));
-//                // do whatever you want to do with these pairs of colliding objects
-//      }
-// }

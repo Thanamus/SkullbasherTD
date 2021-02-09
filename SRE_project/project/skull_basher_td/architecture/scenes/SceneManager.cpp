@@ -243,6 +243,7 @@ float SceneManager::createScaledBounds(float boundSideZero, float boundSideOne, 
     return (fabs(boundSideZero + (scale * 2)) + fabs(boundSideOne + (scale * 2)))/factor;
 }
 
+// adds the levels sound effects from the level file
 void SceneManager::loadLevelsSound(const std::string& filename) {
     using namespace rapidjson;
     std::ifstream fis(filename);
@@ -251,8 +252,8 @@ void SceneManager::loadLevelsSound(const std::string& filename) {
     d.ParseStream(isw);
 
     // ----------------- LOAD SOUNDS --------------------------
-    int howManySounds = d["soundEffects"].GetArray().Size();
-    auto mySoundEffectsLibrary = SoundEffectsLibrary::Get();
+    int howManySounds = d["soundEffects"].GetArray().Size(); // how many sounds to load
+    auto mySoundEffectsLibrary = SoundEffectsLibrary::Get(); // get the library - for adding sounds to
 
     for (size_t sound = 0; sound < howManySounds; sound++){
         //Go through the list of sounds and add them to the soundsEffectsLibrary
@@ -280,26 +281,29 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
     spawnPointZ = d["playerSpawnPoint"].GetArray()[2].GetFloat();
     playerSpawnPoint = {spawnPointX,spawnPointY,spawnPointZ};
 
+//--------------- initialse players starting money
     GameManager::getInstance().setScore(d["startMoney"].GetFloat());
 
     playerSpawnRotation = d["playerSpawnRotation"].GetFloat();
-    std::cout << " spawnPointRotation should be: " << playerSpawnRotation << std::endl;
+    // std::cout << " spawnPointRotation should be: " << playerSpawnRotation << std::endl;
 
+//---------------- put the player on the spawn point
     auto tempCam = currentScene->cameras[0]->getGameObject();
     tempCam->getComponent<Transform>()->position = playerSpawnPoint;
     tempCam->getComponent<Transform>()->rotation.y = playerSpawnRotation;
 
+//----------- setup camera positioning
     glm::vec3 glmCameraPosition =  tempCam->getComponent<Transform>()->position;
     btTransform transform;
     btVector3 btCameraPosition = {glmCameraPosition.x, glmCameraPosition.y, glmCameraPosition.z};
     transform.setOrigin(btCameraPosition);
 
-    std::cout << " spawnPointRotation is actually:  " << tempCam->getComponent<Transform>()->rotation.y << std::endl;
-
+    // std::cout << " spawnPointRotation is actually:  " << tempCam->getComponent<Transform>()->rotation.y << std::endl;
     glm::quat inputQuat = glm::quat(tempCam->getComponent<Transform>()->rotation);
     btQuaternion btInputQuat = {inputQuat.x, -inputQuat.y, inputQuat.z, inputQuat.w,};
     transform.setRotation(btInputQuat);
 
+    // set the rigid bodie's transform based on camera + player position
     tempCam->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
 
 // ------------------- end setting player Spawn point
@@ -331,7 +335,7 @@ std::cout << "loading tiles" << std::endl;
     std::vector<std::shared_ptr<sre::Material>> materialsLoaded;
 
     std::vector<glm::vec3> pathBuffer;
-    bool reversePathBuffer = false;
+    bool reversePathBuffer = false; // some sections of the path need to be added to the path in reverse
     std::cout << "starting tile iteration" << std::endl;
 
     for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
@@ -345,7 +349,6 @@ std::cout << "loading tiles" << std::endl;
             double tileHeight = tileHeightOffset + heightFactor;
 
             //variables defined here, attempting to save processing power
-
             int columnArrayCount = d["tileMap"][row].GetArray()[heightFactor].GetArray().Size();
             for (size_t column = 0; column < columnArrayCount; column++)
             {
@@ -356,7 +359,7 @@ std::cout << "loading tiles" << std::endl;
                     tileTypeStr = std::to_string(tileTypeInt);
                     const char *c = tileTypeStr.c_str();
 
-                    //get position and rotation of the block
+                    //get position, scale and rotation of the block
 //                    std::cout << "featching tile from lookup" << std::endl;
                     rotationHolder = d["MapLookup"][c]["rotation"].GetFloat();
 
@@ -386,22 +389,24 @@ std::cout << "loading tiles" << std::endl;
 
                     // NEW
                     mapTileMR->setModel(modelHolder);
-//
+
 //                    std::cout << "tile position" << std::endl;
                     float xOffset = d["MapLookup"][c]["posOffset"]["x"].GetFloat();
                     float yOffset = d["MapLookup"][c]["posOffset"]["y"].GetFloat();
                     float zOffset = d["MapLookup"][c]["posOffset"]["z"].GetFloat();
-
+                    
+                    // offset the tiles position
                     positionHolder.x += xOffset;
                     positionHolder.y += yOffset;
                     positionHolder.z += zOffset;
 
+                    // set the position, rotation and scale of the tile
                     mapTile->getComponent<Transform>()->position = positionHolder;
                     mapTile->getComponent<Transform>()->rotation.y = rotationHolder;
-
                     mapTile->getComponent<Transform>()->scale = scaleHolder;
                     auto bounds = mapTileMR->getMesh()->getBoundsMinMax();
-
+                    
+                    // add rigid body to the tile
 //                    std::cout << "tile collision" << std::endl;
                     collisionHolder.x = d["MapLookup"][c]["collision"]["x"].GetFloat();
                     collisionHolder.y = d["MapLookup"][c]["collision"]["y"].GetFloat();
@@ -413,14 +418,9 @@ std::cout << "loading tiles" << std::endl;
 
                     mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER | PROJECTILES);
 
-                    // mapTile->addComponent<RigidBody>()->initRigidBodyWithBox(bounds[0],0);
-                    // worldTiles.push_back(mapTile); //Push the new map tile into the map tiles vector
-                    // gameObjects.push_back(mapTile);
-//                    std::cout << "pushing back path" << std::endl;
                     if (isPathHolder)
-                    {
+                    { // if the tile is part of the path, add it to the path buffer
                         pathBuffer.push_back(positionHolder);
-
                         //check if reverseBuffer should be set
                         reversePathBuffer = d["MapLookup"][c]["reversePathBuffer"].GetBool(); //a 'reverseBuffer' parameter tells the game that the path section needs to be loaded in reverse
                     }
@@ -444,6 +444,7 @@ std::cout << "loading tiles" << std::endl;
         reversePathBuffer = false;
     }
 
+    // hand over the whole path to the Game Manager
     GameManager::getInstance().setPath(pathHolder);
     // ------------ end loading tiles
 
@@ -510,7 +511,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
             scaleHolder.y = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["y"].GetFloat();// scale
             scaleHolder.z = d["enemyLookup"][enemyTypeChar]["scaleFactors"]["z"].GetFloat();// scale
 
-
+            // get what model to use for the enemy
             modelName = d["enemyLookup"][enemyTypeChar]["object"].GetString();
 
             //Load the model from file
@@ -519,30 +520,34 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
             std::cout << "Asset folder: " << filePath << "\n";
             std::cout << "Model Name: " << modelName << "\n";
 
+            // set the enemies movement speed
             float enemyMoveSpeed = d["enemyLookup"][enemyTypeChar]["moveSpeed"].GetFloat();
-            // //create the world object map tile
+
+            // make the enemy
             for (int anEnemy = 0; anEnemy < howManyOfEnemyType; anEnemy++) {
                 //create game object
                 auto enemy = res->createGameObject(modelName);
                 auto enemyTR = enemy->getComponent<Transform>();
-                // std::cout << "model Name: " << modelName << "\n";
                 auto enemyMR = enemy->addComponent<ModelRenderer>();
                 auto enemyAN = enemy->addComponent<Animator>();
                 enemyMR->setModel(modelHolder);
                 enemyTR->setModelRenderer(enemyMR);
                 enemyTR->setAnimator(enemyAN);
 
+                // set the enemies animation
                 auto idleAnimation = std::make_shared<Animation>(true);
                 idleAnimation->addFrame(glm::vec3(0, 0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
                 idleAnimation->addFrame(glm::vec3(0, -0.5, 0), glm::vec3(1), glm::vec3(0), .5f);
                 enemyAN->addAnimation("idle", idleAnimation);
                 enemyAN->setAnimationState("idle");
 
+                // set the enemies transform
                 enemyTR->position = positionHolder;
                 enemyTR->rotation.y = rotationHolder;
                 enemyTR->scale = scaleHolder;
                 auto bounds = enemyMR->getMesh()->getBoundsMinMax();
 
+                // set the enemies rigid body
                 std::cout << "adding collisions to enemy" << std::endl;
                 collisionHolder.x = d["enemyLookup"][enemyTypeChar]["collision"]["x"].GetFloat();
                 collisionHolder.y = d["enemyLookup"][enemyTypeChar]["collision"]["y"].GetFloat();
@@ -558,7 +563,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 // skulls should not be moved by external forces
                 enemyRB->getRigidBody()->setLinearFactor({0,0,0});
                 enemyRB->getRigidBody()->setAngularFactor({0,0,0});
-                // skulls should never deactivate
+                // skulls should never deactivate - this might be changed for improved performance
                 enemyRB->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
                 enemy->addComponent<EnemyCollisionHandler>();
 
@@ -591,6 +596,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
 
                 //--------- end add playlist to enemy
 
+                // log creation - could be removed for performance
                 std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
                 std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
                 std::cout << "created enemy with wave number: " << wave << std::endl;
@@ -602,6 +608,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
     }
 }
 
+// spawns a coin object
 void SceneManager::SpawnCoin(float money,glm::vec3 position) {
     auto coin = currentScene->createGameObject("Coin");
     auto coinTR = coin->getComponent<Transform>();

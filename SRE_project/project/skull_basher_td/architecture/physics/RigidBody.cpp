@@ -16,9 +16,10 @@
 
 
 RigidBody::RigidBody(GameObject* gameObject) : Component(gameObject) {
-    transform = gameObject->getComponent<Transform>().get();
+    transform = gameObject->getComponent<Transform>().get(); // sets up the new rigid body to use the game objects Transform
 }
 
+// remove the (bulet) rigid body from the dynamics world when deleting the component
 RigidBody::~RigidBody() {
     transform = nullptr;
     if (rigidBody) {
@@ -32,11 +33,10 @@ RigidBody::~RigidBody() {
 }
 
 btRigidBody* RigidBody::getRigidBody(){
-    return rigidBody;
+    return rigidBody; // returns the (bullet) rigid body
 }
 
 void RigidBody::updateTransformFromPhysicsWorld(){
-//        std::cerr<<"Belongs to" << gameObject->getName() << std::endl;
         btTransform pTransform;
         if(rigidBody) {
             pTransform  = rigidBody->getWorldTransform();
@@ -54,17 +54,17 @@ void RigidBody::updateTransformFromPhysicsWorld(){
         }
 }
 
+// adds (bullet) rigid body to the physics world - common to all shapes
+// version that also adds masks and group fileters
 void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info, short group, short mask){
-    auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
-    
-    // std::cout << "rigid body made with shape: " << info.m_collisionShape->getShapeType() << std::endl;
-
-    if (rigidBody){
+    auto physicsWorld = gameObject->getScene()->bulletPhysics->world; // get the physics world
+   
+    if (rigidBody){ // make sure that there is only one rigid body on the game object
         physicsWorld->removeRigidBody(rigidBody);
         delete rigidBody;
     }
     rigidBody = new btRigidBody(info);
-    rigidBody->setUserPointer(this);
+    rigidBody->setUserPointer(this); // user pointer is the 'game object' - for use in collision handling later
     const int CF_CUSTOM_MATERIAL_CALLBACK = 8;
 
 //    // --- new stuff for trying to implement kinematic physics
@@ -99,7 +99,8 @@ void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& in
     physicsWorld->addRigidBody(rigidBody, group, mask);
 }
 
-
+// adds (bullet) rigid body to the physics world - common to all shapes
+// version without mask and group filtering
 void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info){
     auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
     if (rigidBody){
@@ -122,10 +123,11 @@ void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& in
 //        // rigidBody->forceActivationState(DISABLE_DEACTIVATION);
 //    }
 
-    // ---------- end
+    // ---------- end trying to add kinematic physics
     physicsWorld->addRigidBody(rigidBody);
 }
 
+// init a sphere shape collision object (no custom filters)
 void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
     delete fallMotionState;
     delete shape;
@@ -212,7 +214,7 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, s
 
 }
 
-
+// init a box shape collision object (no custom filters)
 void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
     delete fallMotionState;
     delete shape;
@@ -267,6 +269,7 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short gro
 
 }
 
+// init a plane shape collision object (no custom filters)
 void RigidBody::initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeDist) {
     delete fallMotionState;
     delete shape;
@@ -284,7 +287,7 @@ void RigidBody::initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeD
 
 
 // additions
-
+// can probably remove this
 void RigidBody::setLinearVelocityOnRigidBody(btVector3 linear_velocity){
     rigidBody->setLinearVelocity(linear_velocity);
     btVector3 test = rigidBody->getLinearVelocity();

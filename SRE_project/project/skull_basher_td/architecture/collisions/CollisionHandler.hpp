@@ -9,6 +9,10 @@
 class RigidBody;
 class GameObject;
 
+/*
+    abstract collision handler class, specific handlers inherit from this
+*/
+
 class CollisionHandler {
 public:
     // virtual void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) = 0; // begin or update

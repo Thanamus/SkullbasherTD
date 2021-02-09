@@ -13,6 +13,10 @@ class Scene;
 // class btGhostPairCallback;
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 
+/*
+    BulletPhysics is the core physics class
+*/
+
 class BulletPhysics {
 public:
     BulletPhysics();
@@ -26,17 +30,12 @@ public:
     void debugDrawNewFrame();
     void debugDraw(sre::RenderPass& renderPass);
     bool BulletPhysics::RaycastWorld(const glm::vec3 &Start, glm::vec3 &End);
-    // void GetCollidingObjectsInsidePairCachingGhostObject(btDiscreteDynamicsWorld* m_dynamicsWorld,btPairCachingGhostObject* m_pairCachingGhostObject,btAlignedObjectArray < btCollisionObject* >& collisionArrayOut);
 private:
     btBroadphaseInterface* broadphase;
     btDefaultCollisionConfiguration* collisionConfiguration;
     btCollisionDispatcher* dispatcher;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld* world;
-
-    // btGhostPairCallback* m_ghostPairCallback = NULL;				// Needed once to enable ghost objects inside Bullet
-    // btGhostObject* m_ghostObject = NULL;							// simple aabb ghost object (keeps track of the objects whose aabbs intersect its own collision shape aabb: this is called "broadphase stage collision detection")
-    // btPairCachingGhostObject* m_pairCachingGhostObject=NULL;
 
     glm::vec3 gravity = {0, -9.8f, 0};
     float timeStep = 1/60.0f;
