@@ -7,10 +7,12 @@ WorldObject::WorldObject(GameObject* gameObject) : Component(gameObject)
 }
 
 void WorldObject::setBuildable(bool isBuildable){
+    // Set buildable status
     this->isbuildable = isBuildable;
 }
 
 void WorldObject::setIsPath(bool isPath){
+    // set the block as a path block
     this->isPath = isPath;
 }
 
