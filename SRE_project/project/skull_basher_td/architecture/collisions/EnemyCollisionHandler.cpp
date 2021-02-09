@@ -1,8 +1,6 @@
 
 #include "../GameObject.hpp"
 
-#define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/string_cast.hpp"
 #include "EnemyCollisionHandler.hpp"
 #include "../health/CrystalHealth.hpp"
 #include "../../GameManager.hpp"

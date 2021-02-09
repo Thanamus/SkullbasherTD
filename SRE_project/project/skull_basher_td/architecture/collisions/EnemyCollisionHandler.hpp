@@ -7,7 +7,6 @@
 class Component;
 class CollisionHandler;
 class GameObject;
-class RigidBody;
 
 /*
  Collision handler that gets attached to 'enemy' game objects

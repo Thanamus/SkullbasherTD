@@ -7,7 +7,6 @@
 class Component;
 class CollisionHandler;
 class GameObject;
-class RigidBody;
 
 class ProjectileCollisionHandler : public Component, public CollisionHandler {
 public:

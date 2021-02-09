@@ -9,7 +9,6 @@
 class Component;
 class CollisionHandler;
 class GameObject;
-class RigidBody;
 
 class PlayerCollisionHandler : public Component, public CollisionHandler {
 public:

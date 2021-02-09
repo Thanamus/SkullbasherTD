@@ -7,7 +7,6 @@
 class Component;
 class CollisionHandler;
 class GameObject;
-class RigidBody;
 
 /*
     coin collision handler processes collisions on the coin game objects

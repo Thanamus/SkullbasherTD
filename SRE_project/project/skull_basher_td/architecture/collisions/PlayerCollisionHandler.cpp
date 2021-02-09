@@ -11,8 +11,6 @@
 // sound includes
 #include "../sound/SourceManager.hpp"
 
-#define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/string_cast.hpp"
 #include "../WorldObject.hpp"
 
 class GameObject; // needed for referencing the game object
