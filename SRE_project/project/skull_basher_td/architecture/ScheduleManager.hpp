@@ -1,11 +1,9 @@
 #pragma once
 
-#include "Updatable.hpp"
-// #include "Scene.hpp"
+
 #include <chrono>
 #include <memory>
 
-//std::shared_ptr<Scene> currentScene;
 class Scene;
 
 class ScheduleManager {

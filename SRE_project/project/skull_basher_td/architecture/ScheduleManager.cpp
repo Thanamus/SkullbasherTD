@@ -4,8 +4,6 @@
 #include "GameObject.hpp"
 #include "Pathfinder.hpp"
 
-#include "./music/MusicBuffer.hpp"
-
 ScheduleManager::ScheduleManager(){
     startTime = std::chrono::steady_clock::now();
     lastEnemy = false; // double cover for last enemy
@@ -69,20 +67,6 @@ void ScheduleManager::update(float deltaTime){
                                     //object was the right one, make it go
                                     enemy->getPathfinder()->setMoving(true);
                                     GameManager::getInstance().setTotalEnemiesSpawned(GameManager::getInstance().getTotalEnemiesSpawned() + 1);
-
-                                    //play sound
-                                    // Moved to setMoving
-                                    // SourceManager * mySourceManager = SourceManager::Get(); // apparently worked!
-                                    // mySourceManager->playMyJam_global("pestilence.wav");
-                                    // glm::vec3 testPosition(0,0,0);
-                                    // float testSoundDist = 30.0f;
-                                    // mySourceManager->playMyJam("pestilence.ogg", testPosition, testSoundDist);
-                                    // mySourceManager->playMyJam("pestilence.wav", testPosition, testSoundDist);
-                                    // mySourceManager->playSource((ALuint)1);
-
-                                    // Only for testing the fade out, can be removed
-                                    // MusicBuffer * myMusicBuffer = MusicBuffer::Get();
-                                    // myMusicBuffer->changeTracks(R"(.\assets\music\The-Precipice-of-Victory-MP3.wav)");
 
                                     //make Game Manager Update the enemy and wave
                                     bool updateHappened = GameManager::getInstance().updateAllWaveStats();
