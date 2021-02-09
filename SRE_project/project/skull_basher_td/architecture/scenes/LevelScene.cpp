@@ -11,6 +11,8 @@
 #include "../Light.hpp"
 #include "../physics/RigidBody.hpp"
 #include "../physics/BulletPhysics.hpp"
+#include "../Renderable.hpp"
+#include "../Updatable.hpp"
 
 //fps camera stuff
 #include "../PersonController.hpp"

@@ -25,6 +25,12 @@ class Light;
 class BulletPhysics;
 class RigidBody;
 class ScheduleManager;
+class Scriptable;
+class Targetable;
+class EnemyComponent;
+class RenderableGui;
+class GuiManager;
+class Updatable;
 
 class Scene {
 public:
