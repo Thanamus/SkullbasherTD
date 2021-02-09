@@ -4,15 +4,15 @@
 
 #pragma once
 
-#include "../Renderable.hpp"
-#include "../Updatable.hpp"
+#include "../mixins/Renderable.hpp"
+#include "../mixins/Updatable.hpp"
 #include "glm/glm.hpp"
-#include "../../GuiManager.hpp"
-#include "../ScheduleManager.hpp"
-#include "../RenderableGui.hpp"
-#include "../Scriptable.hpp"
-#include "../EnemyComponent.hpp"
-#include "../Targetable.hpp"
+#include "../managers/GuiManager.hpp"
+#include "../managers/ScheduleManager.hpp"
+#include "../mixins/RenderableGui.hpp"
+#include "../mixins/Scriptable.hpp"
+#include "../components/game_entities/enemies/EnemyComponent.hpp"
+#include "../mixins/Targetable.hpp"
 
 #include <vector>
 #include <string>
@@ -85,7 +85,7 @@ protected:
     double tilePosOffset = 1;
 private:
     friend class GameObject;
-    friend class RigidBody;
+    friend class RigidBodyComponent;
     friend class GhostObject;
     friend class MainMenuGuiManager;
 };

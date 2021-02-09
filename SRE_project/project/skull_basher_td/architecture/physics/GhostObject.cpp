@@ -3,8 +3,8 @@
 //
 
 #include "GhostObject.hpp"
-#include "../GameObject.hpp"
-#include "../TransformComponent.hpp"
+#include "../scenes/GameObject.hpp"
+#include "../components/TransformComponent.hpp"
 #include "BulletPhysics.hpp"
 #include "glm/glm.hpp"
 #include <glm/gtc/quaternion.hpp>

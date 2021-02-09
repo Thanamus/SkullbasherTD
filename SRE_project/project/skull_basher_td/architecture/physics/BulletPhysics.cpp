@@ -3,9 +3,9 @@
 //
 
 #include "BulletPhysics.hpp"
-#include "RigidBodyComponent.hpp"
+#include "../components/physics/RigidBodyComponent.hpp"
 #include "GhostObject.hpp"
-#include "../GameObject.hpp"
+#include "../scenes/GameObject.hpp"
 #include "../scenes/Scene.hpp"
 
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"

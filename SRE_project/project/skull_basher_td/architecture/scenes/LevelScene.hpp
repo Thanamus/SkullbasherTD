@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "../Renderable.hpp"
-#include "../Updatable.hpp"
+#include "../mixins/Renderable.hpp"
+#include "../mixins/Updatable.hpp"
 #include "glm/glm.hpp"
-#include "../../GuiManager.hpp"
-#include "../ScheduleManager.hpp"
+#include "../managers/GuiManager.hpp"
+#include "../managers/ScheduleManager.hpp"
 #include "Scene.hpp"
 
 #include <vector>

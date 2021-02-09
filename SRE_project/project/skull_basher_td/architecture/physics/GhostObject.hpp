@@ -2,7 +2,7 @@
 // Created by Morten Nobel Jørgensen on 2018-11-10.
 //
 
-#include "../Component.hpp"
+#include "../components/Component.hpp"
 #include "btBulletDynamicsCommon.h"
 #include "glm/glm.hpp"
 

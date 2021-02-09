@@ -73,7 +73,7 @@ float SoundDevice::GetGain()
 ///#define AL_EXPONENT_DISTANCE                     0xD005
 ///#define AL_EXPONENT_DISTANCE_CLAMPED             0xD006
 /// </param>
-void SoundDevice::SetAttunation(int key)
+void SoundDevice::SetAttenuation(int key)
 {
 	if (key < 0xD001 || key > 0xD006)
 		throw("bad attunation key");
@@ -89,8 +89,7 @@ void SoundDevice::SetAttunation(int key)
 /// <param name="x"></param>
 /// <param name="y"></param>
 /// <param name="z"></param>
-void SoundDevice::SetLocation(const float& x, const float& y, const float& z)
-{
+void SoundDevice::SetLocation(const float& x, const float& y, const float& z) {
 	alListener3f(AL_POSITION, x, y, z);
 	AL_CheckAndThrow();
 }

@@ -1,35 +1,25 @@
 #include <iostream>
 #include "sre/SDLRenderer.hpp"
 #include "scenes/Scene.hpp"
-#include "scenes/SceneManager.hpp"
-#include "GameObject.hpp"
-#include "CameraComponent.hpp"
-#include "ModelRendererComponent.hpp"
-#include "LightComponent.hpp"
+#include "managers/SceneManager.hpp"
+#include "scenes/GameObject.hpp"
+#include "components/game_entities/player/CameraComponent.hpp"
+#include "components/lights/LightComponent.hpp"
 
-#include "./physics/RigidBodyComponent.hpp"
-#include "./collisions/CustomCollisionHandlerComponent.hpp"
+#include "components/physics/RigidBodyComponent.hpp"
 
-#include "PersonControllerComponent.hpp"
+#include "components/game_entities/player/PersonControllerComponent.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/string_cast.hpp"
 #include "./physics/BulletPhysics.hpp"
 #include "Main.hpp"
-#include "sre/Material.hpp"
 
 
 //sound Device
 #include "./sound/SoundDevice.hpp" //i.e a device that is the "Listener"
-#include "./sound/SoundEffectsLibrary.hpp" //i.e. SoundBuffer
-#include "./sound/SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
 #include "./music/MusicBuffer.hpp"
 
 #include "./sound/SourceManager.hpp"
-#include "../LevelGuiManager.hpp"
-#include "../MainMenuGuiManager.hpp"
-
-// #include "SoundNode.h"
-// #include "Sound.h"
+#include "managers/LevelGuiManager.hpp"
 
 Main::Main()
 {

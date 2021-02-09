@@ -29,7 +29,7 @@ public:
 
     void debugDrawNewFrame();
     void debugDraw(sre::RenderPass& renderPass);
-    bool BulletPhysics::RaycastWorld(const glm::vec3 &Start, glm::vec3 &End);
+    bool RaycastWorld(const glm::vec3 &Start, glm::vec3 &End);
 private:
     btBroadphaseInterface* broadphase;
     btDefaultCollisionConfiguration* collisionConfiguration;
@@ -43,6 +43,6 @@ private:
 
     BulletDebugDrawSRE debugDrawObj;
 
-    friend class RigidBody;
+    friend class RigidBodyComponent;
     friend class GhostObject;
 };

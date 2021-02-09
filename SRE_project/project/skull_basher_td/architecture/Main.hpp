@@ -2,12 +2,11 @@
 
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
-//#include "../WorldMap.hpp"
-#include "../GuiManager.hpp"
-#include "../GameManager.hpp"
+#include "managers/GuiManager.hpp"
+#include "managers/GameManager.hpp"
 #include "scenes/Scene.hpp"
-#include "./ScheduleManager.hpp"
-#include "scenes/SceneManager.hpp"
+#include "managers/ScheduleManager.hpp"
+#include "managers/SceneManager.hpp"
 
 class SoundEffectsPlayer;
 

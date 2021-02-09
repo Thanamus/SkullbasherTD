@@ -3,17 +3,17 @@
 //
 
 #include <sre/Renderer.hpp>
-#include "../CameraComponent.hpp"
-#include "../physics/RigidBodyComponent.hpp"
-#include "../LightComponent.hpp"
+#include "../components/game_entities/player/CameraComponent.hpp"
+#include "../components/physics/RigidBodyComponent.hpp"
+#include "../components/lights/LightComponent.hpp"
 #include "../physics/BulletPhysics.hpp"
 
 //fps camera stuff
-#include "../PersonControllerComponent.hpp"
+#include "../components/game_entities/player/PersonControllerComponent.hpp"
 
 //WorldMap Imports
     //WorldObjectComponent
-#include "../WorldObjectComponent.hpp"
+#include "../components/game_entities/world/WorldObjectComponent.hpp"
 
 #include "../sound/SoundEffectsLibrary.hpp"
 
@@ -22,10 +22,10 @@
 
 #include <iostream>
 #include "LevelScene.hpp"
-#include "../../GameManager.hpp"
-#include "../ModelRendererComponent.hpp"
-#include "../CoinComponent.hpp"
-#include "../collisions/CoinCollisionHandlerComponent.hpp"
+#include "../managers/GameManager.hpp"
+#include "../components/rendering/ModelRendererComponent.hpp"
+#include "../components/game_entities/coins/CoinComponent.hpp"
+#include "../components/collisions/CoinCollisionHandlerComponent.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
