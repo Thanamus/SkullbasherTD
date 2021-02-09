@@ -1,9 +1,8 @@
 #pragma once
 
-#include "sre/SDLRenderer.hpp"
-#include "sre/Material.hpp"
-#include "GameManager.hpp"
 #include "GuiManager.hpp"
+
+class GameManager;
 
 class LevelGuiManager : public GuiManager
 {
