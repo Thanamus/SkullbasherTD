@@ -21,7 +21,6 @@
 //sound Device
 #include "./sound/SoundDevice.hpp" //i.e a device that is the "Listener"
 #include "./sound/SoundEffectsLibrary.hpp" //i.e. SoundBuffer
-#include "./sound/SoundEffectsPlayer.hpp" //i.e SoundSource or "Speaker" / object that has a voice
 #include "./music/MusicBuffer.hpp"
 
 #include "./sound/SourceManager.hpp"
