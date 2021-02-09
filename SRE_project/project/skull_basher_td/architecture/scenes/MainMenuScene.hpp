@@ -4,24 +4,23 @@
 
 #pragma once
 
-#include "../Renderable.hpp"
-#include "../Updatable.hpp"
-#include "glm/glm.hpp"
-#include "../../MainMenuGuiManager.hpp"
-#include "../ScheduleManager.hpp"
-#include "Scene.hpp"
-
 #include <vector>
 #include <string>
+
+#include "../Renderable.hpp"
+#include "../Updatable.hpp"
+
+#include "../../MainMenuGuiManager.hpp"
+#include "Scene.hpp"
+
+
 
 
 class Camera;
 class GameObject;
 class Component;
 class Light;
-class BulletPhysics;
-class RigidBody;
-class ScheduleManager;
+
 
 class MainMenuScene: public Scene {
 public:

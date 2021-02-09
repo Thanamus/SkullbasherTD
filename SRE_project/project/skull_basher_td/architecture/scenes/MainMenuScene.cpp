@@ -1,23 +1,15 @@
 //
 // Created by Morten Nobel Jørgensen on 2018-11-08.
 //
-#include <sre/Renderer.hpp>
-#include "../Camera.hpp"
-#include "../physics/RigidBody.hpp"
-#include "../Light.hpp"
-#include "../physics/BulletPhysics.hpp"
-
-//fps camera stuff
-#include "../PersonController.hpp"
-
-//WorldMap Imports
-//WorldObject
-#include "../WorldObject.hpp"
-#include "../sound/SoundEffectsLibrary.hpp"
-
-//rapidjson imports
-#include <iostream>
 #include "MainMenuScene.hpp"
+#include <iostream>
+
+#include <sre/Renderer.hpp>
+#include <sre/Inspector.hpp>
+
+#include "../Camera.hpp"
+#include "../Light.hpp"
+
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
