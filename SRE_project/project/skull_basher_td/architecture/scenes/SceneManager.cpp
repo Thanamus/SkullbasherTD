@@ -180,9 +180,10 @@ void SceneManager::changeScene(const std::shared_ptr<LevelData>& sceneData) {
     std::string path = ".\\maps\\";
     path.append(sceneData->fileName);
 
+    GameManager::getInstance().init();
+
     if(sceneData->sceneType == 0)
     {
-        GameManager::getInstance().init();
         auto scene = createScene();
         setCurrentScene(scene);
         getCurrentScene()->guiManager = std::make_shared<LevelGuiManager>();
@@ -197,7 +198,6 @@ void SceneManager::changeScene(const std::shared_ptr<LevelData>& sceneData) {
     }
     else
     {
-        GameManager::getInstance().init();
         auto scene = createMainMenuScene();
         setCurrentScene(scene);
         getCurrentScene()->guiManager = std::make_shared<MainMenuGuiManager>();
