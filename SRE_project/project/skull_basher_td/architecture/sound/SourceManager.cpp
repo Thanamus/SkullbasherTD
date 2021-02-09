@@ -8,7 +8,6 @@
 #include "OpenALErrorCheck.hpp"
 #include "SourceManager.hpp"
 #include "SoundEffectsLibrary.hpp"
-#include "SoundDevice.hpp"
 
 /*
 	Source manager makes a pool of sources that can be used to play sounds

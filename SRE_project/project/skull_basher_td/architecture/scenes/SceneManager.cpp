@@ -39,6 +39,8 @@
 #include "../collisions/CoinCollisionHandler.hpp"
 #include "../lifespans/ProjectileLifespanComponent.hpp"
 
+#include "../ScheduleManager.hpp"
+
 #include <iostream>
 #include <utility>
 

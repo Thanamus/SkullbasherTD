@@ -8,7 +8,7 @@
 #include "../Updatable.hpp"
 #include "glm/glm.hpp"
 #include "../../GuiManager.hpp"
-#include "../ScheduleManager.hpp"
+// #include "../ScheduleManager.hpp"
 #include "LevelScene.hpp"
 #include "MainMenuScene.hpp"
 #include "../rapidjson/document.h"
