@@ -138,8 +138,8 @@ ALuint SoundEffectsLibrary::Load(const char* filename)
 
 		// loadedSounds.emplace(filenameExtract, buffer);
 		loadedSounds[filenameExtract] = (int)buffer;
-		std::cout << "just loaded: " << filenameExtract << std::endl;
-		std::cout << "just loaded buffer: " << buffer << std::endl;
+		// std::cout << "just loaded: " << filenameExtract << std::endl;
+		// std::cout << "just loaded buffer: " << buffer << std::endl;
 		return buffer;
 	} else {
 		// found

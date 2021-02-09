@@ -26,7 +26,7 @@ void EnemyCollisionHandlerComponent::onCollision(size_t collisionId, GameObject*
         { // if other object is the crystal
             stopCollisions = true; // shouldn't handle more collisions with the crystal
             gameObject->setQueuedForDeletion(true); // skull should 'die' on collision with the crystal
-            std::cout << "hit crystal "<<std::endl;
+            // std::cout << "hit crystal "<<std::endl;
 
             // decrease crystal health
             crystal->decreaseHealth(getGameObject()->getComponent<EnemyComponent>()->getDamage());

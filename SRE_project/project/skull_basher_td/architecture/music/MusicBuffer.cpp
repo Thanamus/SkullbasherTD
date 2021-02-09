@@ -31,7 +31,7 @@ void MusicBuffer::Load(const char* filename){
 
 void MusicBuffer::Play()
 {
-	std::cout << "starting to play music: " << p_Source << "\n";
+	// std::cout << "starting to play music: " << p_Source << "\n";
 	ALsizei i;
 
 	// clear any al errors
@@ -132,7 +132,7 @@ void MusicBuffer::UpdateBufferStream()
 		if (queued == 0) {
 			// If Queue is empty, the sound file has reached the end
 			// Restart music
-			std::cout << "attempting to restart music" << std::endl;
+			// std::cout << "attempting to restart music" << std::endl;
 			ResetDecoders(); // To restart means to reload the music file from the start - i.e. start from scratch
 			Play(); // Gets the music to start playing again after being re-queued
 			return; // return
