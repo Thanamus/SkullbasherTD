@@ -3,7 +3,7 @@
 //
 #include <sre/Renderer.hpp>
 #include "../CameraComponent.hpp"
-#include "../physics/RigidBody.hpp"
+#include "../physics/RigidBodyComponent.hpp"
 #include "../LightComponent.hpp"
 #include "../physics/BulletPhysics.hpp"
 

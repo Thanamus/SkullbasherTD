@@ -7,8 +7,8 @@
 #include "ModelRendererComponent.hpp"
 #include "LightComponent.hpp"
 
-#include "./physics/RigidBody.hpp"
-#include "./collisions/CustomCollisionHandler.hpp"
+#include "./physics/RigidBodyComponent.hpp"
+#include "./collisions/CustomCollisionHandlerComponent.hpp"
 
 #include "PersonControllerComponent.hpp"
 #define GLM_ENABLE_EXPERIMENTAL

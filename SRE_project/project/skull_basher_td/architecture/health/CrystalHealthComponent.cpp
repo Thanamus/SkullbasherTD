@@ -1,19 +1,19 @@
 
-#include "CrystalHealth.hpp"
+#include "CrystalHealthComponent.hpp"
 #include "../GameObject.hpp"
 #include "../../GameManager.hpp"
 #include "../music/MusicBuffer.hpp"
 
-CrystalHealth::CrystalHealth(GameObject* gameObject) : HealthComponent(gameObject)
+CrystalHealthComponent::CrystalHealthComponent(GameObject* gameObject) : HealthComponent(gameObject)
 {
 
 }
 
-CrystalHealth::~CrystalHealth()
+CrystalHealthComponent::~CrystalHealthComponent()
 {
 }
 
-void CrystalHealth::HandleHealthChange() {
+void CrystalHealthComponent::HandleHealthChange() {
     if (!GameManager::getInstance().levelRunning)
         return;
 

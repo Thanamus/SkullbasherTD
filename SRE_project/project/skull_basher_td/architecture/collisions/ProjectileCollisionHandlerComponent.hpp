@@ -7,12 +7,12 @@
 class Component;
 class CollisionHandler;
 class GameObject;
-class RigidBody;
+class RigidBodyComponent;
 
-class ProjectileCollisionHandler : public Component, public CollisionHandler {
+class ProjectileCollisionHandlerComponent : public Component, public CollisionHandler {
 public:
-    // explicit CustomCollisionHandler(GameObject *gameObject) : Component(gameObject));
-    explicit ProjectileCollisionHandler(GameObject *gameObject);
+    // explicit CustomCollisionHandlerComponent(GameObject *gameObject) : Component(gameObject));
+    explicit ProjectileCollisionHandlerComponent(GameObject *gameObject);
 
     void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
 

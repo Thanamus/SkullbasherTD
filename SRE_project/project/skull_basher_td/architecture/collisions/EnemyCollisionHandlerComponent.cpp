@@ -1,28 +1,28 @@
 
-#include "CustomCollisionHandler.hpp"
+#include "CustomCollisionHandlerComponent.hpp"
 
 #include "../GameObject.hpp"
-#include "../physics/RigidBody.hpp"
+#include "../physics/RigidBodyComponent.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
-#include "EnemyCollisionHandler.hpp"
-#include "../health/CrystalHealth.hpp"
+#include "EnemyCollisionHandlerComponent.hpp"
+#include "../health/CrystalHealthComponent.hpp"
 #include "../../GameManager.hpp"
 
 class GameObject;
 
 
 
-EnemyCollisionHandler::EnemyCollisionHandler(GameObject* gameObject) : Component(gameObject) {
+EnemyCollisionHandlerComponent::EnemyCollisionHandlerComponent(GameObject* gameObject) : Component(gameObject) {
 
 }
 
-void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
+void EnemyCollisionHandlerComponent::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
     
     //check the collision is the 'first time two obejcts collide' 
     if (begin && !stopCollisions){
-        auto crystal = other->getComponent<CrystalHealth>();
+        auto crystal = other->getComponent<CrystalHealthComponent>();
 //        std::cout << "crystal " << crystal <<std::endl;
         if(crystal != nullptr)
         { // if other object is the crystal
@@ -43,5 +43,5 @@ void EnemyCollisionHandler::onCollision(size_t collisionId, GameObject* other, g
     }
 }
 
-void EnemyCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
+void EnemyCollisionHandlerComponent::onCollisionEnd(size_t collisionId, GameObject *other) {
 }

@@ -4,7 +4,7 @@
 
 #include <sre/Renderer.hpp>
 #include "../CameraComponent.hpp"
-#include "../physics/RigidBody.hpp"
+#include "../physics/RigidBodyComponent.hpp"
 #include "../LightComponent.hpp"
 #include "../physics/BulletPhysics.hpp"
 
@@ -25,7 +25,7 @@
 #include "../../GameManager.hpp"
 #include "../ModelRendererComponent.hpp"
 #include "../CoinComponent.hpp"
-#include "../collisions/CoinCollisionHandler.hpp"
+#include "../collisions/CoinCollisionHandlerComponent.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"

@@ -19,7 +19,7 @@
 
 
 // physics indludes
-#include "./physics/RigidBody.hpp"
+#include "./physics/RigidBodyComponent.hpp"
 
 // #include "CollisionHandler.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
@@ -29,7 +29,7 @@
 #include "./ModelRendererComponent.hpp"
 
 // Arrow Collision Hanlder include
-#include "./collisions/ProjectileCollisionHandler.hpp"
+#include "./collisions/ProjectileCollisionHandlerComponent.hpp"
 
 // game manager include
 #include "../GameManager.hpp"
@@ -46,7 +46,7 @@ PersonControllerComponent::PersonControllerComponent(GameObject* gameObject)
     camera = gameObject->getComponent<CameraComponent>(); // sync the camera variable to the camera component
 
     // get rigid body 
-    btRigidBody* myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    btRigidBody* myBody = gameObject->getComponent<RigidBodyComponent>()->getRigidBody();
     myBody->setAngularFactor({0,0,0}); // disable angular factor (otherwise player could tip over)
     myBody->setActivationState(DISABLE_DEACTIVATION); // disable deactivation
 
@@ -107,7 +107,7 @@ void PersonControllerComponent::update(float deltaTime)
 // ----------------- Update the rigid body -------------------
 
     // Get the person controllers rigid body
-    auto myBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    auto myBody = gameObject->getComponent<RigidBodyComponent>()->getRigidBody();
     // init a transform that will update the rigid body at the end
     btTransform xform;
 
@@ -179,7 +179,7 @@ void PersonControllerComponent::updateVectors()
     camera_fwd = normalize(cross(camera_right,world_up));
 }
 
-// update the transform (rotation and translation) of the PersonControllerComponent's Transform and RigidBody
+// update the transform (rotation and translation) of the PersonControllerComponent's Transform and RigidBodyComponent
 void PersonControllerComponent::updateInput(float deltaTime)
 {
     // updates the rotation, pitch and position variables of the player, based on inputs
@@ -187,7 +187,7 @@ void PersonControllerComponent::updateInput(float deltaTime)
     
     
     // get the player's rigid body
-    btRigidBody* hasRigidBody = gameObject->getComponent<RigidBody>()->getRigidBody();
+    btRigidBody* hasRigidBody = gameObject->getComponent<RigidBodyComponent>()->getRigidBody();
 
     // init a btTransform for storing transform manipulations
     btTransform transform;
@@ -397,13 +397,13 @@ void PersonControllerComponent::fireProjectile(){
     arrowMR->setModel(arrowModel);
 
     // add a rigid body to the arrow
-    auto arrowBody = arrow->addComponent<RigidBody>();
+    auto arrowBody = arrow->addComponent<RigidBodyComponent>();
     // set the arrow to collide with buildings and enemies
     // box appears to be the right size but could use bounds for a better fit
     arrowBody->initRigidBodyWithBox({0.01,0.01,0.5}, 0.1, PROJECTILES, BUILDINGS | ENEMIES);
     
     // get the body and set a few factors
-    auto arrowRigidBody = arrow->getComponent<RigidBody>()->getRigidBody();
+    auto arrowRigidBody = arrow->getComponent<RigidBodyComponent>()->getRigidBody();
     arrowRigidBody->setGravity({0,-0.5,0}); // not 'realistic' gravity, but more fun
 
     // set the force vector, so the physics engine does the work
@@ -425,7 +425,7 @@ void PersonControllerComponent::fireProjectile(){
     // -------- end arrow bouncing
 
     // add the collision handler for the arrow
-    arrow->addComponent<ProjectileCollisionHandler>();
+    arrow->addComponent<ProjectileCollisionHandlerComponent>();
 
     // give the arrow a lifespan
     arrow->addComponent<ProjectileLifespanComponent>();

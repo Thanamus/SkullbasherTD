@@ -1,5 +1,5 @@
 
-#include "PlayerCollisionHandler.hpp"
+#include "PlayerCollisionHandlerComponent.hpp"
 
 
 #include "../GameObject.hpp"
@@ -7,7 +7,7 @@
 #include "../TransformComponent.hpp"
 
 
-#include "../physics/RigidBody.hpp"
+#include "../physics/RigidBodyComponent.hpp"
 
 #include "../PersonControllerComponent.hpp"
 
@@ -25,16 +25,16 @@ class GameObject; // needed for referencing the game object
 class Component;
 
 /*
-    PlayerCollisionHandler handles collisions that happen on the PersonControllerComponent (when correctly attached)
+    PlayerCollisionHandlerComponent handles collisions that happen on the PersonControllerComponent (when correctly attached)
 */
 
-PlayerCollisionHandler::PlayerCollisionHandler(GameObject* gameObject) : Component(gameObject) {
+PlayerCollisionHandlerComponent::PlayerCollisionHandlerComponent(GameObject* gameObject) : Component(gameObject) {
 
     start_footstep_lockout = std::chrono::steady_clock::now(); // initalise the first footstep lockout
 }
 
 
-void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 col_position, bool begin){
+void PlayerCollisionHandlerComponent::onCollision(size_t collisionId, GameObject* other, glm::vec3 col_position, bool begin){
     if (begin){
 //        std::cout << "Collision "<< collisionId <<" on "<< other->getName() << " at "<<glm::to_string(col_position)<<std::endl;
 
@@ -91,7 +91,7 @@ void PlayerCollisionHandler::onCollision(size_t collisionId, GameObject* other, 
 }
 
 
-void PlayerCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
+void PlayerCollisionHandlerComponent::onCollisionEnd(size_t collisionId, GameObject *other) {
 //    std::cout << "Collision end "<<collisionId<<std::endl;
 }
 

@@ -1,12 +1,12 @@
 
-#include "CustomCollisionHandler.hpp"
+#include "CustomCollisionHandlerComponent.hpp"
 
 #include "../GameObject.hpp"
-#include "../physics/RigidBody.hpp"
+#include "../physics/RigidBodyComponent.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
-#include "CoinCollisionHandler.hpp"
+#include "CoinCollisionHandlerComponent.hpp"
 #include "../PersonControllerComponent.hpp"
 
 // Sound Effects _Include
@@ -21,9 +21,9 @@ class GameObject;
     coin collision handler processes collisions on the coin game objects
 */
 
-CoinCollisionHandler::CoinCollisionHandler(GameObject *gameObject) : Component(gameObject) {}
+CoinCollisionHandlerComponent::CoinCollisionHandlerComponent(GameObject *gameObject) : Component(gameObject) {}
 
-void CoinCollisionHandler::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
+void CoinCollisionHandlerComponent::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
     if(gameObject->isQueuedForDeletion() || stopCollisions)
         return; // check if the object is going to be deleted (means a collision has already happened and the player shouldn't get more money)
 
@@ -41,6 +41,6 @@ void CoinCollisionHandler::onCollision(size_t collisionId, GameObject* other, gl
     }
 }
 
-void CoinCollisionHandler::onCollisionEnd(size_t collisionId, GameObject *other) {
+void CoinCollisionHandlerComponent::onCollisionEnd(size_t collisionId, GameObject *other) {
 
 }

@@ -5,7 +5,7 @@
 #include "Scene.hpp"
 #include <algorithm>
 #include "../CameraComponent.hpp"
-#include "../physics/RigidBody.hpp"
+#include "../physics/RigidBodyComponent.hpp"
 #include "../LightComponent.hpp"
 #include "../physics/BulletPhysics.hpp"
 
@@ -92,7 +92,7 @@ void Scene::addComponent(const std::shared_ptr<Component>& component) {
     if (light) {
         lights.push_back(light);
     }
-    auto rigidBody = dynamic_cast<RigidBody*>(componentRawPtr);
+    auto rigidBody = dynamic_cast<RigidBodyComponent*>(componentRawPtr);
     if (rigidBody) {
         rigidBodies.push_back(rigidBody);
     }
@@ -149,7 +149,7 @@ void Scene::removeComponent(const std::shared_ptr<Component>& component) {
             lights.erase(std::remove(lights.begin(), lights.end(), light), lights.end());
         }
     }
-    auto rigidBody = dynamic_cast<RigidBody*>(componentRawPtr);
+    auto rigidBody = dynamic_cast<RigidBodyComponent*>(componentRawPtr);
     if (rigidBody) {
         if(!rigidBodies.empty()) {
             rigidBodies.erase(std::remove(rigidBodies.begin(), rigidBodies.end(), rigidBody), rigidBodies.end());

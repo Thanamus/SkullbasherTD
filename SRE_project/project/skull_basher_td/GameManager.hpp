@@ -3,7 +3,7 @@
 #include "sre/SDLRenderer.hpp"
 #include "sre/Material.hpp"
 #include "architecture/Tower.hpp"
-#include "architecture/health/CrystalHealth.hpp"
+#include "architecture/health/CrystalHealthComponent.hpp"
 #include "architecture/scenes/SceneManager.hpp"
 
 struct enemySetsInWave {
@@ -64,7 +64,7 @@ public:
     int getFirstPathIndex();
     glm::vec3 getPathPoint(int index);
 
-    std::shared_ptr<CrystalHealth> crystal;
+    std::shared_ptr<CrystalHealthComponent> crystal;
 
     //wave details
     int getCurrentEnemy();

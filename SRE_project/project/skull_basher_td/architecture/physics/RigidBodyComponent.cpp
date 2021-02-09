@@ -2,7 +2,7 @@
 // Created by Morten Nobel Jørgensen on 2018-11-10.
 //
 
-#include "RigidBody.hpp"
+#include "RigidBodyComponent.hpp"
 #include "../GameObject.hpp"
 #include "../TransformComponent.hpp"
 #include "BulletPhysics.hpp"
@@ -15,12 +15,12 @@
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 
 
-RigidBody::RigidBody(GameObject* gameObject) : Component(gameObject) {
+RigidBodyComponent::RigidBodyComponent(GameObject* gameObject) : Component(gameObject) {
     transform = gameObject->getComponent<TransformComponent>().get(); // sets up the new rigid body to use the game objects Transform
 }
 
 // remove the (bulet) rigid body from the dynamics world when deleting the component
-RigidBody::~RigidBody() {
+RigidBodyComponent::~RigidBodyComponent() {
     transform = nullptr;
     if (rigidBody) {
         delete fallMotionState;
@@ -32,11 +32,11 @@ RigidBody::~RigidBody() {
     }
 }
 
-btRigidBody* RigidBody::getRigidBody(){
+btRigidBody* RigidBodyComponent::getRigidBody(){
     return rigidBody; // returns the (bullet) rigid body
 }
 
-void RigidBody::updateTransformFromPhysicsWorld(){
+void RigidBodyComponent::updateTransformFromPhysicsWorld(){
         btTransform pTransform;
         if(rigidBody) {
             pTransform  = rigidBody->getWorldTransform();
@@ -56,7 +56,7 @@ void RigidBody::updateTransformFromPhysicsWorld(){
 
 // adds (bullet) rigid body to the physics world - common to all shapes
 // version that also adds masks and group fileters
-void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info, short group, short mask){
+void RigidBodyComponent::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info, short group, short mask){
     auto physicsWorld = gameObject->getScene()->bulletPhysics->world; // get the physics world
    
     if (rigidBody){ // make sure that there is only one rigid body on the game object
@@ -101,7 +101,7 @@ void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& in
 
 // adds (bullet) rigid body to the physics world - common to all shapes
 // version without mask and group filtering
-void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info){
+void RigidBodyComponent::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& info){
     auto physicsWorld = gameObject->getScene()->bulletPhysics->world;
     if (rigidBody){
         physicsWorld->removeRigidBody(rigidBody);
@@ -128,7 +128,7 @@ void RigidBody::initRigidBody(const btRigidBody::btRigidBodyConstructionInfo& in
 }
 
 // init a sphere shape collision object (no custom filters)
-void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
+void RigidBodyComponent::initRigidBodyWithSphere(float radius, float mass) {
     delete fallMotionState;
     delete shape;
     shape = new btSphereShape(radius);
@@ -163,7 +163,7 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass) {
 }
 
 // -------- New sphere init that takes in group and mask values
-void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, short mask) {
+void RigidBodyComponent::initRigidBodyWithSphere(float radius, float mass, short group, short mask) {
     this->group = group;
     this->mask = mask;
 
@@ -215,7 +215,7 @@ void RigidBody::initRigidBodyWithSphere(float radius, float mass, short group, s
 }
 
 // init a box shape collision object (no custom filters)
-void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
+void RigidBodyComponent::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
     delete fallMotionState;
     delete shape;
     shape = new btBoxShape({halfExtend.x, halfExtend.y, halfExtend.z});
@@ -235,7 +235,7 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass) {
 }
 
 // new initialiser that uses groups and masks
-void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short group, short mask) {
+void RigidBodyComponent::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short group, short mask) {
     this->group = group;
     this->mask = mask;
     
@@ -270,7 +270,7 @@ void RigidBody::initRigidBodyWithBox(glm::vec3 halfExtend, float mass, short gro
 }
 
 // init a plane shape collision object (no custom filters)
-void RigidBody::initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeDist) {
+void RigidBodyComponent::initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeDist) {
     delete fallMotionState;
     delete shape;
     shape = new btStaticPlaneShape({planeNormal.x, planeNormal.y, planeNormal.z}, planeDist);
@@ -288,7 +288,7 @@ void RigidBody::initRigidBodyWithStaticPlane(glm::vec3 planeNormal, float planeD
 
 // additions
 // can probably remove this
-void RigidBody::setLinearVelocityOnRigidBody(btVector3 linear_velocity){
+void RigidBodyComponent::setLinearVelocityOnRigidBody(btVector3 linear_velocity){
     rigidBody->setLinearVelocity(linear_velocity);
     btVector3 test = rigidBody->getLinearVelocity();
 
@@ -297,6 +297,6 @@ void RigidBody::setLinearVelocityOnRigidBody(btVector3 linear_velocity){
     std::cout << "linear velocity set, is: " << test.y() << " should be " << linear_velocity.y() << std::endl;
 }
 
-short RigidBody::getGroupID() const{
+short RigidBodyComponent::getGroupID() const{
     return group;
 }

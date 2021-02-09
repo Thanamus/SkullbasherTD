@@ -9,15 +9,15 @@
 class Component;
 class CollisionHandler;
 class GameObject;
-class RigidBody;
+class RigidBodyComponent;
 
-class PlayerCollisionHandler : public Component, public CollisionHandler {
+class PlayerCollisionHandlerComponent : public Component, public CollisionHandler {
 public:
-    // explicit CustomCollisionHandler(GameObject* gameObject) : Component(gameObject));
-    explicit PlayerCollisionHandler(GameObject* gameObject);
+    // explicit CustomCollisionHandlerComponent(GameObject* gameObject) : Component(gameObject));
+    explicit PlayerCollisionHandlerComponent(GameObject* gameObject);
 
 
-    // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin) override {
+    // void onCollision(size_t collisionId, RigidBodyComponent *other, glm::vec3 position, bool begin) override {
     //     if (begin){
     //         std::cout << "Collision "<< collisionId <<" on "<<other->getGameObject()->getName()<< " at "<<glm::to_string(position)<<std::endl;
     //     }
@@ -25,9 +25,9 @@ public:
     // void onCollisionEnd(size_t collisionId) override {
     //     std::cout << "Collision end "<<collisionId<<std::endl;
     // }
-    // void onCollision(size_t collisionId, RigidBody* other, glm::vec3 position, bool begin) override;
+    // void onCollision(size_t collisionId, RigidBodyComponent* other, glm::vec3 position, bool begin) override;
     void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
-    // void onCollision(size_t collisionId, RigidBody *other, glm::vec3 position, bool begin);
+    // void onCollision(size_t collisionId, RigidBodyComponent *other, glm::vec3 position, bool begin);
     // void onCollisionEnd(size_t collisionId); 
     void onCollisionEnd(size_t collisionId, GameObject *other) override;
 private:

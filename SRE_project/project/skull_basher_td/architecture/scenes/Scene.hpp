@@ -23,7 +23,7 @@ class GameObject;
 class Component;
 class LightComponent;
 class BulletPhysics;
-class RigidBody;
+class RigidBodyComponent;
 class ScheduleManager;
 
 class Scene {
@@ -68,7 +68,7 @@ protected:
     std::vector<RenderableGui*> renderablesGui;
     std::vector<Updatable*> updatables;
     std::vector<Scriptable*> scriptables;
-    std::vector<RigidBody*> rigidBodies;
+    std::vector<RigidBodyComponent*> rigidBodies;
     std::vector<EnemyComponent*> enemies;
     std::vector<Targetable*> targetables;
     std::vector<LightComponent*> lights;

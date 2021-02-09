@@ -8,9 +8,9 @@
 #include "AnimatorComponent.hpp"
 #include "EnemyComponent.hpp"
 #include "Pathfinder.hpp"
-#include "collisions/ProjectileCollisionHandler.hpp"
+#include "collisions/ProjectileCollisionHandlerComponent.hpp"
 #include "lifespans/ProjectileLifespanComponent.hpp"
-#include "physics/RigidBody.hpp"
+#include "physics/RigidBodyComponent.hpp"
 
 TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         : Component(gameObject) {
@@ -79,8 +79,8 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         return _gameObj->getComponent<TransformComponent>().get();
     });
 
-    lua.set_function("getRigidBody", [&](GameObject* _gameObj) -> RigidBody* {
-        return _gameObj->getComponent<RigidBody>().get();
+    lua.set_function("getRigidBody", [&](GameObject* _gameObj) -> RigidBodyComponent* {
+        return _gameObj->getComponent<RigidBodyComponent>().get();
     });
 
     lua.set_function("getModelRenderer", [&](GameObject* _gameObj) -> ModelRendererComponent* {
@@ -129,7 +129,7 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
     });
 
     lua.set_function("setVelocity", [&](GameObject* object, btVector3 velocity) -> void {
-        object->getComponent<RigidBody>()->getRigidBody()->setLinearVelocity(velocity);
+        object->getComponent<RigidBodyComponent>()->getRigidBody()->setLinearVelocity(velocity);
     });
 
     lua["variables"] = lua.create_table_with(
@@ -255,7 +255,7 @@ GameObject* TowerBehaviourComponent::makeProjectile() {
     projectileTR->lookAt(aimPos, {0, 1, 0});
     auto projectileMR = projectile_->addComponent<ModelRendererComponent>();
     projectileMR->setModel(projectile.model);
-    auto projectileRB = projectile_->addComponent<RigidBody>();
+    auto projectileRB = projectile_->addComponent<RigidBodyComponent>();
     if (projectile.hitboxType == "box")
         projectileRB->initRigidBodyWithBox(projectile.hitboxSize, projectile.mass, PROJECTILES, ENEMIES);
     else if (projectile.hitboxType == "sphere")
@@ -266,7 +266,7 @@ GameObject* TowerBehaviourComponent::makeProjectile() {
         rigidBody->setAngularVelocity({0,0,0});
         rigidBody->setGravity({0, 0, 0});
     }
-    auto projectileCH = projectile_->addComponent<ProjectileCollisionHandler>();
+    auto projectileCH = projectile_->addComponent<ProjectileCollisionHandlerComponent>();
     projectileCH->setDamage(projectile.damage);
     projectile_->addComponent<ProjectileLifespanComponent>();
     return projectile_.get();

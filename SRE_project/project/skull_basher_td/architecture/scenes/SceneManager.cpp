@@ -4,7 +4,7 @@
 
 #include "SceneManager.hpp"
 #include "../CameraComponent.hpp"
-#include "../physics/RigidBody.hpp"
+#include "../physics/RigidBodyComponent.hpp"
 #include "../physics/GhostObject.hpp"
 
 #include "../ModelRendererComponent.hpp"
@@ -32,15 +32,15 @@
 #include "../../LevelGuiManager.hpp"
 #include "../TowerBehaviourComponent.hpp"
 #include "../health/HealthComponent.hpp"
-#include "../health/CrystalHealth.hpp"
+#include "../health/CrystalHealthComponent.hpp"
 
 // Collision imports
-#include "../collisions/EnemyCollisionHandler.hpp"
-#include "../collisions/PlayerCollisionHandler.hpp"
+#include "../collisions/EnemyCollisionHandlerComponent.hpp"
+#include "../collisions/PlayerCollisionHandlerComponent.hpp"
 
 #include "../Pathfinder.hpp"
 #include "../CoinComponent.hpp"
-#include "../collisions/CoinCollisionHandler.hpp"
+#include "../collisions/CoinCollisionHandlerComponent.hpp"
 #include "../lifespans/ProjectileLifespanComponent.hpp"
 
 #include <iostream>
@@ -69,12 +69,12 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     cameraObj->addComponent<CameraComponent>()->clearColor = {0.2, 0.2, 0.2};
     cameraObj->getComponent<TransformComponent>()->position = playerSpawnPoint;
     cameraObj->getComponent<TransformComponent>()->rotation = {0,190,0};
-    cameraObj->addComponent<RigidBody>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | CRYSTAL | COINS); // Dynamic physics object
+    cameraObj->addComponent<RigidBodyComponent>()->initRigidBodyWithSphere(0.6f, 1, PLAYER, BUILDINGS | ENEMIES | CRYSTAL | COINS); // Dynamic physics object
 
     //--- end setting cameras
 
     auto person = cameraObj->addComponent<PersonControllerComponent>();
-    cameraObj->addComponent<PlayerCollisionHandler>();
+    cameraObj->addComponent<PlayerCollisionHandlerComponent>();
 
     auto lightObj = res->createGameObject("Light");
     lightObj->getComponent<TransformComponent>()->rotation = {30,30,0};
@@ -118,12 +118,12 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     crystalTR->position = {3,-0.5,7};
     crystalTR->rotation = {0,0,0};
     crystalTR->scale = {0.4f,0.4f,0.4f};
-    crystal->addComponent<CrystalHealth>();
-    crystal->getComponent<CrystalHealth>()->setHealth(100);
+    crystal->addComponent<CrystalHealthComponent>();
+    crystal->getComponent<CrystalHealthComponent>()->setHealth(100);
     auto crystalMR = crystal->addComponent<ModelRendererComponent>();
     auto crystalPath =  ".\\assets\\crystal.obj";
     auto crystalAN = crystal->addComponent<AnimatorComponent>();
-    auto crystalRigidBody = crystal->addComponent<RigidBody>();
+    auto crystalRigidBody = crystal->addComponent<RigidBodyComponent>();
     // ---- set crystal collision group and flags
     crystalRigidBody->initRigidBodyWithSphere(0.7f, 1, CRYSTAL, ENEMIES | PROJECTILES); // crystal needs to be sphere -> skull collision only works with box
 
@@ -132,7 +132,7 @@ std::shared_ptr<Scene> SceneManager::createScene(){
     crystalRigidBody->getRigidBody()->setLinearFactor(btVector3(0,0,0));
     crystalRigidBody->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
 
-    GameManager::getInstance().crystal = crystal->getComponent<CrystalHealth>();
+    GameManager::getInstance().crystal = crystal->getComponent<CrystalHealthComponent>();
 
     crystalMR->setModel(Model::create().withOBJ(crystalPath).withName("crystal").build());
 
@@ -304,7 +304,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
     transform.setRotation(btInputQuat);
 
     // set the rigid bodie's transform based on camera + player position
-    tempCam->getComponent<RigidBody>()->getRigidBody()->setWorldTransform(transform);
+    tempCam->getComponent<RigidBodyComponent>()->getRigidBody()->setWorldTransform(transform);
 
 // ------------------- end setting player Spawn point
 
@@ -416,7 +416,7 @@ std::cout << "loading tiles" << std::endl;
                     float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.x, 4);
                     float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 4);
 
-                    mapTile->addComponent<RigidBody>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER | PROJECTILES);
+                    mapTile->addComponent<RigidBodyComponent>()->initRigidBodyWithBox({length, height, width}, 0, BUILDINGS, PLAYER | PROJECTILES);
 
                     if (isPathHolder)
                     { // if the tile is part of the path, add it to the path buffer
@@ -556,7 +556,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 float width = createScaledBounds(bounds[0].x, bounds[1].x, collisionHolder.x, 7);
                 float height = createScaledBounds(bounds[0].y, bounds[1].y, collisionHolder.y, 7);
 
-                auto enemyRB = enemy->addComponent<RigidBody>();
+                auto enemyRB = enemy->addComponent<RigidBodyComponent>();
                 enemyRB->initRigidBodyWithBox({length, width, height}, 1, ENEMIES, PLAYER | CRYSTAL | PROJECTILES);
                 enemyRB->getRigidBody()->setGravity({0, 0, 0});
                 // skulls should not be moved by external forces
@@ -566,7 +566,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyRB->getRigidBody()->setAngularVelocity({0,0,0});
                 // skulls should never deactivate - this might be changed for improved performance
                 enemyRB->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
-                enemy->addComponent<EnemyCollisionHandler>();
+                enemy->addComponent<EnemyCollisionHandlerComponent>();
 
                  std::cout << "adding enemy component to enemy" << std::endl;
                 //Add EnemyComponent to Skull
@@ -629,7 +629,7 @@ void SceneManager::SpawnCoin(float money,glm::vec3 position) {
     float width = (fabs(bounds[0].x) + fabs(bounds[1].x))/5;
     float height = (fabs(bounds[0].y) + fabs(bounds[1].y))/12;
 
-    auto coinRigidBody = coin->addComponent<RigidBody>();
+    auto coinRigidBody = coin->addComponent<RigidBodyComponent>();
     coinRigidBody->initRigidBodyWithBox({length,width,height}, 1, COINS, PLAYER ); // crystal needs to be sphere -> skull collision only works with box
 
     // ---- making sure that Coin can't move if hit
@@ -638,7 +638,7 @@ void SceneManager::SpawnCoin(float money,glm::vec3 position) {
 
     coin->addComponent<CoinComponent>();
     coin->getComponent<CoinComponent>()->setMoney(money);
-    coin->addComponent<CoinCollisionHandler>();
+    coin->addComponent<CoinCollisionHandlerComponent>();
     coin->addComponent<ProjectileLifespanComponent>();
     coin->getComponent<ProjectileLifespanComponent>()->setLifespan(20000);
 }

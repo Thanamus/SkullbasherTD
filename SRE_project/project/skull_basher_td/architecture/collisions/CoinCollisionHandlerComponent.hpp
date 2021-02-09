@@ -7,16 +7,16 @@
 class Component;
 class CollisionHandler;
 class GameObject;
-class RigidBody;
+class RigidBodyComponent;
 
 /*
     coin collision handler processes collisions on the coin game objects
 */
 
 
-class CoinCollisionHandler : public Component, public CollisionHandler {
+class CoinCollisionHandlerComponent : public Component, public CollisionHandler {
 public:
-    explicit CoinCollisionHandler(GameObject *gameObject);
+    explicit CoinCollisionHandlerComponent(GameObject *gameObject);
 
     void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
 

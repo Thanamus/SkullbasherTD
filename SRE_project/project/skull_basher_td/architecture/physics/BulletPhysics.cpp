@@ -3,7 +3,7 @@
 //
 
 #include "BulletPhysics.hpp"
-#include "RigidBody.hpp"
+#include "RigidBodyComponent.hpp"
 #include "GhostObject.hpp"
 #include "../GameObject.hpp"
 #include "../scenes/Scene.hpp"
@@ -43,8 +43,8 @@ bool contactUpdatedCallback(btManifoldPoint& cp,void* body0,void* body1){
     bool collisionBegin = cp.m_userPersistentData == nullptr;
     auto btRigidBody0 = static_cast<btRigidBody *>(body0);
     auto btRigidBody1 = static_cast<btRigidBody *>(body1);
-    auto rigidBody0 = static_cast<RigidBody *>(btRigidBody0->getUserPointer());
-    auto rigidBody1 = static_cast<RigidBody *>(btRigidBody1->getUserPointer());
+    auto rigidBody0 = static_cast<RigidBodyComponent *>(btRigidBody0->getUserPointer());
+    auto rigidBody1 = static_cast<RigidBodyComponent *>(btRigidBody1->getUserPointer());
 
     if (collisionBegin){
         // collision just began - might be able to improve performance by using this as a filter

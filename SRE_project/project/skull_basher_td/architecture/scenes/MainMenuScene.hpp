@@ -20,7 +20,7 @@ class GameObject;
 class Component;
 class LightComponent;
 class BulletPhysics;
-class RigidBody;
+class RigidBodyComponent;
 class ScheduleManager;
 
 class MainMenuScene: public Scene {

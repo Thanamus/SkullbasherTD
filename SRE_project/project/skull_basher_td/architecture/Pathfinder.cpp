@@ -2,7 +2,7 @@
 #include "Pathfinder.hpp"
 #include "TransformComponent.hpp"
 
-#include "./physics/RigidBody.hpp"
+#include "./physics/RigidBodyComponent.hpp"
 
 // sound includes
 #include "./sound/SourceManager.hpp"
@@ -38,7 +38,7 @@ void Pathfinder::update(float deltaTime) {
         btRigidBody* rigidBody = nullptr; // init a rigid body
 
         auto transformComp = gameObject->getComponent<TransformComponent>();
-        auto rigidBodyComp = gameObject->getComponent<RigidBody>();
+        auto rigidBodyComp = gameObject->getComponent<RigidBodyComponent>();
 
         if(rigidBodyComp)
             rigidBody = rigidBodyComp->getRigidBody(); // if skull has rigid body, get it

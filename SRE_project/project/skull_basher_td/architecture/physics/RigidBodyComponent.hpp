@@ -38,10 +38,10 @@ enum SBCollisions
     PROJECTILES = 2048
 };
 
-class RigidBody : public Component {
+class RigidBodyComponent : public Component {
 public:
-    explicit RigidBody(GameObject* gameObject);
-    ~RigidBody();
+    explicit RigidBodyComponent(GameObject* gameObject);
+    ~RigidBodyComponent();
     void initRigidBodyWithSphere(float radius, float mass = 0);
     void initRigidBodyWithSphere(float radius, float mass, short group, short mask);
 

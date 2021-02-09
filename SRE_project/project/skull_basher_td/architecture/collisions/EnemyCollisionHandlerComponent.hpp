@@ -7,15 +7,15 @@
 class Component;
 class CollisionHandler;
 class GameObject;
-class RigidBody;
+class RigidBodyComponent;
 
 /*
  Collision handler that gets attached to 'enemy' game objects
 */
 
-class EnemyCollisionHandler : public Component, public CollisionHandler {
+class EnemyCollisionHandlerComponent : public Component, public CollisionHandler {
 public:
-    explicit EnemyCollisionHandler(GameObject* gameObject);
+    explicit EnemyCollisionHandlerComponent(GameObject* gameObject);
 
     void onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) override;
     void onCollisionEnd(size_t collisionId, GameObject *other) override;
