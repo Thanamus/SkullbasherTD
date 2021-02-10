@@ -89,6 +89,7 @@ protected:
     std::string enemiesAssetFolderLoc = ".\\assets\\enemies";
     double tileHeightOffset = -1;
     double tilePosOffset = 1;
+
 private:
     friend class GameObject;
     friend class RigidBodyComponent;
