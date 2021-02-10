@@ -141,7 +141,7 @@ void CameraComponent::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject>
         {
             currentDistance = distance;
             block = gameObject;
-            cout << "assigned block: " << endl;
+            // cout << "assigned block: " << endl;
             continue;
         }
 
@@ -149,7 +149,7 @@ void CameraComponent::simpleRayCast(glm::vec3 front, std::shared_ptr<GameObject>
         {
             currentDistance = distance;
             block = gameObject;
-            cout << "assigned block: " << endl;
+            // cout << "assigned block: " << endl;
         }
     }
 

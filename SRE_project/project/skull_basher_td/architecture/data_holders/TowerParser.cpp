@@ -161,7 +161,7 @@ std::vector<TowerPart> TowerParser::parseParts(const Value& partsArray) {
                 part.animations.insert(animation);
             }
         }
-        std::cout << "read correctly all animations: " << part.animations.size() << std::endl;
+        // std::cout << "read correctly all animations: " << part.animations.size() << std::endl;
         auto partsIter = partRow.FindMember("parts");
         if(partsIter != partRow.MemberEnd() && partsIter->value.IsArray() && partsIter->value.GetArray().Size() > 0)
             part.parts = parseParts(partRow["parts"]);

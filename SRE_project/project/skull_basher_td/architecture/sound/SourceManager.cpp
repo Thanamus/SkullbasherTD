@@ -46,7 +46,7 @@ SourceManager::SourceManager(unsigned int num_of_sources)
 		}
 	}
 
-	std::cout << "SoundSystem has " << sources.size() << " channels available!"  << std::endl;
+	// std::cout << "SoundSystem has " << sources.size() << " channels available!"  << std::endl;
     
 }
 
@@ -136,7 +136,7 @@ void SourceManager::CheckAndReleaseOALSource (){
 			{
 				// if source has stopped, free it (by marking it as available, doesn't actually free memory)
 				s->inUse = false;
-				std::cout << "just released a source" << std::endl;
+				// std::cout << "just released a source" << std::endl;
 			}
 		}
 	}
@@ -177,7 +177,7 @@ void SourceManager::playMyJam_global(std::string sound_to_play){
 				AL_CheckAndThrow();
 		}
 		alSourcePlay(oalSource->source); // play sound
-        std::cout << "playing a global sound from source Manager: " << sound_to_play << std::endl;
+        // std::cout << "playing a global sound from source Manager: " << sound_to_play << std::endl;
 	}
 	
 

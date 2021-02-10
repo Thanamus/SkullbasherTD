@@ -294,7 +294,7 @@ void RigidBodyComponent::setLinearVelocityOnRigidBody(btVector3 linear_velocity)
 
     // btScalar &thing;
     // test.y(thing);
-    std::cout << "linear velocity set, is: " << test.y() << " should be " << linear_velocity.y() << std::endl;
+    // std::cout << "linear velocity set, is: " << test.y() << " should be " << linear_velocity.y() << std::endl;
 }
 
 short RigidBodyComponent::getGroupID() const{

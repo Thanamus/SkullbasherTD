@@ -159,13 +159,13 @@ std::string SceneManager::getMapsFolderLoc(){
 };
 
 void SceneManager::loadMap(const std::string& filename, std::shared_ptr<Scene> res){
-    std::cout << "loading map" << std::endl;
+    // std::cout << "loading map" << std::endl;
     loadLevelsMap(filename, res);
     
-    std::cout << "loading Enemies" << std::endl;
+    // std::cout << "loading Enemies" << std::endl;
     loadLevelsEnemies(filename, res);
     
-    std::cout << "loading Sounds" << std::endl;
+    // std::cout << "loading Sounds" << std::endl;
     loadLevelsSound(filename);
 }
 
@@ -205,10 +205,10 @@ void SceneManager::loadLevelsData() {
     std::string pattern(".\\maps\\*.json*");
     WIN32_FIND_DATA data;
     HANDLE hFind;
-    std::cout << "--Reading Level Files--" << std::endl;
+    // std::cout << "--Reading Level Files--" << std::endl;
     if ((hFind = FindFirstFile(pattern.c_str(), &data)) != INVALID_HANDLE_VALUE) {
         do {
-            std::cout << "Reading: " << data.cFileName << std::endl;
+            // std::cout << "Reading: " << data.cFileName << std::endl;
             using namespace rapidjson;
             std::string wholePath = ".\\maps\\";
             wholePath.append(data.cFileName);
@@ -263,7 +263,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
     Document d;
     d.ParseStream(isw);
 
-    std::cout << "loading player spawn" << std::endl;
+    // std::cout << "loading player spawn" << std::endl;
 // --------------- set player spawn point
     float spawnPointX = 0.f;
     float spawnPointY = 0.f;
@@ -302,7 +302,7 @@ void SceneManager::loadLevelsMap(const std::string& filename, std::shared_ptr<Sc
 // ------------------- end setting player Spawn point
 
 // ------------------- load tiles
-std::cout << "loading tiles" << std::endl;
+// std::cout << "loading tiles" << std::endl;
     //init a map row to temporarily hold the map row
     std::vector<int> mapRow;
 
@@ -329,7 +329,7 @@ std::cout << "loading tiles" << std::endl;
 
     std::vector<glm::vec3> pathBuffer;
     bool reversePathBuffer = false; // some sections of the path need to be added to the path in reverse
-    std::cout << "starting tile iteration" << std::endl;
+    // std::cout << "starting tile iteration" << std::endl;
 
     for (size_t row = 0; row < rowArrayCount; row++) //go through each 'row' of the map
     {
@@ -442,7 +442,7 @@ std::cout << "loading tiles" << std::endl;
     // ------------ end loading tiles
 
     // ------------ loading crystal
-    std::cout << "loading crystal" << std::endl;
+    // std::cout << "loading crystal" << std::endl;
     auto crystal = GameManager::getInstance().crystal->getGameObject();
     auto path = GameManager::getInstance().getPath();
     crystal->getComponent<TransformComponent>()->position = path[0];
@@ -515,8 +515,8 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
             //Load the model from file
             auto filePath = enemiesAssetFolderLoc + "\\" + modelName;
             modelHolder = Model::create().withOBJ(filePath).withName(modelName).build();
-            std::cout << "Asset folder: " << filePath << "\n";
-            std::cout << "Model Name: " << modelName << "\n";
+            // std::cout << "Asset folder: " << filePath << "\n";
+            // std::cout << "Model Name: " << modelName << "\n";
 
             // set the enemies movement speed
             float enemyMoveSpeed = d["enemyLookup"][enemyTypeChar]["moveSpeed"].GetFloat();
@@ -540,7 +540,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 auto bounds = enemyMR->getMesh()->getBoundsMinMax();
 
                 // set the enemies rigid body
-                std::cout << "adding collisions to enemy" << std::endl;
+                // std::cout << "adding collisions to enemy" << std::endl;
                 collisionHolder.x = d["enemyLookup"][enemyTypeChar]["collision"]["x"].GetFloat();
                 collisionHolder.y = d["enemyLookup"][enemyTypeChar]["collision"]["y"].GetFloat();
                 collisionHolder.z = d["enemyLookup"][enemyTypeChar]["collision"]["z"].GetFloat();
@@ -561,7 +561,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyRB->getRigidBody()->setActivationState(DISABLE_DEACTIVATION);
                 enemy->addComponent<EnemyCollisionHandlerComponent>();
 
-                 std::cout << "adding enemy component to enemy" << std::endl;
+                //  std::cout << "adding enemy component to enemy" << std::endl;
                 //Add EnemyComponent to Skull
                 auto enemyEC = enemy->addComponent<EnemyComponent>();
                 enemyEC->setEnemyNumber(anEnemy);
@@ -573,7 +573,7 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                 enemyEC->setDamage(d["enemyLookup"][enemyTypeChar]["damage"].GetFloat());
 
                 //--------- Add playlist to enemy
-                 std::cout << "adding playlist to enemy" << std::endl;
+                //  std::cout << "adding playlist to enemy" << std::endl;
                 auto enemyPlaylsitComponent = enemy->addComponent<PlaylistComponent>();
                 
                 int howManySoundEffects = d["enemyLookup"][enemyTypeChar]["soundEffectsPlaylist"].GetArray().Size();
@@ -584,16 +584,16 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
                         std::string soundEffectNameToSet = d["enemyLookup"][enemyTypeChar]["soundEffectsPlaylist"][i]["soundEffectName"].GetString();
 
                         enemyPlaylsitComponent->addSoundEffect(soundEffectCodeToSet, soundEffectNameToSet);
-                        std::cout << "just added a sound effect to the playlist" << std::endl;
+                        // std::cout << "just added a sound effect to the playlist" << std::endl;
                     }
                     
 
                 //--------- end add playlist to enemy
 
                 // log creation - could be removed for performance
-                std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
-                std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
-                std::cout << "created enemy with wave number: " << wave << std::endl;
+                // std::cout << "created enemy with enemy number: " << anEnemy << std::endl;
+                // std::cout << "created enemy with set number: " << currentEnemySet << std::endl;
+                // std::cout << "created enemy with wave number: " << wave << std::endl;
             }
         }
 
