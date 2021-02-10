@@ -73,8 +73,6 @@ void PersonControllerComponent::update(float deltaTime)
 {
     updateVectors(); // updates the camera vectors, camera_right, camera_fwd, camera_dir
     updateInput(deltaTime); // Updates position and rotation based on inputs from mouse / keyboard
-
-
     // update camera_front using latest inputs from rotation (yaw) and pitch
     glm::vec3 direction;  
     direction.x = cos(glm::radians(rotation)) * cos(glm::radians(pitch));

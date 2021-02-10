@@ -34,7 +34,6 @@ public:
 
 private:
     GameObject* gameObject;
-
     int currentPathIndex = 0;
     glm::vec3 direction = glm::vec3(0);
     float rotY = 0;

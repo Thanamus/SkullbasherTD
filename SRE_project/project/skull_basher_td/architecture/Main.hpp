@@ -7,9 +7,6 @@
 #include "scenes/Scene.hpp"
 #include "managers/ScheduleManager.hpp"
 #include "managers/SceneManager.hpp"
-
-class SoundEffectsPlayer;
-
 class Main
 {
 public:

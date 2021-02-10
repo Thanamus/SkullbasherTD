@@ -15,7 +15,6 @@
 
 class PlayerCollisionController;
 
-
 // class PersonControllerComponent : public Component, public CollisionHandler {
 class PersonControllerComponent : public Component {
 public:
