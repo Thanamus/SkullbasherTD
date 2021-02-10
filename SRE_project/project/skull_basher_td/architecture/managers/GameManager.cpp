@@ -14,15 +14,11 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "../../rapidjson/rapidjson.h"
 #include "../../rapidjson/document.h"
-#include "../../rapidjson/istreamwrapper.h"
-
-#include <fstream>
 #include <iostream>
 #include <utility>
 #include "../music/MusicBuffer.hpp"
 #include "../components/game_entities/world/WorldObjectComponent.hpp"
 #include "../sound/SourceManager.hpp"
-#include "../components/game_entities/towers/TowerBehaviourComponent.hpp"
 #include "../data_holders/TowerParser.hpp"
 
 
@@ -30,39 +26,6 @@ using namespace sre;
 using namespace glm;
 
 void GameManager::init() {
-    /*if(sceneManager == nullptr)
-        sceneManager = std::make_unique<SceneManager>();
-    towers.clear();
-    loadTowers("data/towers.json");
-    selectedTower = towers[0];
-    quit = false;
-    buildModeActive = false;
-
-
-    levelRunning = true;
-    won = false;
-    paused = false;
-    score = 40;
-    path.clear();
-    currentWave = 0;
-    totalWavesInLevel = 0;
-
-    enemySetsAmount = 0; //assuming this means how many waves
-
-
-    currentEnemySet = 0;
-    totalEnemySetsInCurrentWave = 0;
-    // int currentEnemyInset = 0;
-
-    currentEnemy = 0;
-    totalEnemiesInCurrentSet = 0;
-
-    enemyAmountWave = 0;
-    waveAndEnemies.clear();
-    waveAndTimeBetweens.clear();
-    lastEnemy = false;*/
-
-    ////////////////////////
     if(sceneManager == nullptr)
         sceneManager = std::make_unique<SceneManager>();
     towers.clear();
@@ -248,7 +211,7 @@ int GameManager::getFirstPathIndex(){
     return path.size()-1;
 }
 
-void GameManager::addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails){
+void GameManager::addWave(int waveNumber, std::vector<EnemySetsInWave> enemySets, WaveScheduleDetails waveDetails){
     waveAndEnemies[waveNumber]=enemySets;
     waveAndTimeBetweens[waveNumber]=waveDetails;
     enemyAmountWave += 1; //adds a wave amount every time add wave is called. 
@@ -275,7 +238,7 @@ int GameManager::getEnemyAmountWave(){
     return enemyAmountWave;
 }
 
-waveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
+WaveScheduleDetails GameManager::getCurrentTimeBetweenWaves(){
 
     return waveAndTimeBetweens[currentWave];
 }
@@ -370,7 +333,7 @@ void GameManager::setTotalEnemiesInCurrentSet() {
     totalEnemiesInCurrentSet = waveAndEnemies[currentWave][currentEnemySet].quantity - 1; //minus one, because counting starts at 1, not 0
 }
 
-const std::map<int, std::vector<enemySetsInWave>> &GameManager::getWaveAndEnemies() const {
+const std::map<int, std::vector<EnemySetsInWave>> &GameManager::getWaveAndEnemies() const {
     return waveAndEnemies;
 }
 

@@ -19,9 +19,3 @@ GameObject *Component::getGameObject() {
 
 void Component::debugGUI() {
 }
-
-void Component::onStart() {
-}
-
-void Component::onDestroy() {
-}

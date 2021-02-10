@@ -15,13 +15,6 @@ public:
     GameObject* getGameObject();
     bool active = true;
 
-    // invoked on start
-    virtual void onStart();
-
-    // invoked on object destruction
-    virtual void onDestroy();
-
-
     virtual void debugGUI();
 
 protected:

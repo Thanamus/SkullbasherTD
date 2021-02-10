@@ -19,10 +19,8 @@
 #include "./music/MusicBuffer.hpp"
 
 #include "./sound/SourceManager.hpp"
-#include "managers/LevelGuiManager.hpp"
 
-Main::Main()
-{
+Main::Main() {
     using namespace sre;
     SDLRenderer r;
     r.init();

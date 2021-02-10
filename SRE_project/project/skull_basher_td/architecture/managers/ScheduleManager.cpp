@@ -118,7 +118,7 @@ void ScheduleManager::update(float deltaTime){
 
 void ScheduleManager::fetchInitialWaveSchedule(){
     //set inital timeBetweenWaves
-    waveScheduleDetails initialTimeBetweens = GameManager::getInstance().getCurrentTimeBetweenWaves();
+    WaveScheduleDetails initialTimeBetweens = GameManager::getInstance().getCurrentTimeBetweenWaves();
     timeBetweenWaves = initialTimeBetweens.timeBetweenWaves;
     timeBetweenEnemies = initialTimeBetweens.timeBetweenEnemies;
 }

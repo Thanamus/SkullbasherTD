@@ -477,11 +477,11 @@ void SceneManager::loadLevelsEnemies(const std::string& filename, std::shared_pt
     for (size_t wave = 0; wave < howManyWaves; wave++) { //wave level
         //get the number of enemyTypes and quantities in order
         int numberOfEnemySets = d["waves"][wave]["enemies"].GetArray().Size();
-        std::vector<enemySetsInWave> enemySetsHolder;
-        enemySetsInWave tempEnemySet{};
+        std::vector<EnemySetsInWave> enemySetsHolder;
+        EnemySetsInWave tempEnemySet{};
 
         //wave schedule parameters per this current wave
-        waveScheduleDetails waveScheduleDetailHolder{};
+        WaveScheduleDetails waveScheduleDetailHolder{};
         waveScheduleDetailHolder.timeBetweenWaves = d["waves"][wave]["timeBetweenWaves"].GetInt();
         waveScheduleDetailHolder.timeBetweenEnemies = d["waves"][wave]["timeBetweenEnemy"].GetInt();
 

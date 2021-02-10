@@ -7,12 +7,12 @@
 #include "SceneManager.hpp"
 
 
-struct enemySetsInWave {
+struct EnemySetsInWave {
     int enemyType;
     int quantity;
 };
 
-struct waveScheduleDetails {
+struct WaveScheduleDetails {
     int timeBetweenWaves;
     int timeBetweenEnemies;
 };
@@ -74,22 +74,26 @@ public:
     int getTotalWavesInLevel();
 
     int getEnemyAmountWave();
-    waveScheduleDetails getCurrentTimeBetweenWaves();
+    WaveScheduleDetails getCurrentTimeBetweenWaves();
 
 //    void setCurrentEnemy(int currentEnemy);
-    void addWave(int waveNumber, std::vector<enemySetsInWave> enemySets, waveScheduleDetails waveDetails);
+    void addWave(int waveNumber, std::vector<EnemySetsInWave> enemySets, WaveScheduleDetails waveDetails);
 
     bool updateAllWaveStats();
     void setInitialWaveStats();
-    const std::map<int, std::vector<enemySetsInWave>> &getWaveAndEnemies() const;
+    const std::map<int, std::vector<EnemySetsInWave>> &getWaveAndEnemies() const;
     int getTotalEnemiesInCurrentSet() const;
     void toggleWinState(bool winState);
     const std::unique_ptr<SceneManager> &getSceneManager() const;
+
+    int getTotalEnemiesSpawned() const;
+    void setTotalEnemiesSpawned(int totalEnemiesSpawned);
+    int getTotalEnemies() const;
+    void setTotalEnemies(int totalEnemies);
 private:
     GameManager() {}
 
     std::unique_ptr<SceneManager> sceneManager;
-    void loadTowers(std::string filename);
     std::vector<std::shared_ptr<Tower>> towers;
 
     // Player stats
@@ -116,27 +120,15 @@ private:
 
     int totalEnemiesSpawned = 0;
     int totalEnemies = 0;
-public:
-    int getTotalEnemiesSpawned() const;
 
-    void setTotalEnemiesSpawned(int totalEnemiesSpawned);
+    std::map <int, std::vector<EnemySetsInWave>> waveAndEnemies;
+    std::map <int, WaveScheduleDetails> waveAndTimeBetweens;
+    bool lastEnemy = false;
 
-    int getTotalEnemies() const;
-
-    void setTotalEnemies(int totalEnemies);
-
-private:
-
+    void loadTowers(std::string filename);
     void checkAndUpdateEnemyNumber();
     void checkAndUpdateEnemySetNumber();
     void checkAndUpdateWaveNumber(int tempCurrentEnemyWaveHolder);
     void setTotalEnemiesInCurrentSet(); // made this into a method to maintain consitent code
 
-// struct somethingmeaningful { float meaningful1; float meaningful2; };
-// using mymeaningfulmap = std::map<int, somethingmeaninful>;
-// from https://stackoverflow.com/questions/24882357/stdpair-vs-array
-
-    std::map <int, std::vector<enemySetsInWave>> waveAndEnemies;
-    std::map <int, waveScheduleDetails> waveAndTimeBetweens;
-    bool lastEnemy = false;
 };

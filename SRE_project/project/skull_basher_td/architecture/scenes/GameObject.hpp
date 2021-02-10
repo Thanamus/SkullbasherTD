@@ -37,9 +37,7 @@ public:
     GameObject* getChildByName(const std::string& childName);
     void removeChild(GameObject* ptr);
 
-    // TODO:  getter/setter
     bool isQueuedForDeletion() const;
-
     void setQueuedForDeletion(bool queuedForDeletion_);
 
 private:
