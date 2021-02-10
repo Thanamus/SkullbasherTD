@@ -17,7 +17,6 @@ EnemyCollisionHandlerComponent::EnemyCollisionHandlerComponent(GameObject* gameO
 }
 
 void EnemyCollisionHandlerComponent::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
-    
     //check the collision is the 'first time two obejcts collide' 
     if (begin && !stopCollisions){
         auto crystal = other->getComponent<CrystalHealthComponent>();

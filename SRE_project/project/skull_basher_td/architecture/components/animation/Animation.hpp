@@ -6,6 +6,7 @@
 #include <vector>
 #include "glm/glm.hpp"
 
+// keyframes hold SQT data describing a transformation over a set duration
 struct Keyframe {
     glm::vec3 translate;
     glm::vec3 scale;
@@ -13,6 +14,7 @@ struct Keyframe {
     float timeDuration; // duration of transition to keyframe in seconds
 };
 
+// describes an animation as a sequence of keyframes for the animator interplate between
 class Animation {
 private:
     std::vector<Keyframe> keyframes;

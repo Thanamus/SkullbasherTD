@@ -14,18 +14,18 @@ Pathfinder::Pathfinder(GameObject* _gameObject)
 : gameObject(_gameObject) {
     // initialize pathfinder
     currentPathIndex = GameManager::getInstance().getFirstPathIndex(); // get the first index (can change depending on how long the path is)
-    fetchNextPathPoint();
+    fetchNextPathPoint(); // get and set next path point
     currentPosition = gameObject->getComponent<TransformComponent>()->position;
-    startPathPoint = currentPosition;
-    distance = glm::length(glm::vec2(nextPathPoint.x, nextPathPoint.z) - glm::vec2(startPathPoint.x, startPathPoint.z));
-    direction = glm::normalize(nextPathPoint - startPathPoint);
+    startPathPoint = currentPosition; // set start
+    distance = glm::length(glm::vec2(nextPathPoint.x, nextPathPoint.z) - glm::vec2(startPathPoint.x, startPathPoint.z)); // calc current XZ distance
+    direction = glm::normalize(nextPathPoint - startPathPoint); // calc current direction
     glm::mat4 lookAtMat = glm::lookAt(startPathPoint, nextPathPoint, {0, 1, 0});
     auto cosYAngle = (float)sqrt(pow(lookAtMat[0][0], 2) + pow(lookAtMat[1][0], 2));
+    // calcs starting rotation to face the path
     rotY = atan2(lookAtMat[2][0], cosYAngle);
 }
 
 void Pathfinder::fetchNextPathPoint(){
-
     if (currentPathIndex > 0)
         currentPathIndex -= 1;
     nextPathPoint = GameManager::getInstance().getPathPoint(currentPathIndex);
@@ -34,9 +34,9 @@ void Pathfinder::fetchNextPathPoint(){
 void Pathfinder::update(float deltaTime) {
     if (moving) {
         //only if the skull has been set to moving it should move along the path
-        
-        btRigidBody* rigidBody = nullptr; // init a rigid body
+        btRigidBody* rigidBody = nullptr; // rigidbody pointer
 
+        // get transform / rigidbody compinents
         auto transformComp = gameObject->getComponent<TransformComponent>();
         auto rigidBodyComp = gameObject->getComponent<RigidBodyComponent>();
 
@@ -51,20 +51,24 @@ void Pathfinder::update(float deltaTime) {
         } else if (transformComp)
             currentPosition = transformComp->position; // no rigid body, use Transform instead
 
+        // determines how close to get to the end point
         auto error = 0.1f;
 
         // check if movement has gone too far, prevents the skulls heading off into the sunset
+        // if the skull is getting farther from the next path point, it has moved too far
         float newDistance = glm::length(glm::vec2(nextPathPoint.x, nextPathPoint.z) - glm::vec2(currentPosition.x, currentPosition.z));
         bool movedPast = newDistance > distance;
+        // if close enough
         bool closeToNext = (abs(currentPosition.x - nextPathPoint.x) <= error && abs(currentPosition.z - nextPathPoint.z) <= error);
         if (movedPast || closeToNext) {
+            // updates to move to the next path point
             startPathPoint = nextPathPoint;
             fetchNextPathPoint();
             if(currentPathIndex == 0 && startPathPoint == nextPathPoint) { // has finished moving
                 moving = false;
                 return;
             }
-            // slightly corrects cascading errors
+            // slightly corrects cascading position errors, with glm::mix to be slightly smoother
             currentPosition = glm::mix(currentPosition, startPathPoint, 0.5);
             currentPosition.y = 0;
             direction =  glm::normalize(nextPathPoint - startPathPoint);

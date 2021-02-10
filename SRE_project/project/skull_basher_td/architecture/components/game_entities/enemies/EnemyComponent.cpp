@@ -52,6 +52,7 @@ glm::vec3 EnemyComponent::getPosition() {
     return getGameObject()->getComponent<TransformComponent>()->globalPosition();
 }
 
+// handles health changes, updates enemy count and plays death sound
 void EnemyComponent::HandleHealthChange() {
     if (!GameManager::getInstance().levelRunning || gameObject->isQueuedForDeletion())
         return;

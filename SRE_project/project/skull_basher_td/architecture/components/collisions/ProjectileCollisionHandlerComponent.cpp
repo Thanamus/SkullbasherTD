@@ -16,16 +16,22 @@ class GameObject;
 
 ProjectileCollisionHandlerComponent::ProjectileCollisionHandlerComponent(GameObject *gameObject) : Component(gameObject) {}
 
+// on collision, damages enemies and queues the gameobject for deletion
 void ProjectileCollisionHandlerComponent::onCollision(size_t collisionId, GameObject* other, glm::vec3 position, bool begin) {
+    // if allowed to collide
     if (begin && !stopCollisions) {
         auto enemy = other->getComponent<EnemyComponent>();
-
+        // if it's an enemy
         if (enemy) {
+            // and the enemy is hittable
             if(!enemy->isHittable())
                 return;
+            // prevent further collisions (especially important with box-box collisions)
             stopCollisions = true;
-            gameObject->setQueuedForDeletion(true);
+            // damage enemy
             enemy->decreaseHealth(damage);
+            // queue gameObject for deletion
+            gameObject->setQueuedForDeletion(true);
         }
     }
 }
