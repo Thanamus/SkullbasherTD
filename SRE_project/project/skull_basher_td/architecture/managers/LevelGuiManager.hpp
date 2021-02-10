@@ -21,6 +21,7 @@ private:
 
     std::shared_ptr<sre::Texture> powerbar;
     std::shared_ptr<sre::Texture> crosshair;
+    std::shared_ptr<sre::Texture> crossBowIcon;
     glm::vec2 powerbarSize;
     std::shared_ptr<sre::Texture> heartIcons[3];
     glm::vec2 heartSize;

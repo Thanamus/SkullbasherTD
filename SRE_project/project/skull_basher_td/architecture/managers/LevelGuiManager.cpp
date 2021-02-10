@@ -127,7 +127,7 @@ void LevelGuiManager::guiTowers() {
     auto cond = ImGuiCond_Always;
     ImVec2 pivot = {0,0};
 
-    ImVec2 size = {(GameManager::getInstance().GetTowers().size() * 64.0f) + 30.0f, 107};
+    ImVec2 size = {(GameManager::getInstance().GetTowers().size() * 64.0f)  + 27.0f, 110};
     ImVec2 pos = {(winsize.x  / 2.0f) - (size.x / 2),winsize.y - size.y};
     ImGui::SetNextWindowPos(pos, cond, pivot);
     ImGui::SetNextWindowSize(size, cond);
@@ -142,17 +142,29 @@ void LevelGuiManager::guiTowers() {
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), title)); // align center
     ImGui::Text("Towers");
 
-    int count = 0;
+    int count = 1;
+    float padding = 7;
+    for(int i = 0; i < GameManager::getInstance().GetTowers().size(); i++)
+    {
+        padding = padding * count;
+        ImGui::SetCursorPosX(((64 * count) - 32) + padding ); // align center
+        ImGui::Text("%d", count);
+        count++;
+        if(i != GameManager::getInstance().GetTowers().size() - 1)
+            ImGui::SameLine();
+    }
+
+    ImVec2 uv0(0,1); // flip y axis coordinates
+    ImVec2 uv1(1,0);
+    ImVec2 s(64,64);
+    ImVec4 currentBorder = ImVec4(0,0,0,1);
     int selectedTowerID = GameManager::getInstance().selectedTower.get()->getId();
     for (auto& tower : GameManager::getInstance().GetTowers()){
-        ImVec2 uv0(0,1); // flip y axis coordinates
-        ImVec2 uv1(1,0);
-        ImVec2 s(64,64);
-        ImVec4 currentBorder = ImVec4(0,0,0,1);;
         if(GameManager::getInstance().buildModeActive)
             currentBorder = tower.get()->getId() == selectedTowerID ? selectedBorderColor : ImVec4(0,0,0,1);
 
         ImGui::Image(tower->getIcon()->getNativeTexturePtr(), s, uv0, uv1 , ImVec4(1,1,1,1),currentBorder);
+        count++;
         ImGui::SameLine();
     }
 
@@ -167,7 +179,7 @@ void LevelGuiManager::guiBuildPopUp(ImVec2 towerWindowSize) {
     auto cond = ImGuiCond_Always;
     ImVec2 pivot = {0,0};
 
-    ImVec2 size = {250, 75};
+    ImVec2 size = {250, 125};
     ImVec2 pos = {(winsize.x  / 2.0f) - (size.x / 2),winsize.y - towerWindowSize.y - size.y};
     ImGui::SetNextWindowPos(pos, cond, pivot);
     ImGui::SetNextWindowSize(size, cond);
@@ -187,9 +199,33 @@ void LevelGuiManager::guiBuildPopUp(ImVec2 towerWindowSize) {
     stream << std::fixed << std::setprecision(2) << GameManager::getInstance().selectedTower->getBuildCost();
     std::string priceString = stream.str();
 
-    std::string price = "cost: $" + priceString;
+    std::string price = "Cost: $" + priceString;
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), price)); // align center
     ImGui::Text(price.c_str());
+
+    std::stringstream damageStream;
+    damageStream << std::fixed << std::setprecision(2) << GameManager::getInstance().selectedTower->getProjectile().damage;
+    std::string damageString = damageStream.str();
+
+    std::string damage = "Damage: " + damageString;
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), damage)); // align center
+    ImGui::Text(damage.c_str());
+
+    std::stringstream reloadStream;
+    reloadStream << std::fixed << std::setprecision(2) << GameManager::getInstance().selectedTower->getReloadTime();
+    std::string reloadString = reloadStream.str();
+
+    std::string reload = "Reload Time: " + reloadString;
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), reload)); // align center
+    ImGui::Text(reload.c_str());
+
+    std::stringstream rangeStream;
+    rangeStream << std::fixed << std::setprecision(2) << GameManager::getInstance().selectedTower->getRange();
+    std::string rangeString = rangeStream.str();
+
+    std::string range = "Range: " + rangeString;
+    ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), range)); // align center
+    ImGui::Text(range.c_str());
 
     std::string exitText = "Press escape to exit build mode";
     ImGui::SetCursorPosX(centerText(ImGui::GetWindowSize(), exitText)); // align center

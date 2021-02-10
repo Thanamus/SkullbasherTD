@@ -525,18 +525,26 @@
     },
     "waves": [
         {"enemies":[{"enemyType":1,"quantity":1}], "timeBetweenEnemy":20, "timeBetweenWaves":10},
-        {"enemies":[{"enemyType":2,"quantity":1}], "timeBetweenEnemy":10, "timeBetweenWaves":30},
-        {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":10, "timeBetweenWaves":40},
+        {"enemies":[{"enemyType":2,"quantity":3}], "timeBetweenEnemy":3, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":2,"quantity":3}, {"enemyType":3,"quantity":1}], "timeBetweenEnemy":5, "timeBetweenWaves":20},
+
+        {"enemies":[{"enemyType":1,"quantity":3}, {"enemyType":2,"quantity":3}, {"enemyType":1,"quantity":3}], "timeBetweenEnemy":2, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":3,"quantity":1}, {"enemyType":2,"quantity":3}, {"enemyType":3,"quantity":1}], "timeBetweenEnemy":2, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":2,"quantity":3}, {"enemyType":1,"quantity":3}, {"enemyType":2,"quantity":3}], "timeBetweenEnemy":2, "timeBetweenWaves":20},
 
         {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":2,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":20},
-        {"enemies":[{"enemyType":3,"quantity":1}], "timeBetweenEnemy":10, "timeBetweenWaves":20},
-        {"enemies":[{"enemyType":1,"quantity":5}], "timeBetweenEnemy":10, "timeBetweenWaves":40},
-        {"enemies":[{"enemyType":1,"quantity":2},{"enemyType":2,"quantity":1},{"enemyType":1,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":10},
-        
-        {"enemies":[{"enemyType":1,"quantity":2}, {"enemyType":2,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":30},
-        {"enemies":[{"enemyType":3,"quantity":2}, {"enemyType":1,"quantity":2}], "timeBetweenEnemy":10, "timeBetweenWaves":30},
+        {"enemies":[{"enemyType":3,"quantity":3}], "timeBetweenEnemy":5, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":1,"quantity":5}], "timeBetweenEnemy":2, "timeBetweenWaves":40},
+        {"enemies":[{"enemyType":1,"quantity":5},{"enemyType":2,"quantity":5},{"enemyType":1,"quantity":5}], "timeBetweenEnemy":2, "timeBetweenWaves":10},
 
-        {"enemies":[{"enemyType":3,"quantity":2}], "timeBetweenEnemy":5, "timeBetweenWaves":5},
+        {"enemies":[{"enemyType":3,"quantity":5}], "timeBetweenEnemy":2, "timeBetweenWaves":5},
+        {"enemies":[{"enemyType":2,"quantity":10}], "timeBetweenEnemy":2, "timeBetweenWaves":20},
+        {"enemies":[{"enemyType":1,"quantity":10}], "timeBetweenEnemy":2, "timeBetweenWaves":20},
+        
+        {"enemies":[{"enemyType":1,"quantity":5}, {"enemyType":2,"quantity":5}], "timeBetweenEnemy":3, "timeBetweenWaves":30},
+        {"enemies":[{"enemyType":3,"quantity":5}, {"enemyType":1,"quantity":5}], "timeBetweenEnemy":3, "timeBetweenWaves":30},
+
+        {"enemies":[{"enemyType":3,"quantity":10}], "timeBetweenEnemy":5, "timeBetweenWaves":5},
         {"enemies":[{"enemyType":2,"quantity":10}], "timeBetweenEnemy":2, "timeBetweenWaves":5},
         {"enemies":[{"enemyType":4,"quantity":1}], "timeBetweenEnemy":1, "timeBetweenWaves":20}
     ],
@@ -556,7 +564,7 @@
                 "z": 0.5
             },
             "moveSpeed": 4,
-            "health": 2.0,
+            "health": 5.0,
             "money": 5.0,
             "damage": 10.0,
             "soundEffectsPlaylist": [
@@ -620,7 +628,7 @@
                 "z": 0.9
             },
             "moveSpeed": 3,
-            "health": 3.0,
+            "health": 10.0,
             "money": 10.0,
             "damage": 40.0,
             "soundEffectsPlaylist": [
@@ -653,7 +661,7 @@
                 "z": 2.5
             },
             "moveSpeed": 2,
-            "health": 5.0,
+            "health": 20.0,
             "money": 20.0,
             "damage": 100.0,
             "soundEffectsPlaylist": [
