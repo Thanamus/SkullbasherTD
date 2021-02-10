@@ -11,25 +11,25 @@
   source.cpp
   state.cpp
   alc.cpp
-  alu.cpp
   alconfig.cpp
+  alu.cpp
+  base.cpp
+  dsound.cpp
+  loopback.cpp
+  wasapi.cpp
+  wave.cpp
+  winmm.cpp
   bformatdec.cpp
+  Generating Code...
+  Compiling...
   buffer_storage.cpp
   converter.cpp
   effectslot.cpp
   helpers.cpp
   hrtf.cpp
   panning.cpp
-  Generating Code...
-  Compiling...
   uiddefs.cpp
   voice.cpp
-  base.cpp
-  loopback.cpp
-  winmm.cpp
-  dsound.cpp
-  wasapi.cpp
-  wave.cpp
   ambdec.cpp
   ambidefs.cpp
   bs2b.cpp
@@ -46,12 +46,12 @@
   Compiling...
   logging.cpp
   mastering.cpp
-  uhjfilter.cpp
   mixer_c.cpp
   mixer_sse.cpp
   mixer_sse2.cpp
   mixer_sse3.cpp
   mixer_sse41.cpp
+  uhjfilter.cpp
   Generating Code...
   autowah.cpp
   chorus.cpp
@@ -82,5 +82,6 @@
   reverb.cpp
   vmorpher.cpp
   null.cpp
+  LINK : C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\Debug\OpenAL32.dll not found or not built by the last incremental link; performing full link
      Creating library C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/Debug/OpenAL32.lib and object C:/Users/nfgol/ITU_GProg/SkullBasherTD/SRE_project/thirdparty/All/OpenAL-soft_build/Debug/OpenAL32.exp
   OpenAL.vcxproj -> C:\Users\nfgol\ITU_GProg\SkullBasherTD\SRE_project\thirdparty\All\OpenAL-soft_build\Debug\OpenAL32.dll

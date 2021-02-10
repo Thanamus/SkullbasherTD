@@ -3,7 +3,7 @@
 #define ALSOFT_VERSION_NUM 1,21,0,0
 
 /* Define the branch being built */
-#define ALSOFT_GIT_BRANCH "master"
+#define ALSOFT_GIT_BRANCH "ContinuingWithSoundDev"
 
 /* Define the hash of the head commit */
-#define ALSOFT_GIT_COMMIT_HASH "d6495b35"
+#define ALSOFT_GIT_COMMIT_HASH "d06caaf"

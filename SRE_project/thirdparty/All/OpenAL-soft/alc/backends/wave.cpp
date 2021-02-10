@@ -33,6 +33,7 @@
 #include <functional>
 #include <thread>
 
+#include "albit.h"
 #include "albyte.h"
 #include "alcmain.h"
 #include "alconfig.h"
@@ -41,7 +42,7 @@
 #include "alu.h"
 #include "compat.h"
 #include "core/logging.h"
-#include "endiantest.h"
+#include "opthelpers.h"
 #include "strutils.h"
 #include "threads.h"
 #include "vector.h"
@@ -149,7 +150,7 @@ int WaveBackend::mixerProc()
             mDevice->renderSamples(mBuffer.data(), mDevice->UpdateSize, frameStep);
             done += mDevice->UpdateSize;
 
-            if /*constexpr*/(!IS_LITTLE_ENDIAN)
+            if_constexpr(al::endian::native != al::endian::little)
             {
                 const uint bytesize{mDevice->bytesFromFmt()};
 
@@ -176,9 +177,8 @@ int WaveBackend::mixerProc()
                 }
             }
 
-            size_t fs{fwrite(mBuffer.data(), frameSize, mDevice->UpdateSize, mFile)};
-            (void)fs;
-            if(ferror(mFile))
+            const size_t fs{fwrite(mBuffer.data(), frameSize, mDevice->UpdateSize, mFile)};
+            if(fs < mDevice->UpdateSize || ferror(mFile))
             {
                 ERR("Error writing to file\n");
                 mDevice->handleDisconnect("Failed to write playback samples");
@@ -194,8 +194,8 @@ int WaveBackend::mixerProc()
         if(done >= mDevice->Frequency)
         {
             seconds s{done/mDevice->Frequency};
+            done %= mDevice->Frequency;
             start += s;
-            done -= mDevice->Frequency*s.count();
         }
     }
 
@@ -336,6 +336,8 @@ bool WaveBackend::reset()
 
 void WaveBackend::start()
 {
+    if(mDataStart > 0 && fseek(mFile, 0, SEEK_END) != 0)
+        WARN("Failed to seek on output file\n");
     try {
         mKillNow.store(false, std::memory_order_release);
         mThread = std::thread{std::mem_fn(&WaveBackend::mixerProc), this};
@@ -352,14 +354,17 @@ void WaveBackend::stop()
         return;
     mThread.join();
 
-    long size{ftell(mFile)};
-    if(size > 0)
+    if(mDataStart > 0)
     {
-        long dataLen{size - mDataStart};
-        if(fseek(mFile, mDataStart-4, SEEK_SET) == 0)
-            fwrite32le(static_cast<uint>(dataLen), mFile); // 'data' header len
-        if(fseek(mFile, 4, SEEK_SET) == 0)
-            fwrite32le(static_cast<uint>(size-8), mFile); // 'WAVE' header len
+        long size{ftell(mFile)};
+        if(size > 0)
+        {
+            long dataLen{size - mDataStart};
+            if(fseek(mFile, 4, SEEK_SET) == 0)
+                fwrite32le(static_cast<uint>(size-8), mFile); // 'WAVE' header len
+            if(fseek(mFile, mDataStart-4, SEEK_SET) == 0)
+                fwrite32le(static_cast<uint>(dataLen), mFile); // 'data' header len
+        }
     }
 }
 

@@ -64,6 +64,7 @@
 #include "al/filter.h"
 #include "al/listener.h"
 #include "al/source.h"
+#include "albit.h"
 #include "alcmain.h"
 #include "albyte.h"
 #include "alconfig.h"
@@ -1804,9 +1805,9 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
         /* If a context is already running on the device, stop playback so the
          * device attributes can be updated.
          */
-        if(device->Flags.get<DeviceRunning>())
+        if(device->Flags.test(DeviceRunning))
             device->Backend->stop();
-        device->Flags.unset<DeviceRunning>();
+        device->Flags.reset(DeviceRunning);
 
         UpdateClockBase(device);
 
@@ -1833,7 +1834,7 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
 
             freq = ConfigValueUInt(devname, nullptr, "frequency").value_or(freq);
             if(freq < 1)
-                device->Flags.unset<FrequencyRequest>();
+                device->Flags.reset(FrequencyRequest);
             else
             {
                 freq = clampu(freq, MIN_OUTPUT_RATE, MAX_OUTPUT_RATE);
@@ -1843,7 +1844,7 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
                 device->BufferSize = static_cast<uint>(device->BufferSize*scale + 0.5);
 
                 device->Frequency = freq;
-                device->Flags.set<FrequencyRequest>();
+                device->Flags.set(FrequencyRequest);
             }
 
             if(auto persizeopt = ConfigValueUInt(devname, nullptr, "period_size"))
@@ -1878,7 +1879,7 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
             new_sends = numSends;
     }
 
-    if(device->Flags.get<DeviceRunning>())
+    if(device->Flags.test(DeviceRunning))
         return ALC_NO_ERROR;
 
     device->AvgSpeakerDist = 0.0f;
@@ -1927,7 +1928,7 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
         if(hrtf_userreq == Hrtf_Enable || (hrtf_userreq != Hrtf_Disable && hrtf_appreq == Hrtf_Enable))
         {
             device->FmtChans = DevFmtStereo;
-            device->Flags.set<ChannelsRequest>();
+            device->Flags.set(ChannelsRequest);
         }
     }
 
@@ -1936,9 +1937,9 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
     oldType  = device->FmtType;
 
     TRACE("Pre-reset: %s%s, %s%s, %s%uhz, %u / %u buffer\n",
-        device->Flags.get<ChannelsRequest>()?"*":"", DevFmtChannelsString(device->FmtChans),
-        device->Flags.get<SampleTypeRequest>()?"*":"", DevFmtTypeString(device->FmtType),
-        device->Flags.get<FrequencyRequest>()?"*":"", device->Frequency,
+        device->Flags.test(ChannelsRequest)?"*":"", DevFmtChannelsString(device->FmtChans),
+        device->Flags.test(SampleTypeRequest)?"*":"", DevFmtTypeString(device->FmtType),
+        device->Flags.test(FrequencyRequest)?"*":"", device->Frequency,
         device->UpdateSize, device->BufferSize);
 
     try {
@@ -1951,22 +1952,22 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
         return ALC_INVALID_DEVICE;
     }
 
-    if(device->FmtChans != oldChans && device->Flags.get<ChannelsRequest>())
+    if(device->FmtChans != oldChans && device->Flags.test(ChannelsRequest))
     {
         ERR("Failed to set %s, got %s instead\n", DevFmtChannelsString(oldChans),
             DevFmtChannelsString(device->FmtChans));
-        device->Flags.unset<ChannelsRequest>();
+        device->Flags.reset(ChannelsRequest);
     }
-    if(device->FmtType != oldType && device->Flags.get<SampleTypeRequest>())
+    if(device->FmtType != oldType && device->Flags.test(SampleTypeRequest))
     {
         ERR("Failed to set %s, got %s instead\n", DevFmtTypeString(oldType),
             DevFmtTypeString(device->FmtType));
-        device->Flags.unset<SampleTypeRequest>();
+        device->Flags.reset(SampleTypeRequest);
     }
-    if(device->Frequency != oldFreq && device->Flags.get<FrequencyRequest>())
+    if(device->Frequency != oldFreq && device->Flags.test(FrequencyRequest))
     {
         WARN("Failed to set %uhz, got %uhz instead\n", oldFreq, device->Frequency);
-        device->Flags.unset<FrequencyRequest>();
+        device->Flags.reset(FrequencyRequest);
     }
 
     TRACE("Post-reset: %s, %s, %uhz, %u / %u buffer\n",
@@ -2128,7 +2129,7 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
             uint64_t usemask{~sublist.FreeMask};
             while(usemask)
             {
-                const int idx{CountTrailingZeros(usemask)};
+                const int idx{al::countr_zero(usemask)};
                 ALeffectslot *slot{sublist.EffectSlots + idx};
                 usemask &= ~(1_u64 << idx);
 
@@ -2149,7 +2150,7 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
             uint64_t usemask{~sublist.FreeMask};
             while(usemask)
             {
-                const int idx{CountTrailingZeros(usemask)};
+                const int idx{al::countr_zero(usemask)};
                 ALsource *source{sublist.Sources + idx};
                 usemask &= ~(1_u64 << idx);
 
@@ -2212,8 +2213,8 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
             if(voice->mAmbiOrder && device->mAmbiOrder > voice->mAmbiOrder)
             {
                 const uint8_t *OrderFromChan{(voice->mFmtChannels == FmtBFormat2D) ?
-                    AmbiIndex::OrderFrom2DChannel.data() :
-                    AmbiIndex::OrderFromChannel.data()};
+                    AmbiIndex::OrderFrom2DChannel().data() :
+                    AmbiIndex::OrderFromChannel().data()};
 
                 const BandSplitter splitter{device->mXOverFreq /
                     static_cast<float>(device->Frequency)};
@@ -2263,12 +2264,12 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const int *attrList)
     }
     mixer_mode.leave();
 
-    if(!device->Flags.get<DevicePaused>())
+    if(!device->Flags.test(DevicePaused))
     {
         try {
             auto backend = device->Backend.get();
             backend->start();
-            device->Flags.set<DeviceRunning>();
+            device->Flags.set(DeviceRunning);
         }
         catch(al::backend_exception& e) {
             device->handleDisconnect("%s", e.what());
@@ -2292,19 +2293,19 @@ ALCdevice::~ALCdevice()
 
     size_t count{std::accumulate(BufferList.cbegin(), BufferList.cend(), size_t{0u},
         [](size_t cur, const BufferSubList &sublist) noexcept -> size_t
-        { return cur + static_cast<uint>(PopCount(~sublist.FreeMask)); })};
+        { return cur + static_cast<uint>(al::popcount(~sublist.FreeMask)); })};
     if(count > 0)
         WARN("%zu Buffer%s not deleted\n", count, (count==1)?"":"s");
 
     count = std::accumulate(EffectList.cbegin(), EffectList.cend(), size_t{0u},
         [](size_t cur, const EffectSubList &sublist) noexcept -> size_t
-        { return cur + static_cast<uint>(PopCount(~sublist.FreeMask)); });
+        { return cur + static_cast<uint>(al::popcount(~sublist.FreeMask)); });
     if(count > 0)
         WARN("%zu Effect%s not deleted\n", count, (count==1)?"":"s");
 
     count = std::accumulate(FilterList.cbegin(), FilterList.cend(), size_t{0u},
         [](size_t cur, const FilterSubList &sublist) noexcept -> size_t
-        { return cur + static_cast<uint>(PopCount(~sublist.FreeMask)); });
+        { return cur + static_cast<uint>(al::popcount(~sublist.FreeMask)); });
     if(count > 0)
         WARN("%zu Filter%s not deleted\n", count, (count==1)?"":"s");
 
@@ -2356,7 +2357,7 @@ ALCcontext::~ALCcontext()
 
     count = std::accumulate(mSourceList.cbegin(), mSourceList.cend(), size_t{0u},
         [](size_t cur, const SourceSubList &sublist) noexcept -> size_t
-        { return cur + static_cast<uint>(PopCount(~sublist.FreeMask)); });
+        { return cur + static_cast<uint>(al::popcount(~sublist.FreeMask)); });
     if(count > 0)
         WARN("%zu Source%s not deleted\n", count, (count==1)?"":"s");
     mSourceList.clear();
@@ -2381,7 +2382,7 @@ ALCcontext::~ALCcontext()
 
     count = std::accumulate(mEffectSlotList.cbegin(), mEffectSlotList.cend(), size_t{0u},
         [](size_t cur, const EffectSlotSubList &sublist) noexcept -> size_t
-        { return cur + static_cast<uint>(PopCount(~sublist.FreeMask)); });
+        { return cur + static_cast<uint>(al::popcount(~sublist.FreeMask)); });
     if(count > 0)
         WARN("%zu AuxiliaryEffectSlot%s not deleted\n", count, (count==1)?"":"s");
     mEffectSlotList.clear();
@@ -3367,10 +3368,10 @@ START_API_FUNC
     ALCdevice *Device{ctx->mDevice.get()};
 
     std::lock_guard<std::mutex> _{Device->StateLock};
-    if(!ctx->deinit() && Device->Flags.get<DeviceRunning>())
+    if(!ctx->deinit() && Device->Flags.test(DeviceRunning))
     {
         Device->Backend->stop();
-        Device->Flags.unset<DeviceRunning>();
+        Device->Flags.reset(DeviceRunning);
     }
 }
 END_API_FUNC
@@ -3545,7 +3546,7 @@ START_API_FUNC
         {
             device->FmtChans = iter->chans;
             device->mAmbiOrder = iter->order;
-            device->Flags.set<ChannelsRequest>();
+            device->Flags.set(ChannelsRequest);
         }
     }
     if(auto typeopt = ConfigValueStr(deviceName, nullptr, "sample-type"))
@@ -3573,7 +3574,7 @@ START_API_FUNC
         else
         {
             device->FmtType = iter->type;
-            device->Flags.set<SampleTypeRequest>();
+            device->Flags.set(SampleTypeRequest);
         }
     }
 
@@ -3589,7 +3590,7 @@ START_API_FUNC
         device->UpdateSize = static_cast<uint>(device->UpdateSize*scale + 0.5);
         device->BufferSize = static_cast<uint>(device->BufferSize*scale + 0.5);
         device->Frequency = freq;
-        device->Flags.set<FrequencyRequest>();
+        device->Flags.set(FrequencyRequest);
     }
 
     if(auto persizeopt = ConfigValueUInt(deviceName, nullptr, "period_size"))
@@ -3698,9 +3699,9 @@ START_API_FUNC
     }
     orphanctxs.clear();
 
-    if(dev->Flags.get<DeviceRunning>())
+    if(dev->Flags.test(DeviceRunning))
         dev->Backend->stop();
-    dev->Flags.unset<DeviceRunning>();
+    dev->Flags.reset(DeviceRunning);
 
     return ALC_TRUE;
 }
@@ -3746,7 +3747,9 @@ START_API_FUNC
     device->Frequency = frequency;
     device->FmtChans = decompfmt->chans;
     device->FmtType = decompfmt->type;
-    device->Flags.set<FrequencyRequest, ChannelsRequest, SampleTypeRequest>();
+    device->Flags.set(FrequencyRequest);
+    device->Flags.set(ChannelsRequest);
+    device->Flags.set(SampleTypeRequest);
 
     device->UpdateSize = static_cast<uint>(samples);
     device->BufferSize = static_cast<uint>(samples);
@@ -3800,9 +3803,9 @@ START_API_FUNC
     listlock.unlock();
 
     std::lock_guard<std::mutex> _{dev->StateLock};
-    if(dev->Flags.get<DeviceRunning>())
+    if(dev->Flags.test(DeviceRunning))
         dev->Backend->stop();
-    dev->Flags.unset<DeviceRunning>();
+    dev->Flags.reset(DeviceRunning);
 
     return ALC_TRUE;
 }
@@ -3821,12 +3824,12 @@ START_API_FUNC
     std::lock_guard<std::mutex> _{dev->StateLock};
     if(!dev->Connected.load(std::memory_order_acquire))
         alcSetError(dev.get(), ALC_INVALID_DEVICE);
-    else if(!dev->Flags.get<DeviceRunning>())
+    else if(!dev->Flags.test(DeviceRunning))
     {
         try {
             auto backend = dev->Backend.get();
             backend->start();
-            dev->Flags.set<DeviceRunning>();
+            dev->Flags.set(DeviceRunning);
         }
         catch(al::backend_exception& e) {
             dev->handleDisconnect("%s", e.what());
@@ -3845,9 +3848,9 @@ START_API_FUNC
     else
     {
         std::lock_guard<std::mutex> _{dev->StateLock};
-        if(dev->Flags.get<DeviceRunning>())
+        if(dev->Flags.test(DeviceRunning))
             dev->Backend->stop();
-        dev->Flags.unset<DeviceRunning>();
+        dev->Flags.reset(DeviceRunning);
     }
 }
 END_API_FUNC
@@ -4007,10 +4010,10 @@ START_API_FUNC
     else
     {
         std::lock_guard<std::mutex> _{dev->StateLock};
-        if(dev->Flags.get<DeviceRunning>())
+        if(dev->Flags.test(DeviceRunning))
             dev->Backend->stop();
-        dev->Flags.unset<DeviceRunning>();
-        dev->Flags.set<DevicePaused>();
+        dev->Flags.reset(DeviceRunning);
+        dev->Flags.set(DevicePaused);
     }
 }
 END_API_FUNC
@@ -4027,16 +4030,16 @@ START_API_FUNC
     }
 
     std::lock_guard<std::mutex> _{dev->StateLock};
-    if(!dev->Flags.get<DevicePaused>())
+    if(!dev->Flags.test(DevicePaused))
         return;
-    dev->Flags.unset<DevicePaused>();
+    dev->Flags.reset(DevicePaused);
     if(dev->mContexts.load()->empty())
         return;
 
     try {
         auto backend = dev->Backend.get();
         backend->start();
-        dev->Flags.set<DeviceRunning>();
+        dev->Flags.set(DeviceRunning);
     }
     catch(al::backend_exception& e) {
         dev->handleDisconnect("%s", e.what());
@@ -4092,9 +4095,9 @@ START_API_FUNC
     /* Force the backend to stop mixing first since we're resetting. Also reset
      * the connected state so lost devices can attempt recover.
      */
-    if(dev->Flags.get<DeviceRunning>())
+    if(dev->Flags.test(DeviceRunning))
         dev->Backend->stop();
-    dev->Flags.unset<DeviceRunning>();
+    dev->Flags.reset(DeviceRunning);
     if(!dev->Connected.load(std::memory_order_relaxed))
     {
         /* Make sure disconnection is finished before continuing on. */

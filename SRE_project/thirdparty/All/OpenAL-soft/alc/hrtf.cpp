@@ -40,6 +40,8 @@
 #include <type_traits>
 #include <utility>
 
+#include "albit.h"
+#include "albyte.h"
 #include "alcmain.h"
 #include "alconfig.h"
 #include "alfstream.h"
@@ -290,7 +292,7 @@ void DirectHrtfState::build(const HrtfStore *Hrtf, const uint irSize,
     const double xover_norm{double{XOverFreq} / Hrtf->sampleRate};
     for(size_t i{0};i < mChannels.size();++i)
     {
-        const size_t order{AmbiIndex::OrderFromChannel[i]};
+        const size_t order{AmbiIndex::OrderFromChannel()[i]};
         mChannels[i].mSplitter.init(static_cast<float>(xover_norm));
         mChannels[i].mHfScale = AmbiOrderHFGain[order];
     }
@@ -366,8 +368,8 @@ void DirectHrtfState::build(const HrtfStore *Hrtf, const uint irSize,
     }
     tmpres.clear();
 
-    max_delay = hrir_delay_round(max_delay - min_delay);
-    const uint max_length{minu(max_delay + irSize, HrirLength)};
+    max_delay -= min_delay;
+    const uint max_length{minu(hrir_delay_round(max_delay) + irSize, HrirLength)};
 
     TRACE("Skipped delay: %.2f, new max delay: %.2f, FIR length: %u\n",
         min_delay/double{HrirDelayFracOne}, max_delay/double{HrirDelayFracOne},
@@ -462,48 +464,46 @@ void MirrorLeftHrirs(const al::span<const HrtfStore::Elevation> elevs, HrirArray
     }
 }
 
-ubyte GetLE_ALubyte(std::istream &data)
-{
-    return static_cast<ubyte>(data.get());
-}
 
-short GetLE_ALshort(std::istream &data)
+template<typename T, size_t num_bits=sizeof(T)*8>
+inline T readle(std::istream &data)
 {
-    int ret = data.get();
-    ret |= data.get() << 8;
-    return static_cast<short>((ret^32768) - 32768);
-}
+    static_assert((num_bits&7) == 0, "num_bits must be a multiple of 8");
+    static_assert(num_bits <= sizeof(T)*8, "num_bits is too large for the type");
 
-ushort GetLE_ALushort(std::istream &data)
-{
-    int ret = data.get();
-    ret |= data.get() << 8;
-    return static_cast<ushort>(ret);
-}
+    T ret{};
+    if_constexpr(al::endian::native == al::endian::little)
+    {
+        if(!data.read(reinterpret_cast<char*>(&ret), num_bits/8))
+            return static_cast<T>(EOF);
+    }
+    else
+    {
+        al::byte b[sizeof(T)]{};
+        if(!data.read(reinterpret_cast<char*>(b), num_bits/8))
+            return static_cast<T>(EOF);
+        std::reverse_copy(std::begin(b), std::end(b), reinterpret_cast<al::byte*>(&ret));
+    }
 
-int GetLE_ALint24(std::istream &data)
-{
-    int ret = data.get();
-    ret |= data.get() << 8;
-    ret |= data.get() << 16;
-    return (ret^8388608) - 8388608;
-}
-
-uint GetLE_ALuint(std::istream &data)
-{
-    uint ret{static_cast<uint>(data.get())};
-    ret |= static_cast<uint>(data.get()) << 8;
-    ret |= static_cast<uint>(data.get()) << 16;
-    ret |= static_cast<uint>(data.get()) << 24;
+    if_constexpr(std::is_signed<T>::value && num_bits < sizeof(T)*8)
+    {
+        constexpr auto signbit = static_cast<T>(1u << (num_bits-1));
+        return static_cast<T>((ret^signbit) - signbit);
+    }
     return ret;
 }
 
+template<>
+inline uint8_t readle<uint8_t,8>(std::istream &data)
+{ return static_cast<uint8_t>(data.get()); }
+
+
 std::unique_ptr<HrtfStore> LoadHrtf00(std::istream &data, const char *filename)
 {
-    uint rate{GetLE_ALuint(data)};
-    ushort irCount{GetLE_ALushort(data)};
-    ushort irSize{GetLE_ALushort(data)};
-    ubyte evCount{GetLE_ALubyte(data)};
+    uint rate{readle<uint32_t>(data)};
+    ushort irCount{readle<uint16_t>(data)};
+    ushort irSize{readle<uint16_t>(data)};
+    ubyte evCount{readle<uint8_t>(data)};
     if(!data || data.eof())
     {
         ERR("Failed reading %s\n", filename);
@@ -524,7 +524,7 @@ std::unique_ptr<HrtfStore> LoadHrtf00(std::istream &data, const char *filename)
 
     auto elevs = al::vector<HrtfStore::Elevation>(evCount);
     for(auto &elev : elevs)
-        elev.irOffset = GetLE_ALushort(data);
+        elev.irOffset = readle<uint16_t>(data);
     if(!data || data.eof())
     {
         ERR("Failed reading %s\n", filename);
@@ -569,10 +569,10 @@ std::unique_ptr<HrtfStore> LoadHrtf00(std::istream &data, const char *filename)
     for(auto &hrir : coeffs)
     {
         for(auto &val : al::span<float2>{hrir.data(), irSize})
-            val[0] = GetLE_ALshort(data) / 32768.0f;
+            val[0] = readle<int16_t>(data) / 32768.0f;
     }
     for(auto &val : delays)
-        val[0] = GetLE_ALubyte(data);
+        val[0] = readle<uint8_t>(data);
     if(!data || data.eof())
     {
         ERR("Failed reading %s\n", filename);
@@ -598,9 +598,9 @@ std::unique_ptr<HrtfStore> LoadHrtf00(std::istream &data, const char *filename)
 
 std::unique_ptr<HrtfStore> LoadHrtf01(std::istream &data, const char *filename)
 {
-    uint rate{GetLE_ALuint(data)};
-    ushort irSize{GetLE_ALubyte(data)};
-    ubyte evCount{GetLE_ALubyte(data)};
+    uint rate{readle<uint32_t>(data)};
+    ushort irSize{readle<uint8_t>(data)};
+    ubyte evCount{readle<uint8_t>(data)};
     if(!data || data.eof())
     {
         ERR("Failed reading %s\n", filename);
@@ -620,7 +620,8 @@ std::unique_ptr<HrtfStore> LoadHrtf01(std::istream &data, const char *filename)
     }
 
     auto elevs = al::vector<HrtfStore::Elevation>(evCount);
-    for (auto &elev : elevs) elev.azCount = GetLE_ALubyte(data);
+    for(auto &elev : elevs)
+        elev.azCount = readle<uint8_t>(data);
     if(!data || data.eof())
     {
         ERR("Failed reading %s\n", filename);
@@ -646,10 +647,10 @@ std::unique_ptr<HrtfStore> LoadHrtf01(std::istream &data, const char *filename)
     for(auto &hrir : coeffs)
     {
         for(auto &val : al::span<float2>{hrir.data(), irSize})
-            val[0] = GetLE_ALshort(data) / 32768.0f;
+            val[0] = readle<int16_t>(data) / 32768.0f;
     }
     for(auto &val : delays)
-        val[0] = GetLE_ALubyte(data);
+        val[0] = readle<uint8_t>(data);
     if(!data || data.eof())
     {
         ERR("Failed reading %s\n", filename);
@@ -680,11 +681,11 @@ std::unique_ptr<HrtfStore> LoadHrtf02(std::istream &data, const char *filename)
     constexpr ubyte ChanType_LeftOnly{0};
     constexpr ubyte ChanType_LeftRight{1};
 
-    uint rate{GetLE_ALuint(data)};
-    ubyte sampleType{GetLE_ALubyte(data)};
-    ubyte channelType{GetLE_ALubyte(data)};
-    ushort irSize{GetLE_ALubyte(data)};
-    ubyte fdCount{GetLE_ALubyte(data)};
+    uint rate{readle<uint32_t>(data)};
+    ubyte sampleType{readle<uint8_t>(data)};
+    ubyte channelType{readle<uint8_t>(data)};
+    ushort irSize{readle<uint8_t>(data)};
+    ubyte fdCount{readle<uint8_t>(data)};
     if(!data || data.eof())
     {
         ERR("Failed reading %s\n", filename);
@@ -718,8 +719,8 @@ std::unique_ptr<HrtfStore> LoadHrtf02(std::istream &data, const char *filename)
     auto elevs = al::vector<HrtfStore::Elevation>{};
     for(size_t f{0};f < fdCount;f++)
     {
-        const ushort distance{GetLE_ALushort(data)};
-        const ubyte evCount{GetLE_ALubyte(data)};
+        const ushort distance{readle<uint16_t>(data)};
+        const ubyte evCount{readle<uint8_t>(data)};
         if(!data || data.eof())
         {
             ERR("Failed reading %s\n", filename);
@@ -751,7 +752,7 @@ std::unique_ptr<HrtfStore> LoadHrtf02(std::istream &data, const char *filename)
         const size_t ebase{elevs.size()};
         elevs.resize(ebase + evCount);
         for(auto &elev : al::span<HrtfStore::Elevation>(elevs.data()+ebase, evCount))
-            elev.azCount = GetLE_ALubyte(data);
+            elev.azCount = readle<uint8_t>(data);
         if(!data || data.eof())
         {
             ERR("Failed reading %s\n", filename);
@@ -788,7 +789,7 @@ std::unique_ptr<HrtfStore> LoadHrtf02(std::istream &data, const char *filename)
             for(auto &hrir : coeffs)
             {
                 for(auto &val : al::span<float2>{hrir.data(), irSize})
-                    val[0] = GetLE_ALshort(data) / 32768.0f;
+                    val[0] = readle<int16_t>(data) / 32768.0f;
             }
         }
         else if(sampleType == SampleType_S24)
@@ -796,11 +797,11 @@ std::unique_ptr<HrtfStore> LoadHrtf02(std::istream &data, const char *filename)
             for(auto &hrir : coeffs)
             {
                 for(auto &val : al::span<float2>{hrir.data(), irSize})
-                    val[0] = static_cast<float>(GetLE_ALint24(data)) / 8388608.0f;
+                    val[0] = static_cast<float>(readle<int,24>(data)) / 8388608.0f;
             }
         }
         for(auto &val : delays)
-            val[0] = GetLE_ALubyte(data);
+            val[0] = readle<uint8_t>(data);
         if(!data || data.eof())
         {
             ERR("Failed reading %s\n", filename);
@@ -827,8 +828,8 @@ std::unique_ptr<HrtfStore> LoadHrtf02(std::istream &data, const char *filename)
             {
                 for(auto &val : al::span<float2>{hrir.data(), irSize})
                 {
-                    val[0] = GetLE_ALshort(data) / 32768.0f;
-                    val[1] = GetLE_ALshort(data) / 32768.0f;
+                    val[0] = readle<int16_t>(data) / 32768.0f;
+                    val[1] = readle<int16_t>(data) / 32768.0f;
                 }
             }
         }
@@ -838,15 +839,15 @@ std::unique_ptr<HrtfStore> LoadHrtf02(std::istream &data, const char *filename)
             {
                 for(auto &val : al::span<float2>{hrir.data(), irSize})
                 {
-                    val[0] = static_cast<float>(GetLE_ALint24(data)) / 8388608.0f;
-                    val[1] = static_cast<float>(GetLE_ALint24(data)) / 8388608.0f;
+                    val[0] = static_cast<float>(readle<int,24>(data)) / 8388608.0f;
+                    val[1] = static_cast<float>(readle<int,24>(data)) / 8388608.0f;
                 }
             }
         }
         for(auto &val : delays)
         {
-            val[0] = GetLE_ALubyte(data);
-            val[1] = GetLE_ALubyte(data);
+            val[0] = readle<uint8_t>(data);
+            val[1] = readle<uint8_t>(data);
         }
         if(!data || data.eof())
         {
@@ -947,10 +948,10 @@ std::unique_ptr<HrtfStore> LoadHrtf03(std::istream &data, const char *filename)
     constexpr ubyte ChanType_LeftOnly{0};
     constexpr ubyte ChanType_LeftRight{1};
 
-    uint rate{GetLE_ALuint(data)};
-    ubyte channelType{GetLE_ALubyte(data)};
-    ushort irSize{GetLE_ALubyte(data)};
-    ubyte fdCount{GetLE_ALubyte(data)};
+    uint rate{readle<uint32_t>(data)};
+    ubyte channelType{readle<uint8_t>(data)};
+    ushort irSize{readle<uint8_t>(data)};
+    ubyte fdCount{readle<uint8_t>(data)};
     if(!data || data.eof())
     {
         ERR("Failed reading %s\n", filename);
@@ -979,8 +980,8 @@ std::unique_ptr<HrtfStore> LoadHrtf03(std::istream &data, const char *filename)
     auto elevs = al::vector<HrtfStore::Elevation>{};
     for(size_t f{0};f < fdCount;f++)
     {
-        const ushort distance{GetLE_ALushort(data)};
-        const ubyte evCount{GetLE_ALubyte(data)};
+        const ushort distance{readle<uint16_t>(data)};
+        const ubyte evCount{readle<uint8_t>(data)};
         if(!data || data.eof())
         {
             ERR("Failed reading %s\n", filename);
@@ -1012,7 +1013,7 @@ std::unique_ptr<HrtfStore> LoadHrtf03(std::istream &data, const char *filename)
         const size_t ebase{elevs.size()};
         elevs.resize(ebase + evCount);
         for(auto &elev : al::span<HrtfStore::Elevation>(elevs.data()+ebase, evCount))
-            elev.azCount = GetLE_ALubyte(data);
+            elev.azCount = readle<uint8_t>(data);
         if(!data || data.eof())
         {
             ERR("Failed reading %s\n", filename);
@@ -1047,10 +1048,10 @@ std::unique_ptr<HrtfStore> LoadHrtf03(std::istream &data, const char *filename)
         for(auto &hrir : coeffs)
         {
             for(auto &val : al::span<float2>{hrir.data(), irSize})
-                val[0] = static_cast<float>(GetLE_ALint24(data)) / 8388608.0f;
+                val[0] = static_cast<float>(readle<int,24>(data)) / 8388608.0f;
         }
         for(auto &val : delays)
-            val[0] = GetLE_ALubyte(data);
+            val[0] = readle<uint8_t>(data);
         if(!data || data.eof())
         {
             ERR("Failed reading %s\n", filename);
@@ -1075,14 +1076,14 @@ std::unique_ptr<HrtfStore> LoadHrtf03(std::istream &data, const char *filename)
         {
             for(auto &val : al::span<float2>{hrir.data(), irSize})
             {
-                val[0] = static_cast<float>(GetLE_ALint24(data)) / 8388608.0f;
-                val[1] = static_cast<float>(GetLE_ALint24(data)) / 8388608.0f;
+                val[0] = static_cast<float>(readle<int,24>(data)) / 8388608.0f;
+                val[1] = static_cast<float>(readle<int,24>(data)) / 8388608.0f;
             }
         }
         for(auto &val : delays)
         {
-            val[0] = GetLE_ALubyte(data);
-            val[1] = GetLE_ALubyte(data);
+            val[0] = readle<uint8_t>(data);
+            val[1] = readle<uint8_t>(data);
         }
         if(!data || data.eof())
         {

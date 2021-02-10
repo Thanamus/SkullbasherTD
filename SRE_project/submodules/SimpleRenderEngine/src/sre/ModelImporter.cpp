@@ -79,7 +79,7 @@ namespace {
             in.close();
             return contents;
         }
-        LOG_ERROR("Error reading %s. Error code: %i",filename.c_str(), errno);
+        LOG_ERROR("Error reading %s. Error code: %s", filename.c_str(), strerror(errno));
         return "";
     }
 
