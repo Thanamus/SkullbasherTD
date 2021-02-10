@@ -31,7 +31,7 @@ class SourceManager
 {
 private:
     /* data */
-    SourceManager(unsigned int num_of_sources = 8); // Sets the number of sources in the pool
+    SourceManager(unsigned int num_of_sources = 32); // Sets the number of sources in the pool
     ~SourceManager();
     static void Init();
 
