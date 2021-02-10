@@ -35,6 +35,7 @@
 #include "../components/game_entities/coins/CoinComponent.hpp"
 #include "../components/collisions/CoinCollisionHandlerComponent.hpp"
 #include "../components/lifespan/ProjectileLifespanComponent.hpp"
+#include "../music/MusicBuffer.hpp"
 
 #include <iostream>
 #include <utility>
@@ -188,6 +189,9 @@ void SceneManager::changeScene(const std::shared_ptr<LevelData>& sceneData) {
         GameManager::getInstance().setInitialWaveStats();
         scheduleManager->fetchInitialWaveSchedule();
         GameManager::getInstance().ToggleLockMouse();
+
+        MusicBuffer * myMusicBuffer = MusicBuffer::Get();
+        myMusicBuffer->Load(R"(.\assets\music\The Tread of War - MP3.wav)"); // Start playing a music track. First music track played should use "Load()"
     }
     else
     {

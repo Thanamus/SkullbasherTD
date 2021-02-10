@@ -46,7 +46,8 @@ void MainMenuGuiManager::guiMainMenu() {
     //Quit
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x / 2 - 50); // align center
     if (ImGui::Button("Quit Game", ImVec2(100, 50))){
-        //gameManager->quit = true;
+        auto r = SDLRenderer::instance;
+        r->stopEventLoop();
     }
 
     ImGui::End();

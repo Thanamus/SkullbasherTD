@@ -8,7 +8,6 @@
 #include "GameManager.hpp"
 #include "../components/game_entities/player/CameraComponent.hpp"
 #include "../components/game_entities/player/PersonControllerComponent.hpp"
-#include "../components/rendering/ModelRendererComponent.hpp"
 
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -44,7 +43,6 @@ void GameManager::init() {
     score = 40;
 
     //path
-    //path.clear();
     waveAndEnemies.clear();
     waveAndTimeBetweens.clear();
 
@@ -368,6 +366,7 @@ void GameManager::setTotalEnemies(int totalEnemies) {
 void GameManager::toggleWinState(bool winState) {
     GameManager::getInstance().levelRunning = false;
     GameManager::getInstance().won = winState;
+    GameManager::getInstance().paused = true;
     GameManager::getInstance().ToggleLockMouse();
     if(!winState)
         MusicBuffer::Get()->changeTracks(R"(.\assets\music\A-Bitter-Hope-MP3.wav)");

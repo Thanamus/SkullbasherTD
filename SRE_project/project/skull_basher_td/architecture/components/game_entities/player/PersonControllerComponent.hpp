@@ -78,7 +78,7 @@ private:
 
     std::chrono::steady_clock::time_point start_reload_lockout;
     std::chrono::steady_clock::time_point kickOffTime_reload;
-    int reload_lockout_millisec = 2500;
+    int reload_lockout_millisec = 1250;
 
     bool shootable = true;
 

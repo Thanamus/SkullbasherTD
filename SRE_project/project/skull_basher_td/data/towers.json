@@ -7,12 +7,12 @@
       "icon": ".\\assets\\arrow_tower.bmp",
       "indicator": ".\\assets\\ArrowTower.obj",
       "model": ".\\assets\\ArrowTower.obj",
-      "buildCost": 10,
+      "buildCost": 25,
       "constructionTime": 5,
       "delay": 5,
-      "range": 10.0,
+      "range": 12.5,
       "launchTime": 0,
-      "reloadTime": 1,
+      "reloadTime": 1.25,
       "projectileAirTime": 0.25,
       "position":
       {
@@ -38,7 +38,7 @@
           "looping": false,
           "frames": [
             {
-              "duration": 0.7,
+              "duration": 0.95,
               "translate":
               {
                 "x": 0.0,
@@ -115,12 +115,12 @@
       "icon": ".\\assets\\catapult_tower.bmp",
       "indicator": ".\\assets\\catapult_indicator.obj",
       "model": ".\\assets\\catapult_base.obj",
-      "buildCost": 10,
+      "buildCost": 45,
       "constructionTime": 5,
       "delay": 5,
-      "range": 10.0,
+      "range": 20.0,
       "launchTime": 1,
-      "reloadTime": 2,
+      "reloadTime": 2.5,
       "projectileAirTime": 0.5,
       "position":
       {
@@ -220,7 +220,7 @@
               "looping": false,
               "frames": [
                 {
-                  "duration": 2.0,
+                  "duration": 2.5,
                   "translate":
                   {
                     "x": 0.0,

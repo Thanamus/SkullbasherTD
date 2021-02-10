@@ -45,6 +45,8 @@ void ScheduleManager::update(float deltaTime){
                 int enemySetToGoGoGo = GameManager::getInstance().getCurrentEnemySet();
                 int enemyWaveToGoGoGo = GameManager::getInstance().getCurrentWave();
 
+
+
                 for (size_t i = 0; i < gameObjectsList.size(); i++)
                 {
                     auto tempGameObject = gameObjectsList[i];
