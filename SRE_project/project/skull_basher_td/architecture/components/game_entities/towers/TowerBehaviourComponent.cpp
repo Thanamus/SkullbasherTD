@@ -53,6 +53,7 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
                                  "globalPosition", &TransformComponent::globalPosition
     );
 
+    // incompletely implementing all other needed types, pretty self-explanatory
     auto enemyComponent_type =lua.new_usertype<EnemyComponent>("EnemyComponent",
                                      "getPathfinder", &EnemyComponent::getPathfinder,
                                      "getPosition", &EnemyComponent::getPosition,
@@ -87,6 +88,8 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
         return _gameObj->getComponent<ModelRendererComponent>().get();
     });
 
+    // registering other useful functions
+
     lua.set_function("setTarget", [&](GameObject* _target) -> void {
         return setTarget(_target);
     });
@@ -110,7 +113,6 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
     lua.set_function("getAimPos", [&]() -> glm::vec3 {
         return getAimPos();
     });
-
 
     lua.set_function("setAimPos", [&](glm::vec3 _aimPos) -> void {
         return setAimPos(_aimPos);
@@ -136,11 +138,13 @@ TowerBehaviourComponent::TowerBehaviourComponent(GameObject* gameObject)
             "range", range
             );
 
+    // associating actions and script names
     actions[TB_TARGETING] = "targeting";
     actions[TB_RELOADING] = "reloading";
     actions[TB_AIMING] = "aiming";
     actions[TB_SHOOTING] = "shooting";
 
+    // loading scripts in the memory
     loadScript(actions[TB_TARGETING], R"(.\scripts\targeting.lua)", true);
     loadScript(actions[TB_AIMING], R"(.\scripts\aiming.lua)", true);
     loadScript(actions[TB_SHOOTING], R"(.\scripts\shooting.lua)", true);
@@ -152,6 +156,7 @@ void TowerBehaviourComponent::update(float deltaTime) {
     if(!hasTargetInRange) // if target leaves range
         target = nullptr;
     else {
+        // if the tower has a target, keep looking at it
         auto tarPos = target->getComponent<TransformComponent>()->globalPosition();
         gameObject->getComponent<TransformComponent>()->lookAt({tarPos.x, gameObject->getComponent<TransformComponent>()->position.y, tarPos.z}, glm::vec3(0, 1, 0));
     }
@@ -167,7 +172,6 @@ void TowerBehaviourComponent::update(float deltaTime) {
     // if tower is ready and has calculated where to shoot, then shoot away!
     if (aimPos != glm::vec3(-1) && readyToShoot)
         run(actions[TB_SHOOTING], deltaTime);
-    //
 }
 
 float TowerBehaviourComponent::getRange() const {
@@ -249,18 +253,23 @@ GameObject* TowerBehaviourComponent::makeProjectile() {
     auto projectileTR = projectile_->getComponent<TransformComponent>();
     // right place at the right time
     auto turretTR = gameObject->getComponent<TransformComponent>();
+    // makes the projectile where it is expected to be, adjusted to turret scale
     projectileTR->position = projectile.position * turretTR->scale + turretTR->position;
     projectileTR->scale = projectile.scale * turretTR->scale;
     projectileTR->rotation = projectile.rotation;
+    // aims projectile at predicted position of enemy
     projectileTR->lookAt(aimPos, {0, 1, 0});
     auto projectileMR = projectile_->addComponent<ModelRendererComponent>();
     projectileMR->setModel(projectile.model);
     auto projectileRB = projectile_->addComponent<RigidBodyComponent>();
+    // init rigidbody with corret specs
     if (projectile.hitboxType == "box")
         projectileRB->initRigidBodyWithBox(projectile.hitboxSize, projectile.mass, PROJECTILES, ENEMIES);
     else if (projectile.hitboxType == "sphere")
         projectileRB->initRigidBodyWithSphere(projectile.radius, projectile.mass, PROJECTILES, ENEMIES);
     auto rigidBody = projectileRB->getRigidBody();
+    // prevent angular forces or gravity from affecting the body
+    // math is hard already, don't need to add more factors to it
     if (rigidBody) {
         rigidBody->setAngularFactor({0, 0, 0});
         rigidBody->setAngularVelocity({0,0,0});

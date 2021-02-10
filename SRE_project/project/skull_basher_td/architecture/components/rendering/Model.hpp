@@ -36,7 +36,7 @@ private:
     Model(std::string name, std::shared_ptr<sre::Mesh> mesh, std::vector<::std::shared_ptr<sre::Material>> materials, glm::mat4 transform);
 public:
     /**
-     * Builder pattern implementation for easo of use and future-proofing.
+     * Builder pattern implementation for eas of use and future-proofing.
      */
     class ModelBuilder {
     public:

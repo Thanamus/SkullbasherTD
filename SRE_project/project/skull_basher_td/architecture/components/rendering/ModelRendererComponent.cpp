@@ -10,6 +10,7 @@ using namespace sre;
 
 ModelRendererComponent::ModelRendererComponent(GameObject* gameObject)
 : Component(gameObject) {
+    // init with a standard cube!
     std::vector<std::shared_ptr<Material>> materials;
     materials.push_back(sre::Shader::getStandardBlinnPhong()->createMaterial());
     static auto sharedMeshCube = Mesh::create().withCube().build();
@@ -40,10 +41,14 @@ void ModelRendererComponent::setMaterials(std::vector<std::shared_ptr<sre::Mater
     model->setMaterials(materials);
 }
 
+// draws model at location specified by transform
 void ModelRendererComponent::draw(sre::RenderPass* renderPass) {
     if(!active)
         return;
-    renderPass->draw(model->getMesh(), gameObject->getComponent<TransformComponent>()->globalTransform(), model->getMaterials());
+    auto transformComp = gameObject->getComponent<TransformComponent>();
+    glm::mat4 transform = (transformComp) ? transformComp->globalTransform() : model->getTransform();
+
+    renderPass->draw(model->getMesh(), transform, model->getMaterials());
 }
 
 void ModelRendererComponent::debugGUI() {

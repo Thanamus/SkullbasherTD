@@ -4,7 +4,7 @@
 #include "sre/Material.hpp"
 #include "../components/rendering/Model.hpp"
 #include "../components/animation/Animation.hpp"
-
+// struct that holds data to make the tower projectile
 struct TowerProjectile {
     std::shared_ptr<Model> model;
     float damage;
@@ -16,18 +16,21 @@ struct TowerProjectile {
     glm::vec3 hitboxSize;
     float radius;
 };
-
+// struct that holds data to make parts of the turret
 struct TowerPart {
     std::string name;
     std::shared_ptr<Model> model;
     glm::vec3 position;
     glm::vec3 scale;
     glm::vec3 rotation;
+    // each part can have more parts
     std::vector<TowerPart> parts;
+    // each part can be animated
     std::map<std::string, std::shared_ptr<Animation>> animations;
 };
 
 
+// class that stores data related to making towers
 class Tower
 {
 public:

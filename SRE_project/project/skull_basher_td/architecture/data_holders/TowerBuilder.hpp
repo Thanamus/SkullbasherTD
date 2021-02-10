@@ -7,116 +7,35 @@
 
 class Scene;
 
+// builder class dedicated to towers
+// implemented differently from model to showcase another way to make a builder class
 class TowerBuilder {
 public:
+    TowerBuilder();
+    ~TowerBuilder();
 
-    TowerBuilder(){
-        this->reset();
-    }
+    void reset();
 
-    ~TowerBuilder(){
-        tower.reset();
-    }
+    const TowerBuilder *withId(int id) const;
 
-    void reset(){
-        tower= std::make_shared<Tower>();
-    }
-
-    const TowerBuilder *withId(int id) const {
-        tower->setId(id);
-        return this;
-    }
-
-    const TowerBuilder *withName(std::string name) const {
-        tower->setName(name);
-        return this;
-    }
-
-    const TowerBuilder *withIcon(std::string icon) const {
-        auto iconSprite = sre::Texture::create().withFile(icon).withFilterSampling(false).build();
-        tower->setIcon(iconSprite);
-        return this;
-    }
-
-    const TowerBuilder* withModel(std::shared_ptr<Model> model) const {
-        tower->setModel(model);
-        return this;
-    }
-
-    const TowerBuilder* withIndicator(std::shared_ptr<Model> indicator) const {
-        tower->setIndicator(indicator);
-        return this;
-    }
-
-    const TowerBuilder* withBuildCost(int buildCost) const {
-        tower->setBuildCost(buildCost);
-        return this;
-    }
-
-    const TowerBuilder* withConstructionTime(float constructionTime) const {
-        tower->setConstructionTime(constructionTime);
-        return this;
-    }
-
-    const TowerBuilder* withDelay(float delay) const {
-        tower->setDelay(delay);
-        return this;
-    }
-
-    const TowerBuilder* withLaunchTime(float launchTime) const {
-        tower->setLaunchTime(launchTime);
-        return this;
-    }
-
-    const TowerBuilder* withRange(float range) const {
-        tower->setRange(range);
-        return this;
-    }
-
-    const TowerBuilder* withReloadTime(float reloadTime) const {
-        tower->setReloadTime(reloadTime);
-        return this;
-    }
-
-    const TowerBuilder* withProjectileAirTime(float projectileAirTime) const {
-        tower->setProjectileAirTime(projectileAirTime);
-        return this;
-    }
-
-    const TowerBuilder* withPosition(glm::vec3 position) const {
-        tower->setPosition(position);
-        return this;
-    }
-
-    const TowerBuilder* withScale(glm::vec3 scale) const {
-        tower->setScale(scale);
-        return this;
-    }
-
-    const TowerBuilder* withRotation(glm::vec3 rotation) const {
-        tower->setRotation(rotation);
-        return this;
-    }
-
-    const TowerBuilder* withProjectile(TowerProjectile projectile) const {
-        tower->setProjectile(projectile);
-        return this;
-    }
-
-    const TowerBuilder* withParts(const std::vector<TowerPart>& parts) const {
-        tower->setParts(parts);
-        return this;
-    }
-
-    const TowerBuilder* withAnimations(const std::map<std::string, std::shared_ptr<Animation>>& animations) const {
-        tower->setAnimations(animations);
-        return this;
-    }
-
-    std::shared_ptr<Tower> build() const {
-        std::shared_ptr<Tower> result = tower;
-        return result;
-    }
+    const TowerBuilder *withName(std::string name) const;
+    const TowerBuilder *withIcon(std::string icon) const;
+    const TowerBuilder* withModel(std::shared_ptr<Model> model) const;
+    const TowerBuilder* withIndicator(std::shared_ptr<Model> indicator) const;
+    const TowerBuilder* withBuildCost(int buildCost) const;
+    const TowerBuilder* withConstructionTime(float constructionTime) const;
+    const TowerBuilder* withDelay(float delay) const;
+    const TowerBuilder* withLaunchTime(float launchTime) const;
+    const TowerBuilder* withRange(float range) const;
+    const TowerBuilder* withReloadTime(float reloadTime) const;
+    const TowerBuilder* withProjectileAirTime(float projectileAirTime) const;
+    const TowerBuilder* withPosition(glm::vec3 position) const;
+    const TowerBuilder* withScale(glm::vec3 scale) const;
+    const TowerBuilder* withRotation(glm::vec3 rotation) const;
+    const TowerBuilder* withProjectile(TowerProjectile projectile) const;
+    const TowerBuilder* withParts(const std::vector<TowerPart>& parts) const ;
+    const TowerBuilder* withAnimations(const std::map<std::string, std::shared_ptr<Animation>>& animations) const;
+    std::shared_ptr<Tower> build() const;
 
 private:
     std::shared_ptr<Tower> tower;
